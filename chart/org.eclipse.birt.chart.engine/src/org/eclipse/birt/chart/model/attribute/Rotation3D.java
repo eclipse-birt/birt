@@ -26,16 +26,16 @@ import org.eclipse.emf.common.util.EList;
  * <!-- begin-user-doc --> A representation of the model object
  * '<em><b>Rotation3 D</b></em>'. <!-- end-user-doc -->
  *
- * <!-- begin-model-doc --> Rotation3D represents how a 3D object is rotated
- * from its initial attitude. <!-- end-model-doc -->
+ * <!-- begin-model-doc -->
+ * Rotation3D represents how a 3D object is rotated from its initial attitude.
+ * <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.Rotation3D#getAngles
- * <em>Angles</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.Rotation3D#getAngles <em>Angles</em>}</li>
+ * </ul>
  *
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getRotation3D()
  * @model extendedMetaData="name='Rotation3D' kind='elementOnly'"

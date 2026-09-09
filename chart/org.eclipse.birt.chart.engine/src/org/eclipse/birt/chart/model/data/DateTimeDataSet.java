@@ -19,9 +19,9 @@ package org.eclipse.birt.chart.model.data;
  * Time Data Set</b></em>'. <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- *
- * This type holds the date/time data associated with a series.
- *
+ * 
+ * 			This type holds the date/time data associated with a series.
+ * 			
  * <!-- end-model-doc -->
  *
  *

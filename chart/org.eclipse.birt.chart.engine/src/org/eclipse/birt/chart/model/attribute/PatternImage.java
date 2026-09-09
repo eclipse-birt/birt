@@ -24,22 +24,19 @@ package org.eclipse.birt.chart.model.attribute;
  * Image</b></em>'. <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- *
- * This type represents the pattern image.
- *
+ * 
+ * 				This type represents the pattern image.
+ * 			
  * <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.PatternImage#getBitmap
- * <em>Bitmap</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.PatternImage#getForeColor
- * <em>Fore Color</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.PatternImage#getBackColor
- * <em>Back Color</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.PatternImage#getBitmap <em>Bitmap</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.PatternImage#getForeColor <em>Fore Color</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.PatternImage#getBackColor <em>Back Color</em>}</li>
+ * </ul>
  *
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getPatternImage()
  * @model extendedMetaData="name='PatternImage' kind='elementOnly'"
@@ -65,10 +62,8 @@ public interface PatternImage extends Image {
 	long getBitmap();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.PatternImage#getBitmap
-	 * <em>Bitmap</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.PatternImage#getBitmap <em>Bitmap</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Bitmap</em>' attribute.
 	 * @see #isSetBitmap()
 	 * @see #unsetBitmap()
@@ -78,10 +73,8 @@ public interface PatternImage extends Image {
 	void setBitmap(long value);
 
 	/**
-	 * Unsets the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.PatternImage#getBitmap
-	 * <em>Bitmap</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.attribute.PatternImage#getBitmap <em>Bitmap</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isSetBitmap()
 	 * @see #getBitmap()
 	 * @see #setBitmap(long)
@@ -118,13 +111,10 @@ public interface PatternImage extends Image {
 	ColorDefinition getForeColor();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.PatternImage#getForeColor
-	 * <em>Fore Color</em>}' containment reference. <!-- begin-user-doc --> <!--
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.PatternImage#getForeColor <em>Fore Color</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
-	 * @param value the new value of the '<em>Fore Color</em>' containment
-	 *              reference.
+	 * @param value the new value of the '<em>Fore Color</em>' containment reference.
 	 * @see #getForeColor()
 	 * @generated
 	 */
@@ -145,13 +135,10 @@ public interface PatternImage extends Image {
 	ColorDefinition getBackColor();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.PatternImage#getBackColor
-	 * <em>Back Color</em>}' containment reference. <!-- begin-user-doc --> <!--
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.PatternImage#getBackColor <em>Back Color</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
-	 * @param value the new value of the '<em>Back Color</em>' containment
-	 *              reference.
+	 * @param value the new value of the '<em>Back Color</em>' containment reference.
 	 * @see #getBackColor()
 	 * @generated
 	 */

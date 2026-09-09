@@ -19,9 +19,9 @@ package org.eclipse.birt.chart.model.data;
  * Data Set</b></em>'. <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- *
- * This type holds the numeric data associated with a series.
- *
+ * 
+ * 			This type holds the numeric data associated with a series.
+ * 			
  * <!-- end-model-doc -->
  *
  *

@@ -19,18 +19,17 @@ package org.eclipse.birt.chart.model.data;
  * Data Element</b></em>'. <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- *
- * This type defines a single element of numerical data.
- *
+ * 
+ * 			This type defines a single element of numerical data.
+ * 			
  * <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.data.NumberDataElement#getValue
- * <em>Value</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.data.NumberDataElement#getValue <em>Value</em>}</li>
+ * </ul>
  *
  * @see org.eclipse.birt.chart.model.data.DataPackage#getNumberDataElement()
  * @model extendedMetaData="name='NumberDataElement' kind='elementOnly'"
@@ -58,10 +57,8 @@ public interface NumberDataElement extends DataElement {
 	double getValue();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.data.NumberDataElement#getValue
-	 * <em>Value</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.data.NumberDataElement#getValue <em>Value</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Value</em>' attribute.
 	 * @see #isSetValue()
 	 * @see #unsetValue()
@@ -71,10 +68,8 @@ public interface NumberDataElement extends DataElement {
 	void setValue(double value);
 
 	/**
-	 * Unsets the value of the
-	 * '{@link org.eclipse.birt.chart.model.data.NumberDataElement#getValue
-	 * <em>Value</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.data.NumberDataElement#getValue <em>Value</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isSetValue()
 	 * @see #getValue()
 	 * @see #setValue(double)

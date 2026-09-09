@@ -26,11 +26,13 @@ import org.eclipse.birt.chart.model.ModelFactory;
 import org.eclipse.birt.chart.model.ModelPackage;
 import org.eclipse.birt.chart.model.attribute.Angle3D;
 import org.eclipse.birt.chart.model.attribute.AxisType;
+import org.eclipse.birt.chart.model.attribute.ExtendedProperty;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.Rotation3D;
+import org.eclipse.birt.chart.model.attribute.StyleMap;
 import org.eclipse.birt.chart.model.attribute.impl.Angle3DImpl;
 import org.eclipse.birt.chart.model.attribute.impl.Rotation3DImpl;
 import org.eclipse.birt.chart.model.component.Axis;
@@ -53,34 +55,25 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * With Axes</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.impl.ChartWithAxesImpl#getAxes
- * <em>Axes</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.impl.ChartWithAxesImpl#getWallFill
- * <em>Wall Fill</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.impl.ChartWithAxesImpl#getFloorFill
- * <em>Floor Fill</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.impl.ChartWithAxesImpl#getOrientation
- * <em>Orientation</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.impl.ChartWithAxesImpl#getUnitSpacing
- * <em>Unit Spacing</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.impl.ChartWithAxesImpl#getRotation
- * <em>Rotation</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.impl.ChartWithAxesImpl#isReverseCategory
- * <em>Reverse Category</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.impl.ChartWithAxesImpl#isStudyLayout
- * <em>Study Layout</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.impl.ChartWithAxesImpl#getAxes <em>Axes</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.impl.ChartWithAxesImpl#getWallFill <em>Wall Fill</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.impl.ChartWithAxesImpl#getFloorFill <em>Floor Fill</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.impl.ChartWithAxesImpl#getOrientation <em>Orientation</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.impl.ChartWithAxesImpl#getUnitSpacing <em>Unit Spacing</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.impl.ChartWithAxesImpl#getRotation <em>Rotation</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.impl.ChartWithAxesImpl#isReverseCategory <em>Reverse Category</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.impl.ChartWithAxesImpl#isStudyLayout <em>Study Layout</em>}</li>
+ * </ul>
  *
  * @generated
  */
 public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes {
 
 	/**
-	 * The cached value of the '{@link #getAxes() <em>Axes</em>}' containment
-	 * reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getAxes() <em>Axes</em>}' containment reference list.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getAxes()
 	 * @generated
 	 * @ordered
@@ -88,9 +81,8 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes {
 	protected EList<Axis> axes;
 
 	/**
-	 * The cached value of the '{@link #getWallFill() <em>Wall Fill</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getWallFill() <em>Wall Fill</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getWallFill()
 	 * @generated
 	 * @ordered
@@ -98,9 +90,8 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes {
 	protected Fill wallFill;
 
 	/**
-	 * The cached value of the '{@link #getFloorFill() <em>Floor Fill</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getFloorFill() <em>Floor Fill</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getFloorFill()
 	 * @generated
 	 * @ordered
@@ -108,9 +99,8 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes {
 	protected Fill floorFill;
 
 	/**
-	 * The default value of the '{@link #getOrientation() <em>Orientation</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The default value of the '{@link #getOrientation() <em>Orientation</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getOrientation()
 	 * @generated
 	 * @ordered
@@ -118,9 +108,8 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes {
 	protected static final Orientation ORIENTATION_EDEFAULT = Orientation.VERTICAL_LITERAL;
 
 	/**
-	 * The cached value of the '{@link #getOrientation() <em>Orientation</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getOrientation() <em>Orientation</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getOrientation()
 	 * @generated
 	 * @ordered
@@ -128,18 +117,17 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes {
 	protected Orientation orientation = ORIENTATION_EDEFAULT;
 
 	/**
-	 * This is true if the Orientation attribute has been set. <!-- begin-user-doc
+	 * This is true if the Orientation attribute has been set.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean orientationESet;
 
 	/**
-	 * The default value of the ' {@link #getUnitSpacing() <em>Unit Spacing</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The default value of the '{@link #getUnitSpacing() <em>Unit Spacing</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getUnitSpacing()
 	 * @generated
 	 * @ordered
@@ -147,9 +135,8 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes {
 	protected static final double UNIT_SPACING_EDEFAULT = 50.0;
 
 	/**
-	 * The cached value of the '{@link #getUnitSpacing() <em>Unit Spacing</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getUnitSpacing() <em>Unit Spacing</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getUnitSpacing()
 	 * @generated
 	 * @ordered
@@ -157,18 +144,17 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes {
 	protected double unitSpacing = UNIT_SPACING_EDEFAULT;
 
 	/**
-	 * This is true if the Unit Spacing attribute has been set. <!-- begin-user-doc
+	 * This is true if the Unit Spacing attribute has been set.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean unitSpacingESet;
 
 	/**
-	 * The cached value of the '{@link #getRotation() <em>Rotation</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getRotation() <em>Rotation</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getRotation()
 	 * @generated
 	 * @ordered
@@ -176,9 +162,8 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes {
 	protected Rotation3D rotation;
 
 	/**
-	 * The default value of the '{@link #isReverseCategory() <em>Reverse
-	 * Category</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The default value of the '{@link #isReverseCategory() <em>Reverse Category</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isReverseCategory()
 	 * @generated
 	 * @ordered
@@ -186,9 +171,8 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes {
 	protected static final boolean REVERSE_CATEGORY_EDEFAULT = false;
 
 	/**
-	 * The cached value of the '{@link #isReverseCategory() <em>Reverse
-	 * Category</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #isReverseCategory() <em>Reverse Category</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isReverseCategory()
 	 * @generated
 	 * @ordered
@@ -205,9 +189,8 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes {
 	protected boolean reverseCategoryESet;
 
 	/**
-	 * The default value of the '{@link #isStudyLayout() <em>Study Layout</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The default value of the '{@link #isStudyLayout() <em>Study Layout</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isStudyLayout()
 	 * @generated
 	 * @ordered
@@ -215,9 +198,8 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes {
 	protected static final boolean STUDY_LAYOUT_EDEFAULT = false;
 
 	/**
-	 * The cached value of the '{@link #isStudyLayout() <em>Study Layout</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #isStudyLayout() <em>Study Layout</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isStudyLayout()
 	 * @generated
 	 * @ordered
@@ -225,9 +207,9 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes {
 	protected boolean studyLayout = STUDY_LAYOUT_EDEFAULT;
 
 	/**
-	 * This is true if the Study Layout attribute has been set. <!-- begin-user-doc
+	 * This is true if the Study Layout attribute has been set.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -235,7 +217,6 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected ChartWithAxesImpl() {
@@ -244,7 +225,6 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -254,20 +234,18 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public EList<Axis> getAxes() {
 		if (axes == null) {
-			axes = new EObjectContainmentEList<>(Axis.class, this, ModelPackage.CHART_WITH_AXES__AXES);
+			axes = new EObjectContainmentEList<Axis>(Axis.class, this, ModelPackage.CHART_WITH_AXES__AXES);
 		}
 		return axes;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -277,7 +255,6 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetWallFill(Fill newWallFill, NotificationChain msgs) {
@@ -286,45 +263,38 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					ModelPackage.CHART_WITH_AXES__WALL_FILL, oldWallFill, newWallFill);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setWallFill(Fill newWallFill) {
 		if (newWallFill != wallFill) {
 			NotificationChain msgs = null;
-			if (wallFill != null) {
+			if (wallFill != null)
 				msgs = ((InternalEObject) wallFill).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - ModelPackage.CHART_WITH_AXES__WALL_FILL, null, msgs);
-			}
-			if (newWallFill != null) {
+			if (newWallFill != null)
 				msgs = ((InternalEObject) newWallFill).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - ModelPackage.CHART_WITH_AXES__WALL_FILL, null, msgs);
-			}
 			msgs = basicSetWallFill(newWallFill, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.CHART_WITH_AXES__WALL_FILL, newWallFill,
 					newWallFill));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -334,7 +304,6 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetFloorFill(Fill newFloorFill, NotificationChain msgs) {
@@ -343,45 +312,38 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					ModelPackage.CHART_WITH_AXES__FLOOR_FILL, oldFloorFill, newFloorFill);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setFloorFill(Fill newFloorFill) {
 		if (newFloorFill != floorFill) {
 			NotificationChain msgs = null;
-			if (floorFill != null) {
+			if (floorFill != null)
 				msgs = ((InternalEObject) floorFill).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - ModelPackage.CHART_WITH_AXES__FLOOR_FILL, null, msgs);
-			}
-			if (newFloorFill != null) {
+			if (newFloorFill != null)
 				msgs = ((InternalEObject) newFloorFill).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - ModelPackage.CHART_WITH_AXES__FLOOR_FILL, null, msgs);
-			}
 			msgs = basicSetFloorFill(newFloorFill, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.CHART_WITH_AXES__FLOOR_FILL,
 					newFloorFill, newFloorFill));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -391,7 +353,6 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -400,15 +361,13 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes {
 		orientation = newOrientation == null ? ORIENTATION_EDEFAULT : newOrientation;
 		boolean oldOrientationESet = orientationESet;
 		orientationESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.CHART_WITH_AXES__ORIENTATION,
 					oldOrientation, orientation, !oldOrientationESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -417,15 +376,13 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes {
 		boolean oldOrientationESet = orientationESet;
 		orientation = ORIENTATION_EDEFAULT;
 		orientationESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, ModelPackage.CHART_WITH_AXES__ORIENTATION,
 					oldOrientation, ORIENTATION_EDEFAULT, oldOrientationESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -435,7 +392,6 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -445,7 +401,6 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -454,15 +409,13 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes {
 		unitSpacing = newUnitSpacing;
 		boolean oldUnitSpacingESet = unitSpacingESet;
 		unitSpacingESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.CHART_WITH_AXES__UNIT_SPACING,
 					oldUnitSpacing, unitSpacing, !oldUnitSpacingESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -471,15 +424,13 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes {
 		boolean oldUnitSpacingESet = unitSpacingESet;
 		unitSpacing = UNIT_SPACING_EDEFAULT;
 		unitSpacingESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, ModelPackage.CHART_WITH_AXES__UNIT_SPACING,
 					oldUnitSpacing, UNIT_SPACING_EDEFAULT, oldUnitSpacingESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -489,7 +440,6 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -499,7 +449,6 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetRotation(Rotation3D newRotation, NotificationChain msgs) {
@@ -508,45 +457,38 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					ModelPackage.CHART_WITH_AXES__ROTATION, oldRotation, newRotation);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setRotation(Rotation3D newRotation) {
 		if (newRotation != rotation) {
 			NotificationChain msgs = null;
-			if (rotation != null) {
+			if (rotation != null)
 				msgs = ((InternalEObject) rotation).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - ModelPackage.CHART_WITH_AXES__ROTATION, null, msgs);
-			}
-			if (newRotation != null) {
+			if (newRotation != null)
 				msgs = ((InternalEObject) newRotation).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - ModelPackage.CHART_WITH_AXES__ROTATION, null, msgs);
-			}
 			msgs = basicSetRotation(newRotation, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.CHART_WITH_AXES__ROTATION, newRotation,
 					newRotation));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -556,7 +498,6 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -565,15 +506,13 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes {
 		reverseCategory = newReverseCategory;
 		boolean oldReverseCategoryESet = reverseCategoryESet;
 		reverseCategoryESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.CHART_WITH_AXES__REVERSE_CATEGORY,
 					oldReverseCategory, reverseCategory, !oldReverseCategoryESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -582,15 +521,13 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes {
 		boolean oldReverseCategoryESet = reverseCategoryESet;
 		reverseCategory = REVERSE_CATEGORY_EDEFAULT;
 		reverseCategoryESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, ModelPackage.CHART_WITH_AXES__REVERSE_CATEGORY,
 					oldReverseCategory, REVERSE_CATEGORY_EDEFAULT, oldReverseCategoryESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -600,7 +537,6 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -610,7 +546,6 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -619,15 +554,13 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes {
 		studyLayout = newStudyLayout;
 		boolean oldStudyLayoutESet = studyLayoutESet;
 		studyLayoutESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.CHART_WITH_AXES__STUDY_LAYOUT,
 					oldStudyLayout, studyLayout, !oldStudyLayoutESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -636,15 +569,13 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes {
 		boolean oldStudyLayoutESet = studyLayoutESet;
 		studyLayout = STUDY_LAYOUT_EDEFAULT;
 		studyLayoutESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, ModelPackage.CHART_WITH_AXES__STUDY_LAYOUT,
 					oldStudyLayout, STUDY_LAYOUT_EDEFAULT, oldStudyLayoutESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -654,7 +585,6 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -674,7 +604,6 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -702,7 +631,6 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -740,7 +668,6 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -776,7 +703,6 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -804,40 +730,34 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) {
+		if (eIsProxy())
 			return super.toString();
-		}
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (orientation: "); //$NON-NLS-1$
-		if (orientationESet) {
+		if (orientationESet)
 			result.append(orientation);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", unitSpacing: "); //$NON-NLS-1$
-		if (unitSpacingESet) {
+		if (unitSpacingESet)
 			result.append(unitSpacing);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", reverseCategory: "); //$NON-NLS-1$
-		if (reverseCategoryESet) {
+		if (reverseCategoryESet)
 			result.append(reverseCategory);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", studyLayout: "); //$NON-NLS-1$
-		if (studyLayoutESet) {
+		if (studyLayoutESet)
 			result.append(studyLayout);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(')');
 		return result.toString();
 	}
@@ -1212,6 +1132,40 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes {
 
 		// children
 
+		if (src.getDescription() != null) {
+			setDescription(src.getDescription().copyInstance());
+		}
+
+		if (src.getBlock() != null) {
+			setBlock(src.getBlock().copyInstance());
+		}
+
+		if (src.getExtendedProperties() != null) {
+			EList<ExtendedProperty> list = getExtendedProperties();
+			for (ExtendedProperty element : src.getExtendedProperties()) {
+				list.add(element.copyInstance());
+			}
+		}
+
+		if (src.getSampleData() != null) {
+			setSampleData(src.getSampleData().copyInstance());
+		}
+
+		if (src.getStyles() != null) {
+			EList<StyleMap> list = getStyles();
+			for (StyleMap element : src.getStyles()) {
+				list.add(element.copyInstance());
+			}
+		}
+
+		if (src.getInteractivity() != null) {
+			setInteractivity(src.getInteractivity().copyInstance());
+		}
+
+		if (src.getEmptyMessage() != null) {
+			setEmptyMessage(src.getEmptyMessage().copyInstance());
+		}
+
 		if (src.getAxes() != null) {
 			EList<Axis> list = getAxes();
 			for (Axis element : src.getAxes()) {
@@ -1232,6 +1186,30 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes {
 		}
 
 		// attributes
+
+		version = src.getVersion();
+
+		versionESet = src.isSetVersion();
+
+		type = src.getType();
+
+		subType = src.getSubType();
+
+		dimension = src.getDimension();
+
+		dimensionESet = src.isSetDimension();
+
+		script = src.getScript();
+
+		units = src.getUnits();
+
+		seriesThickness = src.getSeriesThickness();
+
+		seriesThicknessESet = src.isSetSeriesThickness();
+
+		gridColumnCount = src.getGridColumnCount();
+
+		gridColumnCountESet = src.isSetGridColumnCount();
 
 		orientation = src.getOrientation();
 

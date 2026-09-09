@@ -20,28 +20,22 @@ import org.eclipse.birt.chart.model.IChartObject;
  * <!-- begin-user-doc --> A representation of the model object
  * '<em><b>Marker</b></em>'. <!-- end-user-doc -->
  *
- * <!-- begin-model-doc --> Marker represents the value marker for a line or
- * scatter series.
- *
+ * <!-- begin-model-doc -->
+ * Marker represents the value marker for a line or scatter series.
+ * 			
  * <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.Marker#getType
- * <em>Type</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.Marker#getSize
- * <em>Size</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.Marker#isVisible
- * <em>Visible</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.Marker#getFill
- * <em>Fill</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.Marker#getIconPalette
- * <em>Icon Palette</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.Marker#getOutline
- * <em>Outline</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.Marker#getType <em>Type</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.Marker#getSize <em>Size</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.Marker#isVisible <em>Visible</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.Marker#getFill <em>Fill</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.Marker#getIconPalette <em>Icon Palette</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.Marker#getOutline <em>Outline</em>}</li>
+ * </ul>
  *
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getMarker()
  * @model extendedMetaData="name='Marker' kind='elementOnly'"
@@ -88,10 +82,8 @@ public interface Marker extends IChartObject {
 	void setType(MarkerType value);
 
 	/**
-	 * Unsets the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.Marker#getType <em>Type</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.attribute.Marker#getType <em>Type</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isSetType()
 	 * @see #getType()
 	 * @see #setType(MarkerType)
@@ -100,10 +92,8 @@ public interface Marker extends IChartObject {
 	void unsetType();
 
 	/**
-	 * Returns whether the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.Marker#getType <em>Type</em>}'
-	 * attribute is set. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.attribute.Marker#getType <em>Type</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return whether the value of the '<em>Type</em>' attribute is set.
 	 * @see #unsetType()
 	 * @see #getType()
@@ -133,11 +123,9 @@ public interface Marker extends IChartObject {
 	int getSize();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.Marker#getSize <em>Size</em>}'
-	 * attribute. <!-- begin-user-doc --> Sets the size of the marker in the chart
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.Marker#getSize <em>Size</em>}' attribute.
+	 * <!-- begin-user-doc --> Sets the size of the marker in the chart
 	 * (as a percentage). <!-- end-user-doc -->
-	 *
 	 * @param value the new value of the '<em>Size</em>' attribute.
 	 * @see #isSetSize()
 	 * @see #unsetSize()
@@ -147,10 +135,8 @@ public interface Marker extends IChartObject {
 	void setSize(int value);
 
 	/**
-	 * Unsets the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.Marker#getSize <em>Size</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.attribute.Marker#getSize <em>Size</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isSetSize()
 	 * @see #getSize()
 	 * @see #setSize(int)
@@ -159,10 +145,8 @@ public interface Marker extends IChartObject {
 	void unsetSize();
 
 	/**
-	 * Returns whether the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.Marker#getSize <em>Size</em>}'
-	 * attribute is set. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.attribute.Marker#getSize <em>Size</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return whether the value of the '<em>Size</em>' attribute is set.
 	 * @see #unsetSize()
 	 * @see #getSize()
@@ -192,11 +176,9 @@ public interface Marker extends IChartObject {
 	boolean isVisible();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.Marker#isVisible
-	 * <em>Visible</em>}' attribute. <!-- begin-user-doc --> Specifies whether the
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.Marker#isVisible <em>Visible</em>}' attribute.
+	 * <!-- begin-user-doc --> Specifies whether the
 	 * marker is to be rendered. <!-- end-user-doc -->
-	 *
 	 * @param value the new value of the '<em>Visible</em>' attribute.
 	 * @see #isSetVisible()
 	 * @see #unsetVisible()
@@ -206,10 +188,8 @@ public interface Marker extends IChartObject {
 	void setVisible(boolean value);
 
 	/**
-	 * Unsets the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.Marker#isVisible
-	 * <em>Visible</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.attribute.Marker#isVisible <em>Visible</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isSetVisible()
 	 * @see #isVisible()
 	 * @see #setVisible(boolean)
@@ -218,11 +198,9 @@ public interface Marker extends IChartObject {
 	void unsetVisible();
 
 	/**
-	 * Returns whether the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.Marker#isVisible
-	 * <em>Visible</em>}' attribute is set. <!-- begin-user-doc --> <!--
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.attribute.Marker#isVisible <em>Visible</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @return whether the value of the '<em>Visible</em>' attribute is set.
 	 * @see #unsetVisible()
 	 * @see #isVisible()
@@ -246,10 +224,8 @@ public interface Marker extends IChartObject {
 	Fill getFill();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.Marker#getFill <em>Fill</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.Marker#getFill <em>Fill</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Fill</em>' containment reference.
 	 * @see #getFill()
 	 * @generated
@@ -301,11 +277,9 @@ public interface Marker extends IChartObject {
 	LineAttributes getOutline();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.Marker#getOutline
-	 * <em>Outline</em>}' containment reference. <!-- begin-user-doc --> <!--
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.Marker#getOutline <em>Outline</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @param value the new value of the '<em>Outline</em>' containment reference.
 	 * @see #getOutline()
 	 * @generated

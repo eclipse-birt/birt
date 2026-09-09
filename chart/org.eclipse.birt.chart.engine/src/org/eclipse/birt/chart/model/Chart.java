@@ -32,42 +32,32 @@ import org.eclipse.emf.common.util.EList;
  * <!-- begin-user-doc --> A representation of the model object
  * '<em><b>Chart</b></em>'. <!-- end-user-doc -->
  *
- * <!-- begin-model-doc --> Chart is the basic type from which all charts should
- * be extended. It defines the basic elements that are expected to be present
- * for all charts. Class Chart is de facto abstract - never instantiate the
- * class Chart, instantiate one of its extended class ChartWithAxes,
- * ChartWithoutAxes or DialChart instead. <!-- end-model-doc -->
+ * <!-- begin-model-doc -->
+ * Chart is the basic type from which all charts should be extended. It defines the basic elements that are 
+ * expected to be present for all charts. Class Chart is de facto abstract - never instantiate the class Chart, 
+ * instantiate one of its extended class ChartWithAxes, ChartWithoutAxes or DialChart instead.
+ * <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.Chart#getVersion
- * <em>Version</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.Chart#getType <em>Type</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.Chart#getSubType <em>Sub
- * Type</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.Chart#getDescription
- * <em>Description</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.Chart#getBlock <em>Block</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.Chart#getDimension
- * <em>Dimension</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.Chart#getScript <em>Script</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.Chart#getUnits <em>Units</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.Chart#getSeriesThickness <em>Series
- * Thickness</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.Chart#getGridColumnCount <em>Grid
- * Column Count</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.Chart#getExtendedProperties
- * <em>Extended Properties</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.Chart#getSampleData <em>Sample
- * Data</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.Chart#getStyles <em>Styles</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.Chart#getInteractivity
- * <em>Interactivity</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.Chart#getEmptyMessage <em>Empty
- * Message</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.Chart#getVersion <em>Version</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.Chart#getType <em>Type</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.Chart#getSubType <em>Sub Type</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.Chart#getDescription <em>Description</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.Chart#getBlock <em>Block</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.Chart#getDimension <em>Dimension</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.Chart#getScript <em>Script</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.Chart#getUnits <em>Units</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.Chart#getSeriesThickness <em>Series Thickness</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.Chart#getGridColumnCount <em>Grid Column Count</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.Chart#getExtendedProperties <em>Extended Properties</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.Chart#getSampleData <em>Sample Data</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.Chart#getStyles <em>Styles</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.Chart#getInteractivity <em>Interactivity</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.Chart#getEmptyMessage <em>Empty Message</em>}</li>
+ * </ul>
  *
  * @see org.eclipse.birt.chart.model.ModelPackage#getChart()
  * @model extendedMetaData="name='Chart' kind='elementOnly'"
@@ -83,29 +73,27 @@ public interface Chart extends IChartObject {
 	String VERSION = "2.6.1"; //$NON-NLS-1$
 
 	/**
-	 * Returns the value of the '<em><b>Version</b></em>' attribute. The default
-	 * value is <code>"1.0.0"</code>. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Returns the value of the '<em><b>Version</b></em>' attribute.
+	 * The default value is <code>"1.0.0"</code>.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 *
-	 * Specifies the version number of this chart.
-	 *
+	 * Attribute "Version" specifies the version number of this chart.
+	 * 					
 	 * <!-- end-model-doc -->
-	 *
 	 * @return the value of the '<em>Version</em>' attribute.
 	 * @see #isSetVersion()
 	 * @see #unsetVersion()
 	 * @see #setVersion(String)
 	 * @see org.eclipse.birt.chart.model.ModelPackage#getChart_Version()
-	 * @model default="1.0.0" unique="false" unsettable="true"
-	 *        dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+	 * @model default="1.0.0" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+	 *        extendedMetaData="kind='element' name='Version'"
 	 * @generated
 	 */
 	String getVersion();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.birt.chart.model.Chart#getVersion
-	 * <em>Version</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.Chart#getVersion <em>Version</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Version</em>' attribute.
 	 * @see #isSetVersion()
 	 * @see #unsetVersion()
@@ -115,9 +103,8 @@ public interface Chart extends IChartObject {
 	void setVersion(String value);
 
 	/**
-	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.Chart#getVersion
-	 * <em>Version</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.Chart#getVersion <em>Version</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isSetVersion()
 	 * @see #getVersion()
 	 * @see #setVersion(String)
@@ -126,10 +113,8 @@ public interface Chart extends IChartObject {
 	void unsetVersion();
 
 	/**
-	 * Returns whether the value of the
-	 * '{@link org.eclipse.birt.chart.model.Chart#getVersion <em>Version</em>}'
-	 * attribute is set. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.Chart#getVersion <em>Version</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return whether the value of the '<em>Version</em>' attribute is set.
 	 * @see #unsetVersion()
 	 * @see #getVersion()
@@ -157,11 +142,10 @@ public interface Chart extends IChartObject {
 	String getType();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.birt.chart.model.Chart#getType
-	 * <em>Type</em>}' attribute. <!-- begin-user-doc --> Sets the type of this
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.Chart#getType <em>Type</em>}' attribute.
+	 * <!-- begin-user-doc --> Sets the type of this
 	 * chart. This is primarily used in the UI to enable re-entrant dialogs. <!--
 	 * end-user-doc -->
-	 *
 	 * @param value the new value of the '<em>Type</em>' attribute.
 	 * @see #getType()
 	 * @generated
@@ -187,11 +171,10 @@ public interface Chart extends IChartObject {
 	String getSubType();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.birt.chart.model.Chart#getSubType
-	 * <em>Sub Type</em>}' attribute. <!-- begin-user-doc --> Sets the sub-type of
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.Chart#getSubType <em>Sub Type</em>}' attribute.
+	 * <!-- begin-user-doc --> Sets the sub-type of
 	 * this chart. This is primarily used in the UI to enable re-entrant dialogs.
 	 * <!-- end-user-doc -->
-	 *
 	 * @param value the new value of the '<em>Sub Type</em>' attribute.
 	 * @see #getSubType()
 	 * @generated
@@ -216,13 +199,10 @@ public interface Chart extends IChartObject {
 	Text getDescription();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.Chart#getDescription
-	 * <em>Description</em>}' containment reference. <!-- begin-user-doc --> Sets
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.Chart#getDescription <em>Description</em>}' containment reference.
+	 * <!-- begin-user-doc --> Sets
 	 * the description string for the chart. <!-- end-user-doc -->
-	 *
-	 * @param value the new value of the '<em>Description</em>' containment
-	 *              reference.
+	 * @param value the new value of the '<em>Description</em>' containment reference.
 	 * @see #getDescription()
 	 * @generated
 	 */
@@ -248,11 +228,10 @@ public interface Chart extends IChartObject {
 	Block getBlock();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.birt.chart.model.Chart#getBlock
-	 * <em>Block</em>}' containment reference. <!-- begin-user-doc --> Sets the
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.Chart#getBlock <em>Block</em>}' containment reference.
+	 * <!-- begin-user-doc --> Sets the
 	 * {@link org.eclipse.birt.chart.model.layout.Block}instance representing the
 	 * chart as a whole. <!-- end-user-doc -->
-	 *
 	 * @param value the new value of the '<em>Block</em>' containment reference.
 	 * @see #getBlock()
 	 * @generated
@@ -285,10 +264,9 @@ public interface Chart extends IChartObject {
 	ChartDimension getDimension();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.birt.chart.model.Chart#getDimension
-	 * <em>Dimension</em>}' attribute. <!-- begin-user-doc --> Sets the dimensions
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.Chart#getDimension <em>Dimension</em>}' attribute.
+	 * <!-- begin-user-doc --> Sets the dimensions
 	 * for this chart. <!-- end-user-doc -->
-	 *
 	 * @param value the new value of the '<em>Dimension</em>' attribute.
 	 * @see org.eclipse.birt.chart.model.attribute.ChartDimension
 	 * @see #isSetDimension()
@@ -299,10 +277,8 @@ public interface Chart extends IChartObject {
 	void setDimension(ChartDimension value);
 
 	/**
-	 * Unsets the value of the
-	 * '{@link org.eclipse.birt.chart.model.Chart#getDimension <em>Dimension</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.Chart#getDimension <em>Dimension</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isSetDimension()
 	 * @see #getDimension()
 	 * @see #setDimension(ChartDimension)
@@ -311,10 +287,8 @@ public interface Chart extends IChartObject {
 	void unsetDimension();
 
 	/**
-	 * Returns whether the value of the
-	 * '{@link org.eclipse.birt.chart.model.Chart#getDimension <em>Dimension</em>}'
-	 * attribute is set. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.Chart#getDimension <em>Dimension</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return whether the value of the '<em>Dimension</em>' attribute is set.
 	 * @see #unsetDimension()
 	 * @see #getDimension()
@@ -342,12 +316,11 @@ public interface Chart extends IChartObject {
 	String getScript();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.birt.chart.model.Chart#getScript
-	 * <em>Script</em>}' attribute. <!-- begin-user-doc --> Sets the script text
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.Chart#getScript <em>Script</em>}' attribute.
+	 * <!-- begin-user-doc --> Sets the script text
 	 * associated with the chart. For the script contents to be used at runtime a
 	 * mechanism will need to be in place that understands and can evaluate the
 	 * contents of the script. <!-- end-user-doc -->
-	 *
 	 * @param value the new value of the '<em>Script</em>' attribute.
 	 * @see #getScript()
 	 * @generated
@@ -372,10 +345,9 @@ public interface Chart extends IChartObject {
 	String getUnits();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.birt.chart.model.Chart#getUnits
-	 * <em>Units</em>}' attribute. <!-- begin-user-doc --> Sets the Units of
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.Chart#getUnits <em>Units</em>}' attribute.
+	 * <!-- begin-user-doc --> Sets the Units of
 	 * Measurement to be used for this chart. <!-- end-user-doc -->
-	 *
 	 * @param value the new value of the '<em>Units</em>' attribute.
 	 * @see #getUnits()
 	 * @generated
@@ -406,13 +378,11 @@ public interface Chart extends IChartObject {
 	double getSeriesThickness();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.Chart#getSeriesThickness <em>Series
-	 * Thickness</em>}' attribute. <!-- begin-user-doc --> Sets the series thickness
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.Chart#getSeriesThickness <em>Series Thickness</em>}' attribute.
+	 * <!-- begin-user-doc --> Sets the series thickness
 	 * as a percentage. This is the thickness used to render the shape representing
 	 * the series when the chart is rendered in 3D or 2D with Depth formats. <!--
 	 * end-user-doc -->
-	 *
 	 * @param value the new value of the '<em>Series Thickness</em>' attribute.
 	 * @see #isSetSeriesThickness()
 	 * @see #unsetSeriesThickness()
@@ -422,10 +392,8 @@ public interface Chart extends IChartObject {
 	void setSeriesThickness(double value);
 
 	/**
-	 * Unsets the value of the
-	 * '{@link org.eclipse.birt.chart.model.Chart#getSeriesThickness <em>Series
-	 * Thickness</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.Chart#getSeriesThickness <em>Series Thickness</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isSetSeriesThickness()
 	 * @see #getSeriesThickness()
 	 * @see #setSeriesThickness(double)
@@ -469,10 +437,8 @@ public interface Chart extends IChartObject {
 	int getGridColumnCount();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.Chart#getGridColumnCount <em>Grid Column
-	 * Count</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.Chart#getGridColumnCount <em>Grid Column Count</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Grid Column Count</em>' attribute.
 	 * @see #isSetGridColumnCount()
 	 * @see #unsetGridColumnCount()
@@ -482,10 +448,8 @@ public interface Chart extends IChartObject {
 	void setGridColumnCount(int value);
 
 	/**
-	 * Unsets the value of the '
-	 * {@link org.eclipse.birt.chart.model.Chart#getGridColumnCount <em>Grid Column
-	 * Count</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.Chart#getGridColumnCount <em>Grid Column Count</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isSetGridColumnCount()
 	 * @see #getGridColumnCount()
 	 * @see #setGridColumnCount(int)
@@ -494,12 +458,9 @@ public interface Chart extends IChartObject {
 	void unsetGridColumnCount();
 
 	/**
-	 * Returns whether the value of the '
-	 * {@link org.eclipse.birt.chart.model.Chart#getGridColumnCount <em>Grid Column
-	 * Count</em>}' attribute is set. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
-	 * @return whether the value of the '<em>Grid Column Count</em>' attribute is
-	 *         set.
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.Chart#getGridColumnCount <em>Grid Column Count</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Grid Column Count</em>' attribute is set.
 	 * @see #unsetGridColumnCount()
 	 * @see #getGridColumnCount()
 	 * @see #setGridColumnCount(int)
@@ -593,13 +554,10 @@ public interface Chart extends IChartObject {
 	Interactivity getInteractivity();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.Chart#getInteractivity
-	 * <em>Interactivity</em>}' containment reference. <!-- begin-user-doc --> <!--
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.Chart#getInteractivity <em>Interactivity</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
-	 * @param value the new value of the '<em>Interactivity</em>' containment
-	 *              reference.
+	 * @param value the new value of the '<em>Interactivity</em>' containment reference.
 	 * @see #getInteractivity()
 	 * @generated
 	 */
@@ -623,13 +581,10 @@ public interface Chart extends IChartObject {
 	Label getEmptyMessage();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.Chart#getEmptyMessage <em>Empty
-	 * Message</em>}' containment reference. <!-- begin-user-doc --> <!--
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.Chart#getEmptyMessage <em>Empty Message</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
-	 * @param value the new value of the '<em>Empty Message</em>' containment
-	 *              reference.
+	 * @param value the new value of the '<em>Empty Message</em>' containment reference.
 	 * @see #getEmptyMessage()
 	 * @generated
 	 */

@@ -32,11 +32,10 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * '<em><b>Location3 D</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.Location3DImpl#getZ
- * <em>Z</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.Location3DImpl#getZ <em>Z</em>}</li>
+ * </ul>
  *
  * @generated
  */
@@ -140,9 +139,9 @@ public class Location3DImpl extends LocationImpl implements Location3D {
 	protected double z = Z_EDEFAULT;
 
 	/**
-	 * This is true if the Z attribute has been set. <!-- begin-user-doc --> <!--
+	 * This is true if the Z attribute has been set.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -152,7 +151,6 @@ public class Location3DImpl extends LocationImpl implements Location3D {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected Location3DImpl() {
@@ -161,7 +159,6 @@ public class Location3DImpl extends LocationImpl implements Location3D {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -171,7 +168,6 @@ public class Location3DImpl extends LocationImpl implements Location3D {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -181,7 +177,6 @@ public class Location3DImpl extends LocationImpl implements Location3D {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -190,14 +185,12 @@ public class Location3DImpl extends LocationImpl implements Location3D {
 		z = newZ;
 		boolean oldZESet = zESet;
 		zESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.LOCATION3_D__Z, oldZ, z, !oldZESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -206,15 +199,13 @@ public class Location3DImpl extends LocationImpl implements Location3D {
 		boolean oldZESet = zESet;
 		z = Z_EDEFAULT;
 		zESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.LOCATION3_D__Z, oldZ, Z_EDEFAULT,
 					oldZESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -224,7 +215,6 @@ public class Location3DImpl extends LocationImpl implements Location3D {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -238,7 +228,6 @@ public class Location3DImpl extends LocationImpl implements Location3D {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -253,7 +242,6 @@ public class Location3DImpl extends LocationImpl implements Location3D {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -268,7 +256,6 @@ public class Location3DImpl extends LocationImpl implements Location3D {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -282,22 +269,19 @@ public class Location3DImpl extends LocationImpl implements Location3D {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) {
+		if (eIsProxy())
 			return super.toString();
-		}
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (z: "); //$NON-NLS-1$
-		if (zESet) {
+		if (zESet)
 			result.append(z);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(')');
 		return result.toString();
 	}
@@ -310,6 +294,14 @@ public class Location3DImpl extends LocationImpl implements Location3D {
 		super.set(src);
 
 		// attributes
+
+		x = src.getX();
+
+		xESet = src.isSetX();
+
+		y = src.getY();
+
+		yESet = src.isSetY();
 
 		z = src.getZ();
 

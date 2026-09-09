@@ -35,40 +35,40 @@ import org.eclipse.emf.common.util.Enumerator;
  */
 public enum DataPointComponentType implements Enumerator {
 	/**
-	 * The '<em><b>Base Value</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Base Value</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Base Value</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #BASE_VALUE
 	 * @generated
 	 * @ordered
 	 */
 	BASE_VALUE_LITERAL(0, "BaseValue", "Base_Value"),
 	/**
-	 * The '<em><b>Orthogonal Value</b></em>' literal object. <!-- begin-user-doc
+	 * The '<em><b>Orthogonal Value</b></em>' literal object.
+	 * <!-- begin-user-doc
 	 * -->
 	 * <p>
 	 * If the meaning of '<em><b>Orthogonal Value</b></em>' literal object isn't
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #ORTHOGONAL_VALUE
 	 * @generated
 	 * @ordered
 	 */
 	ORTHOGONAL_VALUE_LITERAL(1, "OrthogonalValue", "Orthogonal_Value"),
 	/**
-	 * The '<em><b>Series Value</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Series Value</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Series Value</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #SERIES_VALUE
 	 * @generated
 	 * @ordered
@@ -85,9 +85,9 @@ public enum DataPointComponentType implements Enumerator {
 	PERCENTILE_ORTHOGONAL_VALUE_LITERAL(3, "PercentileOrthogonalValue", "Percentile_Orthogonal_Value");
 
 	/**
-	 * The '<em><b>Base Value</b></em>' literal value. <!-- begin-user-doc --> <!--
+	 * The '<em><b>Base Value</b></em>' literal value.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #BASE_VALUE_LITERAL
 	 * @model name="BaseValue" literal="Base_Value"
 	 * @generated
@@ -96,22 +96,22 @@ public enum DataPointComponentType implements Enumerator {
 	public static final int BASE_VALUE = 0;
 
 	/**
-	 * The '<em><b>Orthogonal Value</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Orthogonal Value</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #ORTHOGONAL_VALUE_LITERAL
-	 * @model name="Orthogonal_Value"
+	 * @model name="OrthogonalValue" literal="Orthogonal_Value"
 	 * @generated
 	 * @ordered
 	 */
 	public static final int ORTHOGONAL_VALUE = 1;
 
 	/**
-	 * The '<em><b>Series Value</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Series Value</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #SERIES_VALUE_LITERAL
-	 * @model name="Series_Value"
+	 * @model name="SeriesValue" literal="Series_Value"
 	 * @generated
 	 * @ordered
 	 */
@@ -136,24 +136,23 @@ public enum DataPointComponentType implements Enumerator {
 	/**
 	 * An array of all the '<em><b>Data Point Component Type</b></em>' enumerators.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
-	private static final DataPointComponentType[] VALUES_ARRAY = { BASE_VALUE_LITERAL, ORTHOGONAL_VALUE_LITERAL,
-			SERIES_VALUE_LITERAL, PERCENTILE_ORTHOGONAL_VALUE_LITERAL, };
+	private static final DataPointComponentType[] VALUES_ARRAY = new DataPointComponentType[] { BASE_VALUE_LITERAL,
+			ORTHOGONAL_VALUE_LITERAL, SERIES_VALUE_LITERAL, PERCENTILE_ORTHOGONAL_VALUE_LITERAL, };
 
 	/**
-	 * A public read-only list of all the ' <em><b>Data Point Component
-	 * Type</b></em>' enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * A public read-only list of all the '<em><b>Data Point Component Type</b></em>' enumerators.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static final List<DataPointComponentType> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
 	/**
-	 * Returns the '<em><b>Data Point Component Type</b></em>' literal with the
-	 * specified literal value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns the '<em><b>Data Point Component Type</b></em>' literal with the specified literal value.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param literal the literal.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static DataPointComponentType get(String literal) {
@@ -167,9 +166,10 @@ public enum DataPointComponentType implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Data Point Component Type</b></em>' literal with the
-	 * specified name. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns the '<em><b>Data Point Component Type</b></em>' literal with the specified name.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param name the name.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static DataPointComponentType getByName(String name) {
@@ -183,9 +183,10 @@ public enum DataPointComponentType implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Data Point Component Type</b></em>' literal with the
-	 * specified integer value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns the '<em><b>Data Point Component Type</b></em>' literal with the specified integer value.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the integer value.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static DataPointComponentType get(int value) {
@@ -204,32 +205,29 @@ public enum DataPointComponentType implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private final int value;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private final String name;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private final String literal;
 
 	/**
-	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
+	 * Only this class can construct instances.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @generated
 	 */
-	DataPointComponentType(int value, String name, String literal) {
+	private DataPointComponentType(int value, String name, String literal) {
 		this.value = value;
 		this.name = name;
 		this.literal = literal;
@@ -237,7 +235,6 @@ public enum DataPointComponentType implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -247,7 +244,6 @@ public enum DataPointComponentType implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -257,7 +253,6 @@ public enum DataPointComponentType implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -266,9 +261,8 @@ public enum DataPointComponentType implements Enumerator {
 	}
 
 	/**
-	 * Returns the literal value of the enumerator, which is its string
-	 * representation. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns the literal value of the enumerator, which is its string representation.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override

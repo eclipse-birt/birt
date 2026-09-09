@@ -14,6 +14,7 @@
 
 package org.eclipse.birt.chart.model.type.impl;
 
+import java.util.Map;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
@@ -25,6 +26,9 @@ import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.component.Series;
+import org.eclipse.birt.chart.model.data.DataSet;
+import org.eclipse.birt.chart.model.data.Query;
+import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.birt.chart.model.type.BubbleSeries;
 import org.eclipse.birt.chart.model.type.TypeFactory;
 import org.eclipse.birt.chart.model.type.TypePackage;
@@ -33,6 +37,8 @@ import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.NameSet;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -42,23 +48,20 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * Series</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.type.impl.BubbleSeriesImpl#getAccLineAttributes
- * <em>Acc Line Attributes</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.type.impl.BubbleSeriesImpl#getAccOrientation
- * <em>Acc Orientation</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.type.impl.BubbleSeriesImpl#getAccLineAttributes <em>Acc Line Attributes</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.impl.BubbleSeriesImpl#getAccOrientation <em>Acc Orientation</em>}</li>
+ * </ul>
  *
  * @generated
  */
 public class BubbleSeriesImpl extends ScatterSeriesImpl implements BubbleSeries {
 
 	/**
-	 * The cached value of the '{@link #getAccLineAttributes() <em>Acc Line
-	 * Attributes</em>}' containment reference. <!-- begin-user-doc --> <!--
+	 * The cached value of the '{@link #getAccLineAttributes() <em>Acc Line Attributes</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #getAccLineAttributes()
 	 * @generated
 	 * @ordered
@@ -66,9 +69,8 @@ public class BubbleSeriesImpl extends ScatterSeriesImpl implements BubbleSeries 
 	protected LineAttributes accLineAttributes;
 
 	/**
-	 * The default value of the '{@link #getAccOrientation() <em>Acc
-	 * Orientation</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The default value of the '{@link #getAccOrientation() <em>Acc Orientation</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getAccOrientation()
 	 * @generated
 	 * @ordered
@@ -76,9 +78,8 @@ public class BubbleSeriesImpl extends ScatterSeriesImpl implements BubbleSeries 
 	protected static final Orientation ACC_ORIENTATION_EDEFAULT = Orientation.HORIZONTAL_LITERAL;
 
 	/**
-	 * The cached value of the '{@link #getAccOrientation() <em>Acc
-	 * Orientation</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getAccOrientation() <em>Acc Orientation</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getAccOrientation()
 	 * @generated
 	 * @ordered
@@ -96,7 +97,6 @@ public class BubbleSeriesImpl extends ScatterSeriesImpl implements BubbleSeries 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected BubbleSeriesImpl() {
@@ -105,7 +105,6 @@ public class BubbleSeriesImpl extends ScatterSeriesImpl implements BubbleSeries 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -115,7 +114,6 @@ public class BubbleSeriesImpl extends ScatterSeriesImpl implements BubbleSeries 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -125,7 +123,6 @@ public class BubbleSeriesImpl extends ScatterSeriesImpl implements BubbleSeries 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetAccLineAttributes(LineAttributes newAccLineAttributes, NotificationChain msgs) {
@@ -134,45 +131,38 @@ public class BubbleSeriesImpl extends ScatterSeriesImpl implements BubbleSeries 
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					TypePackage.BUBBLE_SERIES__ACC_LINE_ATTRIBUTES, oldAccLineAttributes, newAccLineAttributes);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setAccLineAttributes(LineAttributes newAccLineAttributes) {
 		if (newAccLineAttributes != accLineAttributes) {
 			NotificationChain msgs = null;
-			if (accLineAttributes != null) {
+			if (accLineAttributes != null)
 				msgs = ((InternalEObject) accLineAttributes).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - TypePackage.BUBBLE_SERIES__ACC_LINE_ATTRIBUTES, null, msgs);
-			}
-			if (newAccLineAttributes != null) {
+			if (newAccLineAttributes != null)
 				msgs = ((InternalEObject) newAccLineAttributes).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - TypePackage.BUBBLE_SERIES__ACC_LINE_ATTRIBUTES, null, msgs);
-			}
 			msgs = basicSetAccLineAttributes(newAccLineAttributes, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.BUBBLE_SERIES__ACC_LINE_ATTRIBUTES,
 					newAccLineAttributes, newAccLineAttributes));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -182,7 +172,6 @@ public class BubbleSeriesImpl extends ScatterSeriesImpl implements BubbleSeries 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -191,15 +180,13 @@ public class BubbleSeriesImpl extends ScatterSeriesImpl implements BubbleSeries 
 		accOrientation = newAccOrientation == null ? ACC_ORIENTATION_EDEFAULT : newAccOrientation;
 		boolean oldAccOrientationESet = accOrientationESet;
 		accOrientationESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.BUBBLE_SERIES__ACC_ORIENTATION,
 					oldAccOrientation, accOrientation, !oldAccOrientationESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -208,15 +195,13 @@ public class BubbleSeriesImpl extends ScatterSeriesImpl implements BubbleSeries 
 		boolean oldAccOrientationESet = accOrientationESet;
 		accOrientation = ACC_ORIENTATION_EDEFAULT;
 		accOrientationESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, TypePackage.BUBBLE_SERIES__ACC_ORIENTATION,
 					oldAccOrientation, ACC_ORIENTATION_EDEFAULT, oldAccOrientationESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -226,7 +211,6 @@ public class BubbleSeriesImpl extends ScatterSeriesImpl implements BubbleSeries 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -240,7 +224,6 @@ public class BubbleSeriesImpl extends ScatterSeriesImpl implements BubbleSeries 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -256,7 +239,6 @@ public class BubbleSeriesImpl extends ScatterSeriesImpl implements BubbleSeries 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -274,7 +256,6 @@ public class BubbleSeriesImpl extends ScatterSeriesImpl implements BubbleSeries 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -292,7 +273,6 @@ public class BubbleSeriesImpl extends ScatterSeriesImpl implements BubbleSeries 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -308,22 +288,19 @@ public class BubbleSeriesImpl extends ScatterSeriesImpl implements BubbleSeries 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) {
+		if (eIsProxy())
 			return super.toString();
-		}
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (accOrientation: "); //$NON-NLS-1$
-		if (accOrientationESet) {
+		if (accOrientationESet)
 			result.append(accOrientation);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(')');
 		return result.toString();
 	}
@@ -430,11 +407,101 @@ public class BubbleSeriesImpl extends ScatterSeriesImpl implements BubbleSeries 
 
 		// children
 
+		if (src.getLabel() != null) {
+			setLabel(src.getLabel().copyInstance());
+		}
+
+		if (src.getDataDefinition() != null) {
+			EList<Query> list = getDataDefinition();
+			for (Query element : src.getDataDefinition()) {
+				list.add(element.copyInstance());
+			}
+		}
+
+		if (src.getDataPoint() != null) {
+			setDataPoint(src.getDataPoint().copyInstance());
+		}
+
+		if (src.getDataSets() != null) {
+			EMap<String, DataSet> map = getDataSets();
+			for (Map.Entry<String, DataSet> entry : src.getDataSets().entrySet()) {
+
+				DataSet entryValue = entry.getValue() != null ? entry.getValue().copyInstance() : null;
+
+				map.put(entry.getKey(), entryValue);
+
+			}
+		}
+
+		if (src.getTriggers() != null) {
+			EList<Trigger> list = getTriggers();
+			for (Trigger element : src.getTriggers()) {
+				list.add(element.copyInstance());
+			}
+		}
+
+		if (src.getCurveFitting() != null) {
+			setCurveFitting(src.getCurveFitting().copyInstance());
+		}
+
+		if (src.getCursor() != null) {
+			setCursor(src.getCursor().copyInstance());
+		}
+
+		if (src.getMarkers() != null) {
+			EList<Marker> list = getMarkers();
+			for (Marker element : src.getMarkers()) {
+				list.add(element.copyInstance());
+			}
+		}
+
+		if (src.getMarker() != null) {
+			setMarker(src.getMarker().copyInstance());
+		}
+
+		if (src.getLineAttributes() != null) {
+			setLineAttributes(src.getLineAttributes().copyInstance());
+		}
+
+		if (src.getShadowColor() != null) {
+			setShadowColor(src.getShadowColor().copyInstance());
+		}
+
 		if (src.getAccLineAttributes() != null) {
 			setAccLineAttributes(src.getAccLineAttributes().copyInstance());
 		}
 
 		// attributes
+
+		visible = src.isVisible();
+
+		visibleESet = src.isSetVisible();
+
+		seriesIdentifier = src.getSeriesIdentifier();
+
+		labelPosition = src.getLabelPosition();
+
+		labelPositionESet = src.isSetLabelPosition();
+
+		stacked = src.isStacked();
+
+		stackedESet = src.isSetStacked();
+
+		translucent = src.isTranslucent();
+
+		translucentESet = src.isSetTranslucent();
+
+		paletteLineColor = src.isPaletteLineColor();
+
+		paletteLineColorESet = src.isSetPaletteLineColor();
+
+		curve = src.isCurve();
+
+		curveESet = src.isSetCurve();
+
+		connectMissingValue = src.isConnectMissingValue();
+
+		connectMissingValueESet = src.isSetConnectMissingValue();
 
 		accOrientation = src.getAccOrientation();
 

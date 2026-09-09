@@ -26,11 +26,10 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <em><b>Set</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.data.impl.DataSetImpl#getValues
- * <em>Values</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.data.impl.DataSetImpl#getValues <em>Values</em>}</li>
+ * </ul>
  *
  * @generated
  */
@@ -39,7 +38,6 @@ public class DataSetImpl extends EObjectImpl implements DataSet {
 	/**
 	 * The default value of the '{@link #getValues() <em>Values</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @see #getValues()
 	 * @generated
 	 * @ordered
@@ -49,7 +47,6 @@ public class DataSetImpl extends EObjectImpl implements DataSet {
 	/**
 	 * The cached value of the '{@link #getValues() <em>Values</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @see #getValues()
 	 * @generated
 	 * @ordered
@@ -58,7 +55,6 @@ public class DataSetImpl extends EObjectImpl implements DataSet {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected DataSetImpl() {
@@ -67,7 +63,6 @@ public class DataSetImpl extends EObjectImpl implements DataSet {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -77,7 +72,6 @@ public class DataSetImpl extends EObjectImpl implements DataSet {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -87,21 +81,18 @@ public class DataSetImpl extends EObjectImpl implements DataSet {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setValues(Object newValues) {
 		Object oldValues = values;
 		values = newValues;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, DataPackage.DATA_SET__VALUES, oldValues, values));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -115,7 +106,6 @@ public class DataSetImpl extends EObjectImpl implements DataSet {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -130,7 +120,6 @@ public class DataSetImpl extends EObjectImpl implements DataSet {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -145,7 +134,6 @@ public class DataSetImpl extends EObjectImpl implements DataSet {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -171,14 +159,12 @@ public class DataSetImpl extends EObjectImpl implements DataSet {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) {
+		if (eIsProxy())
 			return super.toString();
-		}
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (values: "); //$NON-NLS-1$

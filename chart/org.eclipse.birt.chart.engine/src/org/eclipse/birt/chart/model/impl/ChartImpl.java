@@ -76,39 +76,24 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <em><b>Chart</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getVersion
- * <em>Version</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getType
- * <em>Type</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getSubType <em>Sub
- * Type</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getDescription
- * <em>Description</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getBlock
- * <em>Block</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getDimension
- * <em>Dimension</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getScript
- * <em>Script</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getUnits
- * <em>Units</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getSeriesThickness
- * <em>Series Thickness</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getGridColumnCount
- * <em>Grid Column Count</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getExtendedProperties
- * <em>Extended Properties</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getSampleData
- * <em>Sample Data</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getStyles
- * <em>Styles</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getInteractivity
- * <em>Interactivity</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getEmptyMessage
- * <em>Empty Message</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getVersion <em>Version</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getType <em>Type</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getSubType <em>Sub Type</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getDescription <em>Description</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getBlock <em>Block</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getDimension <em>Dimension</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getScript <em>Script</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getUnits <em>Units</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getSeriesThickness <em>Series Thickness</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getGridColumnCount <em>Grid Column Count</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getExtendedProperties <em>Extended Properties</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getSampleData <em>Sample Data</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getStyles <em>Styles</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getInteractivity <em>Interactivity</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getEmptyMessage <em>Empty Message</em>}</li>
+ * </ul>
  *
  * @generated
  */
@@ -122,7 +107,6 @@ public class ChartImpl extends EObjectImpl implements Chart {
 	/**
 	 * The default value of the '{@link #getVersion() <em>Version</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @see #getVersion()
 	 * @generated
 	 * @ordered
@@ -132,7 +116,6 @@ public class ChartImpl extends EObjectImpl implements Chart {
 	/**
 	 * The cached value of the '{@link #getVersion() <em>Version</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @see #getVersion()
 	 * @generated
 	 * @ordered
@@ -140,9 +123,9 @@ public class ChartImpl extends EObjectImpl implements Chart {
 	protected String version = VERSION_EDEFAULT;
 
 	/**
-	 * This is true if the Version attribute has been set. <!-- begin-user-doc -->
+	 * This is true if the Version attribute has been set.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -171,7 +154,6 @@ public class ChartImpl extends EObjectImpl implements Chart {
 	/**
 	 * The default value of the '{@link #getSubType() <em>Sub Type</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @see #getSubType()
 	 * @generated
 	 * @ordered
@@ -181,7 +163,6 @@ public class ChartImpl extends EObjectImpl implements Chart {
 	/**
 	 * The cached value of the '{@link #getSubType() <em>Sub Type</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @see #getSubType()
 	 * @generated
 	 * @ordered
@@ -189,9 +170,8 @@ public class ChartImpl extends EObjectImpl implements Chart {
 	protected String subType = SUB_TYPE_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getDescription() <em>Description</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getDescription() <em>Description</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getDescription()
 	 * @generated
 	 * @ordered
@@ -199,9 +179,8 @@ public class ChartImpl extends EObjectImpl implements Chart {
 	protected Text description;
 
 	/**
-	 * The cached value of the '{@link #getBlock() <em>Block</em>}' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getBlock() <em>Block</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getBlock()
 	 * @generated
 	 * @ordered
@@ -209,9 +188,8 @@ public class ChartImpl extends EObjectImpl implements Chart {
 	protected Block block;
 
 	/**
-	 * The default value of the '{@link #getDimension() <em>Dimension</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The default value of the '{@link #getDimension() <em>Dimension</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getDimension()
 	 * @generated
 	 * @ordered
@@ -219,9 +197,8 @@ public class ChartImpl extends EObjectImpl implements Chart {
 	protected static final ChartDimension DIMENSION_EDEFAULT = ChartDimension.TWO_DIMENSIONAL_LITERAL;
 
 	/**
-	 * The cached value of the '{@link #getDimension() <em>Dimension</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getDimension() <em>Dimension</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getDimension()
 	 * @generated
 	 * @ordered
@@ -229,9 +206,9 @@ public class ChartImpl extends EObjectImpl implements Chart {
 	protected ChartDimension dimension = DIMENSION_EDEFAULT;
 
 	/**
-	 * This is true if the Dimension attribute has been set. <!-- begin-user-doc -->
+	 * This is true if the Dimension attribute has been set.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -240,7 +217,6 @@ public class ChartImpl extends EObjectImpl implements Chart {
 	/**
 	 * The default value of the '{@link #getScript() <em>Script</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @see #getScript()
 	 * @generated
 	 * @ordered
@@ -250,7 +226,6 @@ public class ChartImpl extends EObjectImpl implements Chart {
 	/**
 	 * The cached value of the '{@link #getScript() <em>Script</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @see #getScript()
 	 * @generated
 	 * @ordered
@@ -278,9 +253,8 @@ public class ChartImpl extends EObjectImpl implements Chart {
 	protected String units = UNITS_EDEFAULT;
 
 	/**
-	 * The default value of the ' {@link #getSeriesThickness() <em>Series
-	 * Thickness</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The default value of the '{@link #getSeriesThickness() <em>Series Thickness</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getSeriesThickness()
 	 * @generated
 	 * @ordered
@@ -288,9 +262,8 @@ public class ChartImpl extends EObjectImpl implements Chart {
 	protected static final double SERIES_THICKNESS_EDEFAULT = 10.0;
 
 	/**
-	 * The cached value of the ' {@link #getSeriesThickness() <em>Series
-	 * Thickness</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getSeriesThickness() <em>Series Thickness</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getSeriesThickness()
 	 * @generated
 	 * @ordered
@@ -307,9 +280,8 @@ public class ChartImpl extends EObjectImpl implements Chart {
 	protected boolean seriesThicknessESet;
 
 	/**
-	 * The default value of the '{@link #getGridColumnCount() <em>Grid Column
-	 * Count</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The default value of the '{@link #getGridColumnCount() <em>Grid Column Count</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getGridColumnCount()
 	 * @generated
 	 * @ordered
@@ -317,9 +289,8 @@ public class ChartImpl extends EObjectImpl implements Chart {
 	protected static final int GRID_COLUMN_COUNT_EDEFAULT = 0;
 
 	/**
-	 * The cached value of the '{@link #getGridColumnCount() <em>Grid Column
-	 * Count</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getGridColumnCount() <em>Grid Column Count</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getGridColumnCount()
 	 * @generated
 	 * @ordered
@@ -336,10 +307,9 @@ public class ChartImpl extends EObjectImpl implements Chart {
 	protected boolean gridColumnCountESet;
 
 	/**
-	 * The cached value of the '{@link #getExtendedProperties() <em>Extended
-	 * Properties</em>}' containment reference list. <!-- begin-user-doc --> <!--
+	 * The cached value of the '{@link #getExtendedProperties() <em>Extended Properties</em>}' containment reference list.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #getExtendedProperties()
 	 * @generated
 	 * @ordered
@@ -347,9 +317,8 @@ public class ChartImpl extends EObjectImpl implements Chart {
 	protected EList<ExtendedProperty> extendedProperties;
 
 	/**
-	 * The cached value of the '{@link #getSampleData() <em>Sample Data</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getSampleData() <em>Sample Data</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getSampleData()
 	 * @generated
 	 * @ordered
@@ -357,9 +326,8 @@ public class ChartImpl extends EObjectImpl implements Chart {
 	protected SampleData sampleData;
 
 	/**
-	 * The cached value of the '{@link #getStyles() <em>Styles</em>}' containment
-	 * reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getStyles() <em>Styles</em>}' containment reference list.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getStyles()
 	 * @generated
 	 * @ordered
@@ -367,9 +335,8 @@ public class ChartImpl extends EObjectImpl implements Chart {
 	protected EList<StyleMap> styles;
 
 	/**
-	 * The cached value of the '{@link #getInteractivity() <em>Interactivity</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getInteractivity() <em>Interactivity</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getInteractivity()
 	 * @generated
 	 * @ordered
@@ -377,9 +344,8 @@ public class ChartImpl extends EObjectImpl implements Chart {
 	protected Interactivity interactivity;
 
 	/**
-	 * The cached value of the '{@link #getEmptyMessage() <em>Empty Message</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getEmptyMessage() <em>Empty Message</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getEmptyMessage()
 	 * @generated
 	 * @ordered
@@ -388,7 +354,6 @@ public class ChartImpl extends EObjectImpl implements Chart {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected ChartImpl() {
@@ -397,7 +362,6 @@ public class ChartImpl extends EObjectImpl implements Chart {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -407,7 +371,6 @@ public class ChartImpl extends EObjectImpl implements Chart {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -417,7 +380,6 @@ public class ChartImpl extends EObjectImpl implements Chart {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -426,15 +388,13 @@ public class ChartImpl extends EObjectImpl implements Chart {
 		version = newVersion;
 		boolean oldVersionESet = versionESet;
 		versionESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.CHART__VERSION, oldVersion, version,
 					!oldVersionESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -443,15 +403,13 @@ public class ChartImpl extends EObjectImpl implements Chart {
 		boolean oldVersionESet = versionESet;
 		version = VERSION_EDEFAULT;
 		versionESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, ModelPackage.CHART__VERSION, oldVersion,
 					VERSION_EDEFAULT, oldVersionESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -461,7 +419,6 @@ public class ChartImpl extends EObjectImpl implements Chart {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -471,21 +428,18 @@ public class ChartImpl extends EObjectImpl implements Chart {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setType(String newType) {
 		String oldType = type;
 		type = newType;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.CHART__TYPE, oldType, type));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -495,21 +449,18 @@ public class ChartImpl extends EObjectImpl implements Chart {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setSubType(String newSubType) {
 		String oldSubType = subType;
 		subType = newSubType;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.CHART__SUB_TYPE, oldSubType, subType));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -519,7 +470,6 @@ public class ChartImpl extends EObjectImpl implements Chart {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetDescription(Text newDescription, NotificationChain msgs) {
@@ -528,45 +478,38 @@ public class ChartImpl extends EObjectImpl implements Chart {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					ModelPackage.CHART__DESCRIPTION, oldDescription, newDescription);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setDescription(Text newDescription) {
 		if (newDescription != description) {
 			NotificationChain msgs = null;
-			if (description != null) {
+			if (description != null)
 				msgs = ((InternalEObject) description).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - ModelPackage.CHART__DESCRIPTION, null, msgs);
-			}
-			if (newDescription != null) {
+			if (newDescription != null)
 				msgs = ((InternalEObject) newDescription).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - ModelPackage.CHART__DESCRIPTION, null, msgs);
-			}
 			msgs = basicSetDescription(newDescription, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.CHART__DESCRIPTION, newDescription,
 					newDescription));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -576,7 +519,6 @@ public class ChartImpl extends EObjectImpl implements Chart {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetBlock(Block newBlock, NotificationChain msgs) {
@@ -585,44 +527,37 @@ public class ChartImpl extends EObjectImpl implements Chart {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ModelPackage.CHART__BLOCK,
 					oldBlock, newBlock);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setBlock(Block newBlock) {
 		if (newBlock != block) {
 			NotificationChain msgs = null;
-			if (block != null) {
+			if (block != null)
 				msgs = ((InternalEObject) block).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - ModelPackage.CHART__BLOCK, null, msgs);
-			}
-			if (newBlock != null) {
+			if (newBlock != null)
 				msgs = ((InternalEObject) newBlock).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - ModelPackage.CHART__BLOCK, null, msgs);
-			}
 			msgs = basicSetBlock(newBlock, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.CHART__BLOCK, newBlock, newBlock));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -632,7 +567,6 @@ public class ChartImpl extends EObjectImpl implements Chart {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -641,15 +575,13 @@ public class ChartImpl extends EObjectImpl implements Chart {
 		dimension = newDimension == null ? DIMENSION_EDEFAULT : newDimension;
 		boolean oldDimensionESet = dimensionESet;
 		dimensionESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.CHART__DIMENSION, oldDimension,
 					dimension, !oldDimensionESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -658,15 +590,13 @@ public class ChartImpl extends EObjectImpl implements Chart {
 		boolean oldDimensionESet = dimensionESet;
 		dimension = DIMENSION_EDEFAULT;
 		dimensionESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, ModelPackage.CHART__DIMENSION, oldDimension,
 					DIMENSION_EDEFAULT, oldDimensionESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -676,7 +606,6 @@ public class ChartImpl extends EObjectImpl implements Chart {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -686,21 +615,18 @@ public class ChartImpl extends EObjectImpl implements Chart {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setScript(String newScript) {
 		String oldScript = script;
 		script = newScript;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.CHART__SCRIPT, oldScript, script));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -710,21 +636,18 @@ public class ChartImpl extends EObjectImpl implements Chart {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setUnits(String newUnits) {
 		String oldUnits = units;
 		units = newUnits;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.CHART__UNITS, oldUnits, units));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -734,7 +657,6 @@ public class ChartImpl extends EObjectImpl implements Chart {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -743,15 +665,13 @@ public class ChartImpl extends EObjectImpl implements Chart {
 		seriesThickness = newSeriesThickness;
 		boolean oldSeriesThicknessESet = seriesThicknessESet;
 		seriesThicknessESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.CHART__SERIES_THICKNESS,
 					oldSeriesThickness, seriesThickness, !oldSeriesThicknessESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -760,15 +680,13 @@ public class ChartImpl extends EObjectImpl implements Chart {
 		boolean oldSeriesThicknessESet = seriesThicknessESet;
 		seriesThickness = SERIES_THICKNESS_EDEFAULT;
 		seriesThicknessESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, ModelPackage.CHART__SERIES_THICKNESS,
 					oldSeriesThickness, SERIES_THICKNESS_EDEFAULT, oldSeriesThicknessESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -778,7 +696,6 @@ public class ChartImpl extends EObjectImpl implements Chart {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -788,7 +705,6 @@ public class ChartImpl extends EObjectImpl implements Chart {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -797,15 +713,13 @@ public class ChartImpl extends EObjectImpl implements Chart {
 		gridColumnCount = newGridColumnCount;
 		boolean oldGridColumnCountESet = gridColumnCountESet;
 		gridColumnCountESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.CHART__GRID_COLUMN_COUNT,
 					oldGridColumnCount, gridColumnCount, !oldGridColumnCountESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -814,15 +728,13 @@ public class ChartImpl extends EObjectImpl implements Chart {
 		boolean oldGridColumnCountESet = gridColumnCountESet;
 		gridColumnCount = GRID_COLUMN_COUNT_EDEFAULT;
 		gridColumnCountESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, ModelPackage.CHART__GRID_COLUMN_COUNT,
 					oldGridColumnCount, GRID_COLUMN_COUNT_EDEFAULT, oldGridColumnCountESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -832,13 +744,12 @@ public class ChartImpl extends EObjectImpl implements Chart {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public EList<ExtendedProperty> getExtendedProperties() {
 		if (extendedProperties == null) {
-			extendedProperties = new EObjectContainmentEList<>(ExtendedProperty.class, this,
+			extendedProperties = new EObjectContainmentEList<ExtendedProperty>(ExtendedProperty.class, this,
 					ModelPackage.CHART__EXTENDED_PROPERTIES);
 		}
 		return extendedProperties;
@@ -846,7 +757,6 @@ public class ChartImpl extends EObjectImpl implements Chart {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -856,7 +766,6 @@ public class ChartImpl extends EObjectImpl implements Chart {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetSampleData(SampleData newSampleData, NotificationChain msgs) {
@@ -865,58 +774,50 @@ public class ChartImpl extends EObjectImpl implements Chart {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					ModelPackage.CHART__SAMPLE_DATA, oldSampleData, newSampleData);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setSampleData(SampleData newSampleData) {
 		if (newSampleData != sampleData) {
 			NotificationChain msgs = null;
-			if (sampleData != null) {
+			if (sampleData != null)
 				msgs = ((InternalEObject) sampleData).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - ModelPackage.CHART__SAMPLE_DATA, null, msgs);
-			}
-			if (newSampleData != null) {
+			if (newSampleData != null)
 				msgs = ((InternalEObject) newSampleData).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - ModelPackage.CHART__SAMPLE_DATA, null, msgs);
-			}
 			msgs = basicSetSampleData(newSampleData, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.CHART__SAMPLE_DATA, newSampleData,
 					newSampleData));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public EList<StyleMap> getStyles() {
 		if (styles == null) {
-			styles = new EObjectContainmentEList<>(StyleMap.class, this, ModelPackage.CHART__STYLES);
+			styles = new EObjectContainmentEList<StyleMap>(StyleMap.class, this, ModelPackage.CHART__STYLES);
 		}
 		return styles;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -926,7 +827,6 @@ public class ChartImpl extends EObjectImpl implements Chart {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetInteractivity(Interactivity newInteractivity, NotificationChain msgs) {
@@ -935,45 +835,38 @@ public class ChartImpl extends EObjectImpl implements Chart {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					ModelPackage.CHART__INTERACTIVITY, oldInteractivity, newInteractivity);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setInteractivity(Interactivity newInteractivity) {
 		if (newInteractivity != interactivity) {
 			NotificationChain msgs = null;
-			if (interactivity != null) {
+			if (interactivity != null)
 				msgs = ((InternalEObject) interactivity).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - ModelPackage.CHART__INTERACTIVITY, null, msgs);
-			}
-			if (newInteractivity != null) {
+			if (newInteractivity != null)
 				msgs = ((InternalEObject) newInteractivity).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - ModelPackage.CHART__INTERACTIVITY, null, msgs);
-			}
 			msgs = basicSetInteractivity(newInteractivity, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.CHART__INTERACTIVITY, newInteractivity,
 					newInteractivity));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -983,7 +876,6 @@ public class ChartImpl extends EObjectImpl implements Chart {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetEmptyMessage(Label newEmptyMessage, NotificationChain msgs) {
@@ -992,45 +884,38 @@ public class ChartImpl extends EObjectImpl implements Chart {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					ModelPackage.CHART__EMPTY_MESSAGE, oldEmptyMessage, newEmptyMessage);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setEmptyMessage(Label newEmptyMessage) {
 		if (newEmptyMessage != emptyMessage) {
 			NotificationChain msgs = null;
-			if (emptyMessage != null) {
+			if (emptyMessage != null)
 				msgs = ((InternalEObject) emptyMessage).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - ModelPackage.CHART__EMPTY_MESSAGE, null, msgs);
-			}
-			if (newEmptyMessage != null) {
+			if (newEmptyMessage != null)
 				msgs = ((InternalEObject) newEmptyMessage).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - ModelPackage.CHART__EMPTY_MESSAGE, null, msgs);
-			}
 			msgs = basicSetEmptyMessage(newEmptyMessage, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.CHART__EMPTY_MESSAGE, newEmptyMessage,
 					newEmptyMessage));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1056,7 +941,6 @@ public class ChartImpl extends EObjectImpl implements Chart {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1098,7 +982,6 @@ public class ChartImpl extends EObjectImpl implements Chart {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -1158,7 +1041,6 @@ public class ChartImpl extends EObjectImpl implements Chart {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1215,7 +1097,6 @@ public class ChartImpl extends EObjectImpl implements Chart {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1257,48 +1138,42 @@ public class ChartImpl extends EObjectImpl implements Chart {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) {
+		if (eIsProxy())
 			return super.toString();
-		}
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (version: "); //$NON-NLS-1$
-		if (versionESet) {
+		if (versionESet)
 			result.append(version);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", type: "); //$NON-NLS-1$
 		result.append(type);
 		result.append(", subType: "); //$NON-NLS-1$
 		result.append(subType);
 		result.append(", dimension: "); //$NON-NLS-1$
-		if (dimensionESet) {
+		if (dimensionESet)
 			result.append(dimension);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", script: "); //$NON-NLS-1$
 		result.append(script);
 		result.append(", units: "); //$NON-NLS-1$
 		result.append(units);
 		result.append(", seriesThickness: "); //$NON-NLS-1$
-		if (seriesThicknessESet) {
+		if (seriesThicknessESet)
 			result.append(seriesThickness);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", gridColumnCount: "); //$NON-NLS-1$
-		if (gridColumnCountESet) {
+		if (gridColumnCountESet)
 			result.append(gridColumnCount);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(')');
 		return result.toString();
 	}

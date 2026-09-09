@@ -21,20 +21,18 @@ import org.eclipse.birt.chart.model.IChartObject;
  * '<em><b>Orthogonal Sample Data</b></em>'. <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- *
- * This type sample data for an orthogonal series.
- *
+ * 
+ * 			This type sample data for an orthogonal series.
+ * 			
  * <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.data.OrthogonalSampleData#getDataSetRepresentation
- * <em>Data Set Representation</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.data.OrthogonalSampleData#getSeriesDefinitionIndex
- * <em>Series Definition Index</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.data.OrthogonalSampleData#getDataSetRepresentation <em>Data Set Representation</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.OrthogonalSampleData#getSeriesDefinitionIndex <em>Series Definition Index</em>}</li>
+ * </ul>
  *
  * @see org.eclipse.birt.chart.model.data.DataPackage#getOrthogonalSampleData()
  * @model extendedMetaData="name='OrthogonalSampleData' kind='elementOnly'"
@@ -62,13 +60,10 @@ public interface OrthogonalSampleData extends IChartObject {
 	String getDataSetRepresentation();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.data.OrthogonalSampleData#getDataSetRepresentation
-	 * <em>Data Set Representation</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.data.OrthogonalSampleData#getDataSetRepresentation <em>Data Set Representation</em>}' attribute.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
-	 * @param value the new value of the '<em>Data Set Representation</em>'
-	 *              attribute.
+	 * @param value the new value of the '<em>Data Set Representation</em>' attribute.
 	 * @see #getDataSetRepresentation()
 	 * @generated
 	 */
@@ -95,13 +90,10 @@ public interface OrthogonalSampleData extends IChartObject {
 	int getSeriesDefinitionIndex();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.data.OrthogonalSampleData#getSeriesDefinitionIndex
-	 * <em>Series Definition Index</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.data.OrthogonalSampleData#getSeriesDefinitionIndex <em>Series Definition Index</em>}' attribute.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
-	 * @param value the new value of the '<em>Series Definition Index</em>'
-	 *              attribute.
+	 * @param value the new value of the '<em>Series Definition Index</em>' attribute.
 	 * @see #isSetSeriesDefinitionIndex()
 	 * @see #unsetSeriesDefinitionIndex()
 	 * @see #getSeriesDefinitionIndex()
@@ -110,11 +102,9 @@ public interface OrthogonalSampleData extends IChartObject {
 	void setSeriesDefinitionIndex(int value);
 
 	/**
-	 * Unsets the value of the
-	 * '{@link org.eclipse.birt.chart.model.data.OrthogonalSampleData#getSeriesDefinitionIndex
-	 * <em>Series Definition Index</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.data.OrthogonalSampleData#getSeriesDefinitionIndex <em>Series Definition Index</em>}' attribute.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #isSetSeriesDefinitionIndex()
 	 * @see #getSeriesDefinitionIndex()
 	 * @see #setSeriesDefinitionIndex(int)
@@ -123,13 +113,10 @@ public interface OrthogonalSampleData extends IChartObject {
 	void unsetSeriesDefinitionIndex();
 
 	/**
-	 * Returns whether the value of the
-	 * '{@link org.eclipse.birt.chart.model.data.OrthogonalSampleData#getSeriesDefinitionIndex
-	 * <em>Series Definition Index</em>}' attribute is set. <!-- begin-user-doc -->
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.data.OrthogonalSampleData#getSeriesDefinitionIndex <em>Series Definition Index</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
-	 * @return whether the value of the '<em>Series Definition Index</em>' attribute
-	 *         is set.
+	 * @return whether the value of the '<em>Series Definition Index</em>' attribute is set.
 	 * @see #unsetSeriesDefinitionIndex()
 	 * @see #getSeriesDefinitionIndex()
 	 * @see #setSeriesDefinitionIndex(int)

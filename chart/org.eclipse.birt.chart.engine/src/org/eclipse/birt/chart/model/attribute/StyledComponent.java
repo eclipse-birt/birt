@@ -35,141 +35,141 @@ import org.eclipse.emf.common.util.Enumerator;
  */
 public enum StyledComponent implements Enumerator {
 	/**
-	 * The '<em><b>Chart All</b></em>' literal object. <!-- begin-user-doc --> <!--
+	 * The '<em><b>Chart All</b></em>' literal object.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #CHART_ALL
 	 * @generated
 	 * @ordered
 	 */
 	CHART_ALL_LITERAL(0, "ChartAll", "Chart_All"),
 	/**
-	 * The '<em><b>Chart Title</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Chart Title</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Chart Title</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #CHART_TITLE
 	 * @generated
 	 * @ordered
 	 */
 	CHART_TITLE_LITERAL(1, "ChartTitle", "Chart_Title"),
 	/**
-	 * The '<em><b>Chart Background</b></em>' literal object. <!-- begin-user-doc
+	 * The '<em><b>Chart Background</b></em>' literal object.
+	 * <!-- begin-user-doc
 	 * -->
 	 * <p>
 	 * If the meaning of '<em><b>Chart Background</b></em>' literal object isn't
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #CHART_BACKGROUND
 	 * @generated
 	 * @ordered
 	 */
 	CHART_BACKGROUND_LITERAL(2, "ChartBackground", "Chart_Background"),
 	/**
-	 * The '<em><b>Plot Background</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Plot Background</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Plot Background</b></em>' literal object isn't
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #PLOT_BACKGROUND
 	 * @generated
 	 * @ordered
 	 */
 	PLOT_BACKGROUND_LITERAL(3, "PlotBackground", "Plot_Background"),
 	/**
-	 * The '<em><b>Legend Background</b></em>' literal object. <!-- begin-user-doc
+	 * The '<em><b>Legend Background</b></em>' literal object.
+	 * <!-- begin-user-doc
 	 * -->
 	 * <p>
 	 * If the meaning of '<em><b>Legend Background</b></em>' literal object isn't
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #LEGEND_BACKGROUND
 	 * @generated
 	 * @ordered
 	 */
 	LEGEND_BACKGROUND_LITERAL(4, "LegendBackground", "Legend_Background"),
 	/**
-	 * The '<em><b>Legend Label</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Legend Label</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Legend Label</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #LEGEND_LABEL
 	 * @generated
 	 * @ordered
 	 */
 	LEGEND_LABEL_LITERAL(5, "LegendLabel", "Legend_Label"),
 	/**
-	 * The '<em><b>Axis Title</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Axis Title</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Axis Title</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #AXIS_TITLE
 	 * @generated
 	 * @ordered
 	 */
 	AXIS_TITLE_LITERAL(6, "AxisTitle", "Axis_Title"),
 	/**
-	 * The '<em><b>Axis Label</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Axis Label</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Axis Label</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #AXIS_LABEL
 	 * @generated
 	 * @ordered
 	 */
 	AXIS_LABEL_LITERAL(7, "AxisLabel", "Axis_Label"),
 	/**
-	 * The '<em><b>Axis Line</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Axis Line</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Axis Line</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #AXIS_LINE
 	 * @generated
 	 * @ordered
 	 */
 	AXIS_LINE_LITERAL(8, "AxisLine", "Axis_Line"),
 	/**
-	 * The '<em><b>Series Title</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Series Title</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Series Title</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #SERIES_TITLE
 	 * @generated
 	 * @ordered
 	 */
 	SERIES_TITLE_LITERAL(9, "SeriesTitle", "Series_Title"),
 	/**
-	 * The '<em><b>Series Label</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Series Label</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Series Label</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #SERIES_LABEL
 	 * @generated
 	 * @ordered
@@ -177,13 +177,13 @@ public enum StyledComponent implements Enumerator {
 	SERIES_LABEL_LITERAL(10, "SeriesLabel", "Series_Label");
 
 	/**
-	 * The '<em><b>Chart All</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Chart All</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Chart All</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #CHART_ALL_LITERAL
 	 * @model name="ChartAll" literal="Chart_All"
 	 * @generated
@@ -192,9 +192,9 @@ public enum StyledComponent implements Enumerator {
 	public static final int CHART_ALL = 0;
 
 	/**
-	 * The '<em><b>Chart Title</b></em>' literal value. <!-- begin-user-doc --> <!--
+	 * The '<em><b>Chart Title</b></em>' literal value.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #CHART_TITLE_LITERAL
 	 * @model name="ChartTitle" literal="Chart_Title"
 	 * @generated
@@ -203,9 +203,9 @@ public enum StyledComponent implements Enumerator {
 	public static final int CHART_TITLE = 1;
 
 	/**
-	 * The '<em><b>Chart Background</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Chart Background</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #CHART_BACKGROUND_LITERAL
 	 * @model name="ChartBackground" literal="Chart_Background"
 	 * @generated
@@ -214,9 +214,9 @@ public enum StyledComponent implements Enumerator {
 	public static final int CHART_BACKGROUND = 2;
 
 	/**
-	 * The '<em><b>Plot Background</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Plot Background</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #PLOT_BACKGROUND_LITERAL
 	 * @model name="PlotBackground" literal="Plot_Background"
 	 * @generated
@@ -225,9 +225,9 @@ public enum StyledComponent implements Enumerator {
 	public static final int PLOT_BACKGROUND = 3;
 
 	/**
-	 * The '<em><b>Legend Background</b></em>' literal value. <!-- begin-user-doc
+	 * The '<em><b>Legend Background</b></em>' literal value.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 *
 	 * @see #LEGEND_BACKGROUND_LITERAL
 	 * @model name="LegendBackground" literal="Legend_Background"
 	 * @generated
@@ -236,9 +236,9 @@ public enum StyledComponent implements Enumerator {
 	public static final int LEGEND_BACKGROUND = 4;
 
 	/**
-	 * The '<em><b>Legend Label</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Legend Label</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #LEGEND_LABEL_LITERAL
 	 * @model name="LegendLabel" literal="Legend_Label"
 	 * @generated
@@ -247,9 +247,9 @@ public enum StyledComponent implements Enumerator {
 	public static final int LEGEND_LABEL = 5;
 
 	/**
-	 * The '<em><b>Axis Title</b></em>' literal value. <!-- begin-user-doc --> <!--
+	 * The '<em><b>Axis Title</b></em>' literal value.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #AXIS_TITLE_LITERAL
 	 * @model name="AxisTitle" literal="Axis_Title"
 	 * @generated
@@ -258,9 +258,9 @@ public enum StyledComponent implements Enumerator {
 	public static final int AXIS_TITLE = 6;
 
 	/**
-	 * The '<em><b>Axis Label</b></em>' literal value. <!-- begin-user-doc --> <!--
+	 * The '<em><b>Axis Label</b></em>' literal value.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #AXIS_LABEL_LITERAL
 	 * @model name="AxisLabel" literal="Axis_Label"
 	 * @generated
@@ -269,9 +269,9 @@ public enum StyledComponent implements Enumerator {
 	public static final int AXIS_LABEL = 7;
 
 	/**
-	 * The '<em><b>Axis Line</b></em>' literal value. <!-- begin-user-doc --> <!--
+	 * The '<em><b>Axis Line</b></em>' literal value.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #AXIS_LINE_LITERAL
 	 * @model name="AxisLine" literal="Axis_Line"
 	 * @generated
@@ -280,9 +280,9 @@ public enum StyledComponent implements Enumerator {
 	public static final int AXIS_LINE = 8;
 
 	/**
-	 * The '<em><b>Series Title</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Series Title</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #SERIES_TITLE_LITERAL
 	 * @model name="SeriesTitle" literal="Series_Title"
 	 * @generated
@@ -291,9 +291,9 @@ public enum StyledComponent implements Enumerator {
 	public static final int SERIES_TITLE = 9;
 
 	/**
-	 * The '<em><b>Series Label</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Series Label</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #SERIES_LABEL_LITERAL
 	 * @model name="SeriesLabel" literal="Series_Label"
 	 * @generated
@@ -307,22 +307,23 @@ public enum StyledComponent implements Enumerator {
 	 *
 	 * @generated
 	 */
-	private static final StyledComponent[] VALUES_ARRAY = { CHART_ALL_LITERAL, CHART_TITLE_LITERAL,
-			CHART_BACKGROUND_LITERAL, PLOT_BACKGROUND_LITERAL, LEGEND_BACKGROUND_LITERAL, LEGEND_LABEL_LITERAL,
-			AXIS_TITLE_LITERAL, AXIS_LABEL_LITERAL, AXIS_LINE_LITERAL, SERIES_TITLE_LITERAL, SERIES_LABEL_LITERAL, };
+	private static final StyledComponent[] VALUES_ARRAY = new StyledComponent[] { CHART_ALL_LITERAL,
+			CHART_TITLE_LITERAL, CHART_BACKGROUND_LITERAL, PLOT_BACKGROUND_LITERAL, LEGEND_BACKGROUND_LITERAL,
+			LEGEND_LABEL_LITERAL, AXIS_TITLE_LITERAL, AXIS_LABEL_LITERAL, AXIS_LINE_LITERAL, SERIES_TITLE_LITERAL,
+			SERIES_LABEL_LITERAL, };
 
 	/**
-	 * A public read-only list of all the '<em><b>Styled Component</b></em>'
-	 * enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * A public read-only list of all the '<em><b>Styled Component</b></em>' enumerators.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static final List<StyledComponent> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
 	/**
-	 * Returns the '<em><b>Styled Component</b></em>' literal with the specified
-	 * literal value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns the '<em><b>Styled Component</b></em>' literal with the specified literal value.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param literal the literal.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static StyledComponent get(String literal) {
@@ -336,9 +337,10 @@ public enum StyledComponent implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Styled Component</b></em>' literal with the specified
-	 * name. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns the '<em><b>Styled Component</b></em>' literal with the specified name.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param name the name.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static StyledComponent getByName(String name) {
@@ -352,9 +354,10 @@ public enum StyledComponent implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Styled Component</b></em>' literal with the specified
-	 * integer value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns the '<em><b>Styled Component</b></em>' literal with the specified integer value.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the integer value.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static StyledComponent get(int value) {
@@ -387,32 +390,29 @@ public enum StyledComponent implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private final int value;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private final String name;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private final String literal;
 
 	/**
-	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
+	 * Only this class can construct instances.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @generated
 	 */
-	StyledComponent(int value, String name, String literal) {
+	private StyledComponent(int value, String name, String literal) {
 		this.value = value;
 		this.name = name;
 		this.literal = literal;
@@ -420,7 +420,6 @@ public enum StyledComponent implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -430,7 +429,6 @@ public enum StyledComponent implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -440,7 +438,6 @@ public enum StyledComponent implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -449,9 +446,8 @@ public enum StyledComponent implements Enumerator {
 	}
 
 	/**
-	 * Returns the literal value of the enumerator, which is its string
-	 * representation. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns the literal value of the enumerator, which is its string representation.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override

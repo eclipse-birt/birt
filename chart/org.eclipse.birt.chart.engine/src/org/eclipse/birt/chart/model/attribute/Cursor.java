@@ -26,19 +26,18 @@ import org.eclipse.emf.common.util.EList;
  * <!-- begin-user-doc --> A representation of the model object
  * '<em><b>Cursor</b></em>'. <!-- end-user-doc -->
  *
- * <!-- begin-model-doc --> This type represents a mouse cursor being displayed
- * in chart. When mouse is moving over the hotspot area, the mouse cursor will
- * become the specified cursor. <!-- end-model-doc -->
+ * <!-- begin-model-doc -->
+ * This type represents a mouse cursor being displayed in chart.  When mouse is moving over the 
+ * hotspot area, the mouse cursor will become the specified cursor.
+ * <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.Cursor#getType
- * <em>Type</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.Cursor#getImage
- * <em>Image</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.Cursor#getType <em>Type</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.Cursor#getImage <em>Image</em>}</li>
+ * </ul>
  *
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getCursor()
  * @model extendedMetaData="name='Cursor' kind='elementOnly'"
@@ -72,10 +71,8 @@ public interface Cursor extends IChartObject {
 	CursorType getType();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.Cursor#getType <em>Type</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.Cursor#getType <em>Type</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Type</em>' attribute.
 	 * @see org.eclipse.birt.chart.model.attribute.CursorType
 	 * @see #isSetType()
@@ -86,10 +83,8 @@ public interface Cursor extends IChartObject {
 	void setType(CursorType value);
 
 	/**
-	 * Unsets the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.Cursor#getType <em>Type</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.attribute.Cursor#getType <em>Type</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isSetType()
 	 * @see #getType()
 	 * @see #setType(CursorType)
@@ -98,10 +93,8 @@ public interface Cursor extends IChartObject {
 	void unsetType();
 
 	/**
-	 * Returns whether the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.Cursor#getType <em>Type</em>}'
-	 * attribute is set. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.attribute.Cursor#getType <em>Type</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return whether the value of the '<em>Type</em>' attribute is set.
 	 * @see #unsetType()
 	 * @see #getType()

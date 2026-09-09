@@ -15,6 +15,7 @@
 package org.eclipse.birt.chart.examples.radar.model.type.impl;
 
 import java.math.BigInteger;
+import java.util.Map;
 
 import org.eclipse.birt.chart.examples.radar.i18n.Messages;
 import org.eclipse.birt.chart.examples.radar.model.type.RadarSeries;
@@ -32,10 +33,15 @@ import org.eclipse.birt.chart.model.attribute.impl.MarkerImpl;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
+import org.eclipse.birt.chart.model.data.DataSet;
+import org.eclipse.birt.chart.model.data.Query;
+import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.NameSet;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -45,72 +51,35 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * Series</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * <ul>
- * <li>
- * {@link org.eclipse.birt.chart.examples.radar.model.type.impl.RadarSeriesImpl#getMarker
- * <em>Marker</em>}</li>
- * <li>
- * {@link org.eclipse.birt.chart.examples.radar.model.type.impl.RadarSeriesImpl#getLineAttributes
- * <em>Line Attributes</em>}</li>
- * <li>
- * {@link org.eclipse.birt.chart.examples.radar.model.type.impl.RadarSeriesImpl#isPaletteLineColor
- * <em>Palette Line Color</em>}</li>
- * <li>
- * {@link org.eclipse.birt.chart.examples.radar.model.type.impl.RadarSeriesImpl#isBackgroundOvalTransparent
- * <em>Background Oval Transparent</em>}</li>
- * <li>
- * {@link org.eclipse.birt.chart.examples.radar.model.type.impl.RadarSeriesImpl#getWebLineAttributes
- * <em>Web Line Attributes</em>}</li>
- * <li>
- * {@link org.eclipse.birt.chart.examples.radar.model.type.impl.RadarSeriesImpl#isShowWebLabels
- * <em>Show Web Labels</em>}</li>
- * <li>
- * {@link org.eclipse.birt.chart.examples.radar.model.type.impl.RadarSeriesImpl#isShowCatLabels
- * <em>Show Cat Labels</em>}</li>
- * <li>
- * {@link org.eclipse.birt.chart.examples.radar.model.type.impl.RadarSeriesImpl#isRadarAutoScale
- * <em>Radar Auto Scale</em>}</li>
- * <li>
- * {@link org.eclipse.birt.chart.examples.radar.model.type.impl.RadarSeriesImpl#getWebLabelMax
- * <em>Web Label Max</em>}</li>
- * <li>
- * {@link org.eclipse.birt.chart.examples.radar.model.type.impl.RadarSeriesImpl#getWebLabelMin
- * <em>Web Label Min</em>}</li>
- * <li>
- * {@link org.eclipse.birt.chart.examples.radar.model.type.impl.RadarSeriesImpl#getWebLabelUnit
- * <em>Web Label Unit</em>}</li>
- * <li>
- * {@link org.eclipse.birt.chart.examples.radar.model.type.impl.RadarSeriesImpl#isFillPolys
- * <em>Fill Polys</em>}</li>
- * <li>
- * {@link org.eclipse.birt.chart.examples.radar.model.type.impl.RadarSeriesImpl#isConnectEndpoints
- * <em>Connect Endpoints</em>}</li>
- * <li>
- * {@link org.eclipse.birt.chart.examples.radar.model.type.impl.RadarSeriesImpl#getWebLabel
- * <em>Web Label</em>}</li>
- * <li>
- * {@link org.eclipse.birt.chart.examples.radar.model.type.impl.RadarSeriesImpl#getCatLabel
- * <em>Cat Label</em>}</li>
- * <li>
- * {@link org.eclipse.birt.chart.examples.radar.model.type.impl.RadarSeriesImpl#getWebLabelFormatSpecifier
- * <em>Web Label Format Specifier</em>}</li>
- * <li>
- * {@link org.eclipse.birt.chart.examples.radar.model.type.impl.RadarSeriesImpl#getCatLabelFormatSpecifier
- * <em>Cat Label Format Specifier</em>}</li>
- * <li>
- * {@link org.eclipse.birt.chart.examples.radar.model.type.impl.RadarSeriesImpl#getPlotSteps
- * <em>Plot Steps</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.examples.radar.model.type.impl.RadarSeriesImpl#getMarker <em>Marker</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.examples.radar.model.type.impl.RadarSeriesImpl#getLineAttributes <em>Line Attributes</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.examples.radar.model.type.impl.RadarSeriesImpl#isPaletteLineColor <em>Palette Line Color</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.examples.radar.model.type.impl.RadarSeriesImpl#isBackgroundOvalTransparent <em>Background Oval Transparent</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.examples.radar.model.type.impl.RadarSeriesImpl#getWebLineAttributes <em>Web Line Attributes</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.examples.radar.model.type.impl.RadarSeriesImpl#isShowWebLabels <em>Show Web Labels</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.examples.radar.model.type.impl.RadarSeriesImpl#isShowCatLabels <em>Show Cat Labels</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.examples.radar.model.type.impl.RadarSeriesImpl#isRadarAutoScale <em>Radar Auto Scale</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.examples.radar.model.type.impl.RadarSeriesImpl#getWebLabelMax <em>Web Label Max</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.examples.radar.model.type.impl.RadarSeriesImpl#getWebLabelMin <em>Web Label Min</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.examples.radar.model.type.impl.RadarSeriesImpl#getWebLabelUnit <em>Web Label Unit</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.examples.radar.model.type.impl.RadarSeriesImpl#isFillPolys <em>Fill Polys</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.examples.radar.model.type.impl.RadarSeriesImpl#isConnectEndpoints <em>Connect Endpoints</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.examples.radar.model.type.impl.RadarSeriesImpl#getWebLabel <em>Web Label</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.examples.radar.model.type.impl.RadarSeriesImpl#getCatLabel <em>Cat Label</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.examples.radar.model.type.impl.RadarSeriesImpl#getWebLabelFormatSpecifier <em>Web Label Format Specifier</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.examples.radar.model.type.impl.RadarSeriesImpl#getCatLabelFormatSpecifier <em>Cat Label Format Specifier</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.examples.radar.model.type.impl.RadarSeriesImpl#getPlotSteps <em>Plot Steps</em>}</li>
+ * </ul>
  *
  * @generated
  */
 public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
-	 * The cached value of the '{@link #getMarker() <em>Marker</em>}' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getMarker() <em>Marker</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getMarker()
 	 * @generated
 	 * @ordered
@@ -118,10 +87,9 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 	protected Marker marker;
 
 	/**
-	 * The cached value of the '{@link #getLineAttributes() <em>Line
-	 * Attributes</em>}' containment reference. <!-- begin-user-doc --> <!--
+	 * The cached value of the '{@link #getLineAttributes() <em>Line Attributes</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #getLineAttributes()
 	 * @generated
 	 * @ordered
@@ -129,9 +97,8 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 	protected LineAttributes lineAttributes;
 
 	/**
-	 * The default value of the '{@link #isPaletteLineColor() <em>Palette Line
-	 * Color</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The default value of the '{@link #isPaletteLineColor() <em>Palette Line Color</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isPaletteLineColor()
 	 * @generated
 	 * @ordered
@@ -139,9 +106,8 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 	protected static final boolean PALETTE_LINE_COLOR_EDEFAULT = false;
 
 	/**
-	 * The cached value of the '{@link #isPaletteLineColor() <em>Palette Line
-	 * Color</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #isPaletteLineColor() <em>Palette Line Color</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isPaletteLineColor()
 	 * @generated
 	 * @ordered
@@ -158,10 +124,9 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 	protected boolean paletteLineColorESet;
 
 	/**
-	 * The default value of the '{@link #isBackgroundOvalTransparent()
-	 * <em>Background Oval Transparent</em>}' attribute. <!-- begin-user-doc -->
+	 * The default value of the '{@link #isBackgroundOvalTransparent() <em>Background Oval Transparent</em>}' attribute.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #isBackgroundOvalTransparent()
 	 * @generated
 	 * @ordered
@@ -189,10 +154,9 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 	protected boolean backgroundOvalTransparentESet;
 
 	/**
-	 * The cached value of the '{@link #getWebLineAttributes() <em>Web Line
-	 * Attributes</em>}' containment reference. <!-- begin-user-doc --> <!--
+	 * The cached value of the '{@link #getWebLineAttributes() <em>Web Line Attributes</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #getWebLineAttributes()
 	 * @generated
 	 * @ordered
@@ -200,9 +164,8 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 	protected LineAttributes webLineAttributes;
 
 	/**
-	 * The default value of the '{@link #isShowWebLabels() <em>Show Web
-	 * Labels</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The default value of the '{@link #isShowWebLabels() <em>Show Web Labels</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isShowWebLabels()
 	 * @generated
 	 * @ordered
@@ -210,9 +173,8 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 	protected static final boolean SHOW_WEB_LABELS_EDEFAULT = false;
 
 	/**
-	 * The cached value of the '{@link #isShowWebLabels() <em>Show Web Labels</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #isShowWebLabels() <em>Show Web Labels</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isShowWebLabels()
 	 * @generated
 	 * @ordered
@@ -229,9 +191,8 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 	protected boolean showWebLabelsESet;
 
 	/**
-	 * The default value of the '{@link #isShowCatLabels() <em>Show Cat
-	 * Labels</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The default value of the '{@link #isShowCatLabels() <em>Show Cat Labels</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isShowCatLabels()
 	 * @generated
 	 * @ordered
@@ -239,9 +200,8 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 	protected static final boolean SHOW_CAT_LABELS_EDEFAULT = true;
 
 	/**
-	 * The cached value of the '{@link #isShowCatLabels() <em>Show Cat Labels</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #isShowCatLabels() <em>Show Cat Labels</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isShowCatLabels()
 	 * @generated
 	 * @ordered
@@ -258,9 +218,8 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 	protected boolean showCatLabelsESet;
 
 	/**
-	 * The default value of the '{@link #isRadarAutoScale() <em>Radar Auto
-	 * Scale</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The default value of the '{@link #isRadarAutoScale() <em>Radar Auto Scale</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isRadarAutoScale()
 	 * @generated
 	 * @ordered
@@ -268,9 +227,8 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 	protected static final boolean RADAR_AUTO_SCALE_EDEFAULT = true;
 
 	/**
-	 * The cached value of the '{@link #isRadarAutoScale() <em>Radar Auto
-	 * Scale</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #isRadarAutoScale() <em>Radar Auto Scale</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isRadarAutoScale()
 	 * @generated
 	 * @ordered
@@ -287,9 +245,8 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 	protected boolean radarAutoScaleESet;
 
 	/**
-	 * The default value of the '{@link #getWebLabelMax() <em>Web Label Max</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The default value of the '{@link #getWebLabelMax() <em>Web Label Max</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getWebLabelMax()
 	 * @generated
 	 * @ordered
@@ -297,9 +254,8 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 	protected static final double WEB_LABEL_MAX_EDEFAULT = 100.0;
 
 	/**
-	 * The cached value of the '{@link #getWebLabelMax() <em>Web Label Max</em>} '
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getWebLabelMax() <em>Web Label Max</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getWebLabelMax()
 	 * @generated
 	 * @ordered
@@ -307,18 +263,17 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 	protected double webLabelMax = WEB_LABEL_MAX_EDEFAULT;
 
 	/**
-	 * This is true if the Web Label Max attribute has been set. <!-- begin-user-doc
+	 * This is true if the Web Label Max attribute has been set.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean webLabelMaxESet;
 
 	/**
-	 * The default value of the '{@link #getWebLabelMin() <em>Web Label Min</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The default value of the '{@link #getWebLabelMin() <em>Web Label Min</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getWebLabelMin()
 	 * @generated
 	 * @ordered
@@ -326,9 +281,8 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 	protected static final double WEB_LABEL_MIN_EDEFAULT = 0.0;
 
 	/**
-	 * The cached value of the '{@link #getWebLabelMin() <em>Web Label Min</em>} '
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getWebLabelMin() <em>Web Label Min</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getWebLabelMin()
 	 * @generated
 	 * @ordered
@@ -336,18 +290,17 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 	protected double webLabelMin = WEB_LABEL_MIN_EDEFAULT;
 
 	/**
-	 * This is true if the Web Label Min attribute has been set. <!-- begin-user-doc
+	 * This is true if the Web Label Min attribute has been set.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean webLabelMinESet;
 
 	/**
-	 * The default value of the '{@link #getWebLabelUnit() <em>Web Label Unit</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The default value of the '{@link #getWebLabelUnit() <em>Web Label Unit</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getWebLabelUnit()
 	 * @generated
 	 * @ordered
@@ -355,9 +308,8 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 	protected static final String WEB_LABEL_UNIT_EDEFAULT = "%"; //$NON-NLS-1$
 
 	/**
-	 * The cached value of the '{@link #getWebLabelUnit() <em>Web Label Unit</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getWebLabelUnit() <em>Web Label Unit</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getWebLabelUnit()
 	 * @generated
 	 * @ordered
@@ -374,9 +326,8 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 	protected boolean webLabelUnitESet;
 
 	/**
-	 * The default value of the '{@link #isFillPolys() <em>Fill Polys</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The default value of the '{@link #isFillPolys() <em>Fill Polys</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isFillPolys()
 	 * @generated
 	 * @ordered
@@ -384,9 +335,8 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 	protected static final boolean FILL_POLYS_EDEFAULT = false;
 
 	/**
-	 * The cached value of the '{@link #isFillPolys() <em>Fill Polys</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #isFillPolys() <em>Fill Polys</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isFillPolys()
 	 * @generated
 	 * @ordered
@@ -394,18 +344,17 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 	protected boolean fillPolys = FILL_POLYS_EDEFAULT;
 
 	/**
-	 * This is true if the Fill Polys attribute has been set. <!-- begin-user-doc
+	 * This is true if the Fill Polys attribute has been set.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean fillPolysESet;
 
 	/**
-	 * The default value of the '{@link #isConnectEndpoints() <em>Connect
-	 * Endpoints</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The default value of the '{@link #isConnectEndpoints() <em>Connect Endpoints</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isConnectEndpoints()
 	 * @generated
 	 * @ordered
@@ -413,9 +362,8 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 	protected static final boolean CONNECT_ENDPOINTS_EDEFAULT = false;
 
 	/**
-	 * The cached value of the '{@link #isConnectEndpoints() <em>Connect
-	 * Endpoints</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #isConnectEndpoints() <em>Connect Endpoints</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isConnectEndpoints()
 	 * @generated
 	 * @ordered
@@ -432,9 +380,8 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 	protected boolean connectEndpointsESet;
 
 	/**
-	 * The cached value of the '{@link #getWebLabel() <em>Web Label</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getWebLabel() <em>Web Label</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getWebLabel()
 	 * @generated
 	 * @ordered
@@ -442,9 +389,8 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 	protected Label webLabel;
 
 	/**
-	 * The cached value of the '{@link #getCatLabel() <em>Cat Label</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getCatLabel() <em>Cat Label</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getCatLabel()
 	 * @generated
 	 * @ordered
@@ -452,10 +398,9 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 	protected Label catLabel;
 
 	/**
-	 * The cached value of the '{@link #getWebLabelFormatSpecifier() <em>Web Label
-	 * Format Specifier</em>}' containment reference. <!-- begin-user-doc --> <!--
+	 * The cached value of the '{@link #getWebLabelFormatSpecifier() <em>Web Label Format Specifier</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #getWebLabelFormatSpecifier()
 	 * @generated
 	 * @ordered
@@ -463,10 +408,9 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 	protected FormatSpecifier webLabelFormatSpecifier;
 
 	/**
-	 * The cached value of the '{@link #getCatLabelFormatSpecifier() <em>Cat Label
-	 * Format Specifier</em>}' containment reference. <!-- begin-user-doc --> <!--
+	 * The cached value of the '{@link #getCatLabelFormatSpecifier() <em>Cat Label Format Specifier</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #getCatLabelFormatSpecifier()
 	 * @generated
 	 * @ordered
@@ -474,9 +418,8 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 	protected FormatSpecifier catLabelFormatSpecifier;
 
 	/**
-	 * The default value of the '{@link #getPlotSteps() <em>Plot Steps</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The default value of the '{@link #getPlotSteps() <em>Plot Steps</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getPlotSteps()
 	 * @generated
 	 * @ordered
@@ -484,9 +427,8 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 	protected static final BigInteger PLOT_STEPS_EDEFAULT = new BigInteger("5"); //$NON-NLS-1$
 
 	/**
-	 * The cached value of the '{@link #getPlotSteps() <em>Plot Steps</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getPlotSteps() <em>Plot Steps</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getPlotSteps()
 	 * @generated
 	 * @ordered
@@ -494,9 +436,9 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 	protected BigInteger plotSteps = PLOT_STEPS_EDEFAULT;
 
 	/**
-	 * This is true if the Plot Steps attribute has been set. <!-- begin-user-doc
+	 * This is true if the Plot Steps attribute has been set.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -504,7 +446,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected RadarSeriesImpl() {
@@ -513,7 +454,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -523,7 +463,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -533,7 +472,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetMarker(Marker newMarker, NotificationChain msgs) {
@@ -553,7 +491,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -580,7 +517,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -590,7 +526,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetLineAttributes(LineAttributes newLineAttributes, NotificationChain msgs) {
@@ -610,7 +545,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -637,7 +571,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -647,7 +580,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -664,7 +596,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -681,7 +612,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -691,7 +621,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -701,7 +630,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -719,7 +647,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -737,7 +664,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -747,7 +673,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -757,7 +682,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetWebLineAttributes(LineAttributes newWebLineAttributes, NotificationChain msgs) {
@@ -777,7 +701,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -804,7 +727,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -814,7 +736,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -831,7 +752,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -848,7 +768,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -858,7 +777,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -868,7 +786,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -885,7 +802,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -902,7 +818,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -912,7 +827,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -922,7 +836,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -939,7 +852,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -956,7 +868,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -966,7 +877,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -976,7 +886,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -993,7 +902,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1010,7 +918,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1020,7 +927,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1030,7 +936,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1047,7 +952,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1064,7 +968,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1074,7 +977,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1084,7 +986,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1101,7 +1002,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1118,7 +1018,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1128,7 +1027,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1138,7 +1036,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1155,7 +1052,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1172,7 +1068,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1182,7 +1077,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1192,7 +1086,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1209,7 +1102,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1226,7 +1118,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1236,7 +1127,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1246,7 +1136,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetWebLabel(Label newWebLabel, NotificationChain msgs) {
@@ -1266,7 +1155,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1293,7 +1181,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1303,7 +1190,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetCatLabel(Label newCatLabel, NotificationChain msgs) {
@@ -1323,7 +1209,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1350,7 +1235,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1360,7 +1244,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetWebLabelFormatSpecifier(FormatSpecifier newWebLabelFormatSpecifier,
@@ -1382,7 +1265,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1410,7 +1292,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1420,7 +1301,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetCatLabelFormatSpecifier(FormatSpecifier newCatLabelFormatSpecifier,
@@ -1442,7 +1322,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1470,7 +1349,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1480,7 +1358,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1497,7 +1374,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1514,7 +1390,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1524,7 +1399,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1550,7 +1424,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1598,7 +1471,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1664,7 +1536,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1730,7 +1601,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1778,7 +1648,6 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1788,71 +1657,71 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 		}
 
 		StringBuilder result = new StringBuilder(super.toString());
-		result.append(" (paletteLineColor: "); //$NON-NLS-1$
+		result.append(" (paletteLineColor: ");
 		if (paletteLineColorESet) {
 			result.append(paletteLineColor);
 		} else {
-			result.append("<unset>"); //$NON-NLS-1$
+			result.append("<unset>");
 		}
-		result.append(", backgroundOvalTransparent: "); //$NON-NLS-1$
+		result.append(", backgroundOvalTransparent: ");
 		if (backgroundOvalTransparentESet) {
 			result.append(backgroundOvalTransparent);
 		} else {
-			result.append("<unset>"); //$NON-NLS-1$
+			result.append("<unset>");
 		}
-		result.append(", showWebLabels: "); //$NON-NLS-1$
+		result.append(", showWebLabels: ");
 		if (showWebLabelsESet) {
 			result.append(showWebLabels);
 		} else {
-			result.append("<unset>"); //$NON-NLS-1$
+			result.append("<unset>");
 		}
-		result.append(", showCatLabels: "); //$NON-NLS-1$
+		result.append(", showCatLabels: ");
 		if (showCatLabelsESet) {
 			result.append(showCatLabels);
 		} else {
-			result.append("<unset>"); //$NON-NLS-1$
+			result.append("<unset>");
 		}
-		result.append(", radarAutoScale: "); //$NON-NLS-1$
+		result.append(", radarAutoScale: ");
 		if (radarAutoScaleESet) {
 			result.append(radarAutoScale);
 		} else {
-			result.append("<unset>"); //$NON-NLS-1$
+			result.append("<unset>");
 		}
-		result.append(", webLabelMax: "); //$NON-NLS-1$
+		result.append(", webLabelMax: ");
 		if (webLabelMaxESet) {
 			result.append(webLabelMax);
 		} else {
-			result.append("<unset>"); //$NON-NLS-1$
+			result.append("<unset>");
 		}
-		result.append(", webLabelMin: "); //$NON-NLS-1$
+		result.append(", webLabelMin: ");
 		if (webLabelMinESet) {
 			result.append(webLabelMin);
 		} else {
-			result.append("<unset>"); //$NON-NLS-1$
+			result.append("<unset>");
 		}
-		result.append(", webLabelUnit: "); //$NON-NLS-1$
+		result.append(", webLabelUnit: ");
 		if (webLabelUnitESet) {
 			result.append(webLabelUnit);
 		} else {
-			result.append("<unset>"); //$NON-NLS-1$
+			result.append("<unset>");
 		}
-		result.append(", fillPolys: "); //$NON-NLS-1$
+		result.append(", fillPolys: ");
 		if (fillPolysESet) {
 			result.append(fillPolys);
 		} else {
-			result.append("<unset>"); //$NON-NLS-1$
+			result.append("<unset>");
 		}
-		result.append(", connectEndpoints: "); //$NON-NLS-1$
+		result.append(", connectEndpoints: ");
 		if (connectEndpointsESet) {
 			result.append(connectEndpoints);
 		} else {
-			result.append("<unset>"); //$NON-NLS-1$
+			result.append("<unset>");
 		}
-		result.append(", plotSteps: "); //$NON-NLS-1$
+		result.append(", plotSteps: ");
 		if (plotStepsESet) {
 			result.append(plotSteps);
 		} else {
-			result.append("<unset>"); //$NON-NLS-1$
+			result.append("<unset>");
 		}
 		result.append(')');
 		return result.toString();
@@ -1866,6 +1735,47 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 		super.set(src);
 
 		// children
+
+		if (src.getLabel() != null) {
+			setLabel(src.getLabel().copyInstance());
+		}
+
+		if (src.getDataDefinition() != null) {
+			EList<Query> list = getDataDefinition();
+			for (Query element : src.getDataDefinition()) {
+				list.add(element.copyInstance());
+			}
+		}
+
+		if (src.getDataPoint() != null) {
+			setDataPoint(src.getDataPoint().copyInstance());
+		}
+
+		if (src.getDataSets() != null) {
+			EMap<String, DataSet> map = getDataSets();
+			for (Map.Entry<String, DataSet> entry : src.getDataSets().entrySet()) {
+
+				DataSet entryValue = entry.getValue() != null ? entry.getValue().copyInstance() : null;
+
+				map.put(entry.getKey(), entryValue);
+
+			}
+		}
+
+		if (src.getTriggers() != null) {
+			EList<Trigger> list = getTriggers();
+			for (Trigger element : src.getTriggers()) {
+				list.add(element.copyInstance());
+			}
+		}
+
+		if (src.getCurveFitting() != null) {
+			setCurveFitting(src.getCurveFitting().copyInstance());
+		}
+
+		if (src.getCursor() != null) {
+			setCursor(src.getCursor().copyInstance());
+		}
 
 		if (src.getMarker() != null) {
 			setMarker(src.getMarker().copyInstance());
@@ -1896,6 +1806,24 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries {
 		}
 
 		// attributes
+
+		visible = src.isVisible();
+
+		visibleESet = src.isSetVisible();
+
+		seriesIdentifier = src.getSeriesIdentifier();
+
+		labelPosition = src.getLabelPosition();
+
+		labelPositionESet = src.isSetLabelPosition();
+
+		stacked = src.isStacked();
+
+		stackedESet = src.isSetStacked();
+
+		translucent = src.isTranslucent();
+
+		translucentESet = src.isSetTranslucent();
 
 		paletteLineColor = src.isPaletteLineColor();
 

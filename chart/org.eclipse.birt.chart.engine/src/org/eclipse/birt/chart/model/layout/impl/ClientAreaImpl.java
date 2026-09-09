@@ -36,26 +36,22 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * Area</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.layout.impl.ClientAreaImpl#getBackground
- * <em>Background</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.layout.impl.ClientAreaImpl#getOutline
- * <em>Outline</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.layout.impl.ClientAreaImpl#getShadowColor
- * <em>Shadow Color</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.layout.impl.ClientAreaImpl#getInsets
- * <em>Insets</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.impl.ClientAreaImpl#getBackground <em>Background</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.impl.ClientAreaImpl#getOutline <em>Outline</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.impl.ClientAreaImpl#getShadowColor <em>Shadow Color</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.impl.ClientAreaImpl#getInsets <em>Insets</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.impl.ClientAreaImpl#isVisible <em>Visible</em>}</li>
+ * </ul>
  *
  * @generated
  */
 public class ClientAreaImpl extends EObjectImpl implements ClientArea {
 
 	/**
-	 * The cached value of the '{@link #getBackground() <em>Background</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getBackground() <em>Background</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getBackground()
 	 * @generated
 	 * @ordered
@@ -63,9 +59,8 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea {
 	protected Fill background;
 
 	/**
-	 * The cached value of the '{@link #getOutline() <em>Outline</em>}' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getOutline() <em>Outline</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getOutline()
 	 * @generated
 	 * @ordered
@@ -73,9 +68,8 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea {
 	protected LineAttributes outline;
 
 	/**
-	 * The cached value of the '{@link #getShadowColor() <em>Shadow Color</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getShadowColor() <em>Shadow Color</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getShadowColor()
 	 * @generated
 	 * @ordered
@@ -83,9 +77,8 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea {
 	protected ColorDefinition shadowColor;
 
 	/**
-	 * The cached value of the '{@link #getInsets() <em>Insets</em>}' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getInsets() <em>Insets</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getInsets()
 	 * @generated
 	 * @ordered
@@ -95,7 +88,6 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea {
 	/**
 	 * The default value of the '{@link #isVisible() <em>Visible</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @see #isVisible()
 	 * @generated
 	 * @ordered
@@ -105,7 +97,6 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea {
 	/**
 	 * The cached value of the '{@link #isVisible() <em>Visible</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @see #isVisible()
 	 * @generated
 	 * @ordered
@@ -113,9 +104,9 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea {
 	protected boolean visible = VISIBLE_EDEFAULT;
 
 	/**
-	 * This is true if the Visible attribute has been set. <!-- begin-user-doc -->
+	 * This is true if the Visible attribute has been set.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -123,7 +114,6 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected ClientAreaImpl() {
@@ -132,7 +122,6 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -142,7 +131,6 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -152,7 +140,6 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetBackground(Fill newBackground, NotificationChain msgs) {
@@ -161,45 +148,38 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					LayoutPackage.CLIENT_AREA__BACKGROUND, oldBackground, newBackground);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setBackground(Fill newBackground) {
 		if (newBackground != background) {
 			NotificationChain msgs = null;
-			if (background != null) {
+			if (background != null)
 				msgs = ((InternalEObject) background).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - LayoutPackage.CLIENT_AREA__BACKGROUND, null, msgs);
-			}
-			if (newBackground != null) {
+			if (newBackground != null)
 				msgs = ((InternalEObject) newBackground).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - LayoutPackage.CLIENT_AREA__BACKGROUND, null, msgs);
-			}
 			msgs = basicSetBackground(newBackground, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.CLIENT_AREA__BACKGROUND, newBackground,
 					newBackground));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -209,7 +189,6 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetOutline(LineAttributes newOutline, NotificationChain msgs) {
@@ -218,45 +197,38 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					LayoutPackage.CLIENT_AREA__OUTLINE, oldOutline, newOutline);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setOutline(LineAttributes newOutline) {
 		if (newOutline != outline) {
 			NotificationChain msgs = null;
-			if (outline != null) {
+			if (outline != null)
 				msgs = ((InternalEObject) outline).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - LayoutPackage.CLIENT_AREA__OUTLINE, null, msgs);
-			}
-			if (newOutline != null) {
+			if (newOutline != null)
 				msgs = ((InternalEObject) newOutline).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - LayoutPackage.CLIENT_AREA__OUTLINE, null, msgs);
-			}
 			msgs = basicSetOutline(newOutline, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.CLIENT_AREA__OUTLINE, newOutline,
 					newOutline));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -266,7 +238,6 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetShadowColor(ColorDefinition newShadowColor, NotificationChain msgs) {
@@ -275,45 +246,38 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					LayoutPackage.CLIENT_AREA__SHADOW_COLOR, oldShadowColor, newShadowColor);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setShadowColor(ColorDefinition newShadowColor) {
 		if (newShadowColor != shadowColor) {
 			NotificationChain msgs = null;
-			if (shadowColor != null) {
+			if (shadowColor != null)
 				msgs = ((InternalEObject) shadowColor).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - LayoutPackage.CLIENT_AREA__SHADOW_COLOR, null, msgs);
-			}
-			if (newShadowColor != null) {
+			if (newShadowColor != null)
 				msgs = ((InternalEObject) newShadowColor).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - LayoutPackage.CLIENT_AREA__SHADOW_COLOR, null, msgs);
-			}
 			msgs = basicSetShadowColor(newShadowColor, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.CLIENT_AREA__SHADOW_COLOR,
 					newShadowColor, newShadowColor));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -323,7 +287,6 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetInsets(Insets newInsets, NotificationChain msgs) {
@@ -332,45 +295,38 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					LayoutPackage.CLIENT_AREA__INSETS, oldInsets, newInsets);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setInsets(Insets newInsets) {
 		if (newInsets != insets) {
 			NotificationChain msgs = null;
-			if (insets != null) {
+			if (insets != null)
 				msgs = ((InternalEObject) insets).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - LayoutPackage.CLIENT_AREA__INSETS, null, msgs);
-			}
-			if (newInsets != null) {
+			if (newInsets != null)
 				msgs = ((InternalEObject) newInsets).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - LayoutPackage.CLIENT_AREA__INSETS, null, msgs);
-			}
 			msgs = basicSetInsets(newInsets, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.CLIENT_AREA__INSETS, newInsets,
 					newInsets));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -380,7 +336,6 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -389,15 +344,13 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea {
 		visible = newVisible;
 		boolean oldVisibleESet = visibleESet;
 		visibleESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.CLIENT_AREA__VISIBLE, oldVisible,
 					visible, !oldVisibleESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -406,15 +359,13 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea {
 		boolean oldVisibleESet = visibleESet;
 		visible = VISIBLE_EDEFAULT;
 		visibleESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, LayoutPackage.CLIENT_AREA__VISIBLE, oldVisible,
 					VISIBLE_EDEFAULT, oldVisibleESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -424,7 +375,6 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -444,7 +394,6 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -466,7 +415,6 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -493,7 +441,6 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -520,7 +467,6 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -542,22 +488,19 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) {
+		if (eIsProxy())
 			return super.toString();
-		}
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (visible: "); //$NON-NLS-1$
-		if (visibleESet) {
+		if (visibleESet)
 			result.append(visible);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(')');
 		return result.toString();
 	}

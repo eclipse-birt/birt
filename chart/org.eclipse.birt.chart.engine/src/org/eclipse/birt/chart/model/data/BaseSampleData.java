@@ -21,18 +21,17 @@ import org.eclipse.birt.chart.model.IChartObject;
  * Sample Data</b></em>'. <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- *
- * This type sample data for a base series.
- *
+ * 
+ * 			This type sample data for a base series.
+ * 			
  * <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.data.BaseSampleData#getDataSetRepresentation
- * <em>Data Set Representation</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.data.BaseSampleData#getDataSetRepresentation <em>Data Set Representation</em>}</li>
+ * </ul>
  *
  * @see org.eclipse.birt.chart.model.data.DataPackage#getBaseSampleData()
  * @model extendedMetaData="name='BaseSampleData' kind='elementOnly'"
@@ -60,13 +59,10 @@ public interface BaseSampleData extends IChartObject {
 	String getDataSetRepresentation();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.data.BaseSampleData#getDataSetRepresentation
-	 * <em>Data Set Representation</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.data.BaseSampleData#getDataSetRepresentation <em>Data Set Representation</em>}' attribute.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
-	 * @param value the new value of the '<em>Data Set Representation</em>'
-	 *              attribute.
+	 * @param value the new value of the '<em>Data Set Representation</em>' attribute.
 	 * @see #getDataSetRepresentation()
 	 * @generated
 	 */

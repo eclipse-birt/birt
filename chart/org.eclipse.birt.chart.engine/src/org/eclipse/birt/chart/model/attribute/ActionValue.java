@@ -22,14 +22,20 @@ import org.eclipse.birt.chart.model.component.Label;
  * Value</b></em>'. <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- *
- * This type defines the value of an action.
- *
+ * ActionValue represents the value of an action.
+ * 			
  * <!-- end-model-doc -->
  *
+ * <p>
+ * The following features are supported:
+ * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.ActionValue#getLabel <em>Label</em>}</li>
+ * </ul>
  *
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getActionValue()
- * @model
+ * @model extendedMetaData="name='ActionValue' kind='elementOnly'"
+ * @extends IChartObject
  * @generated
  */
 public interface ActionValue extends IChartObject {
@@ -53,11 +59,9 @@ public interface ActionValue extends IChartObject {
 	Label getLabel();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.ActionValue#getLabel
-	 * <em>Label</em>}' containment reference. <!-- begin-user-doc --> <!--
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.ActionValue#getLabel <em>Label</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @param value the new value of the '<em>Label</em>' containment reference.
 	 * @see #getLabel()
 	 * @generated

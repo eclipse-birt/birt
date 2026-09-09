@@ -38,20 +38,18 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * '<em><b>Rotation3 D</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.Rotation3DImpl#getAngles
- * <em>Angles</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.Rotation3DImpl#getAngles <em>Angles</em>}</li>
+ * </ul>
  *
  * @generated
  */
 public class Rotation3DImpl extends EObjectImpl implements Rotation3D {
 
 	/**
-	 * The cached value of the '{@link #getAngles() <em>Angles</em>}' containment
-	 * reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getAngles() <em>Angles</em>}' containment reference list.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getAngles()
 	 * @generated
 	 * @ordered
@@ -60,7 +58,6 @@ public class Rotation3DImpl extends EObjectImpl implements Rotation3D {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected Rotation3DImpl() {
@@ -69,7 +66,6 @@ public class Rotation3DImpl extends EObjectImpl implements Rotation3D {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -79,20 +75,18 @@ public class Rotation3DImpl extends EObjectImpl implements Rotation3D {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public EList<Angle3D> getAngles() {
 		if (angles == null) {
-			angles = new EObjectContainmentEList<>(Angle3D.class, this, AttributePackage.ROTATION3_D__ANGLES);
+			angles = new EObjectContainmentEList<Angle3D>(Angle3D.class, this, AttributePackage.ROTATION3_D__ANGLES);
 		}
 		return angles;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -106,7 +100,6 @@ public class Rotation3DImpl extends EObjectImpl implements Rotation3D {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -120,7 +113,6 @@ public class Rotation3DImpl extends EObjectImpl implements Rotation3D {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -137,7 +129,6 @@ public class Rotation3DImpl extends EObjectImpl implements Rotation3D {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -152,7 +143,6 @@ public class Rotation3DImpl extends EObjectImpl implements Rotation3D {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override

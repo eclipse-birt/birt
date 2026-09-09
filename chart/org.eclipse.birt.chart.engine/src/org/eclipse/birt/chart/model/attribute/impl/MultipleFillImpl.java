@@ -37,20 +37,18 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * '<em><b>Multiple Fill</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.MultipleFillImpl#getFills
- * <em>Fills</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.MultipleFillImpl#getFills <em>Fills</em>}</li>
+ * </ul>
  *
  * @generated
  */
 public class MultipleFillImpl extends FillImpl implements MultipleFill {
 
 	/**
-	 * The cached value of the '{@link #getFills() <em>Fills</em>}' containment
-	 * reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getFills() <em>Fills</em>}' containment reference list.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getFills()
 	 * @generated
 	 * @ordered
@@ -59,7 +57,6 @@ public class MultipleFillImpl extends FillImpl implements MultipleFill {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected MultipleFillImpl() {
@@ -68,7 +65,6 @@ public class MultipleFillImpl extends FillImpl implements MultipleFill {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -78,20 +74,18 @@ public class MultipleFillImpl extends FillImpl implements MultipleFill {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public EList<Fill> getFills() {
 		if (fills == null) {
-			fills = new EObjectContainmentEList<>(Fill.class, this, AttributePackage.MULTIPLE_FILL__FILLS);
+			fills = new EObjectContainmentEList<Fill>(Fill.class, this, AttributePackage.MULTIPLE_FILL__FILLS);
 		}
 		return fills;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -105,7 +99,6 @@ public class MultipleFillImpl extends FillImpl implements MultipleFill {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -119,7 +112,6 @@ public class MultipleFillImpl extends FillImpl implements MultipleFill {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -136,7 +128,6 @@ public class MultipleFillImpl extends FillImpl implements MultipleFill {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -151,7 +142,6 @@ public class MultipleFillImpl extends FillImpl implements MultipleFill {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -176,6 +166,12 @@ public class MultipleFillImpl extends FillImpl implements MultipleFill {
 				list.add(element.copyInstance());
 			}
 		}
+
+		// attributes
+
+		type = src.getType();
+
+		typeESet = src.isSetType();
 
 	}
 

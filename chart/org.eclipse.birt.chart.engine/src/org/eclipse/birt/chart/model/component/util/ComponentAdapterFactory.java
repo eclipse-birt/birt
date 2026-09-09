@@ -15,7 +15,6 @@
 package org.eclipse.birt.chart.model.component.util;
 
 import java.util.Map;
-
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.ChartPreferences;
 import org.eclipse.birt.chart.model.component.ComponentPackage;
@@ -39,23 +38,22 @@ import org.eclipse.emf.ecore.EObject;
  * <!-- begin-user-doc --> The <b>Adapter Factory </b> for the model. It
  * provides an adapter <code>createXXX</code> method for each class of the
  * model. <!-- end-user-doc -->
- *
  * @see org.eclipse.birt.chart.model.component.ComponentPackage
  * @generated
  */
 public class ComponentAdapterFactory extends AdapterFactoryImpl {
 
 	/**
-	 * The cached model package. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached model package.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected static ComponentPackage modelPackage;
 
 	/**
-	 * Creates an instance of the adapter factory. <!-- begin-user-doc --> <!--
+	 * Creates an instance of the adapter factory.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public ComponentAdapterFactory() {
@@ -90,8 +88,7 @@ public class ComponentAdapterFactory extends AdapterFactoryImpl {
 	 *
 	 * @generated
 	 */
-	protected ComponentSwitch<Adapter> modelSwitch = new ComponentSwitch<>() {
-
+	protected ComponentSwitch<Adapter> modelSwitch = new ComponentSwitch<Adapter>() {
 		@Override
 		public Adapter caseAxis(Axis object) {
 			return createAxisAdapter();
@@ -164,9 +161,9 @@ public class ComponentAdapterFactory extends AdapterFactoryImpl {
 	};
 
 	/**
-	 * Creates an adapter for the <code>target</code>. <!-- begin-user-doc --> <!--
+	 * Creates an adapter for the <code>target</code>.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @param target the object to adapt.
 	 * @return the adapter for the <code>target</code>.
 	 * @generated
@@ -192,12 +189,10 @@ public class ComponentAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class
-	 * '{@link org.eclipse.birt.chart.model.component.ChartPreferences <em>Chart
-	 * Preferences</em>}'. <!-- begin-user-doc --> This default implementation
+	 * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.component.ChartPreferences <em>Chart Preferences</em>}'.
+	 * <!-- begin-user-doc --> This default implementation
 	 * returns null so that we can easily ignore cases; it's useful to ignore a case
 	 * when inheritance will catch all the cases anyway. <!-- end-user-doc -->
-	 *
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.component.ChartPreferences
 	 * @generated
@@ -207,12 +202,10 @@ public class ComponentAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class
-	 * '{@link org.eclipse.birt.chart.model.component.CurveFitting <em>Curve
-	 * Fitting</em>}'. <!-- begin-user-doc --> This default implementation returns
+	 * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.component.CurveFitting <em>Curve Fitting</em>}'.
+	 * <!-- begin-user-doc --> This default implementation returns
 	 * null so that we can easily ignore cases; it's useful to ignore a case when
 	 * inheritance will catch all the cases anyway. <!-- end-user-doc -->
-	 *
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.component.CurveFitting
 	 * @generated
@@ -237,12 +230,10 @@ public class ComponentAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class
-	 * '{@link org.eclipse.birt.chart.model.component.DialRegion <em>Dial
-	 * Region</em>}'. <!-- begin-user-doc --> This default implementation returns
+	 * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.component.DialRegion <em>Dial Region</em>}'.
+	 * <!-- begin-user-doc --> This default implementation returns
 	 * null so that we can easily ignore cases; it's useful to ignore a case when
 	 * inheritance will catch all the cases anyway. <!-- end-user-doc -->
-	 *
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.component.DialRegion
 	 * @generated
@@ -282,12 +273,10 @@ public class ComponentAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class
-	 * '{@link org.eclipse.birt.chart.model.component.MarkerLine <em>Marker
-	 * Line</em>}'. <!-- begin-user-doc --> This default implementation returns null
+	 * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.component.MarkerLine <em>Marker Line</em>}'.
+	 * <!-- begin-user-doc --> This default implementation returns null
 	 * so that we can easily ignore cases; it's useful to ignore a case when
 	 * inheritance will catch all the cases anyway. <!-- end-user-doc -->
-	 *
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.component.MarkerLine
 	 * @generated
@@ -297,12 +286,10 @@ public class ComponentAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class
-	 * '{@link org.eclipse.birt.chart.model.component.MarkerRange <em>Marker
-	 * Range</em>}'. <!-- begin-user-doc --> This default implementation returns
+	 * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.component.MarkerRange <em>Marker Range</em>}'.
+	 * <!-- begin-user-doc --> This default implementation returns
 	 * null so that we can easily ignore cases; it's useful to ignore a case when
 	 * inheritance will catch all the cases anyway. <!-- end-user-doc -->
-	 *
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.component.MarkerRange
 	 * @generated
@@ -357,12 +344,11 @@ public class ComponentAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link java.util.Map.Entry
-	 * <em>EString To Data Set Map Entry</em>}'. <!-- begin-user-doc --> This
+	 * Creates a new adapter for an object of class '{@link java.util.Map.Entry <em>EString To Data Set Map Entry</em>}'.
+	 * <!-- begin-user-doc --> This
 	 * default implementation returns null so that we can easily ignore cases; it's
 	 * useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
-	 *
 	 * @return the new adapter.
 	 * @see java.util.Map.Entry
 	 * @generated
@@ -372,9 +358,9 @@ public class ComponentAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for the default case. <!-- begin-user-doc --> This
+	 * Creates a new adapter for the default case.
+	 * <!-- begin-user-doc --> This
 	 * default implementation returns null. <!-- end-user-doc -->
-	 *
 	 * @return the new adapter.
 	 * @generated
 	 */

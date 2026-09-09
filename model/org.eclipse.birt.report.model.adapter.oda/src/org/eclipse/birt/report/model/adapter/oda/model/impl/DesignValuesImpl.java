@@ -34,17 +34,13 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * Values</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * <ul>
- * <li>{@link org.eclipse.birt.report.model.adapter.oda.model.impl.DesignValuesImpl#getVersion
- * <em>Version</em>}</li>
- * <li>{@link org.eclipse.birt.report.model.adapter.oda.model.impl.DesignValuesImpl#getDataSetParameters
- * <em>Data Set Parameters</em>}</li>
- * <li>{@link org.eclipse.birt.report.model.adapter.oda.model.impl.DesignValuesImpl#getDataSetParameters1
- * <em>Data Set Parameters1</em>}</li>
- * <li>{@link org.eclipse.birt.report.model.adapter.oda.model.impl.DesignValuesImpl#getResultSets
- * <em>Result Sets</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.report.model.adapter.oda.model.impl.DesignValuesImpl#getVersion <em>Version</em>}</li>
+ *   <li>{@link org.eclipse.birt.report.model.adapter.oda.model.impl.DesignValuesImpl#getDataSetParameters <em>Data Set Parameters</em>}</li>
+ *   <li>{@link org.eclipse.birt.report.model.adapter.oda.model.impl.DesignValuesImpl#getDataSetParameters1 <em>Data Set Parameters1</em>}</li>
+ *   <li>{@link org.eclipse.birt.report.model.adapter.oda.model.impl.DesignValuesImpl#getResultSets <em>Result Sets</em>}</li>
+ * </ul>
  *
  * @generated
  */
@@ -52,7 +48,6 @@ public class DesignValuesImpl extends EObjectImpl implements DesignValues {
 	/**
 	 * The default value of the '{@link #getVersion() <em>Version</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @see #getVersion()
 	 * @generated
 	 * @ordered
@@ -62,7 +57,6 @@ public class DesignValuesImpl extends EObjectImpl implements DesignValues {
 	/**
 	 * The cached value of the '{@link #getVersion() <em>Version</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @see #getVersion()
 	 * @generated
 	 * @ordered
@@ -70,19 +64,18 @@ public class DesignValuesImpl extends EObjectImpl implements DesignValues {
 	protected String version = VERSION_EDEFAULT;
 
 	/**
-	 * This is true if the Version attribute has been set. <!-- begin-user-doc -->
+	 * This is true if the Version attribute has been set.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean versionESet;
 
 	/**
-	 * The cached value of the '{@link #getDataSetParameters() <em>Data Set
-	 * Parameters</em>}' containment reference. <!-- begin-user-doc --> <!--
+	 * The cached value of the '{@link #getDataSetParameters() <em>Data Set Parameters</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #getDataSetParameters()
 	 * @generated
 	 * @ordered
@@ -90,10 +83,9 @@ public class DesignValuesImpl extends EObjectImpl implements DesignValues {
 	protected DataSetParameters dataSetParameters;
 
 	/**
-	 * The cached value of the '{@link #getDataSetParameters1() <em>Data Set
-	 * Parameters1</em>}' containment reference. <!-- begin-user-doc --> <!--
+	 * The cached value of the '{@link #getDataSetParameters1() <em>Data Set Parameters1</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #getDataSetParameters1()
 	 * @generated
 	 * @ordered
@@ -101,9 +93,8 @@ public class DesignValuesImpl extends EObjectImpl implements DesignValues {
 	protected org.eclipse.datatools.connectivity.oda.design.DataSetParameters dataSetParameters1;
 
 	/**
-	 * The cached value of the '{@link #getResultSets() <em>Result Sets</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getResultSets() <em>Result Sets</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getResultSets()
 	 * @generated
 	 * @ordered
@@ -112,7 +103,6 @@ public class DesignValuesImpl extends EObjectImpl implements DesignValues {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected DesignValuesImpl() {
@@ -121,7 +111,6 @@ public class DesignValuesImpl extends EObjectImpl implements DesignValues {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -131,7 +120,6 @@ public class DesignValuesImpl extends EObjectImpl implements DesignValues {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -141,7 +129,6 @@ public class DesignValuesImpl extends EObjectImpl implements DesignValues {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -158,7 +145,6 @@ public class DesignValuesImpl extends EObjectImpl implements DesignValues {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -175,7 +161,6 @@ public class DesignValuesImpl extends EObjectImpl implements DesignValues {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -185,7 +170,6 @@ public class DesignValuesImpl extends EObjectImpl implements DesignValues {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -195,7 +179,6 @@ public class DesignValuesImpl extends EObjectImpl implements DesignValues {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetDataSetParameters(DataSetParameters newDataSetParameters, NotificationChain msgs) {
@@ -215,7 +198,6 @@ public class DesignValuesImpl extends EObjectImpl implements DesignValues {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -242,7 +224,6 @@ public class DesignValuesImpl extends EObjectImpl implements DesignValues {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -252,7 +233,6 @@ public class DesignValuesImpl extends EObjectImpl implements DesignValues {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetResultSets(ResultSets newResultSets, NotificationChain msgs) {
@@ -272,7 +252,6 @@ public class DesignValuesImpl extends EObjectImpl implements DesignValues {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -299,7 +278,6 @@ public class DesignValuesImpl extends EObjectImpl implements DesignValues {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -309,7 +287,6 @@ public class DesignValuesImpl extends EObjectImpl implements DesignValues {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetDataSetParameters1(
@@ -331,7 +308,6 @@ public class DesignValuesImpl extends EObjectImpl implements DesignValues {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -359,7 +335,6 @@ public class DesignValuesImpl extends EObjectImpl implements DesignValues {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -377,7 +352,6 @@ public class DesignValuesImpl extends EObjectImpl implements DesignValues {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -397,7 +371,6 @@ public class DesignValuesImpl extends EObjectImpl implements DesignValues {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -421,7 +394,6 @@ public class DesignValuesImpl extends EObjectImpl implements DesignValues {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -445,7 +417,6 @@ public class DesignValuesImpl extends EObjectImpl implements DesignValues {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -465,7 +436,6 @@ public class DesignValuesImpl extends EObjectImpl implements DesignValues {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override

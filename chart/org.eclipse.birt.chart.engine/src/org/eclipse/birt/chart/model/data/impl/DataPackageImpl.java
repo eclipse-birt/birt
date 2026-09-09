@@ -60,189 +60,164 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Package </b>. <!--
  * end-user-doc -->
- *
  * @generated
  */
 public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass actionEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass baseSampleDataEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass bigNumberDataElementEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass bubbleDataSetEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass dataElementEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass dataSetEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass dateTimeDataElementEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass dateTimeDataSetEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass differenceDataSetEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass ganttDataSetEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass multipleActionsEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass nullDataSetEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass numberDataElementEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass numberDataSetEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass orthogonalSampleDataEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass queryEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass ruleEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass sampleDataEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass seriesDefinitionEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass seriesGroupingEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass stockDataSetEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass textDataSetEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass triggerEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EDataType dataEDataType = null;
 
 	/**
-	 * Creates an instance of the model <b>Package </b>, registered with
-	 * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry}by the
-	 * package package URI value.
-	 * <p>
-	 * Note: the correct way to create the package is via the static factory method
-	 * {@link #init init()}, which also performs initialization of the package, or
-	 * returns the registered package, if one already exists. <!-- begin-user-doc
+	 * Creates an instance of the model <b>Package</b>, registered with
+	 * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry} by the package
+	 * package URI value.
+	 * <p>Note: the correct way to create the package is via the static
+	 * factory method {@link #init init()}, which also performs
+	 * initialization of the package, or returns the registered package,
+	 * if one already exists.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 *
 	 * @see org.eclipse.emf.ecore.EPackage.Registry
 	 * @see org.eclipse.birt.chart.model.data.DataPackage#eNS_URI
 	 * @see #init()
@@ -254,35 +229,31 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private static boolean isInited = false;
 
 	/**
-	 * Creates, registers, and initializes the <b>Package</b> for this model, and
-	 * for any others upon which it depends.
+	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
 	 *
-	 * <p>
-	 * This method is used to initialize {@link DataPackage#eINSTANCE} when that
-	 * field is accessed. Clients should not invoke it directly. Instead, they
-	 * should simply access that field to obtain the package. <!-- begin-user-doc
+	 * <p>This method is used to initialize {@link DataPackage#eINSTANCE} when that field is accessed.
+	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 *
 	 * @see #eNS_URI
 	 * @see #createPackageContents()
 	 * @see #initializePackageContents()
 	 * @generated
 	 */
 	public static DataPackage init() {
-		if (isInited) {
+		if (isInited)
 			return (DataPackage) EPackage.Registry.INSTANCE.getEPackage(DataPackage.eNS_URI);
-		}
 
 		// Obtain or create and register package
-		DataPackageImpl theDataPackage = (DataPackageImpl) (EPackage.Registry.INSTANCE
-				.get(eNS_URI) instanceof DataPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI)
-						: new DataPackageImpl());
+		Object registeredDataPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+		DataPackageImpl theDataPackage = registeredDataPackage instanceof DataPackageImpl
+				? (DataPackageImpl) registeredDataPackage
+				: new DataPackageImpl();
 
 		isInited = true;
 
@@ -290,26 +261,26 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 		XMLTypePackage.eINSTANCE.eClass();
 
 		// Obtain or create and register interdependencies
-		AttributePackageImpl theAttributePackage = (AttributePackageImpl) (EPackage.Registry.INSTANCE
-				.getEPackage(AttributePackage.eNS_URI) instanceof AttributePackageImpl
-						? EPackage.Registry.INSTANCE.getEPackage(AttributePackage.eNS_URI)
-						: AttributePackage.eINSTANCE);
-		ComponentPackageImpl theComponentPackage = (ComponentPackageImpl) (EPackage.Registry.INSTANCE
-				.getEPackage(ComponentPackage.eNS_URI) instanceof ComponentPackageImpl
-						? EPackage.Registry.INSTANCE.getEPackage(ComponentPackage.eNS_URI)
-						: ComponentPackage.eINSTANCE);
-		TypePackageImpl theTypePackage = (TypePackageImpl) (EPackage.Registry.INSTANCE
-				.getEPackage(TypePackage.eNS_URI) instanceof TypePackageImpl
-						? EPackage.Registry.INSTANCE.getEPackage(TypePackage.eNS_URI)
-						: TypePackage.eINSTANCE);
-		LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) (EPackage.Registry.INSTANCE
-				.getEPackage(LayoutPackage.eNS_URI) instanceof LayoutPackageImpl
-						? EPackage.Registry.INSTANCE.getEPackage(LayoutPackage.eNS_URI)
-						: LayoutPackage.eINSTANCE);
-		ModelPackageImpl theModelPackage = (ModelPackageImpl) (EPackage.Registry.INSTANCE
-				.getEPackage(ModelPackage.eNS_URI) instanceof ModelPackageImpl
-						? EPackage.Registry.INSTANCE.getEPackage(ModelPackage.eNS_URI)
-						: ModelPackage.eINSTANCE);
+		Object registeredPackage = EPackage.Registry.INSTANCE.getEPackage(AttributePackage.eNS_URI);
+		AttributePackageImpl theAttributePackage = (AttributePackageImpl) (registeredPackage instanceof AttributePackageImpl
+				? registeredPackage
+				: AttributePackage.eINSTANCE);
+		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(ComponentPackage.eNS_URI);
+		ComponentPackageImpl theComponentPackage = (ComponentPackageImpl) (registeredPackage instanceof ComponentPackageImpl
+				? registeredPackage
+				: ComponentPackage.eINSTANCE);
+		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(TypePackage.eNS_URI);
+		TypePackageImpl theTypePackage = (TypePackageImpl) (registeredPackage instanceof TypePackageImpl
+				? registeredPackage
+				: TypePackage.eINSTANCE);
+		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(LayoutPackage.eNS_URI);
+		LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) (registeredPackage instanceof LayoutPackageImpl
+				? registeredPackage
+				: LayoutPackage.eINSTANCE);
+		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(ModelPackage.eNS_URI);
+		ModelPackageImpl theModelPackage = (ModelPackageImpl) (registeredPackage instanceof ModelPackageImpl
+				? registeredPackage
+				: ModelPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theDataPackage.createPackageContents();
@@ -337,7 +308,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -347,7 +317,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -357,7 +326,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -367,7 +335,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -377,7 +344,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -387,7 +353,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -397,7 +362,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -407,7 +371,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -417,7 +380,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -427,7 +389,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -437,7 +398,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -447,7 +407,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -457,7 +416,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -467,7 +425,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -477,7 +434,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -487,7 +443,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -497,7 +452,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -507,7 +461,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -517,7 +470,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -527,7 +479,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -537,7 +488,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -547,7 +497,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -557,7 +506,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -567,7 +515,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -577,7 +524,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -587,7 +533,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -597,7 +542,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -607,7 +551,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -617,7 +560,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -627,7 +569,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -637,7 +578,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -647,7 +587,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -657,7 +596,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -667,7 +605,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -677,7 +614,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -687,7 +623,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -697,7 +632,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -707,7 +641,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -717,7 +650,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -727,7 +659,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -737,7 +668,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -747,7 +677,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -757,7 +686,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -767,7 +695,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -777,7 +704,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -787,7 +713,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -797,7 +722,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -807,7 +731,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -817,7 +740,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -827,7 +749,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -837,7 +758,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -847,7 +767,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -857,7 +776,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -867,7 +785,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -877,7 +794,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -887,7 +803,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -897,7 +812,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -907,7 +821,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -917,7 +830,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -927,7 +839,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -937,7 +848,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -947,7 +857,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -957,7 +866,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -967,7 +875,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -977,7 +884,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -987,22 +893,20 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private boolean isCreated = false;
 
 	/**
-	 * Creates the meta-model objects for the package. This method is guarded to
-	 * have no affect on any invocation but its first. <!-- begin-user-doc --> <!--
+	 * Creates the meta-model objects for the package.  This method is
+	 * guarded to have no affect on any invocation but its first.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public void createPackageContents() {
-		if (isCreated) {
+		if (isCreated)
 			return;
-		}
 		isCreated = true;
 
 		// Create classes and their features
@@ -1098,7 +1002,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private boolean isInitialized = false;
@@ -1111,9 +1014,8 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 	 * @generated
 	 */
 	public void initializePackageContents() {
-		if (isInitialized) {
+		if (isInitialized)
 			return;
-		}
 		isInitialized = true;
 
 		// Initialize package
@@ -1149,7 +1051,7 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(actionEClass, Action.class, "Action", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
-		initEAttribute(getAction_Type(), theAttributePackage.getActionType(), "type", "URL_Redirect", 1, 1, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getAction_Type(), theAttributePackage.getActionType(), "type", "URL_Redirect", 1, 1, //$NON-NLS-1$//$NON-NLS-2$
 				Action.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
 				IS_ORDERED);
 		initEReference(getAction_Value(), theAttributePackage.getActionValue(), null, "value", null, 1, 1, Action.class, //$NON-NLS-1$
@@ -1234,7 +1136,7 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 				IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(ruleEClass, Rule.class, "Rule", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
-		initEAttribute(getRule_Type(), theAttributePackage.getRuleType(), "type", "Filter", 1, 1, Rule.class, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getRule_Type(), theAttributePackage.getRuleType(), "type", "Filter", 1, 1, Rule.class, //$NON-NLS-1$//$NON-NLS-2$
 				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getRule_Value(), theXMLTypePackage.getString(), "value", null, 1, 1, Rule.class, !IS_TRANSIENT, //$NON-NLS-1$
 				!IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1271,7 +1173,7 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 		initEReference(getSeriesDefinition_Grouping(), this.getSeriesGrouping(), null, "grouping", null, 0, 1, //$NON-NLS-1$
 				SeriesDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
 				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getSeriesDefinition_Sorting(), theAttributePackage.getSortOption(), "sorting", "Ascending", 0, 1, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getSeriesDefinition_Sorting(), theAttributePackage.getSortOption(), "sorting", "Ascending", 0, 1, //$NON-NLS-1$//$NON-NLS-2$
 				SeriesDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
 				!IS_DERIVED, IS_ORDERED);
 		initEReference(getSeriesDefinition_SortKey(), this.getQuery(), null, "sortKey", null, 1, 1, //$NON-NLS-1$
@@ -1283,7 +1185,7 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 		initEAttribute(getSeriesDefinition_SortStrength(), theXMLTypePackage.getInt(), "sortStrength", null, 1, 1, //$NON-NLS-1$
 				SeriesDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
 				!IS_DERIVED, IS_ORDERED);
-		initEAttribute(getSeriesDefinition_ZOrder(), theXMLTypePackage.getInt(), "zOrder", "0", 0, 1, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getSeriesDefinition_ZOrder(), theXMLTypePackage.getInt(), "zOrder", "0", 0, 1, //$NON-NLS-1$//$NON-NLS-2$
 				SeriesDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
 				!IS_DERIVED, IS_ORDERED);
 
@@ -1298,10 +1200,10 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 		initEReference(getSeriesGrouping_GroupingOrigin(), this.getDataElement(), null, "groupingOrigin", null, 1, 1, //$NON-NLS-1$
 				SeriesGrouping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
 				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getSeriesGrouping_GroupingInterval(), theXMLTypePackage.getDouble(), "groupingInterval", "1", 1, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getSeriesGrouping_GroupingInterval(), theXMLTypePackage.getDouble(), "groupingInterval", "1", 1, //$NON-NLS-1$//$NON-NLS-2$
 				1, SeriesGrouping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
 				!IS_DERIVED, IS_ORDERED);
-		initEAttribute(getSeriesGrouping_GroupType(), theAttributePackage.getDataType(), "groupType", "Text", 1, 1, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getSeriesGrouping_GroupType(), theAttributePackage.getDataType(), "groupType", "Text", 1, 1, //$NON-NLS-1$//$NON-NLS-2$
 				SeriesGrouping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
 				!IS_DERIVED, IS_ORDERED);
 		initEAttribute(getSeriesGrouping_AggregateExpression(), theXMLTypePackage.getString(), "aggregateExpression", //$NON-NLS-1$
@@ -1318,13 +1220,13 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage {
 				IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(triggerEClass, Trigger.class, "Trigger", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
-		initEAttribute(getTrigger_Condition(), theAttributePackage.getTriggerCondition(), "condition", "Mouse_Hover", 1, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getTrigger_Condition(), theAttributePackage.getTriggerCondition(), "condition", "Mouse_Hover", 1, //$NON-NLS-1$//$NON-NLS-2$
 				1, Trigger.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
 				!IS_DERIVED, IS_ORDERED);
 		initEReference(getTrigger_Action(), this.getAction(), null, "action", null, 1, 1, Trigger.class, !IS_TRANSIENT, //$NON-NLS-1$
 				!IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED,
 				IS_ORDERED);
-		initEAttribute(getTrigger_TriggerFlow(), theAttributePackage.getTriggerFlow(), "triggerFlow", "Capture", 0, 1, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getTrigger_TriggerFlow(), theAttributePackage.getTriggerFlow(), "triggerFlow", "Capture", 0, 1, //$NON-NLS-1$//$NON-NLS-2$
 				Trigger.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
 				!IS_DERIVED, IS_ORDERED);
 

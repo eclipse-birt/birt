@@ -42,23 +42,16 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * '<em><b>Document Root</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * <ul>
- * <li>{@link org.eclipse.birt.report.model.adapter.oda.model.impl.DocumentRootImpl#getMixed
- * <em>Mixed</em>}</li>
- * <li>{@link org.eclipse.birt.report.model.adapter.oda.model.impl.DocumentRootImpl#getXMLNSPrefixMap
- * <em>XMLNS Prefix Map</em>}</li>
- * <li>{@link org.eclipse.birt.report.model.adapter.oda.model.impl.DocumentRootImpl#getXSISchemaLocation
- * <em>XSI Schema Location</em>}</li>
- * <li>{@link org.eclipse.birt.report.model.adapter.oda.model.impl.DocumentRootImpl#getDataSetParameter
- * <em>Data Set Parameter</em>}</li>
- * <li>{@link org.eclipse.birt.report.model.adapter.oda.model.impl.DocumentRootImpl#getDataSetParameters
- * <em>Data Set Parameters</em>}</li>
- * <li>{@link org.eclipse.birt.report.model.adapter.oda.model.impl.DocumentRootImpl#getDesignValues
- * <em>Design Values</em>}</li>
- * <li>{@link org.eclipse.birt.report.model.adapter.oda.model.impl.DocumentRootImpl#getDynamicList
- * <em>Dynamic List</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.report.model.adapter.oda.model.impl.DocumentRootImpl#getMixed <em>Mixed</em>}</li>
+ *   <li>{@link org.eclipse.birt.report.model.adapter.oda.model.impl.DocumentRootImpl#getXMLNSPrefixMap <em>XMLNS Prefix Map</em>}</li>
+ *   <li>{@link org.eclipse.birt.report.model.adapter.oda.model.impl.DocumentRootImpl#getXSISchemaLocation <em>XSI Schema Location</em>}</li>
+ *   <li>{@link org.eclipse.birt.report.model.adapter.oda.model.impl.DocumentRootImpl#getDataSetParameter <em>Data Set Parameter</em>}</li>
+ *   <li>{@link org.eclipse.birt.report.model.adapter.oda.model.impl.DocumentRootImpl#getDataSetParameters <em>Data Set Parameters</em>}</li>
+ *   <li>{@link org.eclipse.birt.report.model.adapter.oda.model.impl.DocumentRootImpl#getDesignValues <em>Design Values</em>}</li>
+ *   <li>{@link org.eclipse.birt.report.model.adapter.oda.model.impl.DocumentRootImpl#getDynamicList <em>Dynamic List</em>}</li>
+ * </ul>
  *
  * @generated
  */
@@ -66,7 +59,6 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
 	/**
 	 * The cached value of the '{@link #getMixed() <em>Mixed</em>}' attribute list.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @see #getMixed()
 	 * @generated
 	 * @ordered
@@ -74,9 +66,8 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
 	protected FeatureMap mixed;
 
 	/**
-	 * The cached value of the '{@link #getXMLNSPrefixMap() <em>XMLNS Prefix
-	 * Map</em>}' map. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getXMLNSPrefixMap() <em>XMLNS Prefix Map</em>}' map.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getXMLNSPrefixMap()
 	 * @generated
 	 * @ordered
@@ -84,9 +75,8 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
 	protected EMap<String, String> xMLNSPrefixMap;
 
 	/**
-	 * The cached value of the '{@link #getXSISchemaLocation() <em>XSI Schema
-	 * Location</em>}' map. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getXSISchemaLocation() <em>XSI Schema Location</em>}' map.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getXSISchemaLocation()
 	 * @generated
 	 * @ordered
@@ -95,7 +85,6 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected DocumentRootImpl() {
@@ -104,7 +93,6 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -114,7 +102,6 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -127,7 +114,6 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -141,7 +127,6 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -155,7 +140,6 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -165,7 +149,6 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetDataSetParameter(DataSetParameter newDataSetParameter, NotificationChain msgs) {
@@ -175,18 +158,16 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setDataSetParameter(DataSetParameter newDataSetParameter) {
-		((FeatureMap.Internal) getMixed()).set(ModelPackage.Literals.DOCUMENT_ROOT__DATA_SET_PARAMETER,
+		getMixed().set(ModelPackage.Literals.DOCUMENT_ROOT__DATA_SET_PARAMETER,
 				newDataSetParameter);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -196,7 +177,6 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetDataSetParameters(DataSetParameters newDataSetParameters, NotificationChain msgs) {
@@ -206,18 +186,16 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setDataSetParameters(DataSetParameters newDataSetParameters) {
-		((FeatureMap.Internal) getMixed()).set(ModelPackage.Literals.DOCUMENT_ROOT__DATA_SET_PARAMETERS,
+		getMixed().set(ModelPackage.Literals.DOCUMENT_ROOT__DATA_SET_PARAMETERS,
 				newDataSetParameters);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -227,7 +205,6 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetDesignValues(DesignValues newDesignValues, NotificationChain msgs) {
@@ -237,17 +214,15 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setDesignValues(DesignValues newDesignValues) {
-		((FeatureMap.Internal) getMixed()).set(ModelPackage.Literals.DOCUMENT_ROOT__DESIGN_VALUES, newDesignValues);
+		getMixed().set(ModelPackage.Literals.DOCUMENT_ROOT__DESIGN_VALUES, newDesignValues);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -257,7 +232,6 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetDynamicList(DynamicList newDynamicList, NotificationChain msgs) {
@@ -267,17 +241,15 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setDynamicList(DynamicList newDynamicList) {
-		((FeatureMap.Internal) getMixed()).set(ModelPackage.Literals.DOCUMENT_ROOT__DYNAMIC_LIST, newDynamicList);
+		getMixed().set(ModelPackage.Literals.DOCUMENT_ROOT__DYNAMIC_LIST, newDynamicList);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -303,7 +275,6 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -340,7 +311,6 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -373,7 +343,6 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -406,7 +375,6 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -432,7 +400,6 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override

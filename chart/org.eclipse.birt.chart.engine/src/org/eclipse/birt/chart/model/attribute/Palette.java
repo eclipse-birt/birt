@@ -21,19 +21,18 @@ import org.eclipse.emf.common.util.EList;
  * <!-- begin-user-doc --> A representation of the model object
  * '<em><b>Palette</b></em>'. <!-- end-user-doc -->
  *
- * <!-- begin-model-doc --> Palette represents a palette of Fills.
- *
+ * <!-- begin-model-doc -->
+ * Palette  represents a palette of Fills.
+ * 			
  * <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.Palette#getName
- * <em>Name</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.Palette#getEntries
- * <em>Entries</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.Palette#getName <em>Name</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.Palette#getEntries <em>Entries</em>}</li>
+ * </ul>
  *
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getPalette()
  * @model extendedMetaData="name='Palette' kind='elementOnly'"
@@ -59,11 +58,9 @@ public interface Palette extends IChartObject {
 	String getName();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.Palette#getName
-	 * <em>Name</em>}' attribute. <!-- begin-user-doc --> Sets the name for the
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.Palette#getName <em>Name</em>}' attribute.
+	 * <!-- begin-user-doc --> Sets the name for the
 	 * palette. <!-- end-user-doc -->
-	 *
 	 * @param value the new value of the '<em>Name</em>' attribute.
 	 * @see #getName()
 	 * @generated

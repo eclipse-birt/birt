@@ -40,52 +40,52 @@ import org.eclipse.emf.common.util.Enumerator;
  */
 public enum UnitsOfMeasurement implements Enumerator {
 	/**
-	 * The '<em><b>Pixels</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Pixels</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Pixels</b></em>' literal object isn't clear, there
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #PIXELS
 	 * @generated
 	 * @ordered
 	 */
 	PIXELS_LITERAL(0, "Pixels", "Pixels"),
 	/**
-	 * The '<em><b>Points</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Points</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Points</b></em>' literal object isn't clear, there
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #POINTS
 	 * @generated
 	 * @ordered
 	 */
 	POINTS_LITERAL(1, "Points", "Points"),
 	/**
-	 * The '<em><b>Inches</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Inches</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Inches</b></em>' literal object isn't clear, there
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #INCHES
 	 * @generated
 	 * @ordered
 	 */
 	INCHES_LITERAL(2, "Inches", "Inches"),
 	/**
-	 * The '<em><b>Centimeters</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Centimeters</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Centimeters</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #CENTIMETERS
 	 * @generated
 	 * @ordered
@@ -93,9 +93,9 @@ public enum UnitsOfMeasurement implements Enumerator {
 	CENTIMETERS_LITERAL(3, "Centimeters", "Centimeters");
 
 	/**
-	 * The '<em><b>Pixels</b></em>' literal value. <!-- begin-user-doc --> <!--
+	 * The '<em><b>Pixels</b></em>' literal value.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #PIXELS_LITERAL
 	 * @model name="Pixels"
 	 * @generated
@@ -104,9 +104,9 @@ public enum UnitsOfMeasurement implements Enumerator {
 	public static final int PIXELS = 0;
 
 	/**
-	 * The '<em><b>Points</b></em>' literal value. <!-- begin-user-doc --> <!--
+	 * The '<em><b>Points</b></em>' literal value.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #POINTS_LITERAL
 	 * @model name="Points"
 	 * @generated
@@ -115,9 +115,9 @@ public enum UnitsOfMeasurement implements Enumerator {
 	public static final int POINTS = 1;
 
 	/**
-	 * The '<em><b>Inches</b></em>' literal value. <!-- begin-user-doc --> <!--
+	 * The '<em><b>Inches</b></em>' literal value.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #INCHES_LITERAL
 	 * @model name="Inches"
 	 * @generated
@@ -126,9 +126,9 @@ public enum UnitsOfMeasurement implements Enumerator {
 	public static final int INCHES = 2;
 
 	/**
-	 * The '<em><b>Centimeters</b></em>' literal value. <!-- begin-user-doc --> <!--
+	 * The '<em><b>Centimeters</b></em>' literal value.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #CENTIMETERS_LITERAL
 	 * @model name="Centimeters"
 	 * @generated
@@ -142,21 +142,21 @@ public enum UnitsOfMeasurement implements Enumerator {
 	 *
 	 * @generated
 	 */
-	private static final UnitsOfMeasurement[] VALUES_ARRAY = { PIXELS_LITERAL, POINTS_LITERAL, INCHES_LITERAL,
-			CENTIMETERS_LITERAL, };
+	private static final UnitsOfMeasurement[] VALUES_ARRAY = new UnitsOfMeasurement[] { PIXELS_LITERAL, POINTS_LITERAL,
+			INCHES_LITERAL, CENTIMETERS_LITERAL, };
 
 	/**
-	 * A public read-only list of all the '<em><b>Units Of Measurement</b></em>'
-	 * enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * A public read-only list of all the '<em><b>Units Of Measurement</b></em>' enumerators.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static final List<UnitsOfMeasurement> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
 	/**
-	 * Returns the '<em><b>Units Of Measurement</b></em>' literal with the specified
-	 * literal value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns the '<em><b>Units Of Measurement</b></em>' literal with the specified literal value.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param literal the literal.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static UnitsOfMeasurement get(String literal) {
@@ -170,9 +170,10 @@ public enum UnitsOfMeasurement implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Units Of Measurement</b></em>' literal with the specified
-	 * name. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns the '<em><b>Units Of Measurement</b></em>' literal with the specified name.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param name the name.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static UnitsOfMeasurement getByName(String name) {
@@ -186,9 +187,10 @@ public enum UnitsOfMeasurement implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Units Of Measurement</b></em>' literal with the specified
-	 * integer value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns the '<em><b>Units Of Measurement</b></em>' literal with the specified integer value.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the integer value.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static UnitsOfMeasurement get(int value) {
@@ -207,32 +209,29 @@ public enum UnitsOfMeasurement implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private final int value;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private final String name;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private final String literal;
 
 	/**
-	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
+	 * Only this class can construct instances.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @generated
 	 */
-	UnitsOfMeasurement(int value, String name, String literal) {
+	private UnitsOfMeasurement(int value, String name, String literal) {
 		this.value = value;
 		this.name = name;
 		this.literal = literal;
@@ -240,7 +239,6 @@ public enum UnitsOfMeasurement implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -250,7 +248,6 @@ public enum UnitsOfMeasurement implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -260,7 +257,6 @@ public enum UnitsOfMeasurement implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -269,9 +265,8 @@ public enum UnitsOfMeasurement implements Enumerator {
 	}
 
 	/**
-	 * Returns the literal value of the enumerator, which is its string
-	 * representation. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns the literal value of the enumerator, which is its string representation.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override

@@ -18,7 +18,11 @@ import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.DialChart;
 import org.eclipse.birt.chart.model.ModelFactory;
 import org.eclipse.birt.chart.model.ModelPackage;
+import org.eclipse.birt.chart.model.attribute.ExtendedProperty;
+import org.eclipse.birt.chart.model.attribute.StyleMap;
+import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
@@ -27,11 +31,10 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * Chart</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.impl.DialChartImpl#isDialSuperimposition
- * <em>Dial Superimposition</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.impl.DialChartImpl#isDialSuperimposition <em>Dial Superimposition</em>}</li>
+ * </ul>
  *
  * @generated
  */
@@ -70,7 +73,6 @@ public class DialChartImpl extends ChartWithoutAxesImpl implements DialChart {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected DialChartImpl() {
@@ -79,7 +81,6 @@ public class DialChartImpl extends ChartWithoutAxesImpl implements DialChart {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -89,7 +90,6 @@ public class DialChartImpl extends ChartWithoutAxesImpl implements DialChart {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -99,7 +99,6 @@ public class DialChartImpl extends ChartWithoutAxesImpl implements DialChart {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -108,15 +107,13 @@ public class DialChartImpl extends ChartWithoutAxesImpl implements DialChart {
 		dialSuperimposition = newDialSuperimposition;
 		boolean oldDialSuperimpositionESet = dialSuperimpositionESet;
 		dialSuperimpositionESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.DIAL_CHART__DIAL_SUPERIMPOSITION,
 					oldDialSuperimposition, dialSuperimposition, !oldDialSuperimpositionESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -125,15 +122,13 @@ public class DialChartImpl extends ChartWithoutAxesImpl implements DialChart {
 		boolean oldDialSuperimpositionESet = dialSuperimpositionESet;
 		dialSuperimposition = DIAL_SUPERIMPOSITION_EDEFAULT;
 		dialSuperimpositionESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, ModelPackage.DIAL_CHART__DIAL_SUPERIMPOSITION,
 					oldDialSuperimposition, DIAL_SUPERIMPOSITION_EDEFAULT, oldDialSuperimpositionESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -143,7 +138,6 @@ public class DialChartImpl extends ChartWithoutAxesImpl implements DialChart {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -157,7 +151,6 @@ public class DialChartImpl extends ChartWithoutAxesImpl implements DialChart {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -172,7 +165,6 @@ public class DialChartImpl extends ChartWithoutAxesImpl implements DialChart {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -187,7 +179,6 @@ public class DialChartImpl extends ChartWithoutAxesImpl implements DialChart {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -201,22 +192,19 @@ public class DialChartImpl extends ChartWithoutAxesImpl implements DialChart {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) {
+		if (eIsProxy())
 			return super.toString();
-		}
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (dialSuperimposition: "); //$NON-NLS-1$
-		if (dialSuperimpositionESet) {
+		if (dialSuperimpositionESet)
 			result.append(dialSuperimposition);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(')');
 		return result.toString();
 	}
@@ -280,7 +268,88 @@ public class DialChartImpl extends ChartWithoutAxesImpl implements DialChart {
 
 		super.set(src);
 
+		// children
+
+		if (src.getDescription() != null) {
+			setDescription(src.getDescription().copyInstance());
+		}
+
+		if (src.getBlock() != null) {
+			setBlock(src.getBlock().copyInstance());
+		}
+
+		if (src.getExtendedProperties() != null) {
+			EList<ExtendedProperty> list = getExtendedProperties();
+			for (ExtendedProperty element : src.getExtendedProperties()) {
+				list.add(element.copyInstance());
+			}
+		}
+
+		if (src.getSampleData() != null) {
+			setSampleData(src.getSampleData().copyInstance());
+		}
+
+		if (src.getStyles() != null) {
+			EList<StyleMap> list = getStyles();
+			for (StyleMap element : src.getStyles()) {
+				list.add(element.copyInstance());
+			}
+		}
+
+		if (src.getInteractivity() != null) {
+			setInteractivity(src.getInteractivity().copyInstance());
+		}
+
+		if (src.getEmptyMessage() != null) {
+			setEmptyMessage(src.getEmptyMessage().copyInstance());
+		}
+
+		if (src.getSeriesDefinitions() != null) {
+			EList<SeriesDefinition> list = getSeriesDefinitions();
+			for (SeriesDefinition element : src.getSeriesDefinitions()) {
+				list.add(element.copyInstance());
+			}
+		}
+
 		// attributes
+
+		version = src.getVersion();
+
+		versionESet = src.isSetVersion();
+
+		type = src.getType();
+
+		subType = src.getSubType();
+
+		dimension = src.getDimension();
+
+		dimensionESet = src.isSetDimension();
+
+		script = src.getScript();
+
+		units = src.getUnits();
+
+		seriesThickness = src.getSeriesThickness();
+
+		seriesThicknessESet = src.isSetSeriesThickness();
+
+		gridColumnCount = src.getGridColumnCount();
+
+		gridColumnCountESet = src.isSetGridColumnCount();
+
+		minSlice = src.getMinSlice();
+
+		minSliceESet = src.isSetMinSlice();
+
+		minSlicePercent = src.isMinSlicePercent();
+
+		minSlicePercentESet = src.isSetMinSlicePercent();
+
+		minSliceLabel = src.getMinSliceLabel();
+
+		coverage = src.getCoverage();
+
+		coverageESet = src.isSetCoverage();
 
 		dialSuperimposition = src.isDialSuperimposition();
 

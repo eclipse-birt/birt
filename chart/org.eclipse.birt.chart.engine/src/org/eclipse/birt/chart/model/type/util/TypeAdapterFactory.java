@@ -35,23 +35,22 @@ import org.eclipse.emf.ecore.EObject;
  * <!-- begin-user-doc --> The <b>Adapter Factory </b> for the model. It
  * provides an adapter <code>createXXX</code> method for each class of the
  * model. <!-- end-user-doc -->
- *
  * @see org.eclipse.birt.chart.model.type.TypePackage
  * @generated
  */
 public class TypeAdapterFactory extends AdapterFactoryImpl {
 
 	/**
-	 * The cached model package. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached model package.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected static TypePackage modelPackage;
 
 	/**
-	 * Creates an instance of the adapter factory. <!-- begin-user-doc --> <!--
+	 * Creates an instance of the adapter factory.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public TypeAdapterFactory() {
@@ -86,8 +85,7 @@ public class TypeAdapterFactory extends AdapterFactoryImpl {
 	 *
 	 * @generated
 	 */
-	protected TypeSwitch<Adapter> modelSwitch = new TypeSwitch<>() {
-
+	protected TypeSwitch<Adapter> modelSwitch = new TypeSwitch<Adapter>() {
 		@Override
 		public Adapter caseAreaSeries(AreaSeries object) {
 			return createAreaSeriesAdapter();
@@ -150,9 +148,9 @@ public class TypeAdapterFactory extends AdapterFactoryImpl {
 	};
 
 	/**
-	 * Creates an adapter for the <code>target</code>. <!-- begin-user-doc --> <!--
+	 * Creates an adapter for the <code>target</code>.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @param target the object to adapt.
 	 * @return the adapter for the <code>target</code>.
 	 * @generated
@@ -163,12 +161,10 @@ public class TypeAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class
-	 * '{@link org.eclipse.birt.chart.model.type.AreaSeries <em>Area Series</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.type.AreaSeries <em>Area Series</em>}'.
 	 * <!-- begin-user-doc --> This default implementation returns null so that we
 	 * can easily ignore cases; it's useful to ignore a case when inheritance will
 	 * catch all the cases anyway. <!-- end-user-doc -->
-	 *
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.type.AreaSeries
 	 * @generated
@@ -178,12 +174,10 @@ public class TypeAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class
-	 * '{@link org.eclipse.birt.chart.model.type.BarSeries <em>Bar Series</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.type.BarSeries <em>Bar Series</em>}'.
 	 * <!-- begin-user-doc --> This default implementation returns null so that we
 	 * can easily ignore cases; it's useful to ignore a case when inheritance will
 	 * catch all the cases anyway. <!-- end-user-doc -->
-	 *
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.type.BarSeries
 	 * @generated
@@ -193,12 +187,10 @@ public class TypeAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class
-	 * '{@link org.eclipse.birt.chart.model.type.BubbleSeries <em>Bubble
-	 * Series</em>}'. <!-- begin-user-doc --> This default implementation returns
+	 * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.type.BubbleSeries <em>Bubble Series</em>}'.
+	 * <!-- begin-user-doc --> This default implementation returns
 	 * null so that we can easily ignore cases; it's useful to ignore a case when
 	 * inheritance will catch all the cases anyway. <!-- end-user-doc -->
-	 *
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.type.BubbleSeries
 	 * @generated
@@ -208,12 +200,10 @@ public class TypeAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class
-	 * '{@link org.eclipse.birt.chart.model.type.DialSeries <em>Dial Series</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.type.DialSeries <em>Dial Series</em>}'.
 	 * <!-- begin-user-doc --> This default implementation returns null so that we
 	 * can easily ignore cases; it's useful to ignore a case when inheritance will
 	 * catch all the cases anyway. <!-- end-user-doc -->
-	 *
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.type.DialSeries
 	 * @generated
@@ -223,12 +213,10 @@ public class TypeAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class
-	 * '{@link org.eclipse.birt.chart.model.type.DifferenceSeries <em>Difference
-	 * Series</em>}'. <!-- begin-user-doc --> This default implementation returns
+	 * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.type.DifferenceSeries <em>Difference Series</em>}'.
+	 * <!-- begin-user-doc --> This default implementation returns
 	 * null so that we can easily ignore cases; it's useful to ignore a case when
 	 * inheritance will catch all the cases anyway. <!-- end-user-doc -->
-	 *
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.type.DifferenceSeries
 	 * @generated
@@ -238,12 +226,10 @@ public class TypeAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class
-	 * '{@link org.eclipse.birt.chart.model.type.GanttSeries <em>Gantt
-	 * Series</em>}'. <!-- begin-user-doc --> This default implementation returns
+	 * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.type.GanttSeries <em>Gantt Series</em>}'.
+	 * <!-- begin-user-doc --> This default implementation returns
 	 * null so that we can easily ignore cases; it's useful to ignore a case when
 	 * inheritance will catch all the cases anyway. <!-- end-user-doc -->
-	 *
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.type.GanttSeries
 	 * @generated
@@ -253,12 +239,10 @@ public class TypeAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class
-	 * '{@link org.eclipse.birt.chart.model.type.LineSeries <em>Line Series</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.type.LineSeries <em>Line Series</em>}'.
 	 * <!-- begin-user-doc --> This default implementation returns null so that we
 	 * can easily ignore cases; it's useful to ignore a case when inheritance will
 	 * catch all the cases anyway. <!-- end-user-doc -->
-	 *
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.type.LineSeries
 	 * @generated
@@ -268,12 +252,10 @@ public class TypeAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class
-	 * '{@link org.eclipse.birt.chart.model.type.PieSeries <em>Pie Series</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.type.PieSeries <em>Pie Series</em>}'.
 	 * <!-- begin-user-doc --> This default implementation returns null so that we
 	 * can easily ignore cases; it's useful to ignore a case when inheritance will
 	 * catch all the cases anyway. <!-- end-user-doc -->
-	 *
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.type.PieSeries
 	 * @generated
@@ -283,12 +265,10 @@ public class TypeAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class
-	 * '{@link org.eclipse.birt.chart.model.type.ScatterSeries <em>Scatter
-	 * Series</em>}'. <!-- begin-user-doc --> This default implementation returns
+	 * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.type.ScatterSeries <em>Scatter Series</em>}'.
+	 * <!-- begin-user-doc --> This default implementation returns
 	 * null so that we can easily ignore cases; it's useful to ignore a case when
 	 * inheritance will catch all the cases anyway. <!-- end-user-doc -->
-	 *
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.type.ScatterSeries
 	 * @generated
@@ -298,12 +278,10 @@ public class TypeAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class
-	 * '{@link org.eclipse.birt.chart.model.type.StockSeries <em>Stock
-	 * Series</em>}'. <!-- begin-user-doc --> This default implementation returns
+	 * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.type.StockSeries <em>Stock Series</em>}'.
+	 * <!-- begin-user-doc --> This default implementation returns
 	 * null so that we can easily ignore cases; it's useful to ignore a case when
 	 * inheritance will catch all the cases anyway. <!-- end-user-doc -->
-	 *
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.type.StockSeries
 	 * @generated
@@ -328,9 +306,9 @@ public class TypeAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for the default case. <!-- begin-user-doc --> This
+	 * Creates a new adapter for the default case.
+	 * <!-- begin-user-doc --> This
 	 * default implementation returns null. <!-- end-user-doc -->
-	 *
 	 * @return the new adapter.
 	 * @generated
 	 */

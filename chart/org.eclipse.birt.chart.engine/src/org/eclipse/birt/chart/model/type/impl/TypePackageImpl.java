@@ -46,91 +46,80 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Package </b>. <!--
  * end-user-doc -->
- *
  * @generated
  */
 public class TypePackageImpl extends EPackageImpl implements TypePackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass areaSeriesEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass barSeriesEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass bubbleSeriesEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass dialSeriesEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass differenceSeriesEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass ganttSeriesEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass lineSeriesEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass pieSeriesEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass scatterSeriesEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass stockSeriesEClass = null;
 
 	/**
-	 * Creates an instance of the model <b>Package </b>, registered with
-	 * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry}by the
-	 * package package URI value.
-	 * <p>
-	 * Note: the correct way to create the package is via the static factory method
-	 * {@link #init init()}, which also performs initialization of the package, or
-	 * returns the registered package, if one already exists. <!-- begin-user-doc
+	 * Creates an instance of the model <b>Package</b>, registered with
+	 * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry} by the package
+	 * package URI value.
+	 * <p>Note: the correct way to create the package is via the static
+	 * factory method {@link #init init()}, which also performs
+	 * initialization of the package, or returns the registered package,
+	 * if one already exists.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 *
 	 * @see org.eclipse.emf.ecore.EPackage.Registry
 	 * @see org.eclipse.birt.chart.model.type.TypePackage#eNS_URI
 	 * @see #init()
@@ -142,35 +131,31 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private static boolean isInited = false;
 
 	/**
-	 * Creates, registers, and initializes the <b>Package</b> for this model, and
-	 * for any others upon which it depends.
+	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
 	 *
-	 * <p>
-	 * This method is used to initialize {@link TypePackage#eINSTANCE} when that
-	 * field is accessed. Clients should not invoke it directly. Instead, they
-	 * should simply access that field to obtain the package. <!-- begin-user-doc
+	 * <p>This method is used to initialize {@link TypePackage#eINSTANCE} when that field is accessed.
+	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 *
 	 * @see #eNS_URI
 	 * @see #createPackageContents()
 	 * @see #initializePackageContents()
 	 * @generated
 	 */
 	public static TypePackage init() {
-		if (isInited) {
+		if (isInited)
 			return (TypePackage) EPackage.Registry.INSTANCE.getEPackage(TypePackage.eNS_URI);
-		}
 
 		// Obtain or create and register package
-		TypePackageImpl theTypePackage = (TypePackageImpl) (EPackage.Registry.INSTANCE
-				.get(eNS_URI) instanceof TypePackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI)
-						: new TypePackageImpl());
+		Object registeredTypePackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+		TypePackageImpl theTypePackage = registeredTypePackage instanceof TypePackageImpl
+				? (TypePackageImpl) registeredTypePackage
+				: new TypePackageImpl();
 
 		isInited = true;
 
@@ -178,26 +163,26 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage {
 		XMLTypePackage.eINSTANCE.eClass();
 
 		// Obtain or create and register interdependencies
-		AttributePackageImpl theAttributePackage = (AttributePackageImpl) (EPackage.Registry.INSTANCE
-				.getEPackage(AttributePackage.eNS_URI) instanceof AttributePackageImpl
-						? EPackage.Registry.INSTANCE.getEPackage(AttributePackage.eNS_URI)
-						: AttributePackage.eINSTANCE);
-		ComponentPackageImpl theComponentPackage = (ComponentPackageImpl) (EPackage.Registry.INSTANCE
-				.getEPackage(ComponentPackage.eNS_URI) instanceof ComponentPackageImpl
-						? EPackage.Registry.INSTANCE.getEPackage(ComponentPackage.eNS_URI)
-						: ComponentPackage.eINSTANCE);
-		DataPackageImpl theDataPackage = (DataPackageImpl) (EPackage.Registry.INSTANCE
-				.getEPackage(DataPackage.eNS_URI) instanceof DataPackageImpl
-						? EPackage.Registry.INSTANCE.getEPackage(DataPackage.eNS_URI)
-						: DataPackage.eINSTANCE);
-		LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) (EPackage.Registry.INSTANCE
-				.getEPackage(LayoutPackage.eNS_URI) instanceof LayoutPackageImpl
-						? EPackage.Registry.INSTANCE.getEPackage(LayoutPackage.eNS_URI)
-						: LayoutPackage.eINSTANCE);
-		ModelPackageImpl theModelPackage = (ModelPackageImpl) (EPackage.Registry.INSTANCE
-				.getEPackage(ModelPackage.eNS_URI) instanceof ModelPackageImpl
-						? EPackage.Registry.INSTANCE.getEPackage(ModelPackage.eNS_URI)
-						: ModelPackage.eINSTANCE);
+		Object registeredPackage = EPackage.Registry.INSTANCE.getEPackage(AttributePackage.eNS_URI);
+		AttributePackageImpl theAttributePackage = (AttributePackageImpl) (registeredPackage instanceof AttributePackageImpl
+				? registeredPackage
+				: AttributePackage.eINSTANCE);
+		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(ComponentPackage.eNS_URI);
+		ComponentPackageImpl theComponentPackage = (ComponentPackageImpl) (registeredPackage instanceof ComponentPackageImpl
+				? registeredPackage
+				: ComponentPackage.eINSTANCE);
+		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(DataPackage.eNS_URI);
+		DataPackageImpl theDataPackage = (DataPackageImpl) (registeredPackage instanceof DataPackageImpl
+				? registeredPackage
+				: DataPackage.eINSTANCE);
+		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(LayoutPackage.eNS_URI);
+		LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) (registeredPackage instanceof LayoutPackageImpl
+				? registeredPackage
+				: LayoutPackage.eINSTANCE);
+		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(ModelPackage.eNS_URI);
+		ModelPackageImpl theModelPackage = (ModelPackageImpl) (registeredPackage instanceof ModelPackageImpl
+				? registeredPackage
+				: ModelPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theTypePackage.createPackageContents();
@@ -225,7 +210,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -235,7 +219,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -245,7 +228,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -255,7 +237,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -265,7 +246,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -275,7 +255,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -285,7 +264,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -295,7 +273,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -305,7 +282,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -315,7 +291,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -325,7 +300,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -335,7 +309,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -345,7 +318,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -355,7 +327,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -365,7 +336,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -375,7 +345,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -385,7 +354,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -395,7 +363,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -405,7 +372,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -415,7 +381,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -425,7 +390,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -435,7 +399,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -445,7 +408,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -455,7 +417,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -465,7 +426,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -475,7 +435,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -485,7 +444,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -495,7 +453,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -505,7 +462,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -515,7 +471,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -525,7 +480,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -535,7 +489,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -545,7 +498,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -555,7 +507,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -565,7 +516,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -575,7 +525,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -585,7 +534,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -595,7 +543,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -605,7 +552,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -615,7 +561,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -625,7 +570,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -635,7 +579,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -645,7 +588,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -655,7 +597,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -665,7 +606,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -675,7 +615,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -685,7 +624,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -695,7 +633,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -705,7 +642,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -715,7 +651,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -725,7 +660,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -735,7 +669,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -745,7 +678,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -755,7 +687,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -765,22 +696,20 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private boolean isCreated = false;
 
 	/**
-	 * Creates the meta-model objects for the package. This method is guarded to
-	 * have no affect on any invocation but its first. <!-- begin-user-doc --> <!--
+	 * Creates the meta-model objects for the package.  This method is
+	 * guarded to have no affect on any invocation but its first.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public void createPackageContents() {
-		if (isCreated) {
+		if (isCreated)
 			return;
-		}
 		isCreated = true;
 
 		// Create classes and their features
@@ -850,7 +779,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private boolean isInitialized = false;
@@ -863,9 +791,8 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage {
 	 * @generated
 	 */
 	public void initializePackageContents() {
-		if (isInitialized) {
+		if (isInitialized)
 			return;
-		}
 		isInitialized = true;
 
 		// Initialize package
@@ -903,7 +830,7 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage {
 
 		initEClass(barSeriesEClass, BarSeries.class, "BarSeries", !IS_ABSTRACT, !IS_INTERFACE, //$NON-NLS-1$
 				IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getBarSeries_Riser(), theAttributePackage.getRiserType(), "riser", "Rectangle", 0, 1, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getBarSeries_Riser(), theAttributePackage.getRiserType(), "riser", "Rectangle", 0, 1, //$NON-NLS-1$//$NON-NLS-2$
 				BarSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
 				!IS_DERIVED, IS_ORDERED);
 		initEReference(getBarSeries_RiserOutline(), theAttributePackage.getColorDefinition(), null, "riserOutline", //$NON-NLS-1$
@@ -967,7 +894,7 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage {
 				1, 1, GanttSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
 				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getGanttSeries_DecorationLabelPosition(), theAttributePackage.getPosition(),
-				"decorationLabelPosition", "Above", 1, 1, GanttSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, //$NON-NLS-1$ //$NON-NLS-2$
+				"decorationLabelPosition", "Above", 1, 1, GanttSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, //$NON-NLS-1$//$NON-NLS-2$
 				IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getGanttSeries_PaletteLineColor(), theXMLTypePackage.getBoolean(), "paletteLineColor", null, 1, //$NON-NLS-1$
 				1, GanttSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
@@ -1006,7 +933,7 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage {
 		initEReference(getPieSeries_Title(), theComponentPackage.getLabel(), null, "title", null, 1, 1, PieSeries.class, //$NON-NLS-1$
 				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE,
 				IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getPieSeries_TitlePosition(), theAttributePackage.getPosition(), "titlePosition", "Above", 1, 1, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getPieSeries_TitlePosition(), theAttributePackage.getPosition(), "titlePosition", "Above", 1, 1, //$NON-NLS-1$//$NON-NLS-2$
 				PieSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
 				!IS_DERIVED, IS_ORDERED);
 		initEReference(getPieSeries_LeaderLineAttributes(), theAttributePackage.getLineAttributes(), null,
@@ -1021,17 +948,17 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage {
 		initEReference(getPieSeries_SliceOutline(), theAttributePackage.getColorDefinition(), null, "sliceOutline", //$NON-NLS-1$
 				null, 0, 1, PieSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE,
 				!IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getPieSeries_Ratio(), theXMLTypePackage.getDouble(), "ratio", "1", 1, 1, PieSeries.class, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getPieSeries_Ratio(), theXMLTypePackage.getDouble(), "ratio", "1", 1, 1, PieSeries.class, //$NON-NLS-1$//$NON-NLS-2$
 				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getPieSeries_Rotation(), theXMLTypePackage.getDouble(), "rotation", "0", 1, 1, PieSeries.class, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getPieSeries_Rotation(), theXMLTypePackage.getDouble(), "rotation", "0", 1, 1, PieSeries.class, //$NON-NLS-1$//$NON-NLS-2$
 				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getPieSeries_Clockwise(), theXMLTypePackage.getBoolean(), "clockwise", "false", 1, 1, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getPieSeries_Clockwise(), theXMLTypePackage.getBoolean(), "clockwise", "false", 1, 1, //$NON-NLS-1$//$NON-NLS-2$
 				PieSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
 				!IS_DERIVED, IS_ORDERED);
-		initEAttribute(getPieSeries_InnerRadius(), theXMLTypePackage.getDouble(), "innerRadius", "0", 1, 1, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getPieSeries_InnerRadius(), theXMLTypePackage.getDouble(), "innerRadius", "0", 1, 1, //$NON-NLS-1$//$NON-NLS-2$
 				PieSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
 				!IS_DERIVED, IS_ORDERED);
-		initEAttribute(getPieSeries_InnerRadiusPercent(), theXMLTypePackage.getBoolean(), "innerRadiusPercent", "true", //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getPieSeries_InnerRadiusPercent(), theXMLTypePackage.getBoolean(), "innerRadiusPercent", "true", //$NON-NLS-1$//$NON-NLS-2$
 				1, 1, PieSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
 				!IS_DERIVED, IS_ORDERED);
 
@@ -1046,10 +973,10 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage {
 		initEReference(getStockSeries_LineAttributes(), theAttributePackage.getLineAttributes(), null, "lineAttributes", //$NON-NLS-1$
 				null, 0, 1, StockSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE,
 				!IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getStockSeries_ShowAsBarStick(), theXMLTypePackage.getBoolean(), "showAsBarStick", "false", 0, 1, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getStockSeries_ShowAsBarStick(), theXMLTypePackage.getBoolean(), "showAsBarStick", "false", 0, 1, //$NON-NLS-1$//$NON-NLS-2$
 				StockSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
 				!IS_DERIVED, IS_ORDERED);
-		initEAttribute(getStockSeries_StickLength(), theXMLTypePackage.getInt(), "stickLength", "5", 0, 1, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getStockSeries_StickLength(), theXMLTypePackage.getInt(), "stickLength", "5", 0, 1, //$NON-NLS-1$//$NON-NLS-2$
 				StockSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
 				!IS_DERIVED, IS_ORDERED);
 

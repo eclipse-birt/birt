@@ -26,17 +26,13 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
- * <ul>
- * <li>{@link org.eclipse.birt.report.model.adapter.oda.model.DynamicList#getDataSetName
- * <em>Data Set Name</em>}</li>
- * <li>{@link org.eclipse.birt.report.model.adapter.oda.model.DynamicList#getEnabled
- * <em>Enabled</em>}</li>
- * <li>{@link org.eclipse.birt.report.model.adapter.oda.model.DynamicList#getLabelColumn
- * <em>Label Column</em>}</li>
- * <li>{@link org.eclipse.birt.report.model.adapter.oda.model.DynamicList#getValueColumn
- * <em>Value Column</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.report.model.adapter.oda.model.DynamicList#getDataSetName <em>Data Set Name</em>}</li>
+ *   <li>{@link org.eclipse.birt.report.model.adapter.oda.model.DynamicList#getEnabled <em>Enabled</em>}</li>
+ *   <li>{@link org.eclipse.birt.report.model.adapter.oda.model.DynamicList#getLabelColumn <em>Label Column</em>}</li>
+ *   <li>{@link org.eclipse.birt.report.model.adapter.oda.model.DynamicList#getValueColumn <em>Value Column</em>}</li>
+ * </ul>
  *
  * @see org.eclipse.birt.report.model.adapter.oda.model.ModelPackage#getDynamicList()
  * @model extendedMetaData="name='DynamicList' kind='empty'"
@@ -92,15 +88,38 @@ public interface DynamicList extends EObject {
 	String getEnabled();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.report.model.adapter.oda.model.DynamicList#getEnabled
-	 * <em>Enabled</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Sets the value of the '{@link org.eclipse.birt.report.model.adapter.oda.model.DynamicList#getEnabled <em>Enabled</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Enabled</em>' attribute.
+	 * @see #isSetEnabled()
+	 * @see #unsetEnabled()
 	 * @see #getEnabled()
 	 * @generated
 	 */
 	void setEnabled(String value);
+
+	/**
+	 * Unsets the value of the '{@link org.eclipse.birt.report.model.adapter.oda.model.DynamicList#getEnabled <em>Enabled</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSetEnabled()
+	 * @see #getEnabled()
+	 * @see #setEnabled(String)
+	 * @generated
+	 */
+	void unsetEnabled();
+
+	/**
+	 * Returns whether the value of the '{@link org.eclipse.birt.report.model.adapter.oda.model.DynamicList#getEnabled <em>Enabled</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Enabled</em>' attribute is set.
+	 * @see #unsetEnabled()
+	 * @see #getEnabled()
+	 * @see #setEnabled(String)
+	 * @generated
+	 */
+	boolean isSetEnabled();
 
 	/**
 	 * Returns the value of the '<em><b>Label Column</b></em>' attribute. <!--

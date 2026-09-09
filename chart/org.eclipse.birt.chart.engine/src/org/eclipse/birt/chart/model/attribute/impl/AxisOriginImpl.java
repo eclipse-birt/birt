@@ -31,13 +31,11 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * Origin</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.AxisOriginImpl#getType
- * <em>Type</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.AxisOriginImpl#getValue
- * <em>Value</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.AxisOriginImpl#getType <em>Type</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.AxisOriginImpl#getValue <em>Value</em>}</li>
+ * </ul>
  *
  * @generated
  */
@@ -64,18 +62,17 @@ public class AxisOriginImpl extends EObjectImpl implements AxisOrigin {
 	protected IntersectionType type = TYPE_EDEFAULT;
 
 	/**
-	 * This is true if the Type attribute has been set. <!-- begin-user-doc --> <!--
+	 * This is true if the Type attribute has been set.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean typeESet;
 
 	/**
-	 * The cached value of the '{@link #getValue() <em>Value</em>}' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getValue() <em>Value</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getValue()
 	 * @generated
 	 * @ordered
@@ -84,7 +81,6 @@ public class AxisOriginImpl extends EObjectImpl implements AxisOrigin {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected AxisOriginImpl() {
@@ -93,7 +89,6 @@ public class AxisOriginImpl extends EObjectImpl implements AxisOrigin {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -103,7 +98,6 @@ public class AxisOriginImpl extends EObjectImpl implements AxisOrigin {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -113,7 +107,6 @@ public class AxisOriginImpl extends EObjectImpl implements AxisOrigin {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -122,15 +115,13 @@ public class AxisOriginImpl extends EObjectImpl implements AxisOrigin {
 		type = newType == null ? TYPE_EDEFAULT : newType;
 		boolean oldTypeESet = typeESet;
 		typeESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.AXIS_ORIGIN__TYPE, oldType, type,
 					!oldTypeESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -139,15 +130,13 @@ public class AxisOriginImpl extends EObjectImpl implements AxisOrigin {
 		boolean oldTypeESet = typeESet;
 		type = TYPE_EDEFAULT;
 		typeESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.AXIS_ORIGIN__TYPE, oldType,
 					TYPE_EDEFAULT, oldTypeESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -157,7 +146,6 @@ public class AxisOriginImpl extends EObjectImpl implements AxisOrigin {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -167,7 +155,6 @@ public class AxisOriginImpl extends EObjectImpl implements AxisOrigin {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetValue(DataElement newValue, NotificationChain msgs) {
@@ -176,45 +163,38 @@ public class AxisOriginImpl extends EObjectImpl implements AxisOrigin {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					AttributePackage.AXIS_ORIGIN__VALUE, oldValue, newValue);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setValue(DataElement newValue) {
 		if (newValue != value) {
 			NotificationChain msgs = null;
-			if (value != null) {
+			if (value != null)
 				msgs = ((InternalEObject) value).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - AttributePackage.AXIS_ORIGIN__VALUE, null, msgs);
-			}
-			if (newValue != null) {
+			if (newValue != null)
 				msgs = ((InternalEObject) newValue).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - AttributePackage.AXIS_ORIGIN__VALUE, null, msgs);
-			}
 			msgs = basicSetValue(newValue, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.AXIS_ORIGIN__VALUE, newValue,
 					newValue));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -228,7 +208,6 @@ public class AxisOriginImpl extends EObjectImpl implements AxisOrigin {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -244,7 +223,6 @@ public class AxisOriginImpl extends EObjectImpl implements AxisOrigin {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -262,7 +240,6 @@ public class AxisOriginImpl extends EObjectImpl implements AxisOrigin {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -280,7 +257,6 @@ public class AxisOriginImpl extends EObjectImpl implements AxisOrigin {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -296,22 +272,19 @@ public class AxisOriginImpl extends EObjectImpl implements AxisOrigin {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) {
+		if (eIsProxy())
 			return super.toString();
-		}
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (type: "); //$NON-NLS-1$
-		if (typeESet) {
+		if (typeESet)
 			result.append(type);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(')');
 		return result.toString();
 	}

@@ -28,13 +28,11 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <em><b>Location</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.LocationImpl#getX
- * <em>X</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.LocationImpl#getY
- * <em>Y</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.LocationImpl#getX <em>X</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.LocationImpl#getY <em>Y</em>}</li>
+ * </ul>
  *
  * @generated
  */
@@ -61,9 +59,9 @@ public class LocationImpl extends EObjectImpl implements Location {
 	protected double x = X_EDEFAULT;
 
 	/**
-	 * This is true if the X attribute has been set. <!-- begin-user-doc --> <!--
+	 * This is true if the X attribute has been set.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -90,9 +88,9 @@ public class LocationImpl extends EObjectImpl implements Location {
 	protected double y = Y_EDEFAULT;
 
 	/**
-	 * This is true if the Y attribute has been set. <!-- begin-user-doc --> <!--
+	 * This is true if the Y attribute has been set.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -100,7 +98,6 @@ public class LocationImpl extends EObjectImpl implements Location {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected LocationImpl() {
@@ -109,7 +106,6 @@ public class LocationImpl extends EObjectImpl implements Location {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -119,7 +115,6 @@ public class LocationImpl extends EObjectImpl implements Location {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -129,7 +124,6 @@ public class LocationImpl extends EObjectImpl implements Location {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -138,14 +132,12 @@ public class LocationImpl extends EObjectImpl implements Location {
 		x = newX;
 		boolean oldXESet = xESet;
 		xESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.LOCATION__X, oldX, x, !oldXESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -154,15 +146,13 @@ public class LocationImpl extends EObjectImpl implements Location {
 		boolean oldXESet = xESet;
 		x = X_EDEFAULT;
 		xESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.LOCATION__X, oldX, X_EDEFAULT,
 					oldXESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -172,7 +162,6 @@ public class LocationImpl extends EObjectImpl implements Location {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -182,7 +171,6 @@ public class LocationImpl extends EObjectImpl implements Location {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -191,14 +179,12 @@ public class LocationImpl extends EObjectImpl implements Location {
 		y = newY;
 		boolean oldYESet = yESet;
 		yESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.LOCATION__Y, oldY, y, !oldYESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -207,15 +193,13 @@ public class LocationImpl extends EObjectImpl implements Location {
 		boolean oldYESet = yESet;
 		y = Y_EDEFAULT;
 		yESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.LOCATION__Y, oldY, Y_EDEFAULT,
 					oldYESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -225,7 +209,6 @@ public class LocationImpl extends EObjectImpl implements Location {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -241,7 +224,6 @@ public class LocationImpl extends EObjectImpl implements Location {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -259,7 +241,6 @@ public class LocationImpl extends EObjectImpl implements Location {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -277,7 +258,6 @@ public class LocationImpl extends EObjectImpl implements Location {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -293,28 +273,24 @@ public class LocationImpl extends EObjectImpl implements Location {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) {
+		if (eIsProxy())
 			return super.toString();
-		}
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (x: "); //$NON-NLS-1$
-		if (xESet) {
+		if (xESet)
 			result.append(x);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", y: "); //$NON-NLS-1$
-		if (yESet) {
+		if (yESet)
 			result.append(y);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(')');
 		return result.toString();
 	}

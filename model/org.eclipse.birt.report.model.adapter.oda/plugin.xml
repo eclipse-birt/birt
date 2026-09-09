@@ -23,4 +23,12 @@
       <factory class="org.eclipse.birt.report.model.adapter.oda.impl.AdapterFactory"/>
    </extension>
    
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated model -->
+      <package
+            uri="http://www.eclipse.org/birt/report/model/adapter/odaModel"
+            class="org.eclipse.birt.report.model.adapter.oda.model.ModelPackage"
+            genModel="schema/model.genmodel"/>
+   </extension>
+
 </plugin>

@@ -26,11 +26,10 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * Sample Data</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.data.impl.BaseSampleDataImpl#getDataSetRepresentation
- * <em>Data Set Representation</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.data.impl.BaseSampleDataImpl#getDataSetRepresentation <em>Data Set Representation</em>}</li>
+ * </ul>
  *
  * @generated
  */
@@ -60,7 +59,6 @@ public class BaseSampleDataImpl extends EObjectImpl implements BaseSampleData {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected BaseSampleDataImpl() {
@@ -69,7 +67,6 @@ public class BaseSampleDataImpl extends EObjectImpl implements BaseSampleData {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -79,7 +76,6 @@ public class BaseSampleDataImpl extends EObjectImpl implements BaseSampleData {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -89,22 +85,19 @@ public class BaseSampleDataImpl extends EObjectImpl implements BaseSampleData {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setDataSetRepresentation(String newDataSetRepresentation) {
 		String oldDataSetRepresentation = dataSetRepresentation;
 		dataSetRepresentation = newDataSetRepresentation;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, DataPackage.BASE_SAMPLE_DATA__DATA_SET_REPRESENTATION,
 					oldDataSetRepresentation, dataSetRepresentation));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -118,7 +111,6 @@ public class BaseSampleDataImpl extends EObjectImpl implements BaseSampleData {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -133,7 +125,6 @@ public class BaseSampleDataImpl extends EObjectImpl implements BaseSampleData {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -148,7 +139,6 @@ public class BaseSampleDataImpl extends EObjectImpl implements BaseSampleData {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -163,14 +153,12 @@ public class BaseSampleDataImpl extends EObjectImpl implements BaseSampleData {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) {
+		if (eIsProxy())
 			return super.toString();
-		}
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (dataSetRepresentation: "); //$NON-NLS-1$

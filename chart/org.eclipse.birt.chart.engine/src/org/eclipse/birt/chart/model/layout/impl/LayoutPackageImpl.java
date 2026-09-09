@@ -45,91 +45,80 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Package </b>. <!--
  * end-user-doc -->
- *
  * @generated
  */
 public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass blockEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass clientAreaEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass labelBlockEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass legendEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass plotEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass titleBlockEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EDataType ellipsisTypeEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EDataType ellipsisTypeObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EDataType titlePercentTypeEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EDataType titlePercentTypeObjectEDataType = null;
 
 	/**
-	 * Creates an instance of the model <b>Package </b>, registered with
-	 * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry}by the
-	 * package package URI value.
-	 * <p>
-	 * Note: the correct way to create the package is via the static factory method
-	 * {@link #init init()}, which also performs initialization of the package, or
-	 * returns the registered package, if one already exists. <!-- begin-user-doc
+	 * Creates an instance of the model <b>Package</b>, registered with
+	 * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry} by the package
+	 * package URI value.
+	 * <p>Note: the correct way to create the package is via the static
+	 * factory method {@link #init init()}, which also performs
+	 * initialization of the package, or returns the registered package,
+	 * if one already exists.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 *
 	 * @see org.eclipse.emf.ecore.EPackage.Registry
 	 * @see org.eclipse.birt.chart.model.layout.LayoutPackage#eNS_URI
 	 * @see #init()
@@ -141,35 +130,31 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private static boolean isInited = false;
 
 	/**
-	 * Creates, registers, and initializes the <b>Package</b> for this model, and
-	 * for any others upon which it depends.
+	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
 	 *
-	 * <p>
-	 * This method is used to initialize {@link LayoutPackage#eINSTANCE} when that
-	 * field is accessed. Clients should not invoke it directly. Instead, they
-	 * should simply access that field to obtain the package. <!-- begin-user-doc
+	 * <p>This method is used to initialize {@link LayoutPackage#eINSTANCE} when that field is accessed.
+	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 *
 	 * @see #eNS_URI
 	 * @see #createPackageContents()
 	 * @see #initializePackageContents()
 	 * @generated
 	 */
 	public static LayoutPackage init() {
-		if (isInited) {
+		if (isInited)
 			return (LayoutPackage) EPackage.Registry.INSTANCE.getEPackage(LayoutPackage.eNS_URI);
-		}
 
 		// Obtain or create and register package
-		LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) (EPackage.Registry.INSTANCE
-				.get(eNS_URI) instanceof LayoutPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI)
-						: new LayoutPackageImpl());
+		Object registeredLayoutPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+		LayoutPackageImpl theLayoutPackage = registeredLayoutPackage instanceof LayoutPackageImpl
+				? (LayoutPackageImpl) registeredLayoutPackage
+				: new LayoutPackageImpl();
 
 		isInited = true;
 
@@ -177,26 +162,26 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 		XMLTypePackage.eINSTANCE.eClass();
 
 		// Obtain or create and register interdependencies
-		AttributePackageImpl theAttributePackage = (AttributePackageImpl) (EPackage.Registry.INSTANCE
-				.getEPackage(AttributePackage.eNS_URI) instanceof AttributePackageImpl
-						? EPackage.Registry.INSTANCE.getEPackage(AttributePackage.eNS_URI)
-						: AttributePackage.eINSTANCE);
-		ComponentPackageImpl theComponentPackage = (ComponentPackageImpl) (EPackage.Registry.INSTANCE
-				.getEPackage(ComponentPackage.eNS_URI) instanceof ComponentPackageImpl
-						? EPackage.Registry.INSTANCE.getEPackage(ComponentPackage.eNS_URI)
-						: ComponentPackage.eINSTANCE);
-		DataPackageImpl theDataPackage = (DataPackageImpl) (EPackage.Registry.INSTANCE
-				.getEPackage(DataPackage.eNS_URI) instanceof DataPackageImpl
-						? EPackage.Registry.INSTANCE.getEPackage(DataPackage.eNS_URI)
-						: DataPackage.eINSTANCE);
-		TypePackageImpl theTypePackage = (TypePackageImpl) (EPackage.Registry.INSTANCE
-				.getEPackage(TypePackage.eNS_URI) instanceof TypePackageImpl
-						? EPackage.Registry.INSTANCE.getEPackage(TypePackage.eNS_URI)
-						: TypePackage.eINSTANCE);
-		ModelPackageImpl theModelPackage = (ModelPackageImpl) (EPackage.Registry.INSTANCE
-				.getEPackage(ModelPackage.eNS_URI) instanceof ModelPackageImpl
-						? EPackage.Registry.INSTANCE.getEPackage(ModelPackage.eNS_URI)
-						: ModelPackage.eINSTANCE);
+		Object registeredPackage = EPackage.Registry.INSTANCE.getEPackage(AttributePackage.eNS_URI);
+		AttributePackageImpl theAttributePackage = (AttributePackageImpl) (registeredPackage instanceof AttributePackageImpl
+				? registeredPackage
+				: AttributePackage.eINSTANCE);
+		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(ComponentPackage.eNS_URI);
+		ComponentPackageImpl theComponentPackage = (ComponentPackageImpl) (registeredPackage instanceof ComponentPackageImpl
+				? registeredPackage
+				: ComponentPackage.eINSTANCE);
+		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(DataPackage.eNS_URI);
+		DataPackageImpl theDataPackage = (DataPackageImpl) (registeredPackage instanceof DataPackageImpl
+				? registeredPackage
+				: DataPackage.eINSTANCE);
+		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(TypePackage.eNS_URI);
+		TypePackageImpl theTypePackage = (TypePackageImpl) (registeredPackage instanceof TypePackageImpl
+				? registeredPackage
+				: TypePackage.eINSTANCE);
+		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(ModelPackage.eNS_URI);
+		ModelPackageImpl theModelPackage = (ModelPackageImpl) (registeredPackage instanceof ModelPackageImpl
+				? registeredPackage
+				: ModelPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theLayoutPackage.createPackageContents();
@@ -216,8 +201,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 
 		// Register package validator
 		EValidator.Registry.INSTANCE.put(theLayoutPackage, new EValidator.Descriptor() {
-
-			@Override
 			public EValidator getEValidator() {
 				return LayoutValidator.INSTANCE;
 			}
@@ -233,7 +216,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -243,7 +225,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -253,7 +234,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -263,7 +243,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -273,7 +252,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -283,7 +261,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -293,7 +270,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -303,7 +279,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -313,7 +288,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -323,7 +297,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -333,7 +306,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -343,7 +315,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -353,7 +324,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -363,7 +333,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -373,7 +342,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -383,7 +351,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -393,7 +360,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -403,7 +369,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -413,7 +378,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -423,7 +387,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -433,7 +396,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -443,7 +405,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -453,7 +414,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -463,7 +423,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -473,7 +432,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -483,7 +441,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -493,7 +450,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -503,7 +459,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -513,7 +468,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -523,7 +477,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -533,7 +486,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -543,7 +495,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -553,7 +504,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -563,7 +513,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -573,7 +522,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -583,7 +531,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -593,7 +540,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -603,7 +549,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -613,7 +558,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -623,7 +567,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -633,7 +576,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -643,7 +585,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -653,7 +594,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -663,7 +603,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -673,7 +612,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -683,7 +621,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -693,7 +630,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -703,7 +639,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -713,7 +648,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -723,7 +657,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -733,7 +666,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -743,7 +675,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -753,7 +684,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -763,7 +693,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -773,7 +702,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -783,7 +711,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -793,7 +720,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -803,22 +729,20 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private boolean isCreated = false;
 
 	/**
-	 * Creates the meta-model objects for the package. This method is guarded to
-	 * have no affect on any invocation but its first. <!-- begin-user-doc --> <!--
+	 * Creates the meta-model objects for the package.  This method is
+	 * guarded to have no affect on any invocation but its first.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public void createPackageContents() {
-		if (isCreated) {
+		if (isCreated)
 			return;
-		}
 		isCreated = true;
 
 		// Create classes and their features
@@ -889,7 +813,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private boolean isInitialized = false;
@@ -902,9 +825,8 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 	 * @generated
 	 */
 	public void initializePackageContents() {
-		if (isInitialized) {
+		if (isInitialized)
 			return;
-		}
 		isInitialized = true;
 
 		// Initialize package
@@ -946,13 +868,13 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 		initEReference(getBlock_Insets(), theAttributePackage.getInsets(), null, "insets", null, 0, 1, Block.class, //$NON-NLS-1$
 				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE,
 				IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getBlock_Row(), theXMLTypePackage.getInt(), "row", "-1", 1, 1, Block.class, !IS_TRANSIENT, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getBlock_Row(), theXMLTypePackage.getInt(), "row", "-1", 1, 1, Block.class, !IS_TRANSIENT, //$NON-NLS-1$//$NON-NLS-2$
 				!IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getBlock_Column(), theXMLTypePackage.getInt(), "column", "-1", 1, 1, Block.class, !IS_TRANSIENT, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getBlock_Column(), theXMLTypePackage.getInt(), "column", "-1", 1, 1, Block.class, !IS_TRANSIENT, //$NON-NLS-1$//$NON-NLS-2$
 				!IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getBlock_Rowspan(), theXMLTypePackage.getInt(), "rowspan", "-1", 1, 1, Block.class, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getBlock_Rowspan(), theXMLTypePackage.getInt(), "rowspan", "-1", 1, 1, Block.class, //$NON-NLS-1$//$NON-NLS-2$
 				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getBlock_Columnspan(), theXMLTypePackage.getInt(), "columnspan", "-1", 1, 1, Block.class, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getBlock_Columnspan(), theXMLTypePackage.getInt(), "columnspan", "-1", 1, 1, Block.class, //$NON-NLS-1$//$NON-NLS-2$
 				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getBlock_MinSize(), theAttributePackage.getSize(), null, "minSize", null, 1, 1, Block.class, //$NON-NLS-1$
 				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE,
@@ -963,14 +885,14 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 		initEReference(getBlock_Background(), theAttributePackage.getFill(), null, "background", null, 0, 1, //$NON-NLS-1$
 				Block.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
 				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getBlock_Visible(), theXMLTypePackage.getBoolean(), "visible", "true", 1, 1, Block.class, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getBlock_Visible(), theXMLTypePackage.getBoolean(), "visible", "true", 1, 1, Block.class, //$NON-NLS-1$//$NON-NLS-2$
 				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getBlock_Triggers(), theDataPackage.getTrigger(), null, "triggers", null, 0, -1, Block.class, //$NON-NLS-1$
 				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE,
 				IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getBlock_WidthHint(), theXMLTypePackage.getDouble(), "widthHint", "-1", 0, 1, Block.class, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getBlock_WidthHint(), theXMLTypePackage.getDouble(), "widthHint", "-1", 0, 1, Block.class, //$NON-NLS-1$//$NON-NLS-2$
 				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getBlock_HeightHint(), theXMLTypePackage.getDouble(), "heightHint", "-1", 0, 1, Block.class, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getBlock_HeightHint(), theXMLTypePackage.getDouble(), "heightHint", "-1", 0, 1, Block.class, //$NON-NLS-1$//$NON-NLS-2$
 				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getBlock_Cursor(), theAttributePackage.getCursor(), null, "cursor", null, 0, 1, Block.class, //$NON-NLS-1$
 				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE,
@@ -990,7 +912,7 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 		initEReference(getClientArea_Insets(), theAttributePackage.getInsets(), null, "insets", null, 1, 1, //$NON-NLS-1$
 				ClientArea.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
 				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getClientArea_Visible(), theXMLTypePackage.getBoolean(), "visible", "true", 1, 1, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getClientArea_Visible(), theXMLTypePackage.getBoolean(), "visible", "true", 1, 1, //$NON-NLS-1$//$NON-NLS-2$
 				ClientArea.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
 				!IS_DERIVED, IS_ORDERED);
 
@@ -1013,16 +935,16 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 		initEReference(getLegend_Text(), theAttributePackage.getText(), null, "text", null, 1, 1, Legend.class, //$NON-NLS-1$
 				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE,
 				IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getLegend_Orientation(), theAttributePackage.getOrientation(), "orientation", "Vertical", 1, 1, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getLegend_Orientation(), theAttributePackage.getOrientation(), "orientation", "Vertical", 1, 1, //$NON-NLS-1$//$NON-NLS-2$
 				Legend.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
 				IS_ORDERED);
-		initEAttribute(getLegend_Direction(), theAttributePackage.getDirection(), "direction", "Top_Bottom", 1, 1, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getLegend_Direction(), theAttributePackage.getDirection(), "direction", "Top_Bottom", 1, 1, //$NON-NLS-1$//$NON-NLS-2$
 				Legend.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
 				IS_ORDERED);
 		initEReference(getLegend_Separator(), theAttributePackage.getLineAttributes(), null, "separator", null, 1, 1, //$NON-NLS-1$
 				Legend.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
 				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getLegend_Position(), theAttributePackage.getPosition(), "position", "Right", 1, 1, Legend.class, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getLegend_Position(), theAttributePackage.getPosition(), "position", "Right", 1, 1, Legend.class, //$NON-NLS-1$//$NON-NLS-2$
 				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getLegend_ItemType(), theAttributePackage.getLegendItemType(), "itemType", null, 1, 1, //$NON-NLS-1$
 				Legend.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
@@ -1042,22 +964,22 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 		initEAttribute(getLegend_WrappingSize(), theXMLTypePackage.getDouble(), "wrappingSize", null, 0, 1, //$NON-NLS-1$
 				Legend.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
 				IS_ORDERED);
-		initEAttribute(getLegend_MaxPercent(), theXMLTypePackage.getDouble(), "maxPercent", "0.33333333", 0, 1, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getLegend_MaxPercent(), theXMLTypePackage.getDouble(), "maxPercent", "0.33333333", 0, 1, //$NON-NLS-1$//$NON-NLS-2$
 				Legend.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
 				IS_ORDERED);
-		initEAttribute(getLegend_TitlePercent(), this.getTitlePercentType(), "titlePercent", "0.6", 1, 1, Legend.class, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getLegend_TitlePercent(), this.getTitlePercentType(), "titlePercent", "0.6", 1, 1, Legend.class, //$NON-NLS-1$//$NON-NLS-2$
 				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getLegend_Ellipsis(), this.getEllipsisType(), "ellipsis", "1", 1, 1, Legend.class, !IS_TRANSIENT, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getLegend_Ellipsis(), this.getEllipsisType(), "ellipsis", "1", 1, 1, Legend.class, !IS_TRANSIENT, //$NON-NLS-1$//$NON-NLS-2$
 				!IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getLegend_FormatSpecifier(), theAttributePackage.getFormatSpecifier(), null, "formatSpecifier", //$NON-NLS-1$
 				null, 0, 1, Legend.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
 				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(plotEClass, Plot.class, "Plot", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
-		initEAttribute(getPlot_HorizontalSpacing(), theXMLTypePackage.getInt(), "horizontalSpacing", "5", 1, 1, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getPlot_HorizontalSpacing(), theXMLTypePackage.getInt(), "horizontalSpacing", "5", 1, 1, //$NON-NLS-1$//$NON-NLS-2$
 				Plot.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
 				IS_ORDERED);
-		initEAttribute(getPlot_VerticalSpacing(), theXMLTypePackage.getInt(), "verticalSpacing", "5", 1, 1, Plot.class, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getPlot_VerticalSpacing(), theXMLTypePackage.getInt(), "verticalSpacing", "5", 1, 1, Plot.class, //$NON-NLS-1$//$NON-NLS-2$
 				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getPlot_ClientArea(), this.getClientArea(), null, "clientArea", null, 1, 1, Plot.class, //$NON-NLS-1$
 				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE,
@@ -1065,7 +987,7 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 
 		initEClass(titleBlockEClass, TitleBlock.class, "TitleBlock", !IS_ABSTRACT, !IS_INTERFACE, //$NON-NLS-1$
 				IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getTitleBlock_Auto(), theXMLTypePackage.getBoolean(), "auto", "false", 1, 1, TitleBlock.class, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getTitleBlock_Auto(), theXMLTypePackage.getBoolean(), "auto", "false", 1, 1, TitleBlock.class, //$NON-NLS-1$//$NON-NLS-2$
 				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize data types

@@ -29,12 +29,14 @@ import org.eclipse.birt.chart.model.attribute.Size;
 import org.eclipse.birt.chart.model.attribute.impl.SizeImpl;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.impl.LabelImpl;
+import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.birt.chart.model.layout.Block;
 import org.eclipse.birt.chart.model.layout.LabelBlock;
 import org.eclipse.birt.chart.model.layout.LayoutFactory;
 import org.eclipse.birt.chart.model.layout.LayoutPackage;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -44,11 +46,10 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * Block</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.layout.impl.LabelBlockImpl#getLabel
- * <em>Label</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LabelBlockImpl#getLabel <em>Label</em>}</li>
+ * </ul>
  *
  * @generated
  */
@@ -57,9 +58,8 @@ public class LabelBlockImpl extends BlockImpl implements LabelBlock {
 	protected static final IGObjectFactory goFactory = GObjectFactory.instance();
 
 	/**
-	 * The cached value of the '{@link #getLabel() <em>Label</em>}' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getLabel() <em>Label</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getLabel()
 	 * @generated
 	 * @ordered
@@ -68,7 +68,6 @@ public class LabelBlockImpl extends BlockImpl implements LabelBlock {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected LabelBlockImpl() {
@@ -77,7 +76,6 @@ public class LabelBlockImpl extends BlockImpl implements LabelBlock {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -87,7 +85,6 @@ public class LabelBlockImpl extends BlockImpl implements LabelBlock {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -97,7 +94,6 @@ public class LabelBlockImpl extends BlockImpl implements LabelBlock {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetLabel(Label newLabel, NotificationChain msgs) {
@@ -106,45 +102,38 @@ public class LabelBlockImpl extends BlockImpl implements LabelBlock {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					LayoutPackage.LABEL_BLOCK__LABEL, oldLabel, newLabel);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setLabel(Label newLabel) {
 		if (newLabel != label) {
 			NotificationChain msgs = null;
-			if (label != null) {
+			if (label != null)
 				msgs = ((InternalEObject) label).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - LayoutPackage.LABEL_BLOCK__LABEL, null, msgs);
-			}
-			if (newLabel != null) {
+			if (newLabel != null)
 				msgs = ((InternalEObject) newLabel).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - LayoutPackage.LABEL_BLOCK__LABEL, null, msgs);
-			}
 			msgs = basicSetLabel(newLabel, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.LABEL_BLOCK__LABEL, newLabel,
 					newLabel));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -158,7 +147,6 @@ public class LabelBlockImpl extends BlockImpl implements LabelBlock {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -172,7 +160,6 @@ public class LabelBlockImpl extends BlockImpl implements LabelBlock {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -187,7 +174,6 @@ public class LabelBlockImpl extends BlockImpl implements LabelBlock {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -202,7 +188,6 @@ public class LabelBlockImpl extends BlockImpl implements LabelBlock {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -305,9 +290,85 @@ public class LabelBlockImpl extends BlockImpl implements LabelBlock {
 
 		// children
 
+		if (src.getChildren() != null) {
+			EList<Block> list = getChildren();
+			for (Block element : src.getChildren()) {
+				list.add(element.copyInstance());
+			}
+		}
+
+		if (src.getBounds() != null) {
+			setBounds(src.getBounds().copyInstance());
+		}
+
+		if (src.getInsets() != null) {
+			setInsets(src.getInsets().copyInstance());
+		}
+
+		if (src.getMinSize() != null) {
+			setMinSize(src.getMinSize().copyInstance());
+		}
+
+		if (src.getOutline() != null) {
+			setOutline(src.getOutline().copyInstance());
+		}
+
+		if (src.getBackground() != null) {
+			setBackground(src.getBackground().copyInstance());
+		}
+
+		if (src.getTriggers() != null) {
+			EList<Trigger> list = getTriggers();
+			for (Trigger element : src.getTriggers()) {
+				list.add(element.copyInstance());
+			}
+		}
+
+		if (src.getCursor() != null) {
+			setCursor(src.getCursor().copyInstance());
+		}
+
 		if (src.getLabel() != null) {
 			setLabel(src.getLabel().copyInstance());
 		}
+
+		// attributes
+
+		anchor = src.getAnchor();
+
+		anchorESet = src.isSetAnchor();
+
+		stretch = src.getStretch();
+
+		stretchESet = src.isSetStretch();
+
+		row = src.getRow();
+
+		rowESet = src.isSetRow();
+
+		column = src.getColumn();
+
+		columnESet = src.isSetColumn();
+
+		rowspan = src.getRowspan();
+
+		rowspanESet = src.isSetRowspan();
+
+		columnspan = src.getColumnspan();
+
+		columnspanESet = src.isSetColumnspan();
+
+		visible = src.isVisible();
+
+		visibleESet = src.isSetVisible();
+
+		widthHint = src.getWidthHint();
+
+		widthHintESet = src.isSetWidthHint();
+
+		heightHint = src.getHeightHint();
+
+		heightHintESet = src.isSetHeightHint();
 
 	}
 

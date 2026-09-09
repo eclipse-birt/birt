@@ -121,882 +121,758 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Package </b>. <!--
  * end-user-doc -->
- *
  * @generated
  */
 public class AttributePackageImpl extends EPackageImpl implements AttributePackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass accessibilityValueEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass actionValueEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass angle3DEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass axisOriginEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass boundsEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass callBackValueEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass colorDefinitionEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass cursorEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass dataPointEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass dataPointComponentEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass dateFormatSpecifierEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass embeddedImageEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass eStringToStringMapEntryEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass extendedPropertyEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass fillEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass fontDefinitionEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass formatSpecifierEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass fractionNumberFormatSpecifierEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass gradientEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass imageEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass insetsEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass interactivityEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass javaDateFormatSpecifierEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass javaNumberFormatSpecifierEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass lineAttributesEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass locationEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass location3DEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass markerEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass multipleFillEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass multiURLValuesEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass numberFormatSpecifierEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass paletteEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass patternImageEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass rotation3DEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass scriptValueEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass seriesValueEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass sizeEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass stringFormatSpecifierEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass styleEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass styleMapEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass textEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass textAlignmentEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass tooltipValueEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass urlValueEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EEnum actionTypeEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EEnum anchorEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EEnum angleTypeEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EEnum axisTypeEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EEnum chartDimensionEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EEnum chartTypeEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EEnum cursorTypeEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EEnum dataPointComponentTypeEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EEnum dataTypeEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EEnum dateFormatDetailEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EEnum dateFormatTypeEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EEnum directionEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EEnum groupingUnitTypeEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EEnum horizontalAlignmentEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EEnum imageSourceTypeEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EEnum intersectionTypeEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EEnum leaderLineStyleEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EEnum legendBehaviorTypeEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EEnum legendItemTypeEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EEnum lineDecoratorEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EEnum lineStyleEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EEnum markerTypeEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EEnum menuStylesKeyTypeEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EEnum orientationEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EEnum positionEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EEnum riserTypeEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EEnum ruleTypeEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EEnum scaleUnitTypeEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EEnum sortOptionEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EEnum stretchEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EEnum styledComponentEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EEnum tickStyleEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EEnum triggerConditionEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EEnum triggerFlowEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EEnum unitsOfMeasurementEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EEnum verticalAlignmentEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EDataType actionTypeObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EDataType anchorObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EDataType angleTypeObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EDataType axisTypeObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EDataType chartDimensionObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EDataType chartTypeObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EDataType cursorTypeObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EDataType dataPointComponentTypeObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EDataType dataTypeObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EDataType dateFormatDetailObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EDataType dateFormatTypeObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EDataType directionObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EDataType groupingUnitTypeObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EDataType horizontalAlignmentObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EDataType idEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EDataType imageSourceTypeObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EDataType intersectionTypeObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EDataType leaderLineStyleObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EDataType legendBehaviorTypeObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EDataType legendItemTypeObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EDataType lineDecoratorObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EDataType lineStyleObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EDataType markerTypeObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EDataType menuStylesKeyTypeObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EDataType orientationObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EDataType patternBitmapEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EDataType patternBitmapObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EDataType percentageEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EDataType percentageObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EDataType positionObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EDataType rgbValueEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EDataType rgbValueObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EDataType riserTypeObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EDataType ruleTypeObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EDataType scaleUnitTypeObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EDataType sortOptionObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EDataType stretchObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EDataType styledComponentObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EDataType tickStyleObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EDataType triggerConditionObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EDataType triggerFlowObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EDataType unitsOfMeasurementObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EDataType verticalAlignmentObjectEDataType = null;
 
 	/**
-	 * Creates an instance of the model <b>Package </b>, registered with
-	 * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry}by the
-	 * package package URI value.
-	 * <p>
-	 * Note: the correct way to create the package is via the static factory method
-	 * {@link #init init()}, which also performs initialization of the package, or
-	 * returns the registered package, if one already exists. <!-- begin-user-doc
+	 * Creates an instance of the model <b>Package</b>, registered with
+	 * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry} by the package
+	 * package URI value.
+	 * <p>Note: the correct way to create the package is via the static
+	 * factory method {@link #init init()}, which also performs
+	 * initialization of the package, or returns the registered package,
+	 * if one already exists.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 *
 	 * @see org.eclipse.emf.ecore.EPackage.Registry
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#eNS_URI
 	 * @see #init()
@@ -1008,35 +884,31 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private static boolean isInited = false;
 
 	/**
-	 * Creates, registers, and initializes the <b>Package</b> for this model, and
-	 * for any others upon which it depends.
+	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
 	 *
-	 * <p>
-	 * This method is used to initialize {@link AttributePackage#eINSTANCE} when
-	 * that field is accessed. Clients should not invoke it directly. Instead, they
-	 * should simply access that field to obtain the package. <!-- begin-user-doc
+	 * <p>This method is used to initialize {@link AttributePackage#eINSTANCE} when that field is accessed.
+	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 *
 	 * @see #eNS_URI
 	 * @see #createPackageContents()
 	 * @see #initializePackageContents()
 	 * @generated
 	 */
 	public static AttributePackage init() {
-		if (isInited) {
+		if (isInited)
 			return (AttributePackage) EPackage.Registry.INSTANCE.getEPackage(AttributePackage.eNS_URI);
-		}
 
 		// Obtain or create and register package
-		AttributePackageImpl theAttributePackage = (AttributePackageImpl) (EPackage.Registry.INSTANCE
-				.get(eNS_URI) instanceof AttributePackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI)
-						: new AttributePackageImpl());
+		Object registeredAttributePackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+		AttributePackageImpl theAttributePackage = registeredAttributePackage instanceof AttributePackageImpl
+				? (AttributePackageImpl) registeredAttributePackage
+				: new AttributePackageImpl();
 
 		isInited = true;
 
@@ -1044,26 +916,26 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 		XMLTypePackage.eINSTANCE.eClass();
 
 		// Obtain or create and register interdependencies
-		ComponentPackageImpl theComponentPackage = (ComponentPackageImpl) (EPackage.Registry.INSTANCE
-				.getEPackage(ComponentPackage.eNS_URI) instanceof ComponentPackageImpl
-						? EPackage.Registry.INSTANCE.getEPackage(ComponentPackage.eNS_URI)
-						: ComponentPackage.eINSTANCE);
-		DataPackageImpl theDataPackage = (DataPackageImpl) (EPackage.Registry.INSTANCE
-				.getEPackage(DataPackage.eNS_URI) instanceof DataPackageImpl
-						? EPackage.Registry.INSTANCE.getEPackage(DataPackage.eNS_URI)
-						: DataPackage.eINSTANCE);
-		TypePackageImpl theTypePackage = (TypePackageImpl) (EPackage.Registry.INSTANCE
-				.getEPackage(TypePackage.eNS_URI) instanceof TypePackageImpl
-						? EPackage.Registry.INSTANCE.getEPackage(TypePackage.eNS_URI)
-						: TypePackage.eINSTANCE);
-		LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) (EPackage.Registry.INSTANCE
-				.getEPackage(LayoutPackage.eNS_URI) instanceof LayoutPackageImpl
-						? EPackage.Registry.INSTANCE.getEPackage(LayoutPackage.eNS_URI)
-						: LayoutPackage.eINSTANCE);
-		ModelPackageImpl theModelPackage = (ModelPackageImpl) (EPackage.Registry.INSTANCE
-				.getEPackage(ModelPackage.eNS_URI) instanceof ModelPackageImpl
-						? EPackage.Registry.INSTANCE.getEPackage(ModelPackage.eNS_URI)
-						: ModelPackage.eINSTANCE);
+		Object registeredPackage = EPackage.Registry.INSTANCE.getEPackage(ComponentPackage.eNS_URI);
+		ComponentPackageImpl theComponentPackage = (ComponentPackageImpl) (registeredPackage instanceof ComponentPackageImpl
+				? registeredPackage
+				: ComponentPackage.eINSTANCE);
+		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(DataPackage.eNS_URI);
+		DataPackageImpl theDataPackage = (DataPackageImpl) (registeredPackage instanceof DataPackageImpl
+				? registeredPackage
+				: DataPackage.eINSTANCE);
+		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(TypePackage.eNS_URI);
+		TypePackageImpl theTypePackage = (TypePackageImpl) (registeredPackage instanceof TypePackageImpl
+				? registeredPackage
+				: TypePackage.eINSTANCE);
+		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(LayoutPackage.eNS_URI);
+		LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) (registeredPackage instanceof LayoutPackageImpl
+				? registeredPackage
+				: LayoutPackage.eINSTANCE);
+		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(ModelPackage.eNS_URI);
+		ModelPackageImpl theModelPackage = (ModelPackageImpl) (registeredPackage instanceof ModelPackageImpl
+				? registeredPackage
+				: ModelPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theAttributePackage.createPackageContents();
@@ -1083,8 +955,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 		// Register package validator
 		EValidator.Registry.INSTANCE.put(theAttributePackage, new EValidator.Descriptor() {
-
-			@Override
 			public EValidator getEValidator() {
 				return AttributeValidator.INSTANCE;
 			}
@@ -1100,7 +970,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1110,7 +979,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1120,7 +988,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1130,7 +997,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1140,7 +1006,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1150,7 +1015,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1160,7 +1024,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1170,7 +1033,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1180,7 +1042,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1190,7 +1051,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1200,7 +1060,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1210,7 +1069,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1220,7 +1078,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1230,7 +1087,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1240,7 +1096,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1250,7 +1105,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1260,7 +1114,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1270,7 +1123,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1280,7 +1132,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1290,7 +1141,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1300,7 +1150,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1310,7 +1159,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1320,7 +1168,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1330,7 +1177,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1340,7 +1186,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1350,7 +1195,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1360,7 +1204,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1370,7 +1213,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1380,7 +1222,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1390,7 +1231,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1400,7 +1240,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1410,7 +1249,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1420,7 +1258,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1430,7 +1267,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1440,7 +1276,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1450,7 +1285,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1460,7 +1294,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1470,7 +1303,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1480,7 +1312,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1490,7 +1321,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1500,7 +1330,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1510,7 +1339,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1520,7 +1348,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1530,7 +1357,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1540,7 +1366,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1550,7 +1375,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1560,7 +1384,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1570,7 +1393,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1580,7 +1402,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1590,7 +1411,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1600,7 +1420,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1610,7 +1429,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1620,7 +1438,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1630,7 +1447,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1640,7 +1456,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1650,7 +1465,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1660,7 +1474,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1670,7 +1483,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1680,7 +1492,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1690,7 +1501,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1700,7 +1510,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1710,7 +1519,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1720,7 +1528,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1730,7 +1537,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1740,7 +1546,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1750,7 +1555,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1760,7 +1564,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1770,7 +1573,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1780,7 +1582,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1790,7 +1591,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1800,7 +1600,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1810,7 +1609,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1820,7 +1618,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1830,7 +1627,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1840,7 +1636,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1850,7 +1645,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1860,7 +1654,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1870,7 +1663,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1880,7 +1672,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1890,7 +1681,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1900,7 +1690,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1910,7 +1699,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1920,7 +1708,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1930,7 +1717,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1940,7 +1726,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1950,7 +1735,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1960,7 +1744,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1970,7 +1753,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1980,7 +1762,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1990,7 +1771,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2000,7 +1780,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2010,7 +1789,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2020,7 +1798,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2030,7 +1807,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2040,7 +1816,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2050,7 +1825,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2060,7 +1834,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2070,7 +1843,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2080,7 +1852,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2090,7 +1861,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2100,7 +1870,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2110,7 +1879,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2120,7 +1888,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2130,7 +1897,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2140,7 +1906,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2150,7 +1915,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2160,7 +1924,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2170,7 +1933,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2180,7 +1942,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2190,7 +1951,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2200,7 +1960,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2210,7 +1969,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2220,7 +1978,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2230,7 +1987,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2240,7 +1996,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2250,7 +2005,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2260,7 +2014,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2270,7 +2023,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2280,7 +2032,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2290,7 +2041,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2300,7 +2050,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2310,7 +2059,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2320,7 +2068,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2330,7 +2077,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2340,7 +2086,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2350,7 +2095,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2360,7 +2104,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2370,7 +2113,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2380,7 +2122,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2390,7 +2131,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2400,7 +2140,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2410,7 +2149,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2420,7 +2158,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2430,7 +2167,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2440,7 +2176,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2450,7 +2185,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2460,7 +2194,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2470,7 +2203,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2480,7 +2212,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2490,7 +2221,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2500,7 +2230,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2510,7 +2239,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2520,7 +2248,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2530,7 +2257,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2540,7 +2266,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2550,7 +2275,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2560,7 +2284,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2570,7 +2293,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2580,7 +2302,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2590,7 +2311,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2600,7 +2320,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2610,7 +2329,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2620,7 +2338,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2630,7 +2347,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2640,7 +2356,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2650,7 +2365,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2660,7 +2374,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2670,7 +2383,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2680,7 +2392,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2690,7 +2401,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2700,7 +2410,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2710,7 +2419,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2720,7 +2428,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2730,7 +2437,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2740,7 +2446,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2750,7 +2455,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2760,7 +2464,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2770,7 +2473,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2780,7 +2482,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2790,7 +2491,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2800,7 +2500,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2810,7 +2509,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2820,7 +2518,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2830,7 +2527,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2840,7 +2536,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2850,7 +2545,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2860,7 +2554,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2870,7 +2563,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2880,7 +2572,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2890,7 +2581,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2900,7 +2590,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2910,7 +2599,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2920,7 +2608,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2930,7 +2617,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2940,7 +2626,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2950,7 +2635,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2960,7 +2644,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2970,7 +2653,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2980,7 +2662,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -2990,7 +2671,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -3000,7 +2680,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -3010,7 +2689,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -3020,7 +2698,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -3030,7 +2707,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -3040,7 +2716,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -3050,7 +2725,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -3060,7 +2734,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -3070,7 +2743,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -3080,7 +2752,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -3090,7 +2761,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -3100,7 +2770,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -3110,7 +2779,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -3120,7 +2788,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -3130,7 +2797,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -3140,7 +2806,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -3150,7 +2815,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -3160,7 +2824,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -3170,7 +2833,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -3180,7 +2842,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -3190,7 +2851,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -3200,7 +2860,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -3210,7 +2869,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -3220,7 +2878,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -3230,7 +2887,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -3240,7 +2896,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -3250,7 +2905,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -3260,7 +2914,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -3270,7 +2923,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -3280,7 +2932,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -3290,7 +2941,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -3300,7 +2950,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -3310,7 +2959,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -3320,7 +2968,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -3330,7 +2977,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -3340,7 +2986,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -3350,7 +2995,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -3360,7 +3004,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -3370,7 +3013,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -3380,7 +3022,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -3390,7 +3031,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -3400,7 +3040,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -3410,7 +3049,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -3420,7 +3058,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -3430,7 +3067,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -3440,7 +3076,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -3450,7 +3085,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -3460,7 +3094,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -3470,7 +3103,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -3480,7 +3112,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -3490,7 +3121,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -3500,7 +3130,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -3510,7 +3139,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -3520,7 +3148,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -3530,22 +3157,20 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private boolean isCreated = false;
 
 	/**
-	 * Creates the meta-model objects for the package. This method is guarded to
-	 * have no affect on any invocation but its first. <!-- begin-user-doc --> <!--
+	 * Creates the meta-model objects for the package.  This method is
+	 * guarded to have no affect on any invocation but its first.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public void createPackageContents() {
-		if (isCreated) {
+		if (isCreated)
 			return;
-		}
 		isCreated = true;
 
 		// Create classes and their features
@@ -3842,7 +3467,6 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private boolean isInitialized = false;
@@ -3855,9 +3479,8 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 	 * @generated
 	 */
 	public void initializePackageContents() {
-		if (isInitialized) {
+		if (isInitialized)
 			return;
-		}
 		isInitialized = true;
 
 		// Initialize package
@@ -3921,12 +3544,12 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getAngle3D_ZAngle(), theXMLTypePackage.getDouble(), "zAngle", null, 1, 1, Angle3D.class, //$NON-NLS-1$
 				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getAngle3D_Type(), this.getAngleType(), "type", "None", 1, 1, Angle3D.class, !IS_TRANSIENT, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getAngle3D_Type(), this.getAngleType(), "type", "None", 1, 1, Angle3D.class, !IS_TRANSIENT, //$NON-NLS-1$//$NON-NLS-2$
 				!IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(axisOriginEClass, AxisOrigin.class, "AxisOrigin", !IS_ABSTRACT, !IS_INTERFACE, //$NON-NLS-1$
 				IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getAxisOrigin_Type(), this.getIntersectionType(), "type", "Min", 1, 1, AxisOrigin.class, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getAxisOrigin_Type(), this.getIntersectionType(), "type", "Min", 1, 1, AxisOrigin.class, //$NON-NLS-1$//$NON-NLS-2$
 				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getAxisOrigin_Value(), theDataPackage.getDataElement(), null, "value", null, 1, 1, //$NON-NLS-1$
 				AxisOrigin.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
@@ -3950,7 +3573,7 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 		initEClass(colorDefinitionEClass, ColorDefinition.class, "ColorDefinition", !IS_ABSTRACT, !IS_INTERFACE, //$NON-NLS-1$
 				IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getColorDefinition_Transparency(), theXMLTypePackage.getInt(), "transparency", "255", 1, 1, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getColorDefinition_Transparency(), theXMLTypePackage.getInt(), "transparency", "255", 1, 1, //$NON-NLS-1$//$NON-NLS-2$
 				ColorDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
 				!IS_DERIVED, IS_ORDERED);
 		initEAttribute(getColorDefinition_Red(), this.getRGBValue(), "red", null, 1, 1, ColorDefinition.class, //$NON-NLS-1$
@@ -3982,22 +3605,22 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 		initEClass(dataPointComponentEClass, DataPointComponent.class, "DataPointComponent", !IS_ABSTRACT, //$NON-NLS-1$
 				!IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getDataPointComponent_Type(), this.getDataPointComponentType(), "type", "Base_Value", 1, 1, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getDataPointComponent_Type(), this.getDataPointComponentType(), "type", "Base_Value", 1, 1, //$NON-NLS-1$//$NON-NLS-2$
 				DataPointComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
 				!IS_DERIVED, IS_ORDERED);
 		initEReference(getDataPointComponent_FormatSpecifier(), this.getFormatSpecifier(), null, "formatSpecifier", //$NON-NLS-1$
 				null, 1, 1, DataPointComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE,
 				!IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getDataPointComponent_OrthogonalType(), theXMLTypePackage.getString(), "orthogonalType", "", 1, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getDataPointComponent_OrthogonalType(), theXMLTypePackage.getString(), "orthogonalType", "", 1, //$NON-NLS-1$//$NON-NLS-2$
 				1, DataPointComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID,
 				IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(dateFormatSpecifierEClass, DateFormatSpecifier.class, "DateFormatSpecifier", !IS_ABSTRACT, //$NON-NLS-1$
 				!IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getDateFormatSpecifier_Type(), this.getDateFormatType(), "type", "Long", 1, 1, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getDateFormatSpecifier_Type(), this.getDateFormatType(), "type", "Long", 1, 1, //$NON-NLS-1$//$NON-NLS-2$
 				DateFormatSpecifier.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
 				!IS_DERIVED, IS_ORDERED);
-		initEAttribute(getDateFormatSpecifier_Detail(), this.getDateFormatDetail(), "detail", "Date", 1, 1, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getDateFormatSpecifier_Detail(), this.getDateFormatDetail(), "detail", "Date", 1, 1, //$NON-NLS-1$//$NON-NLS-2$
 				DateFormatSpecifier.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
 				!IS_DERIVED, IS_ORDERED);
 
@@ -4077,7 +3700,7 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 		initEAttribute(getFractionNumberFormatSpecifier_Suffix(), theXMLTypePackage.getString(), "suffix", null, 1, 1, //$NON-NLS-1$
 				FractionNumberFormatSpecifier.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID,
 				IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getFractionNumberFormatSpecifier_Delimiter(), theXMLTypePackage.getString(), "delimiter", "/", 1, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getFractionNumberFormatSpecifier_Delimiter(), theXMLTypePackage.getString(), "delimiter", "/", 1, //$NON-NLS-1$//$NON-NLS-2$
 				1, FractionNumberFormatSpecifier.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE,
 				!IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
@@ -4115,10 +3738,10 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 		initEClass(interactivityEClass, Interactivity.class, "Interactivity", !IS_ABSTRACT, !IS_INTERFACE, //$NON-NLS-1$
 				IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getInteractivity_Enable(), theXMLTypePackage.getBoolean(), "enable", "true", 0, 1, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getInteractivity_Enable(), theXMLTypePackage.getBoolean(), "enable", "true", 0, 1, //$NON-NLS-1$//$NON-NLS-2$
 				Interactivity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
 				!IS_DERIVED, IS_ORDERED);
-		initEAttribute(getInteractivity_LegendBehavior(), this.getLegendBehaviorType(), "legendBehavior", "None", 0, 1, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getInteractivity_LegendBehavior(), this.getLegendBehaviorType(), "legendBehavior", "None", 0, 1, //$NON-NLS-1$//$NON-NLS-2$
 				Interactivity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
 				!IS_DERIVED, IS_ORDERED);
 
@@ -4139,9 +3762,9 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 		initEClass(lineAttributesEClass, LineAttributes.class, "LineAttributes", !IS_ABSTRACT, !IS_INTERFACE, //$NON-NLS-1$
 				IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getLineAttributes_Style(), this.getLineStyle(), "style", "Solid", 1, 1, LineAttributes.class, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getLineAttributes_Style(), this.getLineStyle(), "style", "Solid", 1, 1, LineAttributes.class, //$NON-NLS-1$//$NON-NLS-2$
 				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getLineAttributes_Thickness(), theXMLTypePackage.getInt(), "thickness", "1", 1, 1, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getLineAttributes_Thickness(), theXMLTypePackage.getInt(), "thickness", "1", 1, 1, //$NON-NLS-1$//$NON-NLS-2$
 				LineAttributes.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
 				!IS_DERIVED, IS_ORDERED);
 		initEReference(getLineAttributes_Color(), this.getColorDefinition(), null, "color", null, 1, 1, //$NON-NLS-1$
@@ -4164,7 +3787,7 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(markerEClass, Marker.class, "Marker", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
-		initEAttribute(getMarker_Type(), this.getMarkerType(), "type", "Crosshair", 1, 1, Marker.class, !IS_TRANSIENT, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getMarker_Type(), this.getMarkerType(), "type", "Crosshair", 1, 1, Marker.class, !IS_TRANSIENT, //$NON-NLS-1$//$NON-NLS-2$
 				!IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getMarker_Size(), theXMLTypePackage.getInt(), "size", null, 1, 1, Marker.class, !IS_TRANSIENT, //$NON-NLS-1$
 				!IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -4278,7 +3901,7 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 
 		initEClass(styleMapEClass, StyleMap.class, "StyleMap", !IS_ABSTRACT, !IS_INTERFACE, //$NON-NLS-1$
 				IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getStyleMap_ComponentName(), this.getStyledComponent(), "componentName", "Chart_All", 1, 1, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getStyleMap_ComponentName(), this.getStyledComponent(), "componentName", "Chart_All", 1, 1, //$NON-NLS-1$//$NON-NLS-2$
 				StyleMap.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
 				!IS_DERIVED, IS_ORDERED);
 		initEReference(getStyleMap_Style(), this.getStyle(), null, "style", null, 1, 1, StyleMap.class, !IS_TRANSIENT, //$NON-NLS-1$
@@ -4300,7 +3923,7 @@ public class AttributePackageImpl extends EPackageImpl implements AttributePacka
 		initEAttribute(getTextAlignment_HorizontalAlignment(), this.getHorizontalAlignment(), "horizontalAlignment", //$NON-NLS-1$
 				"Left", 1, 1, TextAlignment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, //$NON-NLS-1$
 				IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getTextAlignment_VerticalAlignment(), this.getVerticalAlignment(), "verticalAlignment", "Top", 1, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getTextAlignment_VerticalAlignment(), this.getVerticalAlignment(), "verticalAlignment", "Top", 1, //$NON-NLS-1$//$NON-NLS-2$
 				1, TextAlignment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
 				!IS_DERIVED, IS_ORDERED);
 

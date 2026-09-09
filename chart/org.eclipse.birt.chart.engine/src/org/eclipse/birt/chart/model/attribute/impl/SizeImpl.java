@@ -27,13 +27,11 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <em><b>Size</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.SizeImpl#getHeight
- * <em>Height</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.SizeImpl#getWidth
- * <em>Width</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.SizeImpl#getHeight <em>Height</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.SizeImpl#getWidth <em>Width</em>}</li>
+ * </ul>
  *
  * @generated
  */
@@ -42,7 +40,6 @@ public class SizeImpl extends EObjectImpl implements Size {
 	/**
 	 * The default value of the '{@link #getHeight() <em>Height</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @see #getHeight()
 	 * @generated
 	 * @ordered
@@ -52,7 +49,6 @@ public class SizeImpl extends EObjectImpl implements Size {
 	/**
 	 * The cached value of the '{@link #getHeight() <em>Height</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @see #getHeight()
 	 * @generated
 	 * @ordered
@@ -60,9 +56,9 @@ public class SizeImpl extends EObjectImpl implements Size {
 	protected double height = HEIGHT_EDEFAULT;
 
 	/**
-	 * This is true if the Height attribute has been set. <!-- begin-user-doc -->
+	 * This is true if the Height attribute has been set.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -89,9 +85,9 @@ public class SizeImpl extends EObjectImpl implements Size {
 	protected double width = WIDTH_EDEFAULT;
 
 	/**
-	 * This is true if the Width attribute has been set. <!-- begin-user-doc -->
+	 * This is true if the Width attribute has been set.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -99,7 +95,6 @@ public class SizeImpl extends EObjectImpl implements Size {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected SizeImpl() {
@@ -122,7 +117,6 @@ public class SizeImpl extends EObjectImpl implements Size {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -132,7 +126,6 @@ public class SizeImpl extends EObjectImpl implements Size {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -142,7 +135,6 @@ public class SizeImpl extends EObjectImpl implements Size {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -151,15 +143,13 @@ public class SizeImpl extends EObjectImpl implements Size {
 		height = newHeight;
 		boolean oldHeightESet = heightESet;
 		heightESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.SIZE__HEIGHT, oldHeight, height,
 					!oldHeightESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -168,15 +158,13 @@ public class SizeImpl extends EObjectImpl implements Size {
 		boolean oldHeightESet = heightESet;
 		height = HEIGHT_EDEFAULT;
 		heightESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.SIZE__HEIGHT, oldHeight,
 					HEIGHT_EDEFAULT, oldHeightESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -186,7 +174,6 @@ public class SizeImpl extends EObjectImpl implements Size {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -196,7 +183,6 @@ public class SizeImpl extends EObjectImpl implements Size {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -205,15 +191,13 @@ public class SizeImpl extends EObjectImpl implements Size {
 		width = newWidth;
 		boolean oldWidthESet = widthESet;
 		widthESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.SIZE__WIDTH, oldWidth, width,
 					!oldWidthESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -222,15 +206,13 @@ public class SizeImpl extends EObjectImpl implements Size {
 		boolean oldWidthESet = widthESet;
 		width = WIDTH_EDEFAULT;
 		widthESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.SIZE__WIDTH, oldWidth,
 					WIDTH_EDEFAULT, oldWidthESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -240,7 +222,6 @@ public class SizeImpl extends EObjectImpl implements Size {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -256,7 +237,6 @@ public class SizeImpl extends EObjectImpl implements Size {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -274,7 +254,6 @@ public class SizeImpl extends EObjectImpl implements Size {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -292,7 +271,6 @@ public class SizeImpl extends EObjectImpl implements Size {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -308,28 +286,24 @@ public class SizeImpl extends EObjectImpl implements Size {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) {
+		if (eIsProxy())
 			return super.toString();
-		}
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (height: "); //$NON-NLS-1$
-		if (heightESet) {
+		if (heightESet)
 			result.append(height);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", width: "); //$NON-NLS-1$
-		if (widthESet) {
+		if (widthESet)
 			result.append(width);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(')');
 		return result.toString();
 	}

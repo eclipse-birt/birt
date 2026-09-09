@@ -22,20 +22,19 @@ import com.ibm.icu.util.ULocale;
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Java
  * Number Format Specifier</b></em>'. <!-- end-user-doc -->
  *
- * <!-- begin-model-doc --> JavaNumberFormatSpecifier extends FormatSpecifier
- * devotedly to represent an instance of NumberFormat.
- *
+ * <!-- begin-model-doc -->
+ * JavaNumberFormatSpecifier extends FormatSpecifier devotedly 
+ * to represent an instance of  NumberFormat.
+ * 			
  * <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.JavaNumberFormatSpecifier#getPattern
- * <em>Pattern</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.JavaNumberFormatSpecifier#getMultiplier
- * <em>Multiplier</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.JavaNumberFormatSpecifier#getPattern <em>Pattern</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.JavaNumberFormatSpecifier#getMultiplier <em>Multiplier</em>}</li>
+ * </ul>
  *
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getJavaNumberFormatSpecifier()
  * @model extendedMetaData="name='JavaNumberFormatSpecifier' kind='elementOnly'"
@@ -61,10 +60,8 @@ public interface JavaNumberFormatSpecifier extends FormatSpecifier {
 	String getPattern();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.JavaNumberFormatSpecifier#getPattern
-	 * <em>Pattern</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.JavaNumberFormatSpecifier#getPattern <em>Pattern</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Pattern</em>' attribute.
 	 * @see #getPattern()
 	 * @generated
@@ -118,11 +115,9 @@ public interface JavaNumberFormatSpecifier extends FormatSpecifier {
 	void unsetMultiplier();
 
 	/**
-	 * Returns whether the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.JavaNumberFormatSpecifier#getMultiplier
-	 * <em>Multiplier</em>}' attribute is set. <!-- begin-user-doc --> <!--
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.attribute.JavaNumberFormatSpecifier#getMultiplier <em>Multiplier</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @return whether the value of the '<em>Multiplier</em>' attribute is set.
 	 * @see #unsetMultiplier()
 	 * @see #getMultiplier()

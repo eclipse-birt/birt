@@ -20,19 +20,20 @@ import org.eclipse.emf.common.util.EList;
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Multiple
  * Fill</b></em>'. <!-- end-user-doc -->
  *
- * <!-- begin-model-doc --> MultipleFill extends type Fill to represent a
- * pre-defined series of possible Fills, one of which will be selected to fill
- * an chart element due to a certain condition. For example, the color of the
- * increasing datapoints in a Stock Chart is different with the decreasing ones.
+ * <!-- begin-model-doc -->
+ * MultipleFill extends type Fill to represent a pre-defined series 
+ * of possible Fills, one of which will be selected to fill an chart 
+ * element due to a certain condition. For example, the color of 
+ * the increasing datapoints in a Stock Chart is different with the 
+ * decreasing ones.
  * <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.MultipleFill#getFills
- * <em>Fills</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.MultipleFill#getFills <em>Fills</em>}</li>
+ * </ul>
  *
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getMultipleFill()
  * @model extendedMetaData="name='MultipleFill' kind='elementOnly'"

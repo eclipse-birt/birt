@@ -22,20 +22,18 @@ import org.eclipse.birt.chart.model.attribute.LineAttributes;
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Curve
  * Fitting</b></em>'. <!-- end-user-doc -->
  *
- * <!-- begin-model-doc --> This type defines the curve fitting element. <!--
- * end-model-doc -->
+ * <!-- begin-model-doc -->
+ * 			This type defines the curve fitting element.
+ * <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.component.CurveFitting#getLineAttributes
- * <em>Line Attributes</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.CurveFitting#getLabel
- * <em>Label</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.CurveFitting#getLabelAnchor
- * <em>Label Anchor</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.component.CurveFitting#getLineAttributes <em>Line Attributes</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.CurveFitting#getLabel <em>Label</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.CurveFitting#getLabelAnchor <em>Label Anchor</em>}</li>
+ * </ul>
  *
  * @see org.eclipse.birt.chart.model.component.ComponentPackage#getCurveFitting()
  * @model extendedMetaData="name='CurveFitting' kind='elementOnly'"
@@ -63,13 +61,10 @@ public interface CurveFitting extends IChartObject {
 	LineAttributes getLineAttributes();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.component.CurveFitting#getLineAttributes
-	 * <em>Line Attributes</em>}' containment reference. <!-- begin-user-doc -->
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.CurveFitting#getLineAttributes <em>Line Attributes</em>}' containment reference.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
-	 * @param value the new value of the '<em>Line Attributes</em>' containment
-	 *              reference.
+	 * @param value the new value of the '<em>Line Attributes</em>' containment reference.
 	 * @see #getLineAttributes()
 	 * @generated
 	 */
@@ -92,11 +87,9 @@ public interface CurveFitting extends IChartObject {
 	Label getLabel();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.component.CurveFitting#getLabel
-	 * <em>Label</em>}' containment reference. <!-- begin-user-doc --> <!--
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.CurveFitting#getLabel <em>Label</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @param value the new value of the '<em>Label</em>' containment reference.
 	 * @see #getLabel()
 	 * @generated
@@ -152,11 +145,9 @@ public interface CurveFitting extends IChartObject {
 	void unsetLabelAnchor();
 
 	/**
-	 * Returns whether the value of the
-	 * '{@link org.eclipse.birt.chart.model.component.CurveFitting#getLabelAnchor
-	 * <em>Label Anchor</em>}' attribute is set. <!-- begin-user-doc --> <!--
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.component.CurveFitting#getLabelAnchor <em>Label Anchor</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @return whether the value of the '<em>Label Anchor</em>' attribute is set.
 	 * @see #unsetLabelAnchor()
 	 * @see #getLabelAnchor()

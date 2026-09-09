@@ -20,7 +20,6 @@
 package org.eclipse.birt.chart.model.util;
 
 import java.util.Map;
-
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
@@ -43,17 +42,15 @@ import org.eclipse.emf.ecore.xml.type.util.XMLTypeValidator;
 public class ModelValidator extends EObjectValidator {
 
 	/**
-	 * The cached model package <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached model package
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static final ModelValidator INSTANCE = new ModelValidator();
 
 	/**
-	 * A constant for the {@link org.eclipse.emf.common.util.Diagnostic#getSource()
-	 * source} of diagnostic {@link org.eclipse.emf.common.util.Diagnostic#getCode()
-	 * codes} from this package. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * A constant for the {@link org.eclipse.emf.common.util.Diagnostic#getSource() source} of diagnostic {@link org.eclipse.emf.common.util.Diagnostic#getCode() codes} from this package.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see org.eclipse.emf.common.util.Diagnostic#getSource()
 	 * @see org.eclipse.emf.common.util.Diagnostic#getCode()
 	 * @generated
@@ -70,10 +67,9 @@ public class ModelValidator extends EObjectValidator {
 	private static final int GENERATED_DIAGNOSTIC_CODE_COUNT = 0;
 
 	/**
-	 * A constant with a fixed name that can be used as the base value for
-	 * additional hand written constants in a derived class. <!-- begin-user-doc -->
+	 * A constant with a fixed name that can be used as the base value for additional hand written constants in a derived class.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected static final int DIAGNOSTIC_CODE_COUNT = GENERATED_DIAGNOSTIC_CODE_COUNT;
@@ -98,9 +94,9 @@ public class ModelValidator extends EObjectValidator {
 	}
 
 	/**
-	 * Returns the package of this validator switch. <!-- begin-user-doc --> <!--
+	 * Returns the package of this validator switch.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -111,7 +107,6 @@ public class ModelValidator extends EObjectValidator {
 	/**
 	 * Calls <code>validateXXX</code> for the corresponding classifier of the model.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -137,7 +132,6 @@ public class ModelValidator extends EObjectValidator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public boolean validateChart(Chart chart, DiagnosticChain diagnostics, Map<Object, Object> context) {
@@ -146,7 +140,6 @@ public class ModelValidator extends EObjectValidator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public boolean validateChartWithAxes(ChartWithAxes chartWithAxes, DiagnosticChain diagnostics,
@@ -156,7 +149,6 @@ public class ModelValidator extends EObjectValidator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public boolean validateChartWithoutAxes(ChartWithoutAxes chartWithoutAxes, DiagnosticChain diagnostics,
@@ -166,7 +158,6 @@ public class ModelValidator extends EObjectValidator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public boolean validateDialChart(DialChart dialChart, DiagnosticChain diagnostics, Map<Object, Object> context) {
@@ -175,90 +166,80 @@ public class ModelValidator extends EObjectValidator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public boolean validateCoverageType(double coverageType, DiagnosticChain diagnostics, Map<Object, Object> context) {
 		boolean result = validateCoverageType_Min(coverageType, diagnostics, context);
-		if (result || diagnostics != null) {
+		if (result || diagnostics != null)
 			result &= validateCoverageType_Max(coverageType, diagnostics, context);
-		}
 		return result;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 * @see #validateCoverageType_Min
 	 */
 	public static final double COVERAGE_TYPE__MIN__VALUE = 0.0;
 
 	/**
-	 * Validates the Min constraint of '<em>Coverage Type</em>'. <!-- begin-user-doc
+	 * Validates the Min constraint of '<em>Coverage Type</em>'.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public boolean validateCoverageType_Min(double coverageType, DiagnosticChain diagnostics,
 			Map<Object, Object> context) {
 		boolean result = coverageType >= COVERAGE_TYPE__MIN__VALUE;
-		if (!result && diagnostics != null) {
+		if (!result && diagnostics != null)
 			reportMinViolation(ModelPackage.Literals.COVERAGE_TYPE, coverageType, COVERAGE_TYPE__MIN__VALUE, true,
 					diagnostics, context);
-		}
 		return result;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 * @see #validateCoverageType_Max
 	 */
 	public static final double COVERAGE_TYPE__MAX__VALUE = 1.0;
 
 	/**
-	 * Validates the Max constraint of '<em>Coverage Type</em>'. <!-- begin-user-doc
+	 * Validates the Max constraint of '<em>Coverage Type</em>'.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public boolean validateCoverageType_Max(double coverageType, DiagnosticChain diagnostics,
 			Map<Object, Object> context) {
 		boolean result = coverageType <= COVERAGE_TYPE__MAX__VALUE;
-		if (!result && diagnostics != null) {
+		if (!result && diagnostics != null)
 			reportMaxViolation(ModelPackage.Literals.COVERAGE_TYPE, coverageType, COVERAGE_TYPE__MAX__VALUE, true,
 					diagnostics, context);
-		}
 		return result;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public boolean validateCoverageTypeObject(Double coverageTypeObject, DiagnosticChain diagnostics,
 			Map<Object, Object> context) {
 		boolean result = validateCoverageType_Min(coverageTypeObject, diagnostics, context);
-		if (result || diagnostics != null) {
+		if (result || diagnostics != null)
 			result &= validateCoverageType_Max(coverageTypeObject, diagnostics, context);
-		}
 		return result;
 	}
 
 	/**
-	 * Returns the resource locator that will be used to fetch messages for this
-	 * validator's diagnostics. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns the resource locator that will be used to fetch messages for this validator's diagnostics.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public ResourceLocator getResourceLocator() {
 		// TODO
-		// Specialize this to return a resource locator for messages specific to this
-		// validator.
+		// Specialize this to return a resource locator for messages specific to this validator.
 		// Ensure that you remove @generated or mark it @generated NOT
 		return super.getResourceLocator();
 	}

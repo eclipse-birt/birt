@@ -36,6 +36,7 @@ import org.eclipse.birt.chart.model.attribute.impl.TextImpl;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.birt.chart.model.layout.Block;
 import org.eclipse.birt.chart.model.layout.ClientArea;
 import org.eclipse.birt.chart.model.layout.LayoutFactory;
@@ -54,56 +55,36 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <em><b>Legend</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getHorizontalSpacing
- * <em>Horizontal Spacing</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getVerticalSpacing
- * <em>Vertical Spacing</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getClientArea
- * <em>Client Area</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getText
- * <em>Text</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getOrientation
- * <em>Orientation</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getDirection
- * <em>Direction</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getSeparator
- * <em>Separator</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getPosition
- * <em>Position</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getItemType
- * <em>Item Type</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getTitle
- * <em>Title</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getTitlePosition
- * <em>Title Position</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#isShowValue
- * <em>Show Value</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#isShowPercent
- * <em>Show Percent</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#isShowTotal
- * <em>Show Total</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getWrappingSize
- * <em>Wrapping Size</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getMaxPercent
- * <em>Max Percent</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getTitlePercent
- * <em>Title Percent</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getEllipsis
- * <em>Ellipsis</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getFormatSpecifier
- * <em>Format Specifier</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getHorizontalSpacing <em>Horizontal Spacing</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getVerticalSpacing <em>Vertical Spacing</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getClientArea <em>Client Area</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getText <em>Text</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getOrientation <em>Orientation</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getDirection <em>Direction</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getSeparator <em>Separator</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getPosition <em>Position</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getItemType <em>Item Type</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getTitle <em>Title</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getTitlePosition <em>Title Position</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#isShowValue <em>Show Value</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#isShowPercent <em>Show Percent</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#isShowTotal <em>Show Total</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getWrappingSize <em>Wrapping Size</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getMaxPercent <em>Max Percent</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getTitlePercent <em>Title Percent</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getEllipsis <em>Ellipsis</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getFormatSpecifier <em>Format Specifier</em>}</li>
+ * </ul>
  *
  * @generated
  */
 public class LegendImpl extends BlockImpl implements Legend {
 
 	/**
-	 * The default value of the '{@link #getHorizontalSpacing() <em>Horizontal
-	 * Spacing</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The default value of the '{@link #getHorizontalSpacing() <em>Horizontal Spacing</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getHorizontalSpacing()
 	 * @generated
 	 * @ordered
@@ -111,9 +92,8 @@ public class LegendImpl extends BlockImpl implements Legend {
 	protected static final int HORIZONTAL_SPACING_EDEFAULT = 0;
 
 	/**
-	 * The cached value of the '{@link #getHorizontalSpacing() <em>Horizontal
-	 * Spacing</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getHorizontalSpacing() <em>Horizontal Spacing</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getHorizontalSpacing()
 	 * @generated
 	 * @ordered
@@ -130,9 +110,8 @@ public class LegendImpl extends BlockImpl implements Legend {
 	protected boolean horizontalSpacingESet;
 
 	/**
-	 * The default value of the ' {@link #getVerticalSpacing() <em>Vertical
-	 * Spacing</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The default value of the '{@link #getVerticalSpacing() <em>Vertical Spacing</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getVerticalSpacing()
 	 * @generated
 	 * @ordered
@@ -140,9 +119,8 @@ public class LegendImpl extends BlockImpl implements Legend {
 	protected static final int VERTICAL_SPACING_EDEFAULT = 0;
 
 	/**
-	 * The cached value of the ' {@link #getVerticalSpacing() <em>Vertical
-	 * Spacing</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getVerticalSpacing() <em>Vertical Spacing</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getVerticalSpacing()
 	 * @generated
 	 * @ordered
@@ -159,9 +137,8 @@ public class LegendImpl extends BlockImpl implements Legend {
 	protected boolean verticalSpacingESet;
 
 	/**
-	 * The cached value of the '{@link #getClientArea() <em>Client Area</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getClientArea() <em>Client Area</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getClientArea()
 	 * @generated
 	 * @ordered
@@ -169,9 +146,8 @@ public class LegendImpl extends BlockImpl implements Legend {
 	protected ClientArea clientArea;
 
 	/**
-	 * The cached value of the '{@link #getText() <em>Text</em>}' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getText() <em>Text</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getText()
 	 * @generated
 	 * @ordered
@@ -179,9 +155,8 @@ public class LegendImpl extends BlockImpl implements Legend {
 	protected Text text;
 
 	/**
-	 * The default value of the '{@link #getOrientation() <em>Orientation</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The default value of the '{@link #getOrientation() <em>Orientation</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getOrientation()
 	 * @generated
 	 * @ordered
@@ -189,9 +164,8 @@ public class LegendImpl extends BlockImpl implements Legend {
 	protected static final Orientation ORIENTATION_EDEFAULT = Orientation.VERTICAL_LITERAL;
 
 	/**
-	 * The cached value of the '{@link #getOrientation() <em>Orientation</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getOrientation() <em>Orientation</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getOrientation()
 	 * @generated
 	 * @ordered
@@ -199,9 +173,9 @@ public class LegendImpl extends BlockImpl implements Legend {
 	protected Orientation orientation = ORIENTATION_EDEFAULT;
 
 	/**
-	 * This is true if the Orientation attribute has been set. <!-- begin-user-doc
+	 * This is true if the Orientation attribute has been set.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -217,9 +191,8 @@ public class LegendImpl extends BlockImpl implements Legend {
 	protected static final Direction DIRECTION_EDEFAULT = Direction.TOP_BOTTOM_LITERAL;
 
 	/**
-	 * The cached value of the '{@link #getDirection() <em>Direction</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getDirection() <em>Direction</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getDirection()
 	 * @generated
 	 * @ordered
@@ -227,18 +200,17 @@ public class LegendImpl extends BlockImpl implements Legend {
 	protected Direction direction = DIRECTION_EDEFAULT;
 
 	/**
-	 * This is true if the Direction attribute has been set. <!-- begin-user-doc -->
+	 * This is true if the Direction attribute has been set.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean directionESet;
 
 	/**
-	 * The cached value of the '{@link #getSeparator() <em>Separator</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getSeparator() <em>Separator</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getSeparator()
 	 * @generated
 	 * @ordered
@@ -246,9 +218,8 @@ public class LegendImpl extends BlockImpl implements Legend {
 	protected LineAttributes separator;
 
 	/**
-	 * The default value of the '{@link #getPosition() <em>Position</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The default value of the '{@link #getPosition() <em>Position</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getPosition()
 	 * @generated
 	 * @ordered
@@ -258,7 +229,6 @@ public class LegendImpl extends BlockImpl implements Legend {
 	/**
 	 * The cached value of the '{@link #getPosition() <em>Position</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @see #getPosition()
 	 * @generated
 	 * @ordered
@@ -266,18 +236,17 @@ public class LegendImpl extends BlockImpl implements Legend {
 	protected Position position = POSITION_EDEFAULT;
 
 	/**
-	 * This is true if the Position attribute has been set. <!-- begin-user-doc -->
+	 * This is true if the Position attribute has been set.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean positionESet;
 
 	/**
-	 * The default value of the '{@link #getItemType() <em>Item Type</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The default value of the '{@link #getItemType() <em>Item Type</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getItemType()
 	 * @generated
 	 * @ordered
@@ -285,9 +254,8 @@ public class LegendImpl extends BlockImpl implements Legend {
 	protected static final LegendItemType ITEM_TYPE_EDEFAULT = LegendItemType.SERIES_LITERAL;
 
 	/**
-	 * The cached value of the '{@link #getItemType() <em>Item Type</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getItemType() <em>Item Type</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getItemType()
 	 * @generated
 	 * @ordered
@@ -295,18 +263,17 @@ public class LegendImpl extends BlockImpl implements Legend {
 	protected LegendItemType itemType = ITEM_TYPE_EDEFAULT;
 
 	/**
-	 * This is true if the Item Type attribute has been set. <!-- begin-user-doc -->
+	 * This is true if the Item Type attribute has been set.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean itemTypeESet;
 
 	/**
-	 * The cached value of the '{@link #getTitle() <em>Title</em>}' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getTitle() <em>Title</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getTitle()
 	 * @generated
 	 * @ordered
@@ -314,9 +281,8 @@ public class LegendImpl extends BlockImpl implements Legend {
 	protected Label title;
 
 	/**
-	 * The default value of the '{@link #getTitlePosition() <em>Title
-	 * Position</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The default value of the '{@link #getTitlePosition() <em>Title Position</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getTitlePosition()
 	 * @generated
 	 * @ordered
@@ -324,9 +290,8 @@ public class LegendImpl extends BlockImpl implements Legend {
 	protected static final Position TITLE_POSITION_EDEFAULT = Position.ABOVE_LITERAL;
 
 	/**
-	 * The cached value of the '{@link #getTitlePosition() <em>Title Position</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getTitlePosition() <em>Title Position</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getTitlePosition()
 	 * @generated
 	 * @ordered
@@ -343,9 +308,8 @@ public class LegendImpl extends BlockImpl implements Legend {
 	protected boolean titlePositionESet;
 
 	/**
-	 * The default value of the '{@link #isShowValue() <em>Show Value</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The default value of the '{@link #isShowValue() <em>Show Value</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isShowValue()
 	 * @generated
 	 * @ordered
@@ -353,9 +317,8 @@ public class LegendImpl extends BlockImpl implements Legend {
 	protected static final boolean SHOW_VALUE_EDEFAULT = false;
 
 	/**
-	 * The cached value of the '{@link #isShowValue() <em>Show Value</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #isShowValue() <em>Show Value</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isShowValue()
 	 * @generated
 	 * @ordered
@@ -363,18 +326,17 @@ public class LegendImpl extends BlockImpl implements Legend {
 	protected boolean showValue = SHOW_VALUE_EDEFAULT;
 
 	/**
-	 * This is true if the Show Value attribute has been set. <!-- begin-user-doc
+	 * This is true if the Show Value attribute has been set.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean showValueESet;
 
 	/**
-	 * The default value of the '{@link #isShowPercent() <em>Show Percent</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The default value of the '{@link #isShowPercent() <em>Show Percent</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isShowPercent()
 	 * @generated
 	 * @ordered
@@ -382,9 +344,8 @@ public class LegendImpl extends BlockImpl implements Legend {
 	protected static final boolean SHOW_PERCENT_EDEFAULT = false;
 
 	/**
-	 * The cached value of the '{@link #isShowPercent() <em>Show Percent</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #isShowPercent() <em>Show Percent</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isShowPercent()
 	 * @generated
 	 * @ordered
@@ -392,18 +353,17 @@ public class LegendImpl extends BlockImpl implements Legend {
 	protected boolean showPercent = SHOW_PERCENT_EDEFAULT;
 
 	/**
-	 * This is true if the Show Percent attribute has been set. <!-- begin-user-doc
+	 * This is true if the Show Percent attribute has been set.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean showPercentESet;
 
 	/**
-	 * The default value of the '{@link #isShowTotal() <em>Show Total</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The default value of the '{@link #isShowTotal() <em>Show Total</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isShowTotal()
 	 * @generated
 	 * @ordered
@@ -411,9 +371,8 @@ public class LegendImpl extends BlockImpl implements Legend {
 	protected static final boolean SHOW_TOTAL_EDEFAULT = false;
 
 	/**
-	 * The cached value of the '{@link #isShowTotal() <em>Show Total</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #isShowTotal() <em>Show Total</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isShowTotal()
 	 * @generated
 	 * @ordered
@@ -421,18 +380,17 @@ public class LegendImpl extends BlockImpl implements Legend {
 	protected boolean showTotal = SHOW_TOTAL_EDEFAULT;
 
 	/**
-	 * This is true if the Show Total attribute has been set. <!-- begin-user-doc
+	 * This is true if the Show Total attribute has been set.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean showTotalESet;
 
 	/**
-	 * The default value of the '{@link #getWrappingSize() <em>Wrapping Size</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The default value of the '{@link #getWrappingSize() <em>Wrapping Size</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getWrappingSize()
 	 * @generated
 	 * @ordered
@@ -440,9 +398,8 @@ public class LegendImpl extends BlockImpl implements Legend {
 	protected static final double WRAPPING_SIZE_EDEFAULT = 0.0;
 
 	/**
-	 * The cached value of the '{@link #getWrappingSize() <em>Wrapping Size</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getWrappingSize() <em>Wrapping Size</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getWrappingSize()
 	 * @generated
 	 * @ordered
@@ -450,18 +407,17 @@ public class LegendImpl extends BlockImpl implements Legend {
 	protected double wrappingSize = WRAPPING_SIZE_EDEFAULT;
 
 	/**
-	 * This is true if the Wrapping Size attribute has been set. <!-- begin-user-doc
+	 * This is true if the Wrapping Size attribute has been set.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean wrappingSizeESet;
 
 	/**
-	 * The default value of the '{@link #getMaxPercent() <em>Max Percent</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The default value of the '{@link #getMaxPercent() <em>Max Percent</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getMaxPercent()
 	 * @generated
 	 * @ordered
@@ -469,9 +425,8 @@ public class LegendImpl extends BlockImpl implements Legend {
 	protected static final double MAX_PERCENT_EDEFAULT = 0.33333333;
 
 	/**
-	 * The cached value of the '{@link #getMaxPercent() <em>Max Percent</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getMaxPercent() <em>Max Percent</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getMaxPercent()
 	 * @generated
 	 * @ordered
@@ -479,18 +434,17 @@ public class LegendImpl extends BlockImpl implements Legend {
 	protected double maxPercent = MAX_PERCENT_EDEFAULT;
 
 	/**
-	 * This is true if the Max Percent attribute has been set. <!-- begin-user-doc
+	 * This is true if the Max Percent attribute has been set.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean maxPercentESet;
 
 	/**
-	 * The default value of the '{@link #getTitlePercent() <em>Title Percent</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The default value of the '{@link #getTitlePercent() <em>Title Percent</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getTitlePercent()
 	 * @generated
 	 * @ordered
@@ -498,9 +452,8 @@ public class LegendImpl extends BlockImpl implements Legend {
 	protected static final double TITLE_PERCENT_EDEFAULT = 0.6;
 
 	/**
-	 * The cached value of the '{@link #getTitlePercent() <em>Title Percent</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getTitlePercent() <em>Title Percent</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getTitlePercent()
 	 * @generated
 	 * @ordered
@@ -508,18 +461,17 @@ public class LegendImpl extends BlockImpl implements Legend {
 	protected double titlePercent = TITLE_PERCENT_EDEFAULT;
 
 	/**
-	 * This is true if the Title Percent attribute has been set. <!-- begin-user-doc
+	 * This is true if the Title Percent attribute has been set.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean titlePercentESet;
 
 	/**
-	 * The default value of the '{@link #getEllipsis() <em>Ellipsis</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The default value of the '{@link #getEllipsis() <em>Ellipsis</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getEllipsis()
 	 * @generated
 	 * @ordered
@@ -529,7 +481,6 @@ public class LegendImpl extends BlockImpl implements Legend {
 	/**
 	 * The cached value of the '{@link #getEllipsis() <em>Ellipsis</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @see #getEllipsis()
 	 * @generated
 	 * @ordered
@@ -537,19 +488,18 @@ public class LegendImpl extends BlockImpl implements Legend {
 	protected int ellipsis = ELLIPSIS_EDEFAULT;
 
 	/**
-	 * This is true if the Ellipsis attribute has been set. <!-- begin-user-doc -->
+	 * This is true if the Ellipsis attribute has been set.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean ellipsisESet;
 
 	/**
-	 * The cached value of the '{@link #getFormatSpecifier() <em>Format
-	 * Specifier</em>}' containment reference. <!-- begin-user-doc --> <!--
+	 * The cached value of the '{@link #getFormatSpecifier() <em>Format Specifier</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #getFormatSpecifier()
 	 * @generated
 	 * @ordered
@@ -558,7 +508,6 @@ public class LegendImpl extends BlockImpl implements Legend {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected LegendImpl() {
@@ -567,7 +516,6 @@ public class LegendImpl extends BlockImpl implements Legend {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -577,7 +525,6 @@ public class LegendImpl extends BlockImpl implements Legend {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -587,7 +534,6 @@ public class LegendImpl extends BlockImpl implements Legend {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -596,15 +542,13 @@ public class LegendImpl extends BlockImpl implements Legend {
 		horizontalSpacing = newHorizontalSpacing;
 		boolean oldHorizontalSpacingESet = horizontalSpacingESet;
 		horizontalSpacingESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.LEGEND__HORIZONTAL_SPACING,
 					oldHorizontalSpacing, horizontalSpacing, !oldHorizontalSpacingESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -613,15 +557,13 @@ public class LegendImpl extends BlockImpl implements Legend {
 		boolean oldHorizontalSpacingESet = horizontalSpacingESet;
 		horizontalSpacing = HORIZONTAL_SPACING_EDEFAULT;
 		horizontalSpacingESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, LayoutPackage.LEGEND__HORIZONTAL_SPACING,
 					oldHorizontalSpacing, HORIZONTAL_SPACING_EDEFAULT, oldHorizontalSpacingESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -631,7 +573,6 @@ public class LegendImpl extends BlockImpl implements Legend {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -641,7 +582,6 @@ public class LegendImpl extends BlockImpl implements Legend {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -650,15 +590,13 @@ public class LegendImpl extends BlockImpl implements Legend {
 		verticalSpacing = newVerticalSpacing;
 		boolean oldVerticalSpacingESet = verticalSpacingESet;
 		verticalSpacingESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.LEGEND__VERTICAL_SPACING,
 					oldVerticalSpacing, verticalSpacing, !oldVerticalSpacingESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -667,15 +605,13 @@ public class LegendImpl extends BlockImpl implements Legend {
 		boolean oldVerticalSpacingESet = verticalSpacingESet;
 		verticalSpacing = VERTICAL_SPACING_EDEFAULT;
 		verticalSpacingESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, LayoutPackage.LEGEND__VERTICAL_SPACING,
 					oldVerticalSpacing, VERTICAL_SPACING_EDEFAULT, oldVerticalSpacingESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -685,7 +621,6 @@ public class LegendImpl extends BlockImpl implements Legend {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -695,7 +630,6 @@ public class LegendImpl extends BlockImpl implements Legend {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetClientArea(ClientArea newClientArea, NotificationChain msgs) {
@@ -704,45 +638,38 @@ public class LegendImpl extends BlockImpl implements Legend {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					LayoutPackage.LEGEND__CLIENT_AREA, oldClientArea, newClientArea);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setClientArea(ClientArea newClientArea) {
 		if (newClientArea != clientArea) {
 			NotificationChain msgs = null;
-			if (clientArea != null) {
+			if (clientArea != null)
 				msgs = ((InternalEObject) clientArea).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - LayoutPackage.LEGEND__CLIENT_AREA, null, msgs);
-			}
-			if (newClientArea != null) {
+			if (newClientArea != null)
 				msgs = ((InternalEObject) newClientArea).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - LayoutPackage.LEGEND__CLIENT_AREA, null, msgs);
-			}
 			msgs = basicSetClientArea(newClientArea, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.LEGEND__CLIENT_AREA, newClientArea,
 					newClientArea));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -752,7 +679,6 @@ public class LegendImpl extends BlockImpl implements Legend {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetText(Text newText, NotificationChain msgs) {
@@ -761,44 +687,37 @@ public class LegendImpl extends BlockImpl implements Legend {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, LayoutPackage.LEGEND__TEXT,
 					oldText, newText);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setText(Text newText) {
 		if (newText != text) {
 			NotificationChain msgs = null;
-			if (text != null) {
+			if (text != null)
 				msgs = ((InternalEObject) text).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - LayoutPackage.LEGEND__TEXT, null, msgs);
-			}
-			if (newText != null) {
+			if (newText != null)
 				msgs = ((InternalEObject) newText).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - LayoutPackage.LEGEND__TEXT, null, msgs);
-			}
 			msgs = basicSetText(newText, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.LEGEND__TEXT, newText, newText));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -808,7 +727,6 @@ public class LegendImpl extends BlockImpl implements Legend {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -817,15 +735,13 @@ public class LegendImpl extends BlockImpl implements Legend {
 		orientation = newOrientation == null ? ORIENTATION_EDEFAULT : newOrientation;
 		boolean oldOrientationESet = orientationESet;
 		orientationESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.LEGEND__ORIENTATION, oldOrientation,
 					orientation, !oldOrientationESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -834,15 +750,13 @@ public class LegendImpl extends BlockImpl implements Legend {
 		boolean oldOrientationESet = orientationESet;
 		orientation = ORIENTATION_EDEFAULT;
 		orientationESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, LayoutPackage.LEGEND__ORIENTATION, oldOrientation,
 					ORIENTATION_EDEFAULT, oldOrientationESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -852,7 +766,6 @@ public class LegendImpl extends BlockImpl implements Legend {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -862,7 +775,6 @@ public class LegendImpl extends BlockImpl implements Legend {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -871,15 +783,13 @@ public class LegendImpl extends BlockImpl implements Legend {
 		direction = newDirection == null ? DIRECTION_EDEFAULT : newDirection;
 		boolean oldDirectionESet = directionESet;
 		directionESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.LEGEND__DIRECTION, oldDirection,
 					direction, !oldDirectionESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -888,15 +798,13 @@ public class LegendImpl extends BlockImpl implements Legend {
 		boolean oldDirectionESet = directionESet;
 		direction = DIRECTION_EDEFAULT;
 		directionESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, LayoutPackage.LEGEND__DIRECTION, oldDirection,
 					DIRECTION_EDEFAULT, oldDirectionESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -906,7 +814,6 @@ public class LegendImpl extends BlockImpl implements Legend {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -916,7 +823,6 @@ public class LegendImpl extends BlockImpl implements Legend {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetSeparator(LineAttributes newSeparator, NotificationChain msgs) {
@@ -925,45 +831,38 @@ public class LegendImpl extends BlockImpl implements Legend {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					LayoutPackage.LEGEND__SEPARATOR, oldSeparator, newSeparator);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setSeparator(LineAttributes newSeparator) {
 		if (newSeparator != separator) {
 			NotificationChain msgs = null;
-			if (separator != null) {
+			if (separator != null)
 				msgs = ((InternalEObject) separator).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - LayoutPackage.LEGEND__SEPARATOR, null, msgs);
-			}
-			if (newSeparator != null) {
+			if (newSeparator != null)
 				msgs = ((InternalEObject) newSeparator).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - LayoutPackage.LEGEND__SEPARATOR, null, msgs);
-			}
 			msgs = basicSetSeparator(newSeparator, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.LEGEND__SEPARATOR, newSeparator,
 					newSeparator));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -973,7 +872,6 @@ public class LegendImpl extends BlockImpl implements Legend {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -982,15 +880,13 @@ public class LegendImpl extends BlockImpl implements Legend {
 		position = newPosition == null ? POSITION_EDEFAULT : newPosition;
 		boolean oldPositionESet = positionESet;
 		positionESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.LEGEND__POSITION, oldPosition, position,
 					!oldPositionESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -999,15 +895,13 @@ public class LegendImpl extends BlockImpl implements Legend {
 		boolean oldPositionESet = positionESet;
 		position = POSITION_EDEFAULT;
 		positionESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, LayoutPackage.LEGEND__POSITION, oldPosition,
 					POSITION_EDEFAULT, oldPositionESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1017,7 +911,6 @@ public class LegendImpl extends BlockImpl implements Legend {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1027,7 +920,6 @@ public class LegendImpl extends BlockImpl implements Legend {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1036,15 +928,13 @@ public class LegendImpl extends BlockImpl implements Legend {
 		itemType = newItemType == null ? ITEM_TYPE_EDEFAULT : newItemType;
 		boolean oldItemTypeESet = itemTypeESet;
 		itemTypeESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.LEGEND__ITEM_TYPE, oldItemType,
 					itemType, !oldItemTypeESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1053,15 +943,13 @@ public class LegendImpl extends BlockImpl implements Legend {
 		boolean oldItemTypeESet = itemTypeESet;
 		itemType = ITEM_TYPE_EDEFAULT;
 		itemTypeESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, LayoutPackage.LEGEND__ITEM_TYPE, oldItemType,
 					ITEM_TYPE_EDEFAULT, oldItemTypeESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1071,7 +959,6 @@ public class LegendImpl extends BlockImpl implements Legend {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1081,7 +968,6 @@ public class LegendImpl extends BlockImpl implements Legend {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetTitle(Label newTitle, NotificationChain msgs) {
@@ -1090,44 +976,37 @@ public class LegendImpl extends BlockImpl implements Legend {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, LayoutPackage.LEGEND__TITLE,
 					oldTitle, newTitle);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setTitle(Label newTitle) {
 		if (newTitle != title) {
 			NotificationChain msgs = null;
-			if (title != null) {
+			if (title != null)
 				msgs = ((InternalEObject) title).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - LayoutPackage.LEGEND__TITLE, null, msgs);
-			}
-			if (newTitle != null) {
+			if (newTitle != null)
 				msgs = ((InternalEObject) newTitle).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - LayoutPackage.LEGEND__TITLE, null, msgs);
-			}
 			msgs = basicSetTitle(newTitle, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.LEGEND__TITLE, newTitle, newTitle));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1137,7 +1016,6 @@ public class LegendImpl extends BlockImpl implements Legend {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1146,15 +1024,13 @@ public class LegendImpl extends BlockImpl implements Legend {
 		titlePosition = newTitlePosition == null ? TITLE_POSITION_EDEFAULT : newTitlePosition;
 		boolean oldTitlePositionESet = titlePositionESet;
 		titlePositionESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.LEGEND__TITLE_POSITION,
 					oldTitlePosition, titlePosition, !oldTitlePositionESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1163,15 +1039,13 @@ public class LegendImpl extends BlockImpl implements Legend {
 		boolean oldTitlePositionESet = titlePositionESet;
 		titlePosition = TITLE_POSITION_EDEFAULT;
 		titlePositionESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, LayoutPackage.LEGEND__TITLE_POSITION,
 					oldTitlePosition, TITLE_POSITION_EDEFAULT, oldTitlePositionESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1181,7 +1055,6 @@ public class LegendImpl extends BlockImpl implements Legend {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1191,7 +1064,6 @@ public class LegendImpl extends BlockImpl implements Legend {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1200,15 +1072,13 @@ public class LegendImpl extends BlockImpl implements Legend {
 		showValue = newShowValue;
 		boolean oldShowValueESet = showValueESet;
 		showValueESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.LEGEND__SHOW_VALUE, oldShowValue,
 					showValue, !oldShowValueESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1217,15 +1087,13 @@ public class LegendImpl extends BlockImpl implements Legend {
 		boolean oldShowValueESet = showValueESet;
 		showValue = SHOW_VALUE_EDEFAULT;
 		showValueESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, LayoutPackage.LEGEND__SHOW_VALUE, oldShowValue,
 					SHOW_VALUE_EDEFAULT, oldShowValueESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1235,7 +1103,6 @@ public class LegendImpl extends BlockImpl implements Legend {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1245,7 +1112,6 @@ public class LegendImpl extends BlockImpl implements Legend {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1254,15 +1120,13 @@ public class LegendImpl extends BlockImpl implements Legend {
 		showPercent = newShowPercent;
 		boolean oldShowPercentESet = showPercentESet;
 		showPercentESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.LEGEND__SHOW_PERCENT, oldShowPercent,
 					showPercent, !oldShowPercentESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1271,15 +1135,13 @@ public class LegendImpl extends BlockImpl implements Legend {
 		boolean oldShowPercentESet = showPercentESet;
 		showPercent = SHOW_PERCENT_EDEFAULT;
 		showPercentESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, LayoutPackage.LEGEND__SHOW_PERCENT, oldShowPercent,
 					SHOW_PERCENT_EDEFAULT, oldShowPercentESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1289,7 +1151,6 @@ public class LegendImpl extends BlockImpl implements Legend {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1299,7 +1160,6 @@ public class LegendImpl extends BlockImpl implements Legend {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1308,15 +1168,13 @@ public class LegendImpl extends BlockImpl implements Legend {
 		showTotal = newShowTotal;
 		boolean oldShowTotalESet = showTotalESet;
 		showTotalESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.LEGEND__SHOW_TOTAL, oldShowTotal,
 					showTotal, !oldShowTotalESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1325,15 +1183,13 @@ public class LegendImpl extends BlockImpl implements Legend {
 		boolean oldShowTotalESet = showTotalESet;
 		showTotal = SHOW_TOTAL_EDEFAULT;
 		showTotalESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, LayoutPackage.LEGEND__SHOW_TOTAL, oldShowTotal,
 					SHOW_TOTAL_EDEFAULT, oldShowTotalESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1343,7 +1199,6 @@ public class LegendImpl extends BlockImpl implements Legend {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1353,7 +1208,6 @@ public class LegendImpl extends BlockImpl implements Legend {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1362,15 +1216,13 @@ public class LegendImpl extends BlockImpl implements Legend {
 		wrappingSize = newWrappingSize;
 		boolean oldWrappingSizeESet = wrappingSizeESet;
 		wrappingSizeESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.LEGEND__WRAPPING_SIZE, oldWrappingSize,
 					wrappingSize, !oldWrappingSizeESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1379,15 +1231,13 @@ public class LegendImpl extends BlockImpl implements Legend {
 		boolean oldWrappingSizeESet = wrappingSizeESet;
 		wrappingSize = WRAPPING_SIZE_EDEFAULT;
 		wrappingSizeESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, LayoutPackage.LEGEND__WRAPPING_SIZE,
 					oldWrappingSize, WRAPPING_SIZE_EDEFAULT, oldWrappingSizeESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1397,7 +1247,6 @@ public class LegendImpl extends BlockImpl implements Legend {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1407,7 +1256,6 @@ public class LegendImpl extends BlockImpl implements Legend {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1416,15 +1264,13 @@ public class LegendImpl extends BlockImpl implements Legend {
 		maxPercent = newMaxPercent;
 		boolean oldMaxPercentESet = maxPercentESet;
 		maxPercentESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.LEGEND__MAX_PERCENT, oldMaxPercent,
 					maxPercent, !oldMaxPercentESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1433,15 +1279,13 @@ public class LegendImpl extends BlockImpl implements Legend {
 		boolean oldMaxPercentESet = maxPercentESet;
 		maxPercent = MAX_PERCENT_EDEFAULT;
 		maxPercentESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, LayoutPackage.LEGEND__MAX_PERCENT, oldMaxPercent,
 					MAX_PERCENT_EDEFAULT, oldMaxPercentESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1451,7 +1295,6 @@ public class LegendImpl extends BlockImpl implements Legend {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1461,7 +1304,6 @@ public class LegendImpl extends BlockImpl implements Legend {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1470,15 +1312,13 @@ public class LegendImpl extends BlockImpl implements Legend {
 		titlePercent = newTitlePercent;
 		boolean oldTitlePercentESet = titlePercentESet;
 		titlePercentESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.LEGEND__TITLE_PERCENT, oldTitlePercent,
 					titlePercent, !oldTitlePercentESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1487,15 +1327,13 @@ public class LegendImpl extends BlockImpl implements Legend {
 		boolean oldTitlePercentESet = titlePercentESet;
 		titlePercent = TITLE_PERCENT_EDEFAULT;
 		titlePercentESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, LayoutPackage.LEGEND__TITLE_PERCENT,
 					oldTitlePercent, TITLE_PERCENT_EDEFAULT, oldTitlePercentESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1505,7 +1343,6 @@ public class LegendImpl extends BlockImpl implements Legend {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1515,7 +1352,6 @@ public class LegendImpl extends BlockImpl implements Legend {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1524,15 +1360,13 @@ public class LegendImpl extends BlockImpl implements Legend {
 		ellipsis = newEllipsis;
 		boolean oldEllipsisESet = ellipsisESet;
 		ellipsisESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.LEGEND__ELLIPSIS, oldEllipsis, ellipsis,
 					!oldEllipsisESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1541,15 +1375,13 @@ public class LegendImpl extends BlockImpl implements Legend {
 		boolean oldEllipsisESet = ellipsisESet;
 		ellipsis = ELLIPSIS_EDEFAULT;
 		ellipsisESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, LayoutPackage.LEGEND__ELLIPSIS, oldEllipsis,
 					ELLIPSIS_EDEFAULT, oldEllipsisESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1559,7 +1391,6 @@ public class LegendImpl extends BlockImpl implements Legend {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1569,7 +1400,6 @@ public class LegendImpl extends BlockImpl implements Legend {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetFormatSpecifier(FormatSpecifier newFormatSpecifier, NotificationChain msgs) {
@@ -1578,45 +1408,38 @@ public class LegendImpl extends BlockImpl implements Legend {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					LayoutPackage.LEGEND__FORMAT_SPECIFIER, oldFormatSpecifier, newFormatSpecifier);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setFormatSpecifier(FormatSpecifier newFormatSpecifier) {
 		if (newFormatSpecifier != formatSpecifier) {
 			NotificationChain msgs = null;
-			if (formatSpecifier != null) {
+			if (formatSpecifier != null)
 				msgs = ((InternalEObject) formatSpecifier).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - LayoutPackage.LEGEND__FORMAT_SPECIFIER, null, msgs);
-			}
-			if (newFormatSpecifier != null) {
+			if (newFormatSpecifier != null)
 				msgs = ((InternalEObject) newFormatSpecifier).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - LayoutPackage.LEGEND__FORMAT_SPECIFIER, null, msgs);
-			}
 			msgs = basicSetFormatSpecifier(newFormatSpecifier, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.LEGEND__FORMAT_SPECIFIER,
 					newFormatSpecifier, newFormatSpecifier));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1638,7 +1461,6 @@ public class LegendImpl extends BlockImpl implements Legend {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1688,7 +1510,6 @@ public class LegendImpl extends BlockImpl implements Legend {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1757,7 +1578,6 @@ public class LegendImpl extends BlockImpl implements Legend {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1826,7 +1646,6 @@ public class LegendImpl extends BlockImpl implements Legend {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1876,100 +1695,84 @@ public class LegendImpl extends BlockImpl implements Legend {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) {
+		if (eIsProxy())
 			return super.toString();
-		}
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (horizontalSpacing: "); //$NON-NLS-1$
-		if (horizontalSpacingESet) {
+		if (horizontalSpacingESet)
 			result.append(horizontalSpacing);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", verticalSpacing: "); //$NON-NLS-1$
-		if (verticalSpacingESet) {
+		if (verticalSpacingESet)
 			result.append(verticalSpacing);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", orientation: "); //$NON-NLS-1$
-		if (orientationESet) {
+		if (orientationESet)
 			result.append(orientation);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", direction: "); //$NON-NLS-1$
-		if (directionESet) {
+		if (directionESet)
 			result.append(direction);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", position: "); //$NON-NLS-1$
-		if (positionESet) {
+		if (positionESet)
 			result.append(position);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", itemType: "); //$NON-NLS-1$
-		if (itemTypeESet) {
+		if (itemTypeESet)
 			result.append(itemType);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", titlePosition: "); //$NON-NLS-1$
-		if (titlePositionESet) {
+		if (titlePositionESet)
 			result.append(titlePosition);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", showValue: "); //$NON-NLS-1$
-		if (showValueESet) {
+		if (showValueESet)
 			result.append(showValue);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", showPercent: "); //$NON-NLS-1$
-		if (showPercentESet) {
+		if (showPercentESet)
 			result.append(showPercent);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", showTotal: "); //$NON-NLS-1$
-		if (showTotalESet) {
+		if (showTotalESet)
 			result.append(showTotal);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", wrappingSize: "); //$NON-NLS-1$
-		if (wrappingSizeESet) {
+		if (wrappingSizeESet)
 			result.append(wrappingSize);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", maxPercent: "); //$NON-NLS-1$
-		if (maxPercentESet) {
+		if (maxPercentESet)
 			result.append(maxPercent);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", titlePercent: "); //$NON-NLS-1$
-		if (titlePercentESet) {
+		if (titlePercentESet)
 			result.append(titlePercent);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", ellipsis: "); //$NON-NLS-1$
-		if (ellipsisESet) {
+		if (ellipsisESet)
 			result.append(ellipsis);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(')');
 		return result.toString();
 	}
@@ -2160,6 +1963,44 @@ public class LegendImpl extends BlockImpl implements Legend {
 
 		// children
 
+		if (src.getChildren() != null) {
+			EList<Block> list = getChildren();
+			for (Block element : src.getChildren()) {
+				list.add(element.copyInstance());
+			}
+		}
+
+		if (src.getBounds() != null) {
+			setBounds(src.getBounds().copyInstance());
+		}
+
+		if (src.getInsets() != null) {
+			setInsets(src.getInsets().copyInstance());
+		}
+
+		if (src.getMinSize() != null) {
+			setMinSize(src.getMinSize().copyInstance());
+		}
+
+		if (src.getOutline() != null) {
+			setOutline(src.getOutline().copyInstance());
+		}
+
+		if (src.getBackground() != null) {
+			setBackground(src.getBackground().copyInstance());
+		}
+
+		if (src.getTriggers() != null) {
+			EList<Trigger> list = getTriggers();
+			for (Trigger element : src.getTriggers()) {
+				list.add(element.copyInstance());
+			}
+		}
+
+		if (src.getCursor() != null) {
+			setCursor(src.getCursor().copyInstance());
+		}
+
 		if (src.getClientArea() != null) {
 			setClientArea(src.getClientArea().copyInstance());
 		}
@@ -2177,6 +2018,42 @@ public class LegendImpl extends BlockImpl implements Legend {
 		}
 
 		// attributes
+
+		anchor = src.getAnchor();
+
+		anchorESet = src.isSetAnchor();
+
+		stretch = src.getStretch();
+
+		stretchESet = src.isSetStretch();
+
+		row = src.getRow();
+
+		rowESet = src.isSetRow();
+
+		column = src.getColumn();
+
+		columnESet = src.isSetColumn();
+
+		rowspan = src.getRowspan();
+
+		rowspanESet = src.isSetRowspan();
+
+		columnspan = src.getColumnspan();
+
+		columnspanESet = src.isSetColumnspan();
+
+		visible = src.isVisible();
+
+		visibleESet = src.isSetVisible();
+
+		widthHint = src.getWidthHint();
+
+		widthHintESet = src.isSetWidthHint();
+
+		heightHint = src.getHeightHint();
+
+		heightHintESet = src.isSetHeightHint();
 
 		horizontalSpacing = src.getHorizontalSpacing();
 

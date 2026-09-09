@@ -15,7 +15,6 @@
 package org.eclipse.birt.chart.model.component.impl;
 
 import java.util.Map;
-
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.ChartPreferences;
 import org.eclipse.birt.chart.model.component.ComponentFactory;
@@ -40,21 +39,20 @@ import org.eclipse.emf.ecore.plugin.EcorePlugin;
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Factory </b>. <!--
  * end-user-doc -->
- *
  * @generated
  */
 public class ComponentFactoryImpl extends EFactoryImpl implements ComponentFactory {
 
 	/**
-	 * Creates the default factory implementation. <!-- begin-user-doc --> <!--
+	 * Creates the default factory implementation.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public static ComponentFactory init() {
 		try {
 			ComponentFactory theComponentFactory = (ComponentFactory) EPackage.Registry.INSTANCE
-					.getEFactory("http://www.birt.eclipse.org/ChartModelComponent"); //$NON-NLS-1$
+					.getEFactory(ComponentPackage.eNS_URI);
 			if (theComponentFactory != null) {
 				return theComponentFactory;
 			}
@@ -76,7 +74,6 @@ public class ComponentFactoryImpl extends EFactoryImpl implements ComponentFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -115,7 +112,6 @@ public class ComponentFactoryImpl extends EFactoryImpl implements ComponentFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -126,7 +122,6 @@ public class ComponentFactoryImpl extends EFactoryImpl implements ComponentFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -137,7 +132,6 @@ public class ComponentFactoryImpl extends EFactoryImpl implements ComponentFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -148,7 +142,6 @@ public class ComponentFactoryImpl extends EFactoryImpl implements ComponentFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -159,7 +152,6 @@ public class ComponentFactoryImpl extends EFactoryImpl implements ComponentFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -170,7 +162,6 @@ public class ComponentFactoryImpl extends EFactoryImpl implements ComponentFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -181,7 +172,6 @@ public class ComponentFactoryImpl extends EFactoryImpl implements ComponentFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -192,7 +182,6 @@ public class ComponentFactoryImpl extends EFactoryImpl implements ComponentFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -203,7 +192,6 @@ public class ComponentFactoryImpl extends EFactoryImpl implements ComponentFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -214,7 +202,6 @@ public class ComponentFactoryImpl extends EFactoryImpl implements ComponentFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -225,7 +212,6 @@ public class ComponentFactoryImpl extends EFactoryImpl implements ComponentFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -236,7 +222,6 @@ public class ComponentFactoryImpl extends EFactoryImpl implements ComponentFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -247,7 +232,6 @@ public class ComponentFactoryImpl extends EFactoryImpl implements ComponentFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public Map.Entry<String, DataSet> createEStringToDataSetMapEntry() {
@@ -257,7 +241,6 @@ public class ComponentFactoryImpl extends EFactoryImpl implements ComponentFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -267,7 +250,6 @@ public class ComponentFactoryImpl extends EFactoryImpl implements ComponentFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @deprecated
 	 * @generated
 	 */

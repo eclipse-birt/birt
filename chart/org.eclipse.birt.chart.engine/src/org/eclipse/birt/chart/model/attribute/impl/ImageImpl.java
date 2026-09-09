@@ -29,13 +29,11 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <em><b>Image</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.ImageImpl#getURL
- * <em>URL</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.ImageImpl#getSource
- * <em>Source</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.ImageImpl#getURL <em>URL</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.ImageImpl#getSource <em>Source</em>}</li>
+ * </ul>
  *
  * @generated
  */
@@ -64,7 +62,6 @@ public class ImageImpl extends FillImpl implements Image {
 	/**
 	 * The default value of the '{@link #getSource() <em>Source</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @see #getSource()
 	 * @generated
 	 * @ordered
@@ -74,7 +71,6 @@ public class ImageImpl extends FillImpl implements Image {
 	/**
 	 * The cached value of the '{@link #getSource() <em>Source</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @see #getSource()
 	 * @generated
 	 * @ordered
@@ -82,9 +78,9 @@ public class ImageImpl extends FillImpl implements Image {
 	protected ImageSourceType source = SOURCE_EDEFAULT;
 
 	/**
-	 * This is true if the Source attribute has been set. <!-- begin-user-doc -->
+	 * This is true if the Source attribute has been set.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -92,7 +88,6 @@ public class ImageImpl extends FillImpl implements Image {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected ImageImpl() {
@@ -101,7 +96,6 @@ public class ImageImpl extends FillImpl implements Image {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -111,7 +105,6 @@ public class ImageImpl extends FillImpl implements Image {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -121,21 +114,18 @@ public class ImageImpl extends FillImpl implements Image {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setURL(String newURL) {
 		String oldURL = uRL;
 		uRL = newURL;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.IMAGE__URL, oldURL, uRL));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -145,7 +135,6 @@ public class ImageImpl extends FillImpl implements Image {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -154,15 +143,13 @@ public class ImageImpl extends FillImpl implements Image {
 		source = newSource == null ? SOURCE_EDEFAULT : newSource;
 		boolean oldSourceESet = sourceESet;
 		sourceESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.IMAGE__SOURCE, oldSource, source,
 					!oldSourceESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -171,15 +158,13 @@ public class ImageImpl extends FillImpl implements Image {
 		boolean oldSourceESet = sourceESet;
 		source = SOURCE_EDEFAULT;
 		sourceESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.IMAGE__SOURCE, oldSource,
 					SOURCE_EDEFAULT, oldSourceESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -189,7 +174,6 @@ public class ImageImpl extends FillImpl implements Image {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -205,7 +189,6 @@ public class ImageImpl extends FillImpl implements Image {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -223,7 +206,6 @@ public class ImageImpl extends FillImpl implements Image {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -241,7 +223,6 @@ public class ImageImpl extends FillImpl implements Image {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -257,24 +238,21 @@ public class ImageImpl extends FillImpl implements Image {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) {
+		if (eIsProxy())
 			return super.toString();
-		}
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (uRL: "); //$NON-NLS-1$
 		result.append(uRL);
 		result.append(", source: "); //$NON-NLS-1$
-		if (sourceESet) {
+		if (sourceESet)
 			result.append(source);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(')');
 		return result.toString();
 	}

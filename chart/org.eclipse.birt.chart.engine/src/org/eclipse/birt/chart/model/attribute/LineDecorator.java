@@ -34,27 +34,27 @@ import org.eclipse.emf.common.util.Enumerator;
  */
 public enum LineDecorator implements Enumerator {
 	/**
-	 * The '<em><b>Arrow</b></em>' literal object. <!-- begin-user-doc --> <!--
+	 * The '<em><b>Arrow</b></em>' literal object.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #ARROW
 	 * @generated
 	 * @ordered
 	 */
 	ARROW_LITERAL(0, "Arrow", "Arrow"),
 	/**
-	 * The '<em><b>Circle</b></em>' literal object. <!-- begin-user-doc --> <!--
+	 * The '<em><b>Circle</b></em>' literal object.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #CIRCLE
 	 * @generated
 	 * @ordered
 	 */
 	CIRCLE_LITERAL(1, "Circle", "Circle"),
 	/**
-	 * The '<em><b>None</b></em>' literal object. <!-- begin-user-doc --> <!--
+	 * The '<em><b>None</b></em>' literal object.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #NONE
 	 * @generated
 	 * @ordered
@@ -62,13 +62,13 @@ public enum LineDecorator implements Enumerator {
 	NONE_LITERAL(2, "None", "None");
 
 	/**
-	 * The '<em><b>Arrow</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Arrow</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Arrow</b></em>' literal object isn't clear, there
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #ARROW_LITERAL
 	 * @model name="Arrow"
 	 * @generated
@@ -77,13 +77,13 @@ public enum LineDecorator implements Enumerator {
 	public static final int ARROW = 0;
 
 	/**
-	 * The '<em><b>Circle</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Circle</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Circle</b></em>' literal object isn't clear, there
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #CIRCLE_LITERAL
 	 * @model name="Circle"
 	 * @generated
@@ -92,13 +92,13 @@ public enum LineDecorator implements Enumerator {
 	public static final int CIRCLE = 1;
 
 	/**
-	 * The '<em><b>None</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>None</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>None</b></em>' literal object isn't clear, there
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #NONE_LITERAL
 	 * @model name="None"
 	 * @generated
@@ -112,20 +112,21 @@ public enum LineDecorator implements Enumerator {
 	 *
 	 * @generated
 	 */
-	private static final LineDecorator[] VALUES_ARRAY = { ARROW_LITERAL, CIRCLE_LITERAL, NONE_LITERAL, };
+	private static final LineDecorator[] VALUES_ARRAY = new LineDecorator[] { ARROW_LITERAL, CIRCLE_LITERAL,
+			NONE_LITERAL, };
 
 	/**
-	 * A public read-only list of all the '<em><b>Line Decorator</b></em>'
-	 * enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * A public read-only list of all the '<em><b>Line Decorator</b></em>' enumerators.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static final List<LineDecorator> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
 	/**
-	 * Returns the '<em><b>Line Decorator</b></em>' literal with the specified
-	 * literal value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns the '<em><b>Line Decorator</b></em>' literal with the specified literal value.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param literal the literal.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static LineDecorator get(String literal) {
@@ -141,7 +142,8 @@ public enum LineDecorator implements Enumerator {
 	/**
 	 * Returns the '<em><b>Line Decorator</b></em>' literal with the specified name.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * @param name the name.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static LineDecorator getByName(String name) {
@@ -155,9 +157,10 @@ public enum LineDecorator implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Line Decorator</b></em>' literal with the specified
-	 * integer value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns the '<em><b>Line Decorator</b></em>' literal with the specified integer value.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the integer value.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static LineDecorator get(int value) {
@@ -174,32 +177,29 @@ public enum LineDecorator implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private final int value;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private final String name;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private final String literal;
 
 	/**
-	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
+	 * Only this class can construct instances.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @generated
 	 */
-	LineDecorator(int value, String name, String literal) {
+	private LineDecorator(int value, String name, String literal) {
 		this.value = value;
 		this.name = name;
 		this.literal = literal;
@@ -207,7 +207,6 @@ public enum LineDecorator implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -217,7 +216,6 @@ public enum LineDecorator implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -227,7 +225,6 @@ public enum LineDecorator implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -236,9 +233,8 @@ public enum LineDecorator implements Enumerator {
 	}
 
 	/**
-	 * Returns the literal value of the enumerator, which is its string
-	 * representation. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns the literal value of the enumerator, which is its string representation.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override

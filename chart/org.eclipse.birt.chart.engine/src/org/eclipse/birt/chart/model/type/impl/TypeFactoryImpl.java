@@ -35,21 +35,19 @@ import org.eclipse.emf.ecore.plugin.EcorePlugin;
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Factory </b>. <!--
  * end-user-doc -->
- *
  * @generated
  */
 public class TypeFactoryImpl extends EFactoryImpl implements TypeFactory {
 
 	/**
-	 * Creates the default factory implementation. <!-- begin-user-doc --> <!--
+	 * Creates the default factory implementation.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public static TypeFactory init() {
 		try {
-			TypeFactory theTypeFactory = (TypeFactory) EPackage.Registry.INSTANCE
-					.getEFactory("http://www.birt.eclipse.org/ChartModelType"); //$NON-NLS-1$
+			TypeFactory theTypeFactory = (TypeFactory) EPackage.Registry.INSTANCE.getEFactory(TypePackage.eNS_URI);
 			if (theTypeFactory != null) {
 				return theTypeFactory;
 			}
@@ -71,7 +69,6 @@ public class TypeFactoryImpl extends EFactoryImpl implements TypeFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -104,7 +101,6 @@ public class TypeFactoryImpl extends EFactoryImpl implements TypeFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -115,7 +111,6 @@ public class TypeFactoryImpl extends EFactoryImpl implements TypeFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -126,7 +121,6 @@ public class TypeFactoryImpl extends EFactoryImpl implements TypeFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -137,7 +131,6 @@ public class TypeFactoryImpl extends EFactoryImpl implements TypeFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -148,7 +141,6 @@ public class TypeFactoryImpl extends EFactoryImpl implements TypeFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -159,7 +151,6 @@ public class TypeFactoryImpl extends EFactoryImpl implements TypeFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -170,7 +161,6 @@ public class TypeFactoryImpl extends EFactoryImpl implements TypeFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -181,7 +171,6 @@ public class TypeFactoryImpl extends EFactoryImpl implements TypeFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -192,7 +181,6 @@ public class TypeFactoryImpl extends EFactoryImpl implements TypeFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -203,7 +191,6 @@ public class TypeFactoryImpl extends EFactoryImpl implements TypeFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -214,7 +201,6 @@ public class TypeFactoryImpl extends EFactoryImpl implements TypeFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -224,7 +210,6 @@ public class TypeFactoryImpl extends EFactoryImpl implements TypeFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @deprecated
 	 * @generated
 	 */

@@ -26,13 +26,11 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <em><b>Extended Property</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.ExtendedPropertyImpl#getName
- * <em>Name</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.ExtendedPropertyImpl#getValue
- * <em>Value</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.ExtendedPropertyImpl#getName <em>Name</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.ExtendedPropertyImpl#getValue <em>Value</em>}</li>
+ * </ul>
  *
  * @generated
  */
@@ -80,7 +78,6 @@ public class ExtendedPropertyImpl extends EObjectImpl implements ExtendedPropert
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected ExtendedPropertyImpl() {
@@ -89,7 +86,6 @@ public class ExtendedPropertyImpl extends EObjectImpl implements ExtendedPropert
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -99,7 +95,6 @@ public class ExtendedPropertyImpl extends EObjectImpl implements ExtendedPropert
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -109,22 +104,19 @@ public class ExtendedPropertyImpl extends EObjectImpl implements ExtendedPropert
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.EXTENDED_PROPERTY__NAME, oldName,
 					name));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -134,22 +126,19 @@ public class ExtendedPropertyImpl extends EObjectImpl implements ExtendedPropert
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setValue(String newValue) {
 		String oldValue = value;
 		value = newValue;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.EXTENDED_PROPERTY__VALUE, oldValue,
 					value));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -165,7 +154,6 @@ public class ExtendedPropertyImpl extends EObjectImpl implements ExtendedPropert
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -183,7 +171,6 @@ public class ExtendedPropertyImpl extends EObjectImpl implements ExtendedPropert
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -201,7 +188,6 @@ public class ExtendedPropertyImpl extends EObjectImpl implements ExtendedPropert
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -217,14 +203,12 @@ public class ExtendedPropertyImpl extends EObjectImpl implements ExtendedPropert
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) {
+		if (eIsProxy())
 			return super.toString();
-		}
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (name: "); //$NON-NLS-1$

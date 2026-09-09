@@ -37,21 +37,15 @@ import com.ibm.icu.util.ULocale;
  * '<em><b>Fraction Number Format Specifier</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.FractionNumberFormatSpecifierImpl#isPrecise
- * <em>Precise</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.FractionNumberFormatSpecifierImpl#getFractionDigits
- * <em>Fraction Digits</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.FractionNumberFormatSpecifierImpl#getNumerator
- * <em>Numerator</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.FractionNumberFormatSpecifierImpl#getPrefix
- * <em>Prefix</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.FractionNumberFormatSpecifierImpl#getSuffix
- * <em>Suffix</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.FractionNumberFormatSpecifierImpl#getDelimiter
- * <em>Delimiter</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.FractionNumberFormatSpecifierImpl#isPrecise <em>Precise</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.FractionNumberFormatSpecifierImpl#getFractionDigits <em>Fraction Digits</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.FractionNumberFormatSpecifierImpl#getNumerator <em>Numerator</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.FractionNumberFormatSpecifierImpl#getPrefix <em>Prefix</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.FractionNumberFormatSpecifierImpl#getSuffix <em>Suffix</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.FractionNumberFormatSpecifierImpl#getDelimiter <em>Delimiter</em>}</li>
+ * </ul>
  *
  * @generated
  */
@@ -60,7 +54,6 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 	/**
 	 * The default value of the '{@link #isPrecise() <em>Precise</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @see #isPrecise()
 	 * @generated
 	 * @ordered
@@ -70,7 +63,6 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 	/**
 	 * The cached value of the '{@link #isPrecise() <em>Precise</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @see #isPrecise()
 	 * @generated
 	 * @ordered
@@ -78,18 +70,17 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 	protected boolean precise = PRECISE_EDEFAULT;
 
 	/**
-	 * This is true if the Precise attribute has been set. <!-- begin-user-doc -->
+	 * This is true if the Precise attribute has been set.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean preciseESet;
 
 	/**
-	 * The default value of the '{@link #getFractionDigits() <em>Fraction
-	 * Digits</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The default value of the '{@link #getFractionDigits() <em>Fraction Digits</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getFractionDigits()
 	 * @generated
 	 * @ordered
@@ -97,9 +88,8 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 	protected static final int FRACTION_DIGITS_EDEFAULT = 0;
 
 	/**
-	 * The cached value of the '{@link #getFractionDigits() <em>Fraction
-	 * Digits</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getFractionDigits() <em>Fraction Digits</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getFractionDigits()
 	 * @generated
 	 * @ordered
@@ -116,9 +106,8 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 	protected boolean fractionDigitsESet;
 
 	/**
-	 * The default value of the '{@link #getNumerator() <em>Numerator</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The default value of the '{@link #getNumerator() <em>Numerator</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getNumerator()
 	 * @generated
 	 * @ordered
@@ -126,9 +115,8 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 	protected static final double NUMERATOR_EDEFAULT = 0.0;
 
 	/**
-	 * The cached value of the '{@link #getNumerator() <em>Numerator</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getNumerator() <em>Numerator</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getNumerator()
 	 * @generated
 	 * @ordered
@@ -136,9 +124,9 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 	protected double numerator = NUMERATOR_EDEFAULT;
 
 	/**
-	 * This is true if the Numerator attribute has been set. <!-- begin-user-doc -->
+	 * This is true if the Numerator attribute has been set.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -147,7 +135,6 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 	/**
 	 * The default value of the '{@link #getPrefix() <em>Prefix</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @see #getPrefix()
 	 * @generated
 	 * @ordered
@@ -157,7 +144,6 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 	/**
 	 * The cached value of the '{@link #getPrefix() <em>Prefix</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @see #getPrefix()
 	 * @generated
 	 * @ordered
@@ -167,7 +153,6 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 	/**
 	 * The default value of the '{@link #getSuffix() <em>Suffix</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @see #getSuffix()
 	 * @generated
 	 * @ordered
@@ -177,7 +162,6 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 	/**
 	 * The cached value of the '{@link #getSuffix() <em>Suffix</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @see #getSuffix()
 	 * @generated
 	 * @ordered
@@ -185,9 +169,8 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 	protected String suffix = SUFFIX_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getDelimiter() <em>Delimiter</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The default value of the '{@link #getDelimiter() <em>Delimiter</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getDelimiter()
 	 * @generated
 	 * @ordered
@@ -195,9 +178,8 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 	protected static final String DELIMITER_EDEFAULT = "/"; //$NON-NLS-1$
 
 	/**
-	 * The cached value of the '{@link #getDelimiter() <em>Delimiter</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getDelimiter() <em>Delimiter</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getDelimiter()
 	 * @generated
 	 * @ordered
@@ -205,9 +187,9 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 	protected String delimiter = DELIMITER_EDEFAULT;
 
 	/**
-	 * This is true if the Delimiter attribute has been set. <!-- begin-user-doc -->
+	 * This is true if the Delimiter attribute has been set.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -215,7 +197,6 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected FractionNumberFormatSpecifierImpl() {
@@ -224,7 +205,6 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -234,7 +214,6 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -244,7 +223,6 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -253,15 +231,13 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 		precise = newPrecise;
 		boolean oldPreciseESet = preciseESet;
 		preciseESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
 					AttributePackage.FRACTION_NUMBER_FORMAT_SPECIFIER__PRECISE, oldPrecise, precise, !oldPreciseESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -270,16 +246,14 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 		boolean oldPreciseESet = preciseESet;
 		precise = PRECISE_EDEFAULT;
 		preciseESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET,
 					AttributePackage.FRACTION_NUMBER_FORMAT_SPECIFIER__PRECISE, oldPrecise, PRECISE_EDEFAULT,
 					oldPreciseESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -289,7 +263,6 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -299,7 +272,6 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -308,16 +280,14 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 		fractionDigits = newFractionDigits;
 		boolean oldFractionDigitsESet = fractionDigitsESet;
 		fractionDigitsESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
 					AttributePackage.FRACTION_NUMBER_FORMAT_SPECIFIER__FRACTION_DIGITS, oldFractionDigits,
 					fractionDigits, !oldFractionDigitsESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -326,16 +296,14 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 		boolean oldFractionDigitsESet = fractionDigitsESet;
 		fractionDigits = FRACTION_DIGITS_EDEFAULT;
 		fractionDigitsESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET,
 					AttributePackage.FRACTION_NUMBER_FORMAT_SPECIFIER__FRACTION_DIGITS, oldFractionDigits,
 					FRACTION_DIGITS_EDEFAULT, oldFractionDigitsESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -345,7 +313,6 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -355,7 +322,6 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -364,16 +330,14 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 		numerator = newNumerator;
 		boolean oldNumeratorESet = numeratorESet;
 		numeratorESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
 					AttributePackage.FRACTION_NUMBER_FORMAT_SPECIFIER__NUMERATOR, oldNumerator, numerator,
 					!oldNumeratorESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -382,16 +346,14 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 		boolean oldNumeratorESet = numeratorESet;
 		numerator = NUMERATOR_EDEFAULT;
 		numeratorESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET,
 					AttributePackage.FRACTION_NUMBER_FORMAT_SPECIFIER__NUMERATOR, oldNumerator, NUMERATOR_EDEFAULT,
 					oldNumeratorESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -401,7 +363,6 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -411,22 +372,19 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setPrefix(String newPrefix) {
 		String oldPrefix = prefix;
 		prefix = newPrefix;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
 					AttributePackage.FRACTION_NUMBER_FORMAT_SPECIFIER__PREFIX, oldPrefix, prefix));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -436,22 +394,19 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setSuffix(String newSuffix) {
 		String oldSuffix = suffix;
 		suffix = newSuffix;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
 					AttributePackage.FRACTION_NUMBER_FORMAT_SPECIFIER__SUFFIX, oldSuffix, suffix));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -461,7 +416,6 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -470,16 +424,14 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 		delimiter = newDelimiter;
 		boolean oldDelimiterESet = delimiterESet;
 		delimiterESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
 					AttributePackage.FRACTION_NUMBER_FORMAT_SPECIFIER__DELIMITER, oldDelimiter, delimiter,
 					!oldDelimiterESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -488,16 +440,14 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 		boolean oldDelimiterESet = delimiterESet;
 		delimiter = DELIMITER_EDEFAULT;
 		delimiterESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET,
 					AttributePackage.FRACTION_NUMBER_FORMAT_SPECIFIER__DELIMITER, oldDelimiter, DELIMITER_EDEFAULT,
 					oldDelimiterESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -507,7 +457,6 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -531,7 +480,6 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -561,7 +509,6 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -591,7 +538,6 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -615,44 +561,38 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) {
+		if (eIsProxy())
 			return super.toString();
-		}
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (precise: "); //$NON-NLS-1$
-		if (preciseESet) {
+		if (preciseESet)
 			result.append(precise);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", fractionDigits: "); //$NON-NLS-1$
-		if (fractionDigitsESet) {
+		if (fractionDigitsESet)
 			result.append(fractionDigits);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", numerator: "); //$NON-NLS-1$
-		if (numeratorESet) {
+		if (numeratorESet)
 			result.append(numerator);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", prefix: "); //$NON-NLS-1$
 		result.append(prefix);
 		result.append(", suffix: "); //$NON-NLS-1$
 		result.append(suffix);
 		result.append(", delimiter: "); //$NON-NLS-1$
-		if (delimiterESet) {
+		if (delimiterESet)
 			result.append(delimiter);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(')');
 		return result.toString();
 	}

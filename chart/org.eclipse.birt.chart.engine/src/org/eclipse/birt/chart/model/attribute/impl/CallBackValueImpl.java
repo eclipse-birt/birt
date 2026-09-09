@@ -31,20 +31,18 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * Back Value</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.CallBackValueImpl#getIdentifier
- * <em>Identifier</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.CallBackValueImpl#getIdentifier <em>Identifier</em>}</li>
+ * </ul>
  *
  * @generated
  */
 public class CallBackValueImpl extends ActionValueImpl implements CallBackValue {
 
 	/**
-	 * The default value of the '{@link #getIdentifier() <em>Identifier</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The default value of the '{@link #getIdentifier() <em>Identifier</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getIdentifier()
 	 * @generated
 	 * @ordered
@@ -52,9 +50,8 @@ public class CallBackValueImpl extends ActionValueImpl implements CallBackValue 
 	protected static final String IDENTIFIER_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getIdentifier() <em>Identifier</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getIdentifier() <em>Identifier</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getIdentifier()
 	 * @generated
 	 * @ordered
@@ -63,7 +60,6 @@ public class CallBackValueImpl extends ActionValueImpl implements CallBackValue 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected CallBackValueImpl() {
@@ -72,7 +68,6 @@ public class CallBackValueImpl extends ActionValueImpl implements CallBackValue 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -82,7 +77,6 @@ public class CallBackValueImpl extends ActionValueImpl implements CallBackValue 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -92,22 +86,19 @@ public class CallBackValueImpl extends ActionValueImpl implements CallBackValue 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setIdentifier(String newIdentifier) {
 		String oldIdentifier = identifier;
 		identifier = newIdentifier;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.CALL_BACK_VALUE__IDENTIFIER,
 					oldIdentifier, identifier));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -121,7 +112,6 @@ public class CallBackValueImpl extends ActionValueImpl implements CallBackValue 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -136,7 +126,6 @@ public class CallBackValueImpl extends ActionValueImpl implements CallBackValue 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -151,7 +140,6 @@ public class CallBackValueImpl extends ActionValueImpl implements CallBackValue 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -165,14 +153,12 @@ public class CallBackValueImpl extends ActionValueImpl implements CallBackValue 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) {
+		if (eIsProxy())
 			return super.toString();
-		}
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (identifier: "); //$NON-NLS-1$

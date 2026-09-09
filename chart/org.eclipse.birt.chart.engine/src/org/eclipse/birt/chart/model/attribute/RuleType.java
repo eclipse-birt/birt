@@ -35,39 +35,39 @@ import org.eclipse.emf.common.util.Enumerator;
  */
 public enum RuleType implements Enumerator {
 	/**
-	 * The '<em><b>Filter</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Filter</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Filter</b></em>' literal object isn't clear, there
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #FILTER
 	 * @generated
 	 * @ordered
 	 */
 	FILTER_LITERAL(0, "Filter", "Filter"),
 	/**
-	 * The '<em><b>Suppress</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Suppress</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Suppress</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #SUPPRESS
 	 * @generated
 	 * @ordered
 	 */
 	SUPPRESS_LITERAL(1, "Suppress", "Suppress"),
 	/**
-	 * The '<em><b>Link</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Link</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Link</b></em>' literal object isn't clear, there
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #LINK
 	 * @generated
 	 * @ordered
@@ -75,9 +75,9 @@ public enum RuleType implements Enumerator {
 	LINK_LITERAL(2, "Link", "Link");
 
 	/**
-	 * The '<em><b>Filter</b></em>' literal value. <!-- begin-user-doc --> <!--
+	 * The '<em><b>Filter</b></em>' literal value.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #FILTER_LITERAL
 	 * @model name="Filter"
 	 * @generated
@@ -86,9 +86,9 @@ public enum RuleType implements Enumerator {
 	public static final int FILTER = 0;
 
 	/**
-	 * The '<em><b>Suppress</b></em>' literal value. <!-- begin-user-doc --> <!--
+	 * The '<em><b>Suppress</b></em>' literal value.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #SUPPRESS_LITERAL
 	 * @model name="Suppress"
 	 * @generated
@@ -97,9 +97,9 @@ public enum RuleType implements Enumerator {
 	public static final int SUPPRESS = 1;
 
 	/**
-	 * The '<em><b>Link</b></em>' literal value. <!-- begin-user-doc --> <!--
+	 * The '<em><b>Link</b></em>' literal value.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #LINK_LITERAL
 	 * @model name="Link"
 	 * @generated
@@ -113,20 +113,20 @@ public enum RuleType implements Enumerator {
 	 *
 	 * @generated
 	 */
-	private static final RuleType[] VALUES_ARRAY = { FILTER_LITERAL, SUPPRESS_LITERAL, LINK_LITERAL, };
+	private static final RuleType[] VALUES_ARRAY = new RuleType[] { FILTER_LITERAL, SUPPRESS_LITERAL, LINK_LITERAL, };
 
 	/**
 	 * A public read-only list of all the '<em><b>Rule Type</b></em>' enumerators.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public static final List<RuleType> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
 	/**
-	 * Returns the '<em><b>Rule Type</b></em>' literal with the specified literal
-	 * value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns the '<em><b>Rule Type</b></em>' literal with the specified literal value.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param literal the literal.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static RuleType get(String literal) {
@@ -156,9 +156,10 @@ public enum RuleType implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Rule Type</b></em>' literal with the specified integer
-	 * value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns the '<em><b>Rule Type</b></em>' literal with the specified integer value.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the integer value.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static RuleType get(int value) {
@@ -175,32 +176,29 @@ public enum RuleType implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private final int value;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private final String name;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private final String literal;
 
 	/**
-	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
+	 * Only this class can construct instances.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @generated
 	 */
-	RuleType(int value, String name, String literal) {
+	private RuleType(int value, String name, String literal) {
 		this.value = value;
 		this.name = name;
 		this.literal = literal;
@@ -208,7 +206,6 @@ public enum RuleType implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -218,7 +215,6 @@ public enum RuleType implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -228,7 +224,6 @@ public enum RuleType implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -237,9 +232,8 @@ public enum RuleType implements Enumerator {
 	}
 
 	/**
-	 * Returns the literal value of the enumerator, which is its string
-	 * representation. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns the literal value of the enumerator, which is its string representation.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override

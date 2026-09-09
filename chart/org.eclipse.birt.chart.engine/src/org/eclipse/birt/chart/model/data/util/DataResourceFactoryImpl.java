@@ -22,16 +22,15 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
 /**
  * <!-- begin-user-doc --> The <b>Resource Factory </b> associated with the
  * package. <!-- end-user-doc -->
- *
  * @see org.eclipse.birt.chart.model.data.util.DataResourceImpl
  * @generated
  */
 public class DataResourceFactoryImpl extends ResourceFactoryImpl {
 
 	/**
-	 * Creates an instance of the resource factory. <!-- begin-user-doc --> <!--
+	 * Creates an instance of the resource factory.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public DataResourceFactoryImpl() {
@@ -39,9 +38,9 @@ public class DataResourceFactoryImpl extends ResourceFactoryImpl {
 	}
 
 	/**
-	 * Creates an instance of the resource. <!-- begin-user-doc --> <!--
+	 * Creates an instance of the resource.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override

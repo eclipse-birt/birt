@@ -22,30 +22,30 @@ import org.eclipse.emf.common.util.EList;
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Chart
  * Without Axes</b></em>'. <!-- end-user-doc -->
  *
- * <!-- begin-model-doc --> ChartWithoutAxes represents a chart without any
- * axis. (e.g. Pie Chart, Dial Chart, etc).
- * <p xmlns="http://www.birt.eclipse.org/ChartModel">
- * To create an instance use the factory method:<br/>
- * ChartWithoutAxesImpl.create( );
- * </p>
- *
+ * <!-- begin-model-doc -->
+ * 
+ *   ChartWithoutAxes represents a chart without any axis. (e.g. Pie Chart, Dial Chart, etc).  
+ * 
+ *   <p xmlns="http://www.birt.eclipse.org/ChartModel">
+ *     To create an instance use the factory method:
+ *     <br/>
+ *     ChartWithoutAxesImpl.create( );
+ * 
+ *   </p>
+ *   			
+ * 
  * <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.ChartWithoutAxes#getSeriesDefinitions
- * <em>Series Definitions</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.ChartWithoutAxes#getMinSlice <em>Min
- * Slice</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.ChartWithoutAxes#isMinSlicePercent
- * <em>Min Slice Percent</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.ChartWithoutAxes#getMinSliceLabel
- * <em>Min Slice Label</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.ChartWithoutAxes#getCoverage
- * <em>Coverage</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.ChartWithoutAxes#getSeriesDefinitions <em>Series Definitions</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.ChartWithoutAxes#getMinSlice <em>Min Slice</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.ChartWithoutAxes#isMinSlicePercent <em>Min Slice Percent</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.ChartWithoutAxes#getMinSliceLabel <em>Min Slice Label</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.ChartWithoutAxes#getCoverage <em>Coverage</em>}</li>
+ * </ul>
  *
  * @see org.eclipse.birt.chart.model.ModelPackage#getChartWithoutAxes()
  * @model extendedMetaData="name='ChartWithoutAxes' kind='elementOnly'"
@@ -95,10 +95,8 @@ public interface ChartWithoutAxes extends Chart {
 	double getMinSlice();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.ChartWithoutAxes#getMinSlice <em>Min
-	 * Slice</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.ChartWithoutAxes#getMinSlice <em>Min Slice</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Min Slice</em>' attribute.
 	 * @see #isSetMinSlice()
 	 * @see #unsetMinSlice()
@@ -108,10 +106,8 @@ public interface ChartWithoutAxes extends Chart {
 	void setMinSlice(double value);
 
 	/**
-	 * Unsets the value of the
-	 * '{@link org.eclipse.birt.chart.model.ChartWithoutAxes#getMinSlice <em>Min
-	 * Slice</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.ChartWithoutAxes#getMinSlice <em>Min Slice</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isSetMinSlice()
 	 * @see #getMinSlice()
 	 * @see #setMinSlice(double)
@@ -120,10 +116,8 @@ public interface ChartWithoutAxes extends Chart {
 	void unsetMinSlice();
 
 	/**
-	 * Returns whether the value of the
-	 * '{@link org.eclipse.birt.chart.model.ChartWithoutAxes#getMinSlice <em>Min
-	 * Slice</em>}' attribute is set. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.ChartWithoutAxes#getMinSlice <em>Min Slice</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return whether the value of the '<em>Min Slice</em>' attribute is set.
 	 * @see #unsetMinSlice()
 	 * @see #getMinSlice()
@@ -152,11 +146,9 @@ public interface ChartWithoutAxes extends Chart {
 	boolean isMinSlicePercent();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.ChartWithoutAxes#isMinSlicePercent
-	 * <em>Min Slice Percent</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.ChartWithoutAxes#isMinSlicePercent <em>Min Slice Percent</em>}' attribute.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @param value the new value of the '<em>Min Slice Percent</em>' attribute.
 	 * @see #isSetMinSlicePercent()
 	 * @see #unsetMinSlicePercent()
@@ -166,11 +158,9 @@ public interface ChartWithoutAxes extends Chart {
 	void setMinSlicePercent(boolean value);
 
 	/**
-	 * Unsets the value of the
-	 * '{@link org.eclipse.birt.chart.model.ChartWithoutAxes#isMinSlicePercent
-	 * <em>Min Slice Percent</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.ChartWithoutAxes#isMinSlicePercent <em>Min Slice Percent</em>}' attribute.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #isSetMinSlicePercent()
 	 * @see #isMinSlicePercent()
 	 * @see #setMinSlicePercent(boolean)
@@ -179,13 +169,10 @@ public interface ChartWithoutAxes extends Chart {
 	void unsetMinSlicePercent();
 
 	/**
-	 * Returns whether the value of the
-	 * '{@link org.eclipse.birt.chart.model.ChartWithoutAxes#isMinSlicePercent
-	 * <em>Min Slice Percent</em>}' attribute is set. <!-- begin-user-doc --> <!--
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.ChartWithoutAxes#isMinSlicePercent <em>Min Slice Percent</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
-	 * @return whether the value of the '<em>Min Slice Percent</em>' attribute is
-	 *         set.
+	 * @return whether the value of the '<em>Min Slice Percent</em>' attribute is set.
 	 * @see #unsetMinSlicePercent()
 	 * @see #isMinSlicePercent()
 	 * @see #setMinSlicePercent(boolean)
@@ -210,11 +197,9 @@ public interface ChartWithoutAxes extends Chart {
 	String getMinSliceLabel();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.ChartWithoutAxes#getMinSliceLabel
-	 * <em>Min Slice Label</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.ChartWithoutAxes#getMinSliceLabel <em>Min Slice Label</em>}' attribute.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @param value the new value of the '<em>Min Slice Label</em>' attribute.
 	 * @see #getMinSliceLabel()
 	 * @generated
@@ -242,10 +227,8 @@ public interface ChartWithoutAxes extends Chart {
 	double getCoverage();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.ChartWithoutAxes#getCoverage
-	 * <em>Coverage</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.ChartWithoutAxes#getCoverage <em>Coverage</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Coverage</em>' attribute.
 	 * @see #isSetCoverage()
 	 * @see #unsetCoverage()
@@ -255,10 +238,8 @@ public interface ChartWithoutAxes extends Chart {
 	void setCoverage(double value);
 
 	/**
-	 * Unsets the value of the
-	 * '{@link org.eclipse.birt.chart.model.ChartWithoutAxes#getCoverage
-	 * <em>Coverage</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.ChartWithoutAxes#getCoverage <em>Coverage</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isSetCoverage()
 	 * @see #getCoverage()
 	 * @see #setCoverage(double)
@@ -267,11 +248,9 @@ public interface ChartWithoutAxes extends Chart {
 	void unsetCoverage();
 
 	/**
-	 * Returns whether the value of the
-	 * '{@link org.eclipse.birt.chart.model.ChartWithoutAxes#getCoverage
-	 * <em>Coverage</em>}' attribute is set. <!-- begin-user-doc --> <!--
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.ChartWithoutAxes#getCoverage <em>Coverage</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @return whether the value of the '<em>Coverage</em>' attribute is set.
 	 * @see #unsetCoverage()
 	 * @see #getCoverage()

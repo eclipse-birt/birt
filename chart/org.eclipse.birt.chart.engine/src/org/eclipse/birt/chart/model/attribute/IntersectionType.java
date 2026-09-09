@@ -35,39 +35,39 @@ import org.eclipse.emf.common.util.Enumerator;
  */
 public enum IntersectionType implements Enumerator {
 	/**
-	 * The '<em><b>Min</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Min</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Min</b></em>' literal object isn't clear, there
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #MIN
 	 * @generated
 	 * @ordered
 	 */
 	MIN_LITERAL(0, "Min", "Min"),
 	/**
-	 * The '<em><b>Max</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Max</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Max</b></em>' literal object isn't clear, there
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #MAX
 	 * @generated
 	 * @ordered
 	 */
 	MAX_LITERAL(1, "Max", "Max"),
 	/**
-	 * The '<em><b>Value</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Value</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Value</b></em>' literal object isn't clear, there
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #VALUE
 	 * @generated
 	 * @ordered
@@ -75,9 +75,9 @@ public enum IntersectionType implements Enumerator {
 	VALUE_LITERAL(2, "Value", "Value");
 
 	/**
-	 * The '<em><b>Min</b></em>' literal value. <!-- begin-user-doc --> <!--
+	 * The '<em><b>Min</b></em>' literal value.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #MIN_LITERAL
 	 * @model name="Min"
 	 * @generated
@@ -86,9 +86,9 @@ public enum IntersectionType implements Enumerator {
 	public static final int MIN = 0;
 
 	/**
-	 * The '<em><b>Max</b></em>' literal value. <!-- begin-user-doc --> <!--
+	 * The '<em><b>Max</b></em>' literal value.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #MAX_LITERAL
 	 * @model name="Max"
 	 * @generated
@@ -97,9 +97,9 @@ public enum IntersectionType implements Enumerator {
 	public static final int MAX = 1;
 
 	/**
-	 * The '<em><b>Value</b></em>' literal value. <!-- begin-user-doc --> <!--
+	 * The '<em><b>Value</b></em>' literal value.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #VALUE_LITERAL
 	 * @model name="Value"
 	 * @generated
@@ -113,20 +113,21 @@ public enum IntersectionType implements Enumerator {
 	 *
 	 * @generated
 	 */
-	private static final IntersectionType[] VALUES_ARRAY = { MIN_LITERAL, MAX_LITERAL, VALUE_LITERAL, };
+	private static final IntersectionType[] VALUES_ARRAY = new IntersectionType[] { MIN_LITERAL, MAX_LITERAL,
+			VALUE_LITERAL, };
 
 	/**
-	 * A public read-only list of all the '<em><b>Intersection Type</b></em>'
-	 * enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * A public read-only list of all the '<em><b>Intersection Type</b></em>' enumerators.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static final List<IntersectionType> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
 	/**
-	 * Returns the '<em><b>Intersection Type</b></em>' literal with the specified
-	 * literal value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns the '<em><b>Intersection Type</b></em>' literal with the specified literal value.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param literal the literal.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static IntersectionType get(String literal) {
@@ -140,9 +141,10 @@ public enum IntersectionType implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Intersection Type</b></em>' literal with the specified
-	 * name. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns the '<em><b>Intersection Type</b></em>' literal with the specified name.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param name the name.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static IntersectionType getByName(String name) {
@@ -156,9 +158,10 @@ public enum IntersectionType implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Intersection Type</b></em>' literal with the specified
-	 * integer value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns the '<em><b>Intersection Type</b></em>' literal with the specified integer value.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the integer value.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static IntersectionType get(int value) {
@@ -175,32 +178,29 @@ public enum IntersectionType implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private final int value;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private final String name;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private final String literal;
 
 	/**
-	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
+	 * Only this class can construct instances.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @generated
 	 */
-	IntersectionType(int value, String name, String literal) {
+	private IntersectionType(int value, String name, String literal) {
 		this.value = value;
 		this.name = name;
 		this.literal = literal;
@@ -208,7 +208,6 @@ public enum IntersectionType implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -218,7 +217,6 @@ public enum IntersectionType implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -228,7 +226,6 @@ public enum IntersectionType implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -237,9 +234,8 @@ public enum IntersectionType implements Enumerator {
 	}
 
 	/**
-	 * Returns the literal value of the enumerator, which is its string
-	 * representation. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns the literal value of the enumerator, which is its string representation.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override

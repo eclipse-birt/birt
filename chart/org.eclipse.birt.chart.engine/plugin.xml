@@ -46,4 +46,107 @@
    <extension-point id="aggregatefunctions" name="%extension-point.name.3" schema="schema/aggregatefunctions.exsd"/>
    <extension-point id="datapointdefinitions" name="%extension-point.name.4" schema="schema/datapointdefinitions.exsd"/>
    <extension-point id="charttypes" name="%extension-point.name.5" schema="schema/charttypes.exsd"/>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated model -->
+      <package
+            uri="http://www.birt.eclipse.org/ChartModelAttribute"
+            class="org.eclipse.birt.chart.model.attribute.AttributePackage"
+            genModel="model/model.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.extension_parser">
+      <!-- @generated model not -->
+      <!--
+      <parser
+            type="attribute"
+            class="org.eclipse.birt.chart.model.attribute.util.AttributeResourceFactoryImpl"/>
+      -->
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated model -->
+      <package
+            uri="http://www.birt.eclipse.org/ChartModelComponent"
+            class="org.eclipse.birt.chart.model.component.ComponentPackage"
+            genModel="model/model.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.extension_parser">
+      <!-- @generated model not -->
+      <!--
+      <parser
+            type="component"
+            class="org.eclipse.birt.chart.model.component.util.ComponentResourceFactoryImpl"/>
+      -->
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated model -->
+      <package
+            uri="http://www.birt.eclipse.org/ChartModelData"
+            class="org.eclipse.birt.chart.model.data.DataPackage"
+            genModel="model/model.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.extension_parser">
+      <!-- @generated model not -->
+      <!--
+      <parser
+            type="data"
+            class="org.eclipse.birt.chart.model.data.util.DataResourceFactoryImpl"/>
+      -->
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated model -->
+      <package
+            uri="http://www.birt.eclipse.org/ChartModelType"
+            class="org.eclipse.birt.chart.model.type.TypePackage"
+            genModel="model/model.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.extension_parser">
+      <!-- @generated model not -->
+      <!--
+      <parser
+            type="type"
+            class="org.eclipse.birt.chart.model.type.util.TypeResourceFactoryImpl"/>
+      -->
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated model -->
+      <package
+            uri="http://www.birt.eclipse.org/ChartModelLayout"
+            class="org.eclipse.birt.chart.model.layout.LayoutPackage"
+            genModel="model/model.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.extension_parser">
+      <!-- @generated model not -->
+      <!--
+      <parser
+            type="layout"
+            class="org.eclipse.birt.chart.model.layout.util.LayoutResourceFactoryImpl"/>
+      -->
+   </extension>
+   
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated model -->
+      <package
+            uri="http://www.birt.eclipse.org/ChartModel"
+            class="org.eclipse.birt.chart.model.ModelPackage"
+            genModel="model/model.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.extension_parser">
+      <!-- @generated model not-->
+      <!--
+      <parser
+            type="model"
+            class="org.eclipse.birt.chart.model.util.ModelResourceFactoryImpl"/>
+      -->
+   </extension>
 </plugin>

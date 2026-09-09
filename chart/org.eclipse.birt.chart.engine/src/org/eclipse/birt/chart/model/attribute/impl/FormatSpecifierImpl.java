@@ -22,8 +22,6 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
 /**
  * <!-- begin-user-doc --> An implementation of the model object '<em><b>Format
  * Specifier</b></em>'. <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */
@@ -31,7 +29,6 @@ public class FormatSpecifierImpl extends EObjectImpl implements FormatSpecifier 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected FormatSpecifierImpl() {
@@ -40,7 +37,6 @@ public class FormatSpecifierImpl extends EObjectImpl implements FormatSpecifier 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override

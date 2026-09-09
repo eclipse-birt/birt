@@ -22,8 +22,6 @@ import org.eclipse.emf.ecore.EClass;
 /**
  * <!-- begin-user-doc --> An implementation of the model object '<em><b>Stock
  * Data Set</b></em>'. <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */
@@ -31,7 +29,6 @@ public class StockDataSetImpl extends DataSetImpl implements StockDataSet {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected StockDataSetImpl() {
@@ -40,7 +37,6 @@ public class StockDataSetImpl extends DataSetImpl implements StockDataSet {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -87,6 +83,8 @@ public class StockDataSetImpl extends DataSetImpl implements StockDataSet {
 	protected void set(StockDataSet src) {
 
 		super.set(src);
+
+		// children
 
 	}
 

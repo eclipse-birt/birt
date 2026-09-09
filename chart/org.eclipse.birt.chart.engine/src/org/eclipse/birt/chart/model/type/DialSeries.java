@@ -22,18 +22,17 @@ import org.eclipse.birt.chart.model.component.Series;
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Dial
  * Series</b></em>'. <!-- end-user-doc -->
  *
- * <!-- begin-model-doc --> This is a Series type that holds data for Dial
- * Charts. <!-- end-model-doc -->
+ * <!-- begin-model-doc -->
+ * This is a Series type that holds data for Dial Charts.
+ * <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.type.DialSeries#getDial
- * <em>Dial</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.type.DialSeries#getNeedle
- * <em>Needle</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.type.DialSeries#getDial <em>Dial</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.DialSeries#getNeedle <em>Needle</em>}</li>
+ * </ul>
  *
  * @see org.eclipse.birt.chart.model.type.TypePackage#getDialSeries()
  * @model extendedMetaData="name='DialSeries' kind='elementOnly'"
@@ -56,10 +55,8 @@ public interface DialSeries extends Series {
 	Dial getDial();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.type.DialSeries#getDial <em>Dial</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.type.DialSeries#getDial <em>Dial</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Dial</em>' containment reference.
 	 * @see #getDial()
 	 * @generated
@@ -81,11 +78,9 @@ public interface DialSeries extends Series {
 	Needle getNeedle();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.type.DialSeries#getNeedle
-	 * <em>Needle</em>}' containment reference. <!-- begin-user-doc --> <!--
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.type.DialSeries#getNeedle <em>Needle</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @param value the new value of the '<em>Needle</em>' containment reference.
 	 * @see #getNeedle()
 	 * @generated

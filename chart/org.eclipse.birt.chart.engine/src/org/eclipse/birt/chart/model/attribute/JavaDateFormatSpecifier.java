@@ -23,18 +23,18 @@ import com.ibm.icu.util.ULocale;
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Java
  * Date Format Specifier</b></em>'. <!-- end-user-doc -->
  *
- * <!-- begin-model-doc --> JavaDateFormatSpecifier extends FormatSpecifier
- * specialized to represent a java DateFormat instance.
- *
+ * <!-- begin-model-doc -->
+ * JavaDateFormatSpecifier extends FormatSpecifier specialized to 
+ * represent a java DateFormat instance.
+ * 			
  * <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.JavaDateFormatSpecifier#getPattern
- * <em>Pattern</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.JavaDateFormatSpecifier#getPattern <em>Pattern</em>}</li>
+ * </ul>
  *
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getJavaDateFormatSpecifier()
  * @model extendedMetaData="name='JavaDateFormatSpecifier' kind='elementOnly'"
@@ -60,10 +60,8 @@ public interface JavaDateFormatSpecifier extends FormatSpecifier {
 	String getPattern();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.JavaDateFormatSpecifier#getPattern
-	 * <em>Pattern</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.JavaDateFormatSpecifier#getPattern <em>Pattern</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Pattern</em>' attribute.
 	 * @see #getPattern()
 	 * @generated

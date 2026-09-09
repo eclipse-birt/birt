@@ -43,27 +43,27 @@ import org.eclipse.emf.common.util.Enumerator;
  */
 public enum TriggerFlow implements Enumerator {
 	/**
-	 * The '<em><b>Capture</b></em>' literal object. <!-- begin-user-doc --> <!--
+	 * The '<em><b>Capture</b></em>' literal object.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #CAPTURE
 	 * @generated
 	 * @ordered
 	 */
 	CAPTURE_LITERAL(0, "Capture", "Capture"),
 	/**
-	 * The '<em><b>Bubble</b></em>' literal object. <!-- begin-user-doc --> <!--
+	 * The '<em><b>Bubble</b></em>' literal object.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #BUBBLE
 	 * @generated
 	 * @ordered
 	 */
 	BUBBLE_LITERAL(1, "Bubble", "Bubble"),
 	/**
-	 * The '<em><b>Bubble And Stop</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Bubble And Stop</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #BUBBLE_AND_STOP
 	 * @generated
 	 * @ordered
@@ -71,13 +71,13 @@ public enum TriggerFlow implements Enumerator {
 	BUBBLE_AND_STOP_LITERAL(2, "BubbleAndStop", "BubbleAndStop");
 
 	/**
-	 * The '<em><b>Capture</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Capture</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Capture</b></em>' literal object isn't clear, there
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #CAPTURE_LITERAL
 	 * @model name="Capture"
 	 * @generated
@@ -86,13 +86,13 @@ public enum TriggerFlow implements Enumerator {
 	public static final int CAPTURE = 0;
 
 	/**
-	 * The '<em><b>Bubble</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Bubble</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Bubble</b></em>' literal object isn't clear, there
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #BUBBLE_LITERAL
 	 * @model name="Bubble"
 	 * @generated
@@ -101,13 +101,13 @@ public enum TriggerFlow implements Enumerator {
 	public static final int BUBBLE = 1;
 
 	/**
-	 * The '<em><b>Bubble And Stop</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Bubble And Stop</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Bubble And Stop</b></em>' literal object isn't
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #BUBBLE_AND_STOP_LITERAL
 	 * @model name="BubbleAndStop"
 	 * @generated
@@ -121,20 +121,21 @@ public enum TriggerFlow implements Enumerator {
 	 *
 	 * @generated
 	 */
-	private static final TriggerFlow[] VALUES_ARRAY = { CAPTURE_LITERAL, BUBBLE_LITERAL, BUBBLE_AND_STOP_LITERAL, };
+	private static final TriggerFlow[] VALUES_ARRAY = new TriggerFlow[] { CAPTURE_LITERAL, BUBBLE_LITERAL,
+			BUBBLE_AND_STOP_LITERAL, };
 
 	/**
-	 * A public read-only list of all the '<em><b>Trigger Flow</b></em>'
-	 * enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * A public read-only list of all the '<em><b>Trigger Flow</b></em>' enumerators.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static final List<TriggerFlow> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
 	/**
-	 * Returns the '<em><b>Trigger Flow</b></em>' literal with the specified literal
-	 * value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns the '<em><b>Trigger Flow</b></em>' literal with the specified literal value.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param literal the literal.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static TriggerFlow get(String literal) {
@@ -150,7 +151,8 @@ public enum TriggerFlow implements Enumerator {
 	/**
 	 * Returns the '<em><b>Trigger Flow</b></em>' literal with the specified name.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * @param name the name.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static TriggerFlow getByName(String name) {
@@ -164,9 +166,10 @@ public enum TriggerFlow implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Trigger Flow</b></em>' literal with the specified integer
-	 * value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns the '<em><b>Trigger Flow</b></em>' literal with the specified integer value.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the integer value.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static TriggerFlow get(int value) {
@@ -183,32 +186,29 @@ public enum TriggerFlow implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private final int value;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private final String name;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private final String literal;
 
 	/**
-	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
+	 * Only this class can construct instances.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @generated
 	 */
-	TriggerFlow(int value, String name, String literal) {
+	private TriggerFlow(int value, String name, String literal) {
 		this.value = value;
 		this.name = name;
 		this.literal = literal;
@@ -216,7 +216,6 @@ public enum TriggerFlow implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -226,7 +225,6 @@ public enum TriggerFlow implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -236,7 +234,6 @@ public enum TriggerFlow implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -245,9 +242,8 @@ public enum TriggerFlow implements Enumerator {
 	}
 
 	/**
-	 * Returns the literal value of the enumerator, which is its string
-	 * representation. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns the literal value of the enumerator, which is its string representation.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override

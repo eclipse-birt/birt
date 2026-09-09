@@ -34,22 +34,19 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * Set Parameter</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * <ul>
- * <li>{@link org.eclipse.birt.report.model.adapter.oda.model.impl.DataSetParameterImpl#getParameterDefinition
- * <em>Parameter Definition</em>}</li>
- * <li>{@link org.eclipse.birt.report.model.adapter.oda.model.impl.DataSetParameterImpl#getDynamicList
- * <em>Dynamic List</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.report.model.adapter.oda.model.impl.DataSetParameterImpl#getParameterDefinition <em>Parameter Definition</em>}</li>
+ *   <li>{@link org.eclipse.birt.report.model.adapter.oda.model.impl.DataSetParameterImpl#getDynamicList <em>Dynamic List</em>}</li>
+ * </ul>
  *
  * @generated
  */
 public class DataSetParameterImpl extends EObjectImpl implements DataSetParameter {
 	/**
-	 * The cached value of the '{@link #getParameterDefinition() <em>Parameter
-	 * Definition</em>}' containment reference. <!-- begin-user-doc --> <!--
+	 * The cached value of the '{@link #getParameterDefinition() <em>Parameter Definition</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #getParameterDefinition()
 	 * @generated
 	 * @ordered
@@ -57,9 +54,8 @@ public class DataSetParameterImpl extends EObjectImpl implements DataSetParamete
 	protected ParameterDefinition parameterDefinition;
 
 	/**
-	 * The cached value of the '{@link #getDynamicList() <em>Dynamic List</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getDynamicList() <em>Dynamic List</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getDynamicList()
 	 * @generated
 	 * @ordered
@@ -68,7 +64,6 @@ public class DataSetParameterImpl extends EObjectImpl implements DataSetParamete
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected DataSetParameterImpl() {
@@ -77,7 +72,6 @@ public class DataSetParameterImpl extends EObjectImpl implements DataSetParamete
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -87,7 +81,6 @@ public class DataSetParameterImpl extends EObjectImpl implements DataSetParamete
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -97,7 +90,6 @@ public class DataSetParameterImpl extends EObjectImpl implements DataSetParamete
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetParameterDefinition(ParameterDefinition newParameterDefinition,
@@ -119,7 +111,6 @@ public class DataSetParameterImpl extends EObjectImpl implements DataSetParamete
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -146,7 +137,6 @@ public class DataSetParameterImpl extends EObjectImpl implements DataSetParamete
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -156,7 +146,6 @@ public class DataSetParameterImpl extends EObjectImpl implements DataSetParamete
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetDynamicList(DynamicList newDynamicList, NotificationChain msgs) {
@@ -176,7 +165,6 @@ public class DataSetParameterImpl extends EObjectImpl implements DataSetParamete
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -203,7 +191,6 @@ public class DataSetParameterImpl extends EObjectImpl implements DataSetParamete
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -219,7 +206,6 @@ public class DataSetParameterImpl extends EObjectImpl implements DataSetParamete
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -235,7 +221,6 @@ public class DataSetParameterImpl extends EObjectImpl implements DataSetParamete
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -253,7 +238,6 @@ public class DataSetParameterImpl extends EObjectImpl implements DataSetParamete
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -271,7 +255,6 @@ public class DataSetParameterImpl extends EObjectImpl implements DataSetParamete
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override

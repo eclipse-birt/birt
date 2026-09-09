@@ -27,8 +27,6 @@ import org.eclipse.emf.ecore.EClass;
 /**
  * <!-- begin-user-doc --> An implementation of the model object '<em><b>Bubble
  * Data Set</b></em>'. <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */
@@ -36,7 +34,6 @@ public class BubbleDataSetImpl extends DataSetImpl implements BubbleDataSet {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected BubbleDataSetImpl() {
@@ -45,7 +42,6 @@ public class BubbleDataSetImpl extends DataSetImpl implements BubbleDataSet {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -84,6 +80,8 @@ public class BubbleDataSetImpl extends DataSetImpl implements BubbleDataSet {
 	protected void set(BubbleDataSet src) {
 
 		super.set(src);
+
+		// children
 
 	}
 

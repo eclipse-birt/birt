@@ -25,59 +25,72 @@ import org.eclipse.emf.common.util.EList;
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Chart
  * With Axes</b></em>'. <!-- end-user-doc -->
  *
- * <!-- begin-model-doc --> ChartWithAxes represents a chart with axes. (e.g.
- * Bar Chart, Line Chart, etc).
- * <p xmlns="http://www.birt.eclipse.org/ChartModel">
- * To create an instance use the factory method:<br/>
- * ChartWithAxesImpl.create( );
- * </p>
- * At the moment only charts with one single base axis are supported, while one
- * or more orthogonal axes can be associated with the base axis. In case of 3D
- * charts, the z-axis is defined as an ancillary axis of the base axis.
- * <p xmlns="http://www.birt.eclipse.org/ChartModel">
- * Following examples show the ways to retrieve the base axis of an instance of
- * ChartWithAxes :<br/>
- * ChartWithAxes cwa...<br/>
- * Axis axBase = cwa.getAxes( ).get( 0 );<br/>
- * or<br/>
- * Axis axBase = cwa.getAxes( ).getPrimaryBaseAxes( )[0];
- * </p>
- * <p xmlns="http://www.birt.eclipse.org/ChartModel">
- * To retrieve the primary orthogonal axis associated with the base axis
- * use:<br/>
- * <br/>
- * Axis axOrth = getPrimaryOrthogonalAxis( axBase );<br/>
- * <br/>
- * To retireve all the orthogonal axes associated with the base axis use
- * in/exclude the primary one use:<br/>
- * <br/>
- * Axis[] axOrths = getOrthogonalAxes( axBase, bIncludePrimary ); <br/>
- * To retrieve the z-axis use: Axis axAnci = getAncillaryBaseAxis( axBase );
- * </p>
- *
+ * <!-- begin-model-doc -->
+ * 
+ *   ChartWithAxes represents a chart with axes. (e.g. Bar Chart, Line Chart, etc).  
+ * 
+ *   <p xmlns="http://www.birt.eclipse.org/ChartModel">
+ *     To create an instance use the factory method:
+ *     <br/>
+ *     ChartWithAxesImpl.create( );
+ * 
+ *   </p>
+ *   At the moment only charts with one single base axis are supported, while one or 
+ * more orthogonal axes can be associated with the base axis.  In case of 3D charts, 
+ * the z-axis is defined as an ancillary axis of the base axis. 
+ * 
+ *   <p xmlns="http://www.birt.eclipse.org/ChartModel">
+ *     Following examples show the ways to retrieve the base axis of an 
+ * instance of ChartWithAxes :
+ *     <br/>
+ *     ChartWithAxes cwa...
+ *     <br/>
+ *     Axis axBase = cwa.getAxes( ).get( 0 );
+ *     <br/>
+ *     or
+ *     <br/>
+ *     Axis axBase = cwa.getAxes( ).getPrimaryBaseAxes( )[0];
+ * 
+ *   </p>
+ *   
+ *   <p xmlns="http://www.birt.eclipse.org/ChartModel">
+ *     To retrieve the primary orthogonal axis associated with the base axis use:
+ *     <br/>
+ *     
+ *     <br/>
+ *     Axis axOrth = getPrimaryOrthogonalAxis( axBase );
+ *     <br/>
+ *     
+ *     <br/>
+ *     To retireve all the orthogonal axes associated with the base axis use in/exclude 
+ * the primary one use:
+ *     <br/>
+ *     
+ *     <br/>
+ *     Axis[] axOrths =  getOrthogonalAxes( axBase, bIncludePrimary );
+ * 
+ *     <br/>
+ *     To retrieve the z-axis use:
+ * Axis axAnci = getAncillaryBaseAxis( axBase );
+ * 
+ *   </p>
+ *   
+ * 
  * <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.ChartWithAxes#getAxes
- * <em>Axes</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.ChartWithAxes#getWallFill <em>Wall
- * Fill</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.ChartWithAxes#getFloorFill <em>Floor
- * Fill</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.ChartWithAxes#getOrientation
- * <em>Orientation</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.ChartWithAxes#getUnitSpacing <em>Unit
- * Spacing</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.ChartWithAxes#getRotation
- * <em>Rotation</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.ChartWithAxes#isReverseCategory
- * <em>Reverse Category</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.ChartWithAxes#isStudyLayout <em>Study
- * Layout</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.ChartWithAxes#getAxes <em>Axes</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.ChartWithAxes#getWallFill <em>Wall Fill</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.ChartWithAxes#getFloorFill <em>Floor Fill</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.ChartWithAxes#getOrientation <em>Orientation</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.ChartWithAxes#getUnitSpacing <em>Unit Spacing</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.ChartWithAxes#getRotation <em>Rotation</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.ChartWithAxes#isReverseCategory <em>Reverse Category</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.ChartWithAxes#isStudyLayout <em>Study Layout</em>}</li>
+ * </ul>
  *
  * @see org.eclipse.birt.chart.model.ModelPackage#getChartWithAxes()
  * @model extendedMetaData="name='ChartWithAxes' kind='elementOnly'"
@@ -186,13 +199,11 @@ public interface ChartWithAxes extends Chart {
 	Orientation getOrientation();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.ChartWithAxes#getOrientation
-	 * <em>Orientation</em>}' attribute. <!-- begin-user-doc --> Sets the
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.ChartWithAxes#getOrientation <em>Orientation</em>}' attribute.
+	 * <!-- begin-user-doc --> Sets the
 	 * orientation of the chart as a whole. This drives the way the chart will be
 	 * rendered and affects the orientations of other elements throughout the chart.
 	 * <!-- end-user-doc -->
-	 *
 	 * @param value the new value of the '<em>Orientation</em>' attribute.
 	 * @see org.eclipse.birt.chart.model.attribute.Orientation
 	 * @see #isSetOrientation()
@@ -216,11 +227,9 @@ public interface ChartWithAxes extends Chart {
 	void unsetOrientation();
 
 	/**
-	 * Returns whether the value of the '
-	 * {@link org.eclipse.birt.chart.model.ChartWithAxes#getOrientation
-	 * <em>Orientation</em>}' attribute is set. <!-- begin-user-doc --> <!--
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.ChartWithAxes#getOrientation <em>Orientation</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @return whether the value of the '<em>Orientation</em>' attribute is set.
 	 * @see #unsetOrientation()
 	 * @see #getOrientation()
@@ -252,10 +261,8 @@ public interface ChartWithAxes extends Chart {
 	double getUnitSpacing();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.ChartWithAxes#getUnitSpacing <em>Unit
-	 * Spacing</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.ChartWithAxes#getUnitSpacing <em>Unit Spacing</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Unit Spacing</em>' attribute.
 	 * @see #isSetUnitSpacing()
 	 * @see #unsetUnitSpacing()
@@ -265,10 +272,8 @@ public interface ChartWithAxes extends Chart {
 	void setUnitSpacing(double value);
 
 	/**
-	 * Unsets the value of the
-	 * '{@link org.eclipse.birt.chart.model.ChartWithAxes#getUnitSpacing <em>Unit
-	 * Spacing</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.ChartWithAxes#getUnitSpacing <em>Unit Spacing</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isSetUnitSpacing()
 	 * @see #getUnitSpacing()
 	 * @see #setUnitSpacing(double)
@@ -314,11 +319,9 @@ public interface ChartWithAxes extends Chart {
 	Rotation3D getRotation();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.ChartWithAxes#getRotation
-	 * <em>Rotation</em>}' containment reference. <!-- begin-user-doc --> <!--
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.ChartWithAxes#getRotation <em>Rotation</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @param value the new value of the '<em>Rotation</em>' containment reference.
 	 * @see #getRotation()
 	 * @generated
@@ -346,11 +349,9 @@ public interface ChartWithAxes extends Chart {
 	boolean isReverseCategory();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.ChartWithAxes#isReverseCategory
-	 * <em>Reverse Category</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.ChartWithAxes#isReverseCategory <em>Reverse Category</em>}' attribute.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @param value the new value of the '<em>Reverse Category</em>' attribute.
 	 * @see #isSetReverseCategory()
 	 * @see #unsetReverseCategory()
@@ -360,11 +361,9 @@ public interface ChartWithAxes extends Chart {
 	void setReverseCategory(boolean value);
 
 	/**
-	 * Unsets the value of the
-	 * '{@link org.eclipse.birt.chart.model.ChartWithAxes#isReverseCategory
-	 * <em>Reverse Category</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.ChartWithAxes#isReverseCategory <em>Reverse Category</em>}' attribute.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #isSetReverseCategory()
 	 * @see #isReverseCategory()
 	 * @see #setReverseCategory(boolean)
@@ -373,13 +372,10 @@ public interface ChartWithAxes extends Chart {
 	void unsetReverseCategory();
 
 	/**
-	 * Returns whether the value of the
-	 * '{@link org.eclipse.birt.chart.model.ChartWithAxes#isReverseCategory
-	 * <em>Reverse Category</em>}' attribute is set. <!-- begin-user-doc --> <!--
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.ChartWithAxes#isReverseCategory <em>Reverse Category</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
-	 * @return whether the value of the '<em>Reverse Category</em>' attribute is
-	 *         set.
+	 * @return whether the value of the '<em>Reverse Category</em>' attribute is set.
 	 * @see #unsetReverseCategory()
 	 * @see #isReverseCategory()
 	 * @see #setReverseCategory(boolean)
@@ -405,10 +401,8 @@ public interface ChartWithAxes extends Chart {
 	boolean isStudyLayout();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.ChartWithAxes#isStudyLayout <em>Study
-	 * Layout</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.ChartWithAxes#isStudyLayout <em>Study Layout</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Study Layout</em>' attribute.
 	 * @see #isSetStudyLayout()
 	 * @see #unsetStudyLayout()
@@ -418,10 +412,8 @@ public interface ChartWithAxes extends Chart {
 	void setStudyLayout(boolean value);
 
 	/**
-	 * Unsets the value of the
-	 * '{@link org.eclipse.birt.chart.model.ChartWithAxes#isStudyLayout <em>Study
-	 * Layout</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.ChartWithAxes#isStudyLayout <em>Study Layout</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isSetStudyLayout()
 	 * @see #isStudyLayout()
 	 * @see #setStudyLayout(boolean)
@@ -430,10 +422,8 @@ public interface ChartWithAxes extends Chart {
 	void unsetStudyLayout();
 
 	/**
-	 * Returns whether the value of the
-	 * '{@link org.eclipse.birt.chart.model.ChartWithAxes#isStudyLayout <em>Study
-	 * Layout</em>}' attribute is set. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.ChartWithAxes#isStudyLayout <em>Study Layout</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return whether the value of the '<em>Study Layout</em>' attribute is set.
 	 * @see #unsetStudyLayout()
 	 * @see #isStudyLayout()

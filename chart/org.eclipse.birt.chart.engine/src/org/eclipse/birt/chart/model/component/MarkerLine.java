@@ -28,28 +28,26 @@ import org.eclipse.emf.common.util.EList;
  * Line</b></em>'. <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- *
- * This type defines a single line element. It is intended for use as a marker
- * associated with an Axis. e.g. To denote a Target value
- *
+ * This type defines a single line element. It is intended for use as a marker associated with an Axis.
+ * It can be used to denote a target value or threshold.
  * <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.component.MarkerLine#getAttributes
- * <em>Attributes</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.MarkerLine#getPosition
- * <em>Position</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.MarkerLine#getAssociatedLabel
- * <em>Associated Label</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.MarkerLine#getLabelPosition
- * <em>Label Position</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.component.MarkerLine#getLineAttributes <em>Line Attributes</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.MarkerLine#getValue <em>Value</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.MarkerLine#getLabel <em>Label</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.MarkerLine#getLabelAnchor <em>Label Anchor</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.MarkerLine#getFormatSpecifier <em>Format Specifier</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.MarkerLine#getTriggers <em>Triggers</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.MarkerLine#getCursor <em>Cursor</em>}</li>
+ * </ul>
  *
  * @see org.eclipse.birt.chart.model.component.ComponentPackage#getMarkerLine()
- * @model
+ * @model extendedMetaData="name='MarkerLine' kind='elementOnly'"
+ * @extends IChartObject
  * @generated
  */
 public interface MarkerLine extends IChartObject {
@@ -72,13 +70,10 @@ public interface MarkerLine extends IChartObject {
 	LineAttributes getLineAttributes();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.component.MarkerLine#getLineAttributes
-	 * <em>Line Attributes</em>}' containment reference. <!-- begin-user-doc -->
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.MarkerLine#getLineAttributes <em>Line Attributes</em>}' containment reference.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
-	 * @param value the new value of the '<em>Line Attributes</em>' containment
-	 *              reference.
+	 * @param value the new value of the '<em>Line Attributes</em>' containment reference.
 	 * @see #getLineAttributes()
 	 * @generated
 	 */
@@ -102,11 +97,9 @@ public interface MarkerLine extends IChartObject {
 	DataElement getValue();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.component.MarkerLine#getValue
-	 * <em>Value</em>}' containment reference. <!-- begin-user-doc --> <!--
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.MarkerLine#getValue <em>Value</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @param value the new value of the '<em>Value</em>' containment reference.
 	 * @see #getValue()
 	 * @generated
@@ -130,11 +123,9 @@ public interface MarkerLine extends IChartObject {
 	Label getLabel();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.component.MarkerLine#getLabel
-	 * <em>Label</em>}' containment reference. <!-- begin-user-doc --> <!--
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.MarkerLine#getLabel <em>Label</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @param value the new value of the '<em>Label</em>' containment reference.
 	 * @see #getLabel()
 	 * @generated
@@ -192,11 +183,9 @@ public interface MarkerLine extends IChartObject {
 	void unsetLabelAnchor();
 
 	/**
-	 * Returns whether the value of the
-	 * '{@link org.eclipse.birt.chart.model.component.MarkerLine#getLabelAnchor
-	 * <em>Label Anchor</em>}' attribute is set. <!-- begin-user-doc --> <!--
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.component.MarkerLine#getLabelAnchor <em>Label Anchor</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @return whether the value of the '<em>Label Anchor</em>' attribute is set.
 	 * @see #unsetLabelAnchor()
 	 * @see #getLabelAnchor()
@@ -223,13 +212,10 @@ public interface MarkerLine extends IChartObject {
 	FormatSpecifier getFormatSpecifier();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.component.MarkerLine#getFormatSpecifier
-	 * <em>Format Specifier</em>}' containment reference. <!-- begin-user-doc -->
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.MarkerLine#getFormatSpecifier <em>Format Specifier</em>}' containment reference.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
-	 * @param value the new value of the '<em>Format Specifier</em>' containment
-	 *              reference.
+	 * @param value the new value of the '<em>Format Specifier</em>' containment reference.
 	 * @see #getFormatSpecifier()
 	 * @generated
 	 */
@@ -266,11 +252,9 @@ public interface MarkerLine extends IChartObject {
 	Cursor getCursor();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.component.MarkerLine#getCursor
-	 * <em>Cursor</em>}' containment reference. <!-- begin-user-doc --> <!--
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.MarkerLine#getCursor <em>Cursor</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @param value the new value of the '<em>Cursor</em>' containment reference.
 	 * @see #getCursor()
 	 * @generated

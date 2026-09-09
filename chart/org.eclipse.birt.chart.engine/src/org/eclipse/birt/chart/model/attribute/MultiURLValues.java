@@ -26,22 +26,20 @@ import org.eclipse.emf.common.util.EMap;
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Multi
  * URL Values</b></em>'. <!-- end-user-doc -->
  *
- * <!-- begin-model-doc --> MultiURLValues extends ActionValue to devote itself
- * to providing multiple hyperlink values for 'url_redirection' action, it
- * enables multiple options for an 'url-redirection' action. <!-- end-model-doc
- * -->
+ * <!-- begin-model-doc -->
+ * MultiURLValues extends ActionValue to devote itself to providing 
+ * multiple hyperlink values for 'url_redirection' action, it enables 
+ * multiple options for an 'url-redirection' action.
+ * <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.MultiURLValues#getURLValues
- * <em>URL Values</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.MultiURLValues#getTooltip
- * <em>Tooltip</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.MultiURLValues#getPropertiesMap
- * <em>Properties Map</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.MultiURLValues#getURLValues <em>URL Values</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.MultiURLValues#getTooltip <em>Tooltip</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.MultiURLValues#getPropertiesMap <em>Properties Map</em>}</li>
+ * </ul>
  *
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getMultiURLValues()
  * @model extendedMetaData="name='MultiURLValues' kind='elementOnly'"
@@ -50,19 +48,22 @@ import org.eclipse.emf.common.util.EMap;
 public interface MultiURLValues extends ActionValue {
 
 	/**
-	 * Returns the value of the '<em><b>URL Values</b></em>' containment reference
-	 * list. The list contents are of type
-	 * {@link org.eclipse.birt.chart.model.attribute.URLValue}. <!-- begin-user-doc
+	 * Returns the value of the '<em><b>URL Values</b></em>' containment reference list.
+	 * The list contents are of type {@link org.eclipse.birt.chart.model.attribute.URLValue}.
+	 * <!-- begin-user-doc
 	 * -->
 	 * <p>
 	 * If the meaning of the '<em>URL Values</em>' containment reference list isn't
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
+	 * <!-- begin-model-doc -->
+	 * 
+	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>URL Values</em>' containment reference list.
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getMultiURLValues_URLValues()
-	 * @model containment="true" extendedMetaData="kind='element' name='URLValues'"
+	 * @model containment="true"
+	 *        extendedMetaData="kind='element' name='URLValues'"
 	 * @generated
 	 */
 	EList<URLValue> getURLValues();
@@ -86,10 +87,8 @@ public interface MultiURLValues extends ActionValue {
 	String getTooltip();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.MultiURLValues#getTooltip
-	 * <em>Tooltip</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.MultiURLValues#getTooltip <em>Tooltip</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Tooltip</em>' attribute.
 	 * @see #getTooltip()
 	 * @generated

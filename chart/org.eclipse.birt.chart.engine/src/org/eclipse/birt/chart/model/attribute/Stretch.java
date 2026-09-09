@@ -36,39 +36,39 @@ import org.eclipse.emf.common.util.Enumerator;
  */
 public enum Stretch implements Enumerator {
 	/**
-	 * The '<em><b>Horizontal</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Horizontal</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Horizontal</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #HORIZONTAL
 	 * @generated
 	 * @ordered
 	 */
 	HORIZONTAL_LITERAL(0, "Horizontal", "Horizontal"),
 	/**
-	 * The '<em><b>Vertical</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Vertical</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Vertical</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #VERTICAL
 	 * @generated
 	 * @ordered
 	 */
 	VERTICAL_LITERAL(1, "Vertical", "Vertical"),
 	/**
-	 * The '<em><b>Both</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Both</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Both</b></em>' literal object isn't clear, there
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #BOTH
 	 * @generated
 	 * @ordered
@@ -76,9 +76,9 @@ public enum Stretch implements Enumerator {
 	BOTH_LITERAL(2, "Both", "Both");
 
 	/**
-	 * The '<em><b>Horizontal</b></em>' literal value. <!-- begin-user-doc --> <!--
+	 * The '<em><b>Horizontal</b></em>' literal value.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #HORIZONTAL_LITERAL
 	 * @model name="Horizontal"
 	 * @generated
@@ -87,9 +87,9 @@ public enum Stretch implements Enumerator {
 	public static final int HORIZONTAL = 0;
 
 	/**
-	 * The '<em><b>Vertical</b></em>' literal value. <!-- begin-user-doc --> <!--
+	 * The '<em><b>Vertical</b></em>' literal value.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #VERTICAL_LITERAL
 	 * @model name="Vertical"
 	 * @generated
@@ -98,9 +98,9 @@ public enum Stretch implements Enumerator {
 	public static final int VERTICAL = 1;
 
 	/**
-	 * The '<em><b>Both</b></em>' literal value. <!-- begin-user-doc --> <!--
+	 * The '<em><b>Both</b></em>' literal value.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #BOTH_LITERAL
 	 * @model name="Both"
 	 * @generated
@@ -114,20 +114,20 @@ public enum Stretch implements Enumerator {
 	 *
 	 * @generated
 	 */
-	private static final Stretch[] VALUES_ARRAY = { HORIZONTAL_LITERAL, VERTICAL_LITERAL, BOTH_LITERAL, };
+	private static final Stretch[] VALUES_ARRAY = new Stretch[] { HORIZONTAL_LITERAL, VERTICAL_LITERAL, BOTH_LITERAL, };
 
 	/**
 	 * A public read-only list of all the '<em><b>Stretch</b></em>' enumerators.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public static final List<Stretch> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
 	/**
-	 * Returns the '<em><b>Stretch</b></em>' literal with the specified literal
-	 * value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns the '<em><b>Stretch</b></em>' literal with the specified literal value.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param literal the literal.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static Stretch get(String literal) {
@@ -157,9 +157,10 @@ public enum Stretch implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Stretch</b></em>' literal with the specified integer
-	 * value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns the '<em><b>Stretch</b></em>' literal with the specified integer value.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the integer value.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static Stretch get(int value) {
@@ -176,32 +177,29 @@ public enum Stretch implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private final int value;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private final String name;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private final String literal;
 
 	/**
-	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
+	 * Only this class can construct instances.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @generated
 	 */
-	Stretch(int value, String name, String literal) {
+	private Stretch(int value, String name, String literal) {
 		this.value = value;
 		this.name = name;
 		this.literal = literal;
@@ -209,7 +207,6 @@ public enum Stretch implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -219,7 +216,6 @@ public enum Stretch implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -229,7 +225,6 @@ public enum Stretch implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -238,9 +233,8 @@ public enum Stretch implements Enumerator {
 	}
 
 	/**
-	 * Returns the literal value of the enumerator, which is its string
-	 * representation. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns the literal value of the enumerator, which is its string representation.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override

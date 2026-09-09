@@ -33,9 +33,9 @@ import org.eclipse.emf.common.util.Enumerator;
  */
 public enum ImageSourceType implements Enumerator {
 	/**
-	 * The '<em><b>Static</b></em>' literal object. <!-- begin-user-doc --> <!--
+	 * The '<em><b>Static</b></em>' literal object.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #STATIC_VALUE
 	 * @generated
 	 * @ordered
@@ -43,9 +43,9 @@ public enum ImageSourceType implements Enumerator {
 	STATIC(0, "static", "static"), //$NON-NLS-1$ //$NON-NLS-2$
 
 	/**
-	 * The '<em><b>Report</b></em>' literal object. <!-- begin-user-doc --> <!--
+	 * The '<em><b>Report</b></em>' literal object.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #REPORT_VALUE
 	 * @generated
 	 * @ordered
@@ -53,9 +53,9 @@ public enum ImageSourceType implements Enumerator {
 	REPORT(1, "report", "report"), //$NON-NLS-1$ //$NON-NLS-2$
 
 	/**
-	 * The '<em><b>File</b></em>' literal object. <!-- begin-user-doc --> <!--
+	 * The '<em><b>File</b></em>' literal object.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #FILE_VALUE
 	 * @generated
 	 * @ordered
@@ -63,13 +63,13 @@ public enum ImageSourceType implements Enumerator {
 	FILE(2, "file", "file"); //$NON-NLS-1$ //$NON-NLS-2$
 
 	/**
-	 * The '<em><b>Static</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Static</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Static</b></em>' literal object isn't clear, there
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #STATIC
 	 * @model name="static"
 	 * @generated
@@ -78,13 +78,13 @@ public enum ImageSourceType implements Enumerator {
 	public static final int STATIC_VALUE = 0;
 
 	/**
-	 * The '<em><b>Report</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Report</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Report</b></em>' literal object isn't clear, there
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #REPORT
 	 * @model name="report"
 	 * @generated
@@ -93,13 +93,13 @@ public enum ImageSourceType implements Enumerator {
 	public static final int REPORT_VALUE = 1;
 
 	/**
-	 * The '<em><b>File</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>File</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>File</b></em>' literal object isn't clear, there
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #FILE
 	 * @model name="file"
 	 * @generated
@@ -113,20 +113,20 @@ public enum ImageSourceType implements Enumerator {
 	 *
 	 * @generated
 	 */
-	private static final ImageSourceType[] VALUES_ARRAY = { STATIC, REPORT, FILE, };
+	private static final ImageSourceType[] VALUES_ARRAY = new ImageSourceType[] { STATIC, REPORT, FILE, };
 
 	/**
-	 * A public read-only list of all the '<em><b>Image Source Type</b></em>'
-	 * enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * A public read-only list of all the '<em><b>Image Source Type</b></em>' enumerators.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static final List<ImageSourceType> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
 	/**
-	 * Returns the '<em><b>Image Source Type</b></em>' literal with the specified
-	 * literal value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns the '<em><b>Image Source Type</b></em>' literal with the specified literal value.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param literal the literal.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static ImageSourceType get(String literal) {
@@ -140,9 +140,10 @@ public enum ImageSourceType implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Image Source Type</b></em>' literal with the specified
-	 * name. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns the '<em><b>Image Source Type</b></em>' literal with the specified name.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param name the name.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static ImageSourceType getByName(String name) {
@@ -156,9 +157,10 @@ public enum ImageSourceType implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Image Source Type</b></em>' literal with the specified
-	 * integer value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns the '<em><b>Image Source Type</b></em>' literal with the specified integer value.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the integer value.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static ImageSourceType get(int value) {
@@ -175,32 +177,29 @@ public enum ImageSourceType implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private final int value;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private final String name;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private final String literal;
 
 	/**
-	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
+	 * Only this class can construct instances.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @generated
 	 */
-	ImageSourceType(int value, String name, String literal) {
+	private ImageSourceType(int value, String name, String literal) {
 		this.value = value;
 		this.name = name;
 		this.literal = literal;
@@ -208,7 +207,6 @@ public enum ImageSourceType implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -218,7 +216,6 @@ public enum ImageSourceType implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -228,7 +225,6 @@ public enum ImageSourceType implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -237,9 +233,8 @@ public enum ImageSourceType implements Enumerator {
 	}
 
 	/**
-	 * Returns the literal value of the enumerator, which is its string
-	 * representation. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns the literal value of the enumerator, which is its string representation.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override

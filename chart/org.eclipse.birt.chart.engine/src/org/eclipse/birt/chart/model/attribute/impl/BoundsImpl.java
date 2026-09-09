@@ -28,17 +28,13 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <em><b>Bounds</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.BoundsImpl#getLeft
- * <em>Left</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.BoundsImpl#getTop
- * <em>Top</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.BoundsImpl#getWidth
- * <em>Width</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.BoundsImpl#getHeight
- * <em>Height</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.BoundsImpl#getLeft <em>Left</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.BoundsImpl#getTop <em>Top</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.BoundsImpl#getWidth <em>Width</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.BoundsImpl#getHeight <em>Height</em>}</li>
+ * </ul>
  *
  * @generated
  */
@@ -65,9 +61,9 @@ public class BoundsImpl extends EObjectImpl implements Bounds {
 	protected double left = LEFT_EDEFAULT;
 
 	/**
-	 * This is true if the Left attribute has been set. <!-- begin-user-doc --> <!--
+	 * This is true if the Left attribute has been set.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -94,9 +90,9 @@ public class BoundsImpl extends EObjectImpl implements Bounds {
 	protected double top = TOP_EDEFAULT;
 
 	/**
-	 * This is true if the Top attribute has been set. <!-- begin-user-doc --> <!--
+	 * This is true if the Top attribute has been set.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -123,9 +119,9 @@ public class BoundsImpl extends EObjectImpl implements Bounds {
 	protected double width = WIDTH_EDEFAULT;
 
 	/**
-	 * This is true if the Width attribute has been set. <!-- begin-user-doc -->
+	 * This is true if the Width attribute has been set.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -134,7 +130,6 @@ public class BoundsImpl extends EObjectImpl implements Bounds {
 	/**
 	 * The default value of the '{@link #getHeight() <em>Height</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @see #getHeight()
 	 * @generated
 	 * @ordered
@@ -144,7 +139,6 @@ public class BoundsImpl extends EObjectImpl implements Bounds {
 	/**
 	 * The cached value of the '{@link #getHeight() <em>Height</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @see #getHeight()
 	 * @generated
 	 * @ordered
@@ -152,9 +146,9 @@ public class BoundsImpl extends EObjectImpl implements Bounds {
 	protected double height = HEIGHT_EDEFAULT;
 
 	/**
-	 * This is true if the Height attribute has been set. <!-- begin-user-doc -->
+	 * This is true if the Height attribute has been set.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -162,7 +156,6 @@ public class BoundsImpl extends EObjectImpl implements Bounds {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected BoundsImpl() {
@@ -171,7 +164,6 @@ public class BoundsImpl extends EObjectImpl implements Bounds {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -181,7 +173,6 @@ public class BoundsImpl extends EObjectImpl implements Bounds {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -191,7 +182,6 @@ public class BoundsImpl extends EObjectImpl implements Bounds {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -200,15 +190,13 @@ public class BoundsImpl extends EObjectImpl implements Bounds {
 		left = newLeft;
 		boolean oldLeftESet = leftESet;
 		leftESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.BOUNDS__LEFT, oldLeft, left,
 					!oldLeftESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -217,15 +205,13 @@ public class BoundsImpl extends EObjectImpl implements Bounds {
 		boolean oldLeftESet = leftESet;
 		left = LEFT_EDEFAULT;
 		leftESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.BOUNDS__LEFT, oldLeft,
 					LEFT_EDEFAULT, oldLeftESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -235,7 +221,6 @@ public class BoundsImpl extends EObjectImpl implements Bounds {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -245,7 +230,6 @@ public class BoundsImpl extends EObjectImpl implements Bounds {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -254,15 +238,13 @@ public class BoundsImpl extends EObjectImpl implements Bounds {
 		top = newTop;
 		boolean oldTopESet = topESet;
 		topESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.BOUNDS__TOP, oldTop, top,
 					!oldTopESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -271,15 +253,13 @@ public class BoundsImpl extends EObjectImpl implements Bounds {
 		boolean oldTopESet = topESet;
 		top = TOP_EDEFAULT;
 		topESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.BOUNDS__TOP, oldTop, TOP_EDEFAULT,
 					oldTopESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -289,7 +269,6 @@ public class BoundsImpl extends EObjectImpl implements Bounds {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -299,7 +278,6 @@ public class BoundsImpl extends EObjectImpl implements Bounds {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -308,15 +286,13 @@ public class BoundsImpl extends EObjectImpl implements Bounds {
 		width = newWidth;
 		boolean oldWidthESet = widthESet;
 		widthESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.BOUNDS__WIDTH, oldWidth, width,
 					!oldWidthESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -325,15 +301,13 @@ public class BoundsImpl extends EObjectImpl implements Bounds {
 		boolean oldWidthESet = widthESet;
 		width = WIDTH_EDEFAULT;
 		widthESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.BOUNDS__WIDTH, oldWidth,
 					WIDTH_EDEFAULT, oldWidthESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -343,7 +317,6 @@ public class BoundsImpl extends EObjectImpl implements Bounds {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -353,7 +326,6 @@ public class BoundsImpl extends EObjectImpl implements Bounds {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -362,15 +334,13 @@ public class BoundsImpl extends EObjectImpl implements Bounds {
 		height = newHeight;
 		boolean oldHeightESet = heightESet;
 		heightESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.BOUNDS__HEIGHT, oldHeight, height,
 					!oldHeightESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -379,15 +349,13 @@ public class BoundsImpl extends EObjectImpl implements Bounds {
 		boolean oldHeightESet = heightESet;
 		height = HEIGHT_EDEFAULT;
 		heightESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.BOUNDS__HEIGHT, oldHeight,
 					HEIGHT_EDEFAULT, oldHeightESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -397,7 +365,6 @@ public class BoundsImpl extends EObjectImpl implements Bounds {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -417,7 +384,6 @@ public class BoundsImpl extends EObjectImpl implements Bounds {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -441,7 +407,6 @@ public class BoundsImpl extends EObjectImpl implements Bounds {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -465,7 +430,6 @@ public class BoundsImpl extends EObjectImpl implements Bounds {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -485,40 +449,34 @@ public class BoundsImpl extends EObjectImpl implements Bounds {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) {
+		if (eIsProxy())
 			return super.toString();
-		}
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (left: "); //$NON-NLS-1$
-		if (leftESet) {
+		if (leftESet)
 			result.append(left);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", top: "); //$NON-NLS-1$
-		if (topESet) {
+		if (topESet)
 			result.append(top);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", width: "); //$NON-NLS-1$
-		if (widthESet) {
+		if (widthESet)
 			result.append(width);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", height: "); //$NON-NLS-1$
-		if (heightESet) {
+		if (heightESet)
 			result.append(height);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(')');
 		return result.toString();
 	}

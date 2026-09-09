@@ -35,15 +35,12 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * Image</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.PatternImageImpl#getBitmap
- * <em>Bitmap</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.PatternImageImpl#getForeColor
- * <em>Fore Color</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.PatternImageImpl#getBackColor
- * <em>Back Color</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.PatternImageImpl#getBitmap <em>Bitmap</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.PatternImageImpl#getForeColor <em>Fore Color</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.PatternImageImpl#getBackColor <em>Back Color</em>}</li>
+ * </ul>
  *
  * @generated
  */
@@ -52,7 +49,6 @@ public class PatternImageImpl extends ImageImpl implements PatternImage {
 	/**
 	 * The default value of the '{@link #getBitmap() <em>Bitmap</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @see #getBitmap()
 	 * @generated
 	 * @ordered
@@ -62,7 +58,6 @@ public class PatternImageImpl extends ImageImpl implements PatternImage {
 	/**
 	 * The cached value of the '{@link #getBitmap() <em>Bitmap</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @see #getBitmap()
 	 * @generated
 	 * @ordered
@@ -70,18 +65,17 @@ public class PatternImageImpl extends ImageImpl implements PatternImage {
 	protected long bitmap = BITMAP_EDEFAULT;
 
 	/**
-	 * This is true if the Bitmap attribute has been set. <!-- begin-user-doc -->
+	 * This is true if the Bitmap attribute has been set.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean bitmapESet;
 
 	/**
-	 * The cached value of the '{@link #getForeColor() <em>Fore Color</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getForeColor() <em>Fore Color</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getForeColor()
 	 * @generated
 	 * @ordered
@@ -89,9 +83,8 @@ public class PatternImageImpl extends ImageImpl implements PatternImage {
 	protected ColorDefinition foreColor;
 
 	/**
-	 * The cached value of the '{@link #getBackColor() <em>Back Color</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getBackColor() <em>Back Color</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getBackColor()
 	 * @generated
 	 * @ordered
@@ -113,7 +106,6 @@ public class PatternImageImpl extends ImageImpl implements PatternImage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -123,7 +115,6 @@ public class PatternImageImpl extends ImageImpl implements PatternImage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -133,7 +124,6 @@ public class PatternImageImpl extends ImageImpl implements PatternImage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -142,15 +132,13 @@ public class PatternImageImpl extends ImageImpl implements PatternImage {
 		bitmap = newBitmap;
 		boolean oldBitmapESet = bitmapESet;
 		bitmapESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.PATTERN_IMAGE__BITMAP, oldBitmap,
 					bitmap, !oldBitmapESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -159,15 +147,13 @@ public class PatternImageImpl extends ImageImpl implements PatternImage {
 		boolean oldBitmapESet = bitmapESet;
 		bitmap = BITMAP_EDEFAULT;
 		bitmapESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.PATTERN_IMAGE__BITMAP, oldBitmap,
 					BITMAP_EDEFAULT, oldBitmapESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -177,7 +163,6 @@ public class PatternImageImpl extends ImageImpl implements PatternImage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -187,7 +172,6 @@ public class PatternImageImpl extends ImageImpl implements PatternImage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetForeColor(ColorDefinition newForeColor, NotificationChain msgs) {
@@ -196,45 +180,38 @@ public class PatternImageImpl extends ImageImpl implements PatternImage {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					AttributePackage.PATTERN_IMAGE__FORE_COLOR, oldForeColor, newForeColor);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setForeColor(ColorDefinition newForeColor) {
 		if (newForeColor != foreColor) {
 			NotificationChain msgs = null;
-			if (foreColor != null) {
+			if (foreColor != null)
 				msgs = ((InternalEObject) foreColor).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - AttributePackage.PATTERN_IMAGE__FORE_COLOR, null, msgs);
-			}
-			if (newForeColor != null) {
+			if (newForeColor != null)
 				msgs = ((InternalEObject) newForeColor).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - AttributePackage.PATTERN_IMAGE__FORE_COLOR, null, msgs);
-			}
 			msgs = basicSetForeColor(newForeColor, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.PATTERN_IMAGE__FORE_COLOR,
 					newForeColor, newForeColor));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -244,7 +221,6 @@ public class PatternImageImpl extends ImageImpl implements PatternImage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetBackColor(ColorDefinition newBackColor, NotificationChain msgs) {
@@ -253,45 +229,38 @@ public class PatternImageImpl extends ImageImpl implements PatternImage {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					AttributePackage.PATTERN_IMAGE__BACK_COLOR, oldBackColor, newBackColor);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setBackColor(ColorDefinition newBackColor) {
 		if (newBackColor != backColor) {
 			NotificationChain msgs = null;
-			if (backColor != null) {
+			if (backColor != null)
 				msgs = ((InternalEObject) backColor).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - AttributePackage.PATTERN_IMAGE__BACK_COLOR, null, msgs);
-			}
-			if (newBackColor != null) {
+			if (newBackColor != null)
 				msgs = ((InternalEObject) newBackColor).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - AttributePackage.PATTERN_IMAGE__BACK_COLOR, null, msgs);
-			}
 			msgs = basicSetBackColor(newBackColor, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.PATTERN_IMAGE__BACK_COLOR,
 					newBackColor, newBackColor));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -307,7 +276,6 @@ public class PatternImageImpl extends ImageImpl implements PatternImage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -325,7 +293,6 @@ public class PatternImageImpl extends ImageImpl implements PatternImage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -346,7 +313,6 @@ public class PatternImageImpl extends ImageImpl implements PatternImage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -367,7 +333,6 @@ public class PatternImageImpl extends ImageImpl implements PatternImage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -385,22 +350,19 @@ public class PatternImageImpl extends ImageImpl implements PatternImage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) {
+		if (eIsProxy())
 			return super.toString();
-		}
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (bitmap: "); //$NON-NLS-1$
-		if (bitmapESet) {
+		if (bitmapESet)
 			result.append(bitmap);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(')');
 		return result.toString();
 	}
@@ -423,6 +385,16 @@ public class PatternImageImpl extends ImageImpl implements PatternImage {
 		}
 
 		// attributes
+
+		type = src.getType();
+
+		typeESet = src.isSetType();
+
+		uRL = src.getURL();
+
+		source = src.getSource();
+
+		sourceESet = src.isSetSource();
 
 		bitmap = src.getBitmap();
 

@@ -37,36 +37,36 @@ import org.eclipse.emf.common.util.Enumerator;
  */
 public enum AngleType implements Enumerator {
 	/**
-	 * The '<em><b>None</b></em>' literal object. <!-- begin-user-doc --> <!--
+	 * The '<em><b>None</b></em>' literal object.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #NONE
 	 * @generated
 	 * @ordered
 	 */
 	NONE_LITERAL(0, "None", "None"),
 	/**
-	 * The '<em><b>X</b></em>' literal object. <!-- begin-user-doc --> <!--
+	 * The '<em><b>X</b></em>' literal object.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #X
 	 * @generated
 	 * @ordered
 	 */
 	X_LITERAL(1, "X", "X"),
 	/**
-	 * The '<em><b>Y</b></em>' literal object. <!-- begin-user-doc --> <!--
+	 * The '<em><b>Y</b></em>' literal object.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #Y
 	 * @generated
 	 * @ordered
 	 */
 	Y_LITERAL(2, "Y", "Y"),
 	/**
-	 * The '<em><b>Z</b></em>' literal object. <!-- begin-user-doc --> <!--
+	 * The '<em><b>Z</b></em>' literal object.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #Z
 	 * @generated
 	 * @ordered
@@ -74,13 +74,13 @@ public enum AngleType implements Enumerator {
 	Z_LITERAL(3, "Z", "Z");
 
 	/**
-	 * The '<em><b>None</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>None</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>None</b></em>' literal object isn't clear, there
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #NONE_LITERAL
 	 * @model name="None"
 	 * @generated
@@ -89,13 +89,13 @@ public enum AngleType implements Enumerator {
 	public static final int NONE = 0;
 
 	/**
-	 * The '<em><b>X</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>X</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>X</b></em>' literal object isn't clear, there
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #X_LITERAL
 	 * @model
 	 * @generated
@@ -104,13 +104,13 @@ public enum AngleType implements Enumerator {
 	public static final int X = 1;
 
 	/**
-	 * The '<em><b>Y</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Y</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Y</b></em>' literal object isn't clear, there
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #Y_LITERAL
 	 * @model
 	 * @generated
@@ -119,13 +119,13 @@ public enum AngleType implements Enumerator {
 	public static final int Y = 2;
 
 	/**
-	 * The '<em><b>Z</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Z</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Z</b></em>' literal object isn't clear, there
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #Z_LITERAL
 	 * @model
 	 * @generated
@@ -139,20 +139,20 @@ public enum AngleType implements Enumerator {
 	 *
 	 * @generated
 	 */
-	private static final AngleType[] VALUES_ARRAY = { NONE_LITERAL, X_LITERAL, Y_LITERAL, Z_LITERAL, };
+	private static final AngleType[] VALUES_ARRAY = new AngleType[] { NONE_LITERAL, X_LITERAL, Y_LITERAL, Z_LITERAL, };
 
 	/**
 	 * A public read-only list of all the '<em><b>Angle Type</b></em>' enumerators.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public static final List<AngleType> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
 	/**
-	 * Returns the '<em><b>Angle Type</b></em>' literal with the specified literal
-	 * value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns the '<em><b>Angle Type</b></em>' literal with the specified literal value.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param literal the literal.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static AngleType get(String literal) {
@@ -168,7 +168,8 @@ public enum AngleType implements Enumerator {
 	/**
 	 * Returns the '<em><b>Angle Type</b></em>' literal with the specified name.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * @param name the name.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static AngleType getByName(String name) {
@@ -182,9 +183,10 @@ public enum AngleType implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Angle Type</b></em>' literal with the specified integer
-	 * value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns the '<em><b>Angle Type</b></em>' literal with the specified integer value.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the integer value.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static AngleType get(int value) {
@@ -203,32 +205,29 @@ public enum AngleType implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private final int value;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private final String name;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private final String literal;
 
 	/**
-	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
+	 * Only this class can construct instances.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @generated
 	 */
-	AngleType(int value, String name, String literal) {
+	private AngleType(int value, String name, String literal) {
 		this.value = value;
 		this.name = name;
 		this.literal = literal;
@@ -236,7 +235,6 @@ public enum AngleType implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -246,7 +244,6 @@ public enum AngleType implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -256,7 +253,6 @@ public enum AngleType implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -265,9 +261,8 @@ public enum AngleType implements Enumerator {
 	}
 
 	/**
-	 * Returns the literal value of the enumerator, which is its string
-	 * representation. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns the literal value of the enumerator, which is its string representation.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override

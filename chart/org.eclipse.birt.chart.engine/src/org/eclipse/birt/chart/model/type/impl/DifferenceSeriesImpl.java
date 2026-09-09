@@ -21,6 +21,7 @@ package org.eclipse.birt.chart.model.type.impl;
 
 import java.util.Collection;
 
+import java.util.Map;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
@@ -31,12 +32,16 @@ import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.attribute.impl.MarkerImpl;
 import org.eclipse.birt.chart.model.component.Series;
+import org.eclipse.birt.chart.model.data.DataSet;
+import org.eclipse.birt.chart.model.data.Query;
+import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.birt.chart.model.type.DifferenceSeries;
 import org.eclipse.birt.chart.model.type.TypeFactory;
 import org.eclipse.birt.chart.model.type.TypePackage;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -48,23 +53,20 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * '<em><b>Difference Series</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.type.impl.DifferenceSeriesImpl#getNegativeMarkers
- * <em>Negative Markers</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.type.impl.DifferenceSeriesImpl#getNegativeLineAttributes
- * <em>Negative Line Attributes</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.type.impl.DifferenceSeriesImpl#getNegativeMarkers <em>Negative Markers</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.impl.DifferenceSeriesImpl#getNegativeLineAttributes <em>Negative Line Attributes</em>}</li>
+ * </ul>
  *
  * @generated
  */
 public class DifferenceSeriesImpl extends AreaSeriesImpl implements DifferenceSeries {
 
 	/**
-	 * The cached value of the '{@link #getNegativeMarkers() <em>Negative
-	 * Markers</em>}' containment reference list. <!-- begin-user-doc --> <!--
+	 * The cached value of the '{@link #getNegativeMarkers() <em>Negative Markers</em>}' containment reference list.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #getNegativeMarkers()
 	 * @generated
 	 * @ordered
@@ -72,10 +74,9 @@ public class DifferenceSeriesImpl extends AreaSeriesImpl implements DifferenceSe
 	protected EList<Marker> negativeMarkers;
 
 	/**
-	 * The cached value of the '{@link #getNegativeLineAttributes() <em>Negative
-	 * Line Attributes</em>}' containment reference. <!-- begin-user-doc --> <!--
+	 * The cached value of the '{@link #getNegativeLineAttributes() <em>Negative Line Attributes</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #getNegativeLineAttributes()
 	 * @generated
 	 * @ordered
@@ -84,7 +85,6 @@ public class DifferenceSeriesImpl extends AreaSeriesImpl implements DifferenceSe
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected DifferenceSeriesImpl() {
@@ -93,7 +93,6 @@ public class DifferenceSeriesImpl extends AreaSeriesImpl implements DifferenceSe
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -103,13 +102,12 @@ public class DifferenceSeriesImpl extends AreaSeriesImpl implements DifferenceSe
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public EList<Marker> getNegativeMarkers() {
 		if (negativeMarkers == null) {
-			negativeMarkers = new EObjectContainmentEList<>(Marker.class, this,
+			negativeMarkers = new EObjectContainmentEList<Marker>(Marker.class, this,
 					TypePackage.DIFFERENCE_SERIES__NEGATIVE_MARKERS);
 		}
 		return negativeMarkers;
@@ -117,7 +115,6 @@ public class DifferenceSeriesImpl extends AreaSeriesImpl implements DifferenceSe
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -127,7 +124,6 @@ public class DifferenceSeriesImpl extends AreaSeriesImpl implements DifferenceSe
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetNegativeLineAttributes(LineAttributes newNegativeLineAttributes,
@@ -138,46 +134,39 @@ public class DifferenceSeriesImpl extends AreaSeriesImpl implements DifferenceSe
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					TypePackage.DIFFERENCE_SERIES__NEGATIVE_LINE_ATTRIBUTES, oldNegativeLineAttributes,
 					newNegativeLineAttributes);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setNegativeLineAttributes(LineAttributes newNegativeLineAttributes) {
 		if (newNegativeLineAttributes != negativeLineAttributes) {
 			NotificationChain msgs = null;
-			if (negativeLineAttributes != null) {
+			if (negativeLineAttributes != null)
 				msgs = ((InternalEObject) negativeLineAttributes).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - TypePackage.DIFFERENCE_SERIES__NEGATIVE_LINE_ATTRIBUTES, null, msgs);
-			}
-			if (newNegativeLineAttributes != null) {
+			if (newNegativeLineAttributes != null)
 				msgs = ((InternalEObject) newNegativeLineAttributes).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - TypePackage.DIFFERENCE_SERIES__NEGATIVE_LINE_ATTRIBUTES, null, msgs);
-			}
 			msgs = basicSetNegativeLineAttributes(newNegativeLineAttributes, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
 					TypePackage.DIFFERENCE_SERIES__NEGATIVE_LINE_ATTRIBUTES, newNegativeLineAttributes,
 					newNegativeLineAttributes));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -193,7 +182,6 @@ public class DifferenceSeriesImpl extends AreaSeriesImpl implements DifferenceSe
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -209,7 +197,6 @@ public class DifferenceSeriesImpl extends AreaSeriesImpl implements DifferenceSe
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -229,7 +216,6 @@ public class DifferenceSeriesImpl extends AreaSeriesImpl implements DifferenceSe
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -247,7 +233,6 @@ public class DifferenceSeriesImpl extends AreaSeriesImpl implements DifferenceSe
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -383,6 +368,66 @@ public class DifferenceSeriesImpl extends AreaSeriesImpl implements DifferenceSe
 
 		// children
 
+		if (src.getLabel() != null) {
+			setLabel(src.getLabel().copyInstance());
+		}
+
+		if (src.getDataDefinition() != null) {
+			EList<Query> list = getDataDefinition();
+			for (Query element : src.getDataDefinition()) {
+				list.add(element.copyInstance());
+			}
+		}
+
+		if (src.getDataPoint() != null) {
+			setDataPoint(src.getDataPoint().copyInstance());
+		}
+
+		if (src.getDataSets() != null) {
+			EMap<String, DataSet> map = getDataSets();
+			for (Map.Entry<String, DataSet> entry : src.getDataSets().entrySet()) {
+
+				DataSet entryValue = entry.getValue() != null ? entry.getValue().copyInstance() : null;
+
+				map.put(entry.getKey(), entryValue);
+
+			}
+		}
+
+		if (src.getTriggers() != null) {
+			EList<Trigger> list = getTriggers();
+			for (Trigger element : src.getTriggers()) {
+				list.add(element.copyInstance());
+			}
+		}
+
+		if (src.getCurveFitting() != null) {
+			setCurveFitting(src.getCurveFitting().copyInstance());
+		}
+
+		if (src.getCursor() != null) {
+			setCursor(src.getCursor().copyInstance());
+		}
+
+		if (src.getMarkers() != null) {
+			EList<Marker> list = getMarkers();
+			for (Marker element : src.getMarkers()) {
+				list.add(element.copyInstance());
+			}
+		}
+
+		if (src.getMarker() != null) {
+			setMarker(src.getMarker().copyInstance());
+		}
+
+		if (src.getLineAttributes() != null) {
+			setLineAttributes(src.getLineAttributes().copyInstance());
+		}
+
+		if (src.getShadowColor() != null) {
+			setShadowColor(src.getShadowColor().copyInstance());
+		}
+
 		if (src.getNegativeMarkers() != null) {
 			EList<Marker> list = getNegativeMarkers();
 			for (Marker element : src.getNegativeMarkers()) {
@@ -393,6 +438,38 @@ public class DifferenceSeriesImpl extends AreaSeriesImpl implements DifferenceSe
 		if (src.getNegativeLineAttributes() != null) {
 			setNegativeLineAttributes(src.getNegativeLineAttributes().copyInstance());
 		}
+
+		// attributes
+
+		visible = src.isVisible();
+
+		visibleESet = src.isSetVisible();
+
+		seriesIdentifier = src.getSeriesIdentifier();
+
+		labelPosition = src.getLabelPosition();
+
+		labelPositionESet = src.isSetLabelPosition();
+
+		stacked = src.isStacked();
+
+		stackedESet = src.isSetStacked();
+
+		translucent = src.isTranslucent();
+
+		translucentESet = src.isSetTranslucent();
+
+		paletteLineColor = src.isPaletteLineColor();
+
+		paletteLineColorESet = src.isSetPaletteLineColor();
+
+		curve = src.isCurve();
+
+		curveESet = src.isSetCurve();
+
+		connectMissingValue = src.isConnectMissingValue();
+
+		connectMissingValueESet = src.isSetConnectMissingValue();
 
 	}
 

@@ -38,24 +38,20 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <em><b>Query</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.data.impl.QueryImpl#getDefinition
- * <em>Definition</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.data.impl.QueryImpl#getRules
- * <em>Rules</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.data.impl.QueryImpl#getGrouping
- * <em>Grouping</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.data.impl.QueryImpl#getDefinition <em>Definition</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.impl.QueryImpl#getRules <em>Rules</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.impl.QueryImpl#getGrouping <em>Grouping</em>}</li>
+ * </ul>
  *
  * @generated
  */
 public class QueryImpl extends EObjectImpl implements Query {
 
 	/**
-	 * The default value of the '{@link #getDefinition() <em>Definition</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The default value of the '{@link #getDefinition() <em>Definition</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getDefinition()
 	 * @generated
 	 * @ordered
@@ -63,9 +59,8 @@ public class QueryImpl extends EObjectImpl implements Query {
 	protected static final String DEFINITION_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getDefinition() <em>Definition</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getDefinition() <em>Definition</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getDefinition()
 	 * @generated
 	 * @ordered
@@ -73,9 +68,8 @@ public class QueryImpl extends EObjectImpl implements Query {
 	protected String definition = DEFINITION_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getRules() <em>Rules</em>}' containment
-	 * reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getRules() <em>Rules</em>}' containment reference list.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getRules()
 	 * @generated
 	 * @ordered
@@ -83,9 +77,8 @@ public class QueryImpl extends EObjectImpl implements Query {
 	protected EList<Rule> rules;
 
 	/**
-	 * The cached value of the '{@link #getGrouping() <em>Grouping</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getGrouping() <em>Grouping</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getGrouping()
 	 * @generated
 	 * @ordered
@@ -94,7 +87,6 @@ public class QueryImpl extends EObjectImpl implements Query {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected QueryImpl() {
@@ -103,7 +95,6 @@ public class QueryImpl extends EObjectImpl implements Query {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -113,7 +104,6 @@ public class QueryImpl extends EObjectImpl implements Query {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -123,35 +113,31 @@ public class QueryImpl extends EObjectImpl implements Query {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setDefinition(String newDefinition) {
 		String oldDefinition = definition;
 		definition = newDefinition;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, DataPackage.QUERY__DEFINITION, oldDefinition,
 					definition));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public EList<Rule> getRules() {
 		if (rules == null) {
-			rules = new EObjectContainmentEList<>(Rule.class, this, DataPackage.QUERY__RULES);
+			rules = new EObjectContainmentEList<Rule>(Rule.class, this, DataPackage.QUERY__RULES);
 		}
 		return rules;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -161,7 +147,6 @@ public class QueryImpl extends EObjectImpl implements Query {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetGrouping(SeriesGrouping newGrouping, NotificationChain msgs) {
@@ -170,45 +155,38 @@ public class QueryImpl extends EObjectImpl implements Query {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, DataPackage.QUERY__GROUPING,
 					oldGrouping, newGrouping);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setGrouping(SeriesGrouping newGrouping) {
 		if (newGrouping != grouping) {
 			NotificationChain msgs = null;
-			if (grouping != null) {
+			if (grouping != null)
 				msgs = ((InternalEObject) grouping).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - DataPackage.QUERY__GROUPING, null, msgs);
-			}
-			if (newGrouping != null) {
+			if (newGrouping != null)
 				msgs = ((InternalEObject) newGrouping).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - DataPackage.QUERY__GROUPING, null, msgs);
-			}
 			msgs = basicSetGrouping(newGrouping, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, DataPackage.QUERY__GROUPING, newGrouping,
 					newGrouping));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -224,7 +202,6 @@ public class QueryImpl extends EObjectImpl implements Query {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -242,7 +219,6 @@ public class QueryImpl extends EObjectImpl implements Query {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -265,7 +241,6 @@ public class QueryImpl extends EObjectImpl implements Query {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -286,7 +261,6 @@ public class QueryImpl extends EObjectImpl implements Query {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -304,14 +278,12 @@ public class QueryImpl extends EObjectImpl implements Query {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) {
+		if (eIsProxy())
 			return super.toString();
-		}
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (definition: "); //$NON-NLS-1$

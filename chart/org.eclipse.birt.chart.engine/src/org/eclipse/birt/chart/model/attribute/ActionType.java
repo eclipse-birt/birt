@@ -36,71 +36,71 @@ import org.eclipse.emf.common.util.Enumerator;
  */
 public enum ActionType implements Enumerator {
 	/**
-	 * The '<em><b>URL Redirect</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>URL Redirect</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>URL Redirect</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #URL_REDIRECT
 	 * @generated
 	 * @ordered
 	 */
 	URL_REDIRECT_LITERAL(0, "URLRedirect", "URL_Redirect"),
 	/**
-	 * The '<em><b>Show Tooltip</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Show Tooltip</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Show Tooltip</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #SHOW_TOOLTIP
 	 * @generated
 	 * @ordered
 	 */
 	SHOW_TOOLTIP_LITERAL(1, "ShowTooltip", "Show_Tooltip"),
 	/**
-	 * The '<em><b>Toggle Visibility</b></em>' literal object. <!-- begin-user-doc
+	 * The '<em><b>Toggle Visibility</b></em>' literal object.
+	 * <!-- begin-user-doc
 	 * -->
 	 * <p>
 	 * If the meaning of '<em><b>Toggle Visibility</b></em>' literal object isn't
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #TOGGLE_VISIBILITY
 	 * @generated
 	 * @ordered
 	 */
 	TOGGLE_VISIBILITY_LITERAL(2, "ToggleVisibility", "Toggle_Visibility"),
 	/**
-	 * The '<em><b>Invoke Script</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Invoke Script</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Invoke Script</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #INVOKE_SCRIPT
 	 * @generated
 	 * @ordered
 	 */
 	INVOKE_SCRIPT_LITERAL(3, "InvokeScript", "Invoke_Script"),
 	/**
-	 * The '<em><b>Highlight</b></em>' literal object. <!-- begin-user-doc --> <!--
+	 * The '<em><b>Highlight</b></em>' literal object.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #HIGHLIGHT
 	 * @generated
 	 * @ordered
 	 */
 	HIGHLIGHT_LITERAL(4, "Highlight", "Highlight"),
 	/**
-	 * The '<em><b>Call Back</b></em>' literal object. <!-- begin-user-doc --> <!--
+	 * The '<em><b>Call Back</b></em>' literal object.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #CALL_BACK
 	 * @generated
 	 * @ordered
@@ -117,57 +117,57 @@ public enum ActionType implements Enumerator {
 	TOGGLE_DATA_POINT_VISIBILITY_LITERAL(6, "ToggleDataPointVisibility", "Toggle_DataPoint_Visibility");
 
 	/**
-	 * The '<em><b>URL Redirect</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>URL Redirect</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #URL_REDIRECT_LITERAL
-	 * @model name="URL_Redirect"
+	 * @model name="URLRedirect" literal="URL_Redirect"
 	 * @generated
 	 * @ordered
 	 */
 	public static final int URL_REDIRECT = 0;
 
 	/**
-	 * The '<em><b>Show Tooltip</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Show Tooltip</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #SHOW_TOOLTIP_LITERAL
-	 * @model name="Show_Tooltip"
+	 * @model name="ShowTooltip" literal="Show_Tooltip"
 	 * @generated
 	 * @ordered
 	 */
 	public static final int SHOW_TOOLTIP = 1;
 
 	/**
-	 * The '<em><b>Toggle Visibility</b></em>' literal value. <!-- begin-user-doc
+	 * The '<em><b>Toggle Visibility</b></em>' literal value.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 *
 	 * @see #TOGGLE_VISIBILITY_LITERAL
-	 * @model name="Toggle_Visibility"
+	 * @model name="ToggleVisibility" literal="Toggle_Visibility"
 	 * @generated
 	 * @ordered
 	 */
 	public static final int TOGGLE_VISIBILITY = 2;
 
 	/**
-	 * The '<em><b>Invoke Script</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Invoke Script</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #INVOKE_SCRIPT_LITERAL
-	 * @model name="Invoke_Script"
+	 * @model name="InvokeScript" literal="Invoke_Script"
 	 * @generated
 	 * @ordered
 	 */
 	public static final int INVOKE_SCRIPT = 3;
 
 	/**
-	 * The '<em><b>Highlight</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Highlight</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Highlight</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #HIGHLIGHT_LITERAL
 	 * @model name="Highlight"
 	 * @generated
@@ -176,13 +176,13 @@ public enum ActionType implements Enumerator {
 	public static final int HIGHLIGHT = 4;
 
 	/**
-	 * The '<em><b>Call Back</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Call Back</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Call Back</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #CALL_BACK_LITERAL
 	 * @model name="CallBack"
 	 * @generated
@@ -212,22 +212,22 @@ public enum ActionType implements Enumerator {
 	 *
 	 * @generated
 	 */
-	private static final ActionType[] VALUES_ARRAY = { URL_REDIRECT_LITERAL, SHOW_TOOLTIP_LITERAL,
+	private static final ActionType[] VALUES_ARRAY = new ActionType[] { URL_REDIRECT_LITERAL, SHOW_TOOLTIP_LITERAL,
 			TOGGLE_VISIBILITY_LITERAL, INVOKE_SCRIPT_LITERAL, HIGHLIGHT_LITERAL, CALL_BACK_LITERAL,
 			TOGGLE_DATA_POINT_VISIBILITY_LITERAL, };
 
 	/**
 	 * A public read-only list of all the '<em><b>Action Type</b></em>' enumerators.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public static final List<ActionType> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
 	/**
-	 * Returns the '<em><b>Action Type</b></em>' literal with the specified literal
-	 * value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns the '<em><b>Action Type</b></em>' literal with the specified literal value.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param literal the literal.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static ActionType get(String literal) {
@@ -243,7 +243,8 @@ public enum ActionType implements Enumerator {
 	/**
 	 * Returns the '<em><b>Action Type</b></em>' literal with the specified name.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * @param name the name.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static ActionType getByName(String name) {
@@ -257,9 +258,10 @@ public enum ActionType implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Action Type</b></em>' literal with the specified integer
-	 * value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns the '<em><b>Action Type</b></em>' literal with the specified integer value.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the integer value.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static ActionType get(int value) {
@@ -284,32 +286,29 @@ public enum ActionType implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private final int value;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private final String name;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private final String literal;
 
 	/**
-	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
+	 * Only this class can construct instances.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @generated
 	 */
-	ActionType(int value, String name, String literal) {
+	private ActionType(int value, String name, String literal) {
 		this.value = value;
 		this.name = name;
 		this.literal = literal;
@@ -317,7 +316,6 @@ public enum ActionType implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -327,7 +325,6 @@ public enum ActionType implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -337,7 +334,6 @@ public enum ActionType implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -346,9 +342,8 @@ public enum ActionType implements Enumerator {
 	}
 
 	/**
-	 * Returns the literal value of the enumerator, which is its string
-	 * representation. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns the literal value of the enumerator, which is its string representation.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override

@@ -25,28 +25,25 @@ import org.eclipse.birt.chart.model.attribute.LineAttributes;
  * Area</b></em>'. <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- *
- * This type defines an modular area of a chart that can be positioned (and
- * resized ?) during rendering / output.
- *
+ * ClientArea holds a group of graphical properties for Plot and Legend to specify how to render 
+ * their client area, the properties include background, outline, visible... and so on.
+ * 
  * <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.layout.ClientArea#getBackground
- * <em>Background</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.layout.ClientArea#getOutline
- * <em>Outline</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.layout.ClientArea#getShadowColor
- * <em>Shadow Color</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.layout.ClientArea#getInsets
- * <em>Insets</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.ClientArea#getBackground <em>Background</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.ClientArea#getOutline <em>Outline</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.ClientArea#getShadowColor <em>Shadow Color</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.ClientArea#getInsets <em>Insets</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.ClientArea#isVisible <em>Visible</em>}</li>
+ * </ul>
  *
  * @see org.eclipse.birt.chart.model.layout.LayoutPackage#getClientArea()
- * @model
+ * @model extendedMetaData="name='ClientArea' kind='elementOnly'"
+ * @extends IChartObject
  * @generated
  */
 public interface ClientArea extends IChartObject {
@@ -69,13 +66,10 @@ public interface ClientArea extends IChartObject {
 	Fill getBackground();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.layout.ClientArea#getBackground
-	 * <em>Background</em>}' containment reference. <!-- begin-user-doc --> <!--
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.layout.ClientArea#getBackground <em>Background</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
-	 * @param value the new value of the '<em>Background</em>' containment
-	 *              reference.
+	 * @param value the new value of the '<em>Background</em>' containment reference.
 	 * @see #getBackground()
 	 * @generated
 	 */
@@ -99,11 +93,9 @@ public interface ClientArea extends IChartObject {
 	LineAttributes getOutline();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.layout.ClientArea#getOutline
-	 * <em>Outline</em>}' containment reference. <!-- begin-user-doc --> <!--
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.layout.ClientArea#getOutline <em>Outline</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @param value the new value of the '<em>Outline</em>' containment reference.
 	 * @see #getOutline()
 	 * @generated
@@ -129,13 +121,10 @@ public interface ClientArea extends IChartObject {
 	ColorDefinition getShadowColor();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.layout.ClientArea#getShadowColor
-	 * <em>Shadow Color</em>}' containment reference. <!-- begin-user-doc --> <!--
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.layout.ClientArea#getShadowColor <em>Shadow Color</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
-	 * @param value the new value of the '<em>Shadow Color</em>' containment
-	 *              reference.
+	 * @param value the new value of the '<em>Shadow Color</em>' containment reference.
 	 * @see #getShadowColor()
 	 * @generated
 	 */
@@ -158,11 +147,9 @@ public interface ClientArea extends IChartObject {
 	Insets getInsets();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.layout.ClientArea#getInsets
-	 * <em>Insets</em>}' containment reference. <!-- begin-user-doc --> <!--
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.layout.ClientArea#getInsets <em>Insets</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @param value the new value of the '<em>Insets</em>' containment reference.
 	 * @see #getInsets()
 	 * @generated
@@ -170,28 +157,26 @@ public interface ClientArea extends IChartObject {
 	void setInsets(Insets value);
 
 	/**
-	 * Returns the value of the '<em><b>Visible</b></em>' attribute. The default
-	 * value is <code>"true"</code>. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * <!-- begin-model-doc --> Attribute "Visible" specifies whether client area is
-	 * visible. <!-- end-model-doc -->
-	 *
+	 * Returns the value of the '<em><b>Visible</b></em>' attribute.
+	 * The default value is <code>"true"</code>.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * Attribute "Visible" specifies whether client area is visible.
+	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Visible</em>' attribute.
 	 * @see #isSetVisible()
 	 * @see #unsetVisible()
 	 * @see #setVisible(boolean)
 	 * @see org.eclipse.birt.chart.model.layout.LayoutPackage#getClientArea_Visible()
-	 * @model default="true" unsettable="true"
-	 *        dataType="org.eclipse.emf.ecore.xml.type.Boolean" required="true"
+	 * @model default="true" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean" required="true"
 	 *        extendedMetaData="kind='element' name='Visible'"
 	 * @generated
 	 */
 	boolean isVisible();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.layout.ClientArea#isVisible
-	 * <em>Visible</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.layout.ClientArea#isVisible <em>Visible</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Visible</em>' attribute.
 	 * @see #isSetVisible()
 	 * @see #unsetVisible()
@@ -201,10 +186,8 @@ public interface ClientArea extends IChartObject {
 	void setVisible(boolean value);
 
 	/**
-	 * Unsets the value of the
-	 * '{@link org.eclipse.birt.chart.model.layout.ClientArea#isVisible
-	 * <em>Visible</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.layout.ClientArea#isVisible <em>Visible</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isSetVisible()
 	 * @see #isVisible()
 	 * @see #setVisible(boolean)
@@ -213,11 +196,9 @@ public interface ClientArea extends IChartObject {
 	void unsetVisible();
 
 	/**
-	 * Returns whether the value of the
-	 * '{@link org.eclipse.birt.chart.model.layout.ClientArea#isVisible
-	 * <em>Visible</em>}' attribute is set. <!-- begin-user-doc --> <!--
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.layout.ClientArea#isVisible <em>Visible</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @return whether the value of the '<em>Visible</em>' attribute is set.
 	 * @see #unsetVisible()
 	 * @see #isVisible()

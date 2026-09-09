@@ -28,38 +28,28 @@ import org.eclipse.emf.common.util.EList;
  * Definition</b></em>'. <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- *
- * This type represents design-time definition for a series.
- *
+ * 
+ * 				This type represents design-time definition for a
+ * 				series.
+ * 			
  * <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getQuery
- * <em>Query</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getSeriesPalette
- * <em>Series Palette</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getSeriesDefinitions
- * <em>Series Definitions</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getFormatSpecifier
- * <em>Format Specifier</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getSeries
- * <em>Series</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getGrouping
- * <em>Grouping</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getSorting
- * <em>Sorting</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getSortKey
- * <em>Sort Key</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getSortLocale
- * <em>Sort Locale</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getSortStrength
- * <em>Sort Strength</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getZOrder
- * <em>ZOrder</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getQuery <em>Query</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getSeriesPalette <em>Series Palette</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getSeriesDefinitions <em>Series Definitions</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getFormatSpecifier <em>Format Specifier</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getSeries <em>Series</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getGrouping <em>Grouping</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getSorting <em>Sorting</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getSortKey <em>Sort Key</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getSortLocale <em>Sort Locale</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getSortStrength <em>Sort Strength</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getZOrder <em>ZOrder</em>}</li>
+ * </ul>
  *
  * @see org.eclipse.birt.chart.model.data.DataPackage#getSeriesDefinition()
  * @model extendedMetaData="name='SeriesDefinition' kind='elementOnly'"
@@ -82,11 +72,9 @@ public interface SeriesDefinition extends IChartObject {
 	Query getQuery();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getQuery
-	 * <em>Query</em>}' containment reference. <!-- begin-user-doc --> <!--
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getQuery <em>Query</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @param value the new value of the '<em>Query</em>' containment reference.
 	 * @see #getQuery()
 	 * @generated
@@ -94,29 +82,25 @@ public interface SeriesDefinition extends IChartObject {
 	void setQuery(Query value);
 
 	/**
-	 * Returns the value of the '<em><b>Series Palette</b></em>' containment
-	 * reference. <!-- begin-user-doc --> Gets the palette associated with the
+	 * Returns the value of the '<em><b>Series Palette</b></em>' containment reference.
+	 * <!-- begin-user-doc --> Gets the palette associated with the
 	 * series definiton instance. This palette will be used to determine the
 	 * sequence of colors for the series that are represented by this definition.
 	 * <!-- end-user-doc -->
-	 *
 	 * @return the value of the '<em>Series Palette</em>' containment reference.
 	 * @see #setSeriesPalette(Palette)
 	 * @see org.eclipse.birt.chart.model.data.DataPackage#getSeriesDefinition_SeriesPalette()
-	 * @model containment="true" required="true" extendedMetaData="kind='element'
-	 *        name='SeriesPalette'"
+	 * @model containment="true" required="true"
+	 *        extendedMetaData="kind='element' name='SeriesPalette'"
 	 * @generated
 	 */
 	Palette getSeriesPalette();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getSeriesPalette
-	 * <em>Series Palette</em>}' containment reference. <!-- begin-user-doc --> <!--
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getSeriesPalette <em>Series Palette</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
-	 * @param value the new value of the '<em>Series Palette</em>' containment
-	 *              reference.
+	 * @param value the new value of the '<em>Series Palette</em>' containment reference.
 	 * @see #getSeriesPalette()
 	 * @generated
 	 */
@@ -139,26 +123,22 @@ public interface SeriesDefinition extends IChartObject {
 	EList<SeriesDefinition> getSeriesDefinitions();
 
 	/**
-	 * Returns the value of the '<em><b>Format Specifier</b></em>' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns the value of the '<em><b>Format Specifier</b></em>' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return the value of the '<em>Format Specifier</em>' containment reference.
 	 * @see #setFormatSpecifier(FormatSpecifier)
 	 * @see org.eclipse.birt.chart.model.data.DataPackage#getSeriesDefinition_FormatSpecifier()
-	 * @model containment="true" required="true" extendedMetaData="kind='element'
-	 *        name='FormatSpecifier'"
+	 * @model containment="true" required="true"
+	 *        extendedMetaData="kind='element' name='FormatSpecifier'"
 	 * @generated
 	 */
 	FormatSpecifier getFormatSpecifier();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getFormatSpecifier
-	 * <em>Format Specifier</em>}' containment reference. <!-- begin-user-doc -->
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getFormatSpecifier <em>Format Specifier</em>}' containment reference.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
-	 * @param value the new value of the '<em>Format Specifier</em>' containment
-	 *              reference.
+	 * @param value the new value of the '<em>Format Specifier</em>' containment reference.
 	 * @see #getFormatSpecifier()
 	 * @generated
 	 */
@@ -200,11 +180,9 @@ public interface SeriesDefinition extends IChartObject {
 	SeriesGrouping getGrouping();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getGrouping
-	 * <em>Grouping</em>}' containment reference. <!-- begin-user-doc --> <!--
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getGrouping <em>Grouping</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @param value the new value of the '<em>Grouping</em>' containment reference.
 	 * @see #getGrouping()
 	 * @generated
@@ -234,10 +212,8 @@ public interface SeriesDefinition extends IChartObject {
 	SortOption getSorting();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getSorting
-	 * <em>Sorting</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getSorting <em>Sorting</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Sorting</em>' attribute.
 	 * @see org.eclipse.birt.chart.model.attribute.SortOption
 	 * @see #isSetSorting()
@@ -248,10 +224,8 @@ public interface SeriesDefinition extends IChartObject {
 	void setSorting(SortOption value);
 
 	/**
-	 * Unsets the value of the
-	 * '{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getSorting
-	 * <em>Sorting</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getSorting <em>Sorting</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isSetSorting()
 	 * @see #getSorting()
 	 * @see #setSorting(SortOption)
@@ -260,11 +234,9 @@ public interface SeriesDefinition extends IChartObject {
 	void unsetSorting();
 
 	/**
-	 * Returns whether the value of the
-	 * '{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getSorting
-	 * <em>Sorting</em>}' attribute is set. <!-- begin-user-doc --> <!--
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getSorting <em>Sorting</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @return whether the value of the '<em>Sorting</em>' attribute is set.
 	 * @see #unsetSorting()
 	 * @see #getSorting()
@@ -281,22 +253,19 @@ public interface SeriesDefinition extends IChartObject {
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @return the value of the '<em>Sort Key</em>' containment reference.
 	 * @see #setSortKey(Query)
 	 * @see org.eclipse.birt.chart.model.data.DataPackage#getSeriesDefinition_SortKey()
-	 * @model containment="true" required="true" extendedMetaData="kind='element'
-	 *        name='SortKey'"
+	 * @model containment="true" required="true"
+	 *        extendedMetaData="kind='element' name='SortKey'"
 	 * @generated
 	 */
 	Query getSortKey();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getSortKey
-	 * <em>Sort Key</em>}' containment reference. <!-- begin-user-doc --> <!--
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getSortKey <em>Sort Key</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @param value the new value of the '<em>Sort Key</em>' containment reference.
 	 * @see #getSortKey()
 	 * @generated
@@ -380,11 +349,9 @@ public interface SeriesDefinition extends IChartObject {
 	void unsetSortStrength();
 
 	/**
-	 * Returns whether the value of the
-	 * '{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getSortStrength
-	 * <em>Sort Strength</em>}' attribute is set. <!-- begin-user-doc --> <!--
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getSortStrength <em>Sort Strength</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @return whether the value of the '<em>Sort Strength</em>' attribute is set.
 	 * @see #unsetSortStrength()
 	 * @see #getSortStrength()
@@ -413,10 +380,8 @@ public interface SeriesDefinition extends IChartObject {
 	int getZOrder();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getZOrder
-	 * <em>ZOrder</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getZOrder <em>ZOrder</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @param value the new value of the '<em>ZOrder</em>' attribute.
 	 * @see #isSetZOrder()
 	 * @see #unsetZOrder()
@@ -426,10 +391,8 @@ public interface SeriesDefinition extends IChartObject {
 	void setZOrder(int value);
 
 	/**
-	 * Unsets the value of the
-	 * '{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getZOrder
-	 * <em>ZOrder</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getZOrder <em>ZOrder</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isSetZOrder()
 	 * @see #getZOrder()
 	 * @see #setZOrder(int)

@@ -19,21 +19,19 @@ package org.eclipse.birt.chart.model.attribute;
  * Value</b></em>'. <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- *
- * This type defines the value for a 'Toggle_Visibility' action.
- *
+ * SeriesValue extends type ActionValue to devote itself to 'Toggle_Visibility' actions.
+ * 			
  * <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.SeriesValue#getName
- * <em>Name</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.SeriesValue#getName <em>Name</em>}</li>
+ * </ul>
  *
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getSeriesValue()
- * @model
+ * @model extendedMetaData="name='SeriesValue' kind='elementOnly'"
  * @generated
  */
 public interface SeriesValue extends ActionValue {
@@ -55,10 +53,8 @@ public interface SeriesValue extends ActionValue {
 	String getName();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.SeriesValue#getName
-	 * <em>Name</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.SeriesValue#getName <em>Name</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Name</em>' attribute.
 	 * @see #getName()
 	 * @generated

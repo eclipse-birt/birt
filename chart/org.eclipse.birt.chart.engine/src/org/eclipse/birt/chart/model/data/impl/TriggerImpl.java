@@ -32,24 +32,20 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <em><b>Trigger</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.data.impl.TriggerImpl#getCondition
- * <em>Condition</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.data.impl.TriggerImpl#getAction
- * <em>Action</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.data.impl.TriggerImpl#getTriggerFlow
- * <em>Trigger Flow</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.data.impl.TriggerImpl#getCondition <em>Condition</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.impl.TriggerImpl#getAction <em>Action</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.impl.TriggerImpl#getTriggerFlow <em>Trigger Flow</em>}</li>
+ * </ul>
  *
  * @generated
  */
 public class TriggerImpl extends EObjectImpl implements Trigger {
 
 	/**
-	 * The default value of the '{@link #getCondition() <em>Condition</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The default value of the '{@link #getCondition() <em>Condition</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getCondition()
 	 * @generated
 	 * @ordered
@@ -57,9 +53,8 @@ public class TriggerImpl extends EObjectImpl implements Trigger {
 	protected static final TriggerCondition CONDITION_EDEFAULT = TriggerCondition.MOUSE_HOVER_LITERAL;
 
 	/**
-	 * The cached value of the '{@link #getCondition() <em>Condition</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getCondition() <em>Condition</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getCondition()
 	 * @generated
 	 * @ordered
@@ -67,18 +62,17 @@ public class TriggerImpl extends EObjectImpl implements Trigger {
 	protected TriggerCondition condition = CONDITION_EDEFAULT;
 
 	/**
-	 * This is true if the Condition attribute has been set. <!-- begin-user-doc -->
+	 * This is true if the Condition attribute has been set.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean conditionESet;
 
 	/**
-	 * The cached value of the '{@link #getAction() <em>Action</em>}' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getAction() <em>Action</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getAction()
 	 * @generated
 	 * @ordered
@@ -86,9 +80,8 @@ public class TriggerImpl extends EObjectImpl implements Trigger {
 	protected Action action;
 
 	/**
-	 * The default value of the '{@link #getTriggerFlow() <em>Trigger Flow</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The default value of the '{@link #getTriggerFlow() <em>Trigger Flow</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getTriggerFlow()
 	 * @generated
 	 * @ordered
@@ -96,9 +89,8 @@ public class TriggerImpl extends EObjectImpl implements Trigger {
 	protected static final TriggerFlow TRIGGER_FLOW_EDEFAULT = TriggerFlow.CAPTURE_LITERAL;
 
 	/**
-	 * The cached value of the '{@link #getTriggerFlow() <em>Trigger Flow</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getTriggerFlow() <em>Trigger Flow</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getTriggerFlow()
 	 * @generated
 	 * @ordered
@@ -106,9 +98,9 @@ public class TriggerImpl extends EObjectImpl implements Trigger {
 	protected TriggerFlow triggerFlow = TRIGGER_FLOW_EDEFAULT;
 
 	/**
-	 * This is true if the Trigger Flow attribute has been set. <!-- begin-user-doc
+	 * This is true if the Trigger Flow attribute has been set.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -116,7 +108,6 @@ public class TriggerImpl extends EObjectImpl implements Trigger {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected TriggerImpl() {
@@ -125,7 +116,6 @@ public class TriggerImpl extends EObjectImpl implements Trigger {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -135,7 +125,6 @@ public class TriggerImpl extends EObjectImpl implements Trigger {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -145,7 +134,6 @@ public class TriggerImpl extends EObjectImpl implements Trigger {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -154,15 +142,13 @@ public class TriggerImpl extends EObjectImpl implements Trigger {
 		condition = newCondition == null ? CONDITION_EDEFAULT : newCondition;
 		boolean oldConditionESet = conditionESet;
 		conditionESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, DataPackage.TRIGGER__CONDITION, oldCondition,
 					condition, !oldConditionESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -171,15 +157,13 @@ public class TriggerImpl extends EObjectImpl implements Trigger {
 		boolean oldConditionESet = conditionESet;
 		condition = CONDITION_EDEFAULT;
 		conditionESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, DataPackage.TRIGGER__CONDITION, oldCondition,
 					CONDITION_EDEFAULT, oldConditionESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -189,7 +173,6 @@ public class TriggerImpl extends EObjectImpl implements Trigger {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -199,7 +182,6 @@ public class TriggerImpl extends EObjectImpl implements Trigger {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetAction(Action newAction, NotificationChain msgs) {
@@ -208,44 +190,37 @@ public class TriggerImpl extends EObjectImpl implements Trigger {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, DataPackage.TRIGGER__ACTION,
 					oldAction, newAction);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setAction(Action newAction) {
 		if (newAction != action) {
 			NotificationChain msgs = null;
-			if (action != null) {
+			if (action != null)
 				msgs = ((InternalEObject) action).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - DataPackage.TRIGGER__ACTION, null, msgs);
-			}
-			if (newAction != null) {
+			if (newAction != null)
 				msgs = ((InternalEObject) newAction).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - DataPackage.TRIGGER__ACTION, null, msgs);
-			}
 			msgs = basicSetAction(newAction, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, DataPackage.TRIGGER__ACTION, newAction, newAction));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -255,7 +230,6 @@ public class TriggerImpl extends EObjectImpl implements Trigger {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -264,15 +238,13 @@ public class TriggerImpl extends EObjectImpl implements Trigger {
 		triggerFlow = newTriggerFlow == null ? TRIGGER_FLOW_EDEFAULT : newTriggerFlow;
 		boolean oldTriggerFlowESet = triggerFlowESet;
 		triggerFlowESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, DataPackage.TRIGGER__TRIGGER_FLOW, oldTriggerFlow,
 					triggerFlow, !oldTriggerFlowESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -281,15 +253,13 @@ public class TriggerImpl extends EObjectImpl implements Trigger {
 		boolean oldTriggerFlowESet = triggerFlowESet;
 		triggerFlow = TRIGGER_FLOW_EDEFAULT;
 		triggerFlowESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, DataPackage.TRIGGER__TRIGGER_FLOW, oldTriggerFlow,
 					TRIGGER_FLOW_EDEFAULT, oldTriggerFlowESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -299,7 +269,6 @@ public class TriggerImpl extends EObjectImpl implements Trigger {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -313,7 +282,6 @@ public class TriggerImpl extends EObjectImpl implements Trigger {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -331,7 +299,6 @@ public class TriggerImpl extends EObjectImpl implements Trigger {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -352,7 +319,6 @@ public class TriggerImpl extends EObjectImpl implements Trigger {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -373,7 +339,6 @@ public class TriggerImpl extends EObjectImpl implements Trigger {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -391,28 +356,24 @@ public class TriggerImpl extends EObjectImpl implements Trigger {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) {
+		if (eIsProxy())
 			return super.toString();
-		}
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (condition: "); //$NON-NLS-1$
-		if (conditionESet) {
+		if (conditionESet)
 			result.append(condition);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", triggerFlow: "); //$NON-NLS-1$
-		if (triggerFlowESet) {
+		if (triggerFlowESet)
 			result.append(triggerFlow);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(')');
 		return result.toString();
 	}

@@ -19,14 +19,13 @@ package org.eclipse.birt.chart.model.type;
  * Series</b></em>'. <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- *
  * This is a Series type that holds data for Scatter Charts.
- *
+ * 			
  * <!-- end-model-doc -->
  *
  *
  * @see org.eclipse.birt.chart.model.type.TypePackage#getScatterSeries()
- * @model
+ * @model extendedMetaData="name='ScatterSeries' kind='elementOnly'"
  * @generated
  */
 public interface ScatterSeries extends LineSeries {

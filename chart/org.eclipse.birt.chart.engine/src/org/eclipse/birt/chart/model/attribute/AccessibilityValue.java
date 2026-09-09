@@ -18,18 +18,17 @@ package org.eclipse.birt.chart.model.attribute;
  * <!-- begin-user-doc --> A representation of the model object
  * '<em><b>Accessibility Value</b></em>'. <!-- end-user-doc -->
  *
- * <!-- begin-model-doc --> AccessibilityValue extends the type ActionValue
- * specific for accessibilities. <!-- end-model-doc -->
+ * <!-- begin-model-doc -->
+ * AccessibilityValue extends the type ActionValue specific for accessibilities.
+ * <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.AccessibilityValue#getText
- * <em>Text</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.AccessibilityValue#getAccessibility
- * <em>Accessibility</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.AccessibilityValue#getText <em>Text</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.AccessibilityValue#getAccessibility <em>Accessibility</em>}</li>
+ * </ul>
  *
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getAccessibilityValue()
  * @model extendedMetaData="name='AccessibilityValue' kind='elementOnly'"
@@ -53,10 +52,8 @@ public interface AccessibilityValue extends ActionValue {
 	String getText();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.AccessibilityValue#getText
-	 * <em>Text</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.AccessibilityValue#getText <em>Text</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Text</em>' attribute.
 	 * @see #getText()
 	 * @generated

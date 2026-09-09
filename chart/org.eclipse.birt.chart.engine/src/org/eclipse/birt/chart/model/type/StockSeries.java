@@ -23,23 +23,22 @@ import org.eclipse.birt.chart.model.component.Series;
  * Series</b></em>'. <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- *
  * This is a Series type that holds data for Stock Charts.
- *
+ * 			
  * <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.type.StockSeries#getFill
- * <em>Fill</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.type.StockSeries#getLineAttributes
- * <em>Line Attributes</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.type.StockSeries#getFill <em>Fill</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.StockSeries#getLineAttributes <em>Line Attributes</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.StockSeries#isShowAsBarStick <em>Show As Bar Stick</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.StockSeries#getStickLength <em>Stick Length</em>}</li>
+ * </ul>
  *
  * @see org.eclipse.birt.chart.model.type.TypePackage#getStockSeries()
- * @model
+ * @model extendedMetaData="name='StockSeries' kind='elementOnly'"
  * @generated
  */
 public interface StockSeries extends Series {
@@ -61,10 +60,8 @@ public interface StockSeries extends Series {
 	Fill getFill();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.type.StockSeries#getFill <em>Fill</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.type.StockSeries#getFill <em>Fill</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Fill</em>' containment reference.
 	 * @see #getFill()
 	 * @generated
@@ -89,13 +86,10 @@ public interface StockSeries extends Series {
 	LineAttributes getLineAttributes();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.type.StockSeries#getLineAttributes
-	 * <em>Line Attributes</em>}' containment reference. <!-- begin-user-doc -->
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.type.StockSeries#getLineAttributes <em>Line Attributes</em>}' containment reference.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
-	 * @param value the new value of the '<em>Line Attributes</em>' containment
-	 *              reference.
+	 * @param value the new value of the '<em>Line Attributes</em>' containment reference.
 	 * @see #getLineAttributes()
 	 * @generated
 	 */
@@ -120,11 +114,9 @@ public interface StockSeries extends Series {
 	boolean isShowAsBarStick();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.type.StockSeries#isShowAsBarStick
-	 * <em>Show As Bar Stick</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.type.StockSeries#isShowAsBarStick <em>Show As Bar Stick</em>}' attribute.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @param value the new value of the '<em>Show As Bar Stick</em>' attribute.
 	 * @see #isSetShowAsBarStick()
 	 * @see #unsetShowAsBarStick()
@@ -134,11 +126,9 @@ public interface StockSeries extends Series {
 	void setShowAsBarStick(boolean value);
 
 	/**
-	 * Unsets the value of the
-	 * '{@link org.eclipse.birt.chart.model.type.StockSeries#isShowAsBarStick
-	 * <em>Show As Bar Stick</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.type.StockSeries#isShowAsBarStick <em>Show As Bar Stick</em>}' attribute.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #isSetShowAsBarStick()
 	 * @see #isShowAsBarStick()
 	 * @see #setShowAsBarStick(boolean)
@@ -147,13 +137,10 @@ public interface StockSeries extends Series {
 	void unsetShowAsBarStick();
 
 	/**
-	 * Returns whether the value of the
-	 * '{@link org.eclipse.birt.chart.model.type.StockSeries#isShowAsBarStick
-	 * <em>Show As Bar Stick</em>}' attribute is set. <!-- begin-user-doc --> <!--
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.type.StockSeries#isShowAsBarStick <em>Show As Bar Stick</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
-	 * @return whether the value of the '<em>Show As Bar Stick</em>' attribute is
-	 *         set.
+	 * @return whether the value of the '<em>Show As Bar Stick</em>' attribute is set.
 	 * @see #unsetShowAsBarStick()
 	 * @see #isShowAsBarStick()
 	 * @see #setShowAsBarStick(boolean)
@@ -207,11 +194,9 @@ public interface StockSeries extends Series {
 	void unsetStickLength();
 
 	/**
-	 * Returns whether the value of the
-	 * '{@link org.eclipse.birt.chart.model.type.StockSeries#getStickLength
-	 * <em>Stick Length</em>}' attribute is set. <!-- begin-user-doc --> <!--
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.type.StockSeries#getStickLength <em>Stick Length</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @return whether the value of the '<em>Stick Length</em>' attribute is set.
 	 * @see #unsetStickLength()
 	 * @see #getStickLength()

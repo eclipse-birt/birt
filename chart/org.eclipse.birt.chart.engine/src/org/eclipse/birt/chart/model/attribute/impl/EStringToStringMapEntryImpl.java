@@ -33,13 +33,11 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * To String Map Entry</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.EStringToStringMapEntryImpl#getTypedKey
- * <em>Key</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.EStringToStringMapEntryImpl#getTypedValue
- * <em>Value</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.EStringToStringMapEntryImpl#getTypedKey <em>Key</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.EStringToStringMapEntryImpl#getTypedValue <em>Value</em>}</li>
+ * </ul>
  *
  * @generated
  */
@@ -48,7 +46,6 @@ public class EStringToStringMapEntryImpl extends EObjectImpl implements BasicEMa
 	/**
 	 * The default value of the '{@link #getTypedKey() <em>Key</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @see #getTypedKey()
 	 * @generated
 	 * @ordered
@@ -68,7 +65,6 @@ public class EStringToStringMapEntryImpl extends EObjectImpl implements BasicEMa
 	/**
 	 * The default value of the '{@link #getTypedValue() <em>Value</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @see #getTypedValue()
 	 * @generated
 	 * @ordered
@@ -78,7 +74,6 @@ public class EStringToStringMapEntryImpl extends EObjectImpl implements BasicEMa
 	/**
 	 * The cached value of the '{@link #getTypedValue() <em>Value</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @see #getTypedValue()
 	 * @generated
 	 * @ordered
@@ -87,7 +82,6 @@ public class EStringToStringMapEntryImpl extends EObjectImpl implements BasicEMa
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected EStringToStringMapEntryImpl() {
@@ -96,7 +90,6 @@ public class EStringToStringMapEntryImpl extends EObjectImpl implements BasicEMa
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -106,7 +99,6 @@ public class EStringToStringMapEntryImpl extends EObjectImpl implements BasicEMa
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public String getTypedKey() {
@@ -115,21 +107,18 @@ public class EStringToStringMapEntryImpl extends EObjectImpl implements BasicEMa
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public void setTypedKey(String newKey) {
 		String oldKey = key;
 		key = newKey;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.ESTRING_TO_STRING_MAP_ENTRY__KEY,
 					oldKey, key));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public String getTypedValue() {
@@ -138,21 +127,18 @@ public class EStringToStringMapEntryImpl extends EObjectImpl implements BasicEMa
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public void setTypedValue(String newValue) {
 		String oldValue = value;
 		value = newValue;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.ESTRING_TO_STRING_MAP_ENTRY__VALUE,
 					oldValue, value));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -168,7 +154,6 @@ public class EStringToStringMapEntryImpl extends EObjectImpl implements BasicEMa
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -186,7 +171,6 @@ public class EStringToStringMapEntryImpl extends EObjectImpl implements BasicEMa
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -204,7 +188,6 @@ public class EStringToStringMapEntryImpl extends EObjectImpl implements BasicEMa
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -220,14 +203,12 @@ public class EStringToStringMapEntryImpl extends EObjectImpl implements BasicEMa
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) {
+		if (eIsProxy())
 			return super.toString();
-		}
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (key: "); //$NON-NLS-1$
@@ -240,14 +221,12 @@ public class EStringToStringMapEntryImpl extends EObjectImpl implements BasicEMa
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected int hash = -1;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -261,7 +240,6 @@ public class EStringToStringMapEntryImpl extends EObjectImpl implements BasicEMa
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -271,7 +249,6 @@ public class EStringToStringMapEntryImpl extends EObjectImpl implements BasicEMa
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -281,7 +258,6 @@ public class EStringToStringMapEntryImpl extends EObjectImpl implements BasicEMa
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -291,7 +267,6 @@ public class EStringToStringMapEntryImpl extends EObjectImpl implements BasicEMa
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -301,7 +276,6 @@ public class EStringToStringMapEntryImpl extends EObjectImpl implements BasicEMa
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -313,7 +287,6 @@ public class EStringToStringMapEntryImpl extends EObjectImpl implements BasicEMa
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")

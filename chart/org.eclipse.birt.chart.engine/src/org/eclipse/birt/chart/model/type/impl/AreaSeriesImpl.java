@@ -16,22 +16,26 @@ package org.eclipse.birt.chart.model.type.impl;
 
 import java.util.Iterator;
 
+import java.util.Map;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.Marker;
 import org.eclipse.birt.chart.model.component.Series;
+import org.eclipse.birt.chart.model.data.DataSet;
+import org.eclipse.birt.chart.model.data.Query;
+import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.birt.chart.model.type.AreaSeries;
 import org.eclipse.birt.chart.model.type.TypeFactory;
 import org.eclipse.birt.chart.model.type.TypePackage;
 import org.eclipse.birt.chart.model.util.ChartElementUtil;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EClass;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '<em><b>Area
  * Series</b></em>'. <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */
@@ -39,7 +43,6 @@ public class AreaSeriesImpl extends LineSeriesImpl implements AreaSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected AreaSeriesImpl() {
@@ -48,7 +51,6 @@ public class AreaSeriesImpl extends LineSeriesImpl implements AreaSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -155,6 +157,100 @@ public class AreaSeriesImpl extends LineSeriesImpl implements AreaSeries {
 	protected void set(AreaSeries src) {
 
 		super.set(src);
+
+		// children
+
+		if (src.getLabel() != null) {
+			setLabel(src.getLabel().copyInstance());
+		}
+
+		if (src.getDataDefinition() != null) {
+			EList<Query> list = getDataDefinition();
+			for (Query element : src.getDataDefinition()) {
+				list.add(element.copyInstance());
+			}
+		}
+
+		if (src.getDataPoint() != null) {
+			setDataPoint(src.getDataPoint().copyInstance());
+		}
+
+		if (src.getDataSets() != null) {
+			EMap<String, DataSet> map = getDataSets();
+			for (Map.Entry<String, DataSet> entry : src.getDataSets().entrySet()) {
+
+				DataSet entryValue = entry.getValue() != null ? entry.getValue().copyInstance() : null;
+
+				map.put(entry.getKey(), entryValue);
+
+			}
+		}
+
+		if (src.getTriggers() != null) {
+			EList<Trigger> list = getTriggers();
+			for (Trigger element : src.getTriggers()) {
+				list.add(element.copyInstance());
+			}
+		}
+
+		if (src.getCurveFitting() != null) {
+			setCurveFitting(src.getCurveFitting().copyInstance());
+		}
+
+		if (src.getCursor() != null) {
+			setCursor(src.getCursor().copyInstance());
+		}
+
+		if (src.getMarkers() != null) {
+			EList<Marker> list = getMarkers();
+			for (Marker element : src.getMarkers()) {
+				list.add(element.copyInstance());
+			}
+		}
+
+		if (src.getMarker() != null) {
+			setMarker(src.getMarker().copyInstance());
+		}
+
+		if (src.getLineAttributes() != null) {
+			setLineAttributes(src.getLineAttributes().copyInstance());
+		}
+
+		if (src.getShadowColor() != null) {
+			setShadowColor(src.getShadowColor().copyInstance());
+		}
+
+		// attributes
+
+		visible = src.isVisible();
+
+		visibleESet = src.isSetVisible();
+
+		seriesIdentifier = src.getSeriesIdentifier();
+
+		labelPosition = src.getLabelPosition();
+
+		labelPositionESet = src.isSetLabelPosition();
+
+		stacked = src.isStacked();
+
+		stackedESet = src.isSetStacked();
+
+		translucent = src.isTranslucent();
+
+		translucentESet = src.isSetTranslucent();
+
+		paletteLineColor = src.isPaletteLineColor();
+
+		paletteLineColorESet = src.isSetPaletteLineColor();
+
+		curve = src.isCurve();
+
+		curveESet = src.isSetCurve();
+
+		connectMissingValue = src.isConnectMissingValue();
+
+		connectMissingValueESet = src.isSetConnectMissingValue();
 
 	}
 

@@ -33,13 +33,11 @@ import com.ibm.icu.util.ULocale;
  * Number Format Specifier</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.JavaNumberFormatSpecifierImpl#getPattern
- * <em>Pattern</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.JavaNumberFormatSpecifierImpl#getMultiplier
- * <em>Multiplier</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.JavaNumberFormatSpecifierImpl#getPattern <em>Pattern</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.JavaNumberFormatSpecifierImpl#getMultiplier <em>Multiplier</em>}</li>
+ * </ul>
  *
  * @generated
  */
@@ -48,7 +46,6 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 	/**
 	 * The default value of the '{@link #getPattern() <em>Pattern</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @see #getPattern()
 	 * @generated
 	 * @ordered
@@ -58,7 +55,6 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 	/**
 	 * The cached value of the '{@link #getPattern() <em>Pattern</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @see #getPattern()
 	 * @generated
 	 * @ordered
@@ -66,9 +62,8 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 	protected String pattern = PATTERN_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getMultiplier() <em>Multiplier</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The default value of the '{@link #getMultiplier() <em>Multiplier</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getMultiplier()
 	 * @generated
 	 * @ordered
@@ -76,9 +71,8 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 	protected static final double MULTIPLIER_EDEFAULT = 0.0;
 
 	/**
-	 * The cached value of the '{@link #getMultiplier() <em>Multiplier</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getMultiplier() <em>Multiplier</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getMultiplier()
 	 * @generated
 	 * @ordered
@@ -86,9 +80,9 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 	protected double multiplier = MULTIPLIER_EDEFAULT;
 
 	/**
-	 * This is true if the Multiplier attribute has been set. <!-- begin-user-doc
+	 * This is true if the Multiplier attribute has been set.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -96,7 +90,6 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected JavaNumberFormatSpecifierImpl() {
@@ -105,7 +98,6 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -115,7 +107,6 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -125,22 +116,19 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setPattern(String newPattern) {
 		String oldPattern = pattern;
 		pattern = newPattern;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
 					AttributePackage.JAVA_NUMBER_FORMAT_SPECIFIER__PATTERN, oldPattern, pattern));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -150,7 +138,6 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -159,16 +146,14 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 		multiplier = newMultiplier;
 		boolean oldMultiplierESet = multiplierESet;
 		multiplierESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
 					AttributePackage.JAVA_NUMBER_FORMAT_SPECIFIER__MULTIPLIER, oldMultiplier, multiplier,
 					!oldMultiplierESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -177,16 +162,14 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 		boolean oldMultiplierESet = multiplierESet;
 		multiplier = MULTIPLIER_EDEFAULT;
 		multiplierESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET,
 					AttributePackage.JAVA_NUMBER_FORMAT_SPECIFIER__MULTIPLIER, oldMultiplier, MULTIPLIER_EDEFAULT,
 					oldMultiplierESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -196,7 +179,6 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -212,7 +194,6 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -230,7 +211,6 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -248,7 +228,6 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -264,24 +243,21 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) {
+		if (eIsProxy())
 			return super.toString();
-		}
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (pattern: "); //$NON-NLS-1$
 		result.append(pattern);
 		result.append(", multiplier: "); //$NON-NLS-1$
-		if (multiplierESet) {
+		if (multiplierESet)
 			result.append(multiplier);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(')');
 		return result.toString();
 	}

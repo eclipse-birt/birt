@@ -33,11 +33,10 @@ import com.ibm.icu.util.ULocale;
  * Date Format Specifier</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.JavaDateFormatSpecifierImpl#getPattern
- * <em>Pattern</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.JavaDateFormatSpecifierImpl#getPattern <em>Pattern</em>}</li>
+ * </ul>
  *
  * @generated
  */
@@ -46,7 +45,6 @@ public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl implements 
 	/**
 	 * The default value of the '{@link #getPattern() <em>Pattern</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @see #getPattern()
 	 * @generated
 	 * @ordered
@@ -56,7 +54,6 @@ public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl implements 
 	/**
 	 * The cached value of the '{@link #getPattern() <em>Pattern</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @see #getPattern()
 	 * @generated
 	 * @ordered
@@ -65,7 +62,6 @@ public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl implements 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected JavaDateFormatSpecifierImpl() {
@@ -74,7 +70,6 @@ public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl implements 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -84,7 +79,6 @@ public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl implements 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -94,22 +88,19 @@ public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl implements 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setPattern(String newPattern) {
 		String oldPattern = pattern;
 		pattern = newPattern;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.JAVA_DATE_FORMAT_SPECIFIER__PATTERN,
 					oldPattern, pattern));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -123,7 +114,6 @@ public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl implements 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -138,7 +128,6 @@ public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl implements 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -153,7 +142,6 @@ public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl implements 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -167,14 +155,12 @@ public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl implements 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) {
+		if (eIsProxy())
 			return super.toString();
-		}
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (pattern: "); //$NON-NLS-1$

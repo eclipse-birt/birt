@@ -26,11 +26,10 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * Data Element</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.data.impl.NumberDataElementImpl#getValue
- * <em>Value</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.data.impl.NumberDataElementImpl#getValue <em>Value</em>}</li>
+ * </ul>
  *
  * @generated
  */
@@ -57,9 +56,9 @@ public class NumberDataElementImpl extends DataElementImpl implements NumberData
 	protected double value = VALUE_EDEFAULT;
 
 	/**
-	 * This is true if the Value attribute has been set. <!-- begin-user-doc -->
+	 * This is true if the Value attribute has been set.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -67,7 +66,6 @@ public class NumberDataElementImpl extends DataElementImpl implements NumberData
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected NumberDataElementImpl() {
@@ -76,7 +74,6 @@ public class NumberDataElementImpl extends DataElementImpl implements NumberData
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -86,7 +83,6 @@ public class NumberDataElementImpl extends DataElementImpl implements NumberData
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -96,7 +92,6 @@ public class NumberDataElementImpl extends DataElementImpl implements NumberData
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -105,15 +100,13 @@ public class NumberDataElementImpl extends DataElementImpl implements NumberData
 		value = newValue;
 		boolean oldValueESet = valueESet;
 		valueESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, DataPackage.NUMBER_DATA_ELEMENT__VALUE, oldValue,
 					value, !oldValueESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -122,15 +115,13 @@ public class NumberDataElementImpl extends DataElementImpl implements NumberData
 		boolean oldValueESet = valueESet;
 		value = VALUE_EDEFAULT;
 		valueESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, DataPackage.NUMBER_DATA_ELEMENT__VALUE, oldValue,
 					VALUE_EDEFAULT, oldValueESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -140,7 +131,6 @@ public class NumberDataElementImpl extends DataElementImpl implements NumberData
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -154,7 +144,6 @@ public class NumberDataElementImpl extends DataElementImpl implements NumberData
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -169,7 +158,6 @@ public class NumberDataElementImpl extends DataElementImpl implements NumberData
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -184,7 +172,6 @@ public class NumberDataElementImpl extends DataElementImpl implements NumberData
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override

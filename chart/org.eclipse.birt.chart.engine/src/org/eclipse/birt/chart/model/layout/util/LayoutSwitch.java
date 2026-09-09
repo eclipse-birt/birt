@@ -14,8 +14,6 @@
 
 package org.eclipse.birt.chart.model.layout.util;
 
-import java.util.List;
-
 import org.eclipse.birt.chart.model.layout.Block;
 import org.eclipse.birt.chart.model.layout.ClientArea;
 import org.eclipse.birt.chart.model.layout.LabelBlock;
@@ -23,8 +21,9 @@ import org.eclipse.birt.chart.model.layout.LayoutPackage;
 import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.model.layout.Plot;
 import org.eclipse.birt.chart.model.layout.TitleBlock;
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.util.Switch;
 
 /**
  * <!-- begin-user-doc --> The <b>Switch </b> for the model's inheritance
@@ -33,15 +32,14 @@ import org.eclipse.emf.ecore.EObject;
  * with the actual class of the object and proceeding up the inheritance
  * hierarchy until a non-null result is returned, which is the result of the
  * switch. <!-- end-user-doc -->
- *
  * @see org.eclipse.birt.chart.model.layout.LayoutPackage
  * @generated
  */
-public class LayoutSwitch<T> {
+public class LayoutSwitch<T> extends Switch<T> {
 
 	/**
-	 * The cached model package <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached model package
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected static LayoutPackage modelPackage;
@@ -59,105 +57,78 @@ public class LayoutSwitch<T> {
 	}
 
 	/**
-	 * Calls <code>caseXXX</code> for each class of the model until one returns a
-	 * non null result; it yields that result. <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
-	 *
-	 * @return the first non-null result returned by a <code>caseXXX</code> call.
+	 * Checks whether this is a switch for the given package.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param ePackage the package in question.
+	 * @return whether this is a switch for the given package.
 	 * @generated
 	 */
-	public T doSwitch(EObject theEObject) {
-		return doSwitch(theEObject.eClass(), theEObject);
+	@Override
+	protected boolean isSwitchFor(EPackage ePackage) {
+		return ePackage == modelPackage;
 	}
 
 	/**
-	 * Calls <code>caseXXX</code> for each class of the model until one returns a
-	 * non null result; it yields that result. <!-- begin-user-doc --> <!--
+	 * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @return the first non-null result returned by a <code>caseXXX</code> call.
 	 * @generated
 	 */
-	protected T doSwitch(EClass theEClass, EObject theEObject) {
-		if (theEClass.eContainer() == modelPackage) {
-			return doSwitch(theEClass.getClassifierID(), theEObject);
-		} else {
-			List<EClass> eSuperTypes = theEClass.getESuperTypes();
-			return eSuperTypes.isEmpty() ? defaultCase(theEObject) : doSwitch(eSuperTypes.get(0), theEObject);
-		}
-	}
-
-	/**
-	 * Calls <code>caseXXX</code> for each class of the model until one returns a
-	 * non null result; it yields that result. <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
-	 *
-	 * @return the first non-null result returned by a <code>caseXXX</code> call.
-	 * @generated
-	 */
+	@Override
 	protected T doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
 		case LayoutPackage.BLOCK: {
 			Block block = (Block) theEObject;
 			T result = caseBlock(block);
-			if (result == null) {
+			if (result == null)
 				result = defaultCase(theEObject);
-			}
 			return result;
 		}
 		case LayoutPackage.CLIENT_AREA: {
 			ClientArea clientArea = (ClientArea) theEObject;
 			T result = caseClientArea(clientArea);
-			if (result == null) {
+			if (result == null)
 				result = defaultCase(theEObject);
-			}
 			return result;
 		}
 		case LayoutPackage.LABEL_BLOCK: {
 			LabelBlock labelBlock = (LabelBlock) theEObject;
 			T result = caseLabelBlock(labelBlock);
-			if (result == null) {
+			if (result == null)
 				result = caseBlock(labelBlock);
-			}
-			if (result == null) {
+			if (result == null)
 				result = defaultCase(theEObject);
-			}
 			return result;
 		}
 		case LayoutPackage.LEGEND: {
 			Legend legend = (Legend) theEObject;
 			T result = caseLegend(legend);
-			if (result == null) {
+			if (result == null)
 				result = caseBlock(legend);
-			}
-			if (result == null) {
+			if (result == null)
 				result = defaultCase(theEObject);
-			}
 			return result;
 		}
 		case LayoutPackage.PLOT: {
 			Plot plot = (Plot) theEObject;
 			T result = casePlot(plot);
-			if (result == null) {
+			if (result == null)
 				result = caseBlock(plot);
-			}
-			if (result == null) {
+			if (result == null)
 				result = defaultCase(theEObject);
-			}
 			return result;
 		}
 		case LayoutPackage.TITLE_BLOCK: {
 			TitleBlock titleBlock = (TitleBlock) theEObject;
 			T result = caseTitleBlock(titleBlock);
-			if (result == null) {
+			if (result == null)
 				result = caseLabelBlock(titleBlock);
-			}
-			if (result == null) {
+			if (result == null)
 				result = caseBlock(titleBlock);
-			}
-			if (result == null) {
+			if (result == null)
 				result = defaultCase(theEObject);
-			}
 			return result;
 		}
 		default:
@@ -166,13 +137,11 @@ public class LayoutSwitch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of
-	 * '<em>Block</em>'. <!-- begin-user-doc --> This implementation returns null;
+	 * Returns the result of interpreting the object as an instance of '<em>Block</em>'.
+	 * <!-- begin-user-doc --> This implementation returns null;
 	 * returning a non-null result will terminate the switch. <!-- end-user-doc -->
-	 *
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of
-	 *         '<em>Block</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Block</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -181,13 +150,11 @@ public class LayoutSwitch<T> {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Client
-	 * Area</em>'. <!-- begin-user-doc --> This implementation returns null;
+	 * Returns the result of interpreting the object as an instance of '<em>Client Area</em>'.
+	 * <!-- begin-user-doc --> This implementation returns null;
 	 * returning a non-null result will terminate the switch. <!-- end-user-doc -->
-	 *
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Client
-	 *         Area</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Client Area</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -196,13 +163,11 @@ public class LayoutSwitch<T> {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Label
-	 * Block</em>'. <!-- begin-user-doc --> This implementation returns null;
+	 * Returns the result of interpreting the object as an instance of '<em>Label Block</em>'.
+	 * <!-- begin-user-doc --> This implementation returns null;
 	 * returning a non-null result will terminate the switch. <!-- end-user-doc -->
-	 *
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Label
-	 *         Block</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Label Block</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -211,13 +176,11 @@ public class LayoutSwitch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of
-	 * '<em>Legend</em>'. <!-- begin-user-doc --> This implementation returns null;
+	 * Returns the result of interpreting the object as an instance of '<em>Legend</em>'.
+	 * <!-- begin-user-doc --> This implementation returns null;
 	 * returning a non-null result will terminate the switch. <!-- end-user-doc -->
-	 *
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of
-	 *         '<em>Legend</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Legend</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -226,13 +189,11 @@ public class LayoutSwitch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of
-	 * '<em>Plot</em>'. <!-- begin-user-doc --> This implementation returns null;
+	 * Returns the result of interpreting the object as an instance of '<em>Plot</em>'.
+	 * <!-- begin-user-doc --> This implementation returns null;
 	 * returning a non-null result will terminate the switch. <!-- end-user-doc -->
-	 *
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of
-	 *         '<em>Plot</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Plot</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -241,13 +202,11 @@ public class LayoutSwitch<T> {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Title
-	 * Block</em>'. <!-- begin-user-doc --> This implementation returns null;
+	 * Returns the result of interpreting the object as an instance of '<em>Title Block</em>'.
+	 * <!-- begin-user-doc --> This implementation returns null;
 	 * returning a non-null result will terminate the switch. <!-- end-user-doc -->
-	 *
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Title
-	 *         Block</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Title Block</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -256,17 +215,16 @@ public class LayoutSwitch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of
-	 * '<em>EObject</em>'. <!-- begin-user-doc --> This implementation returns null;
+	 * Returns the result of interpreting the object as an instance of '<em>EObject</em>'.
+	 * <!-- begin-user-doc --> This implementation returns null;
 	 * returning a non-null result will terminate the switch, but this is the last
 	 * case anyway. <!-- end-user-doc -->
-	 *
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of
-	 *         '<em>EObject</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>EObject</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject)
 	 * @generated
 	 */
+	@Override
 	public T defaultCase(EObject object) {
 		return null;
 	}

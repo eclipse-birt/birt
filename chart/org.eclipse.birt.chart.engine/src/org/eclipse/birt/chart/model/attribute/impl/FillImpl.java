@@ -26,11 +26,10 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <em><b>Fill</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.FillImpl#getType
- * <em>Type</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.FillImpl#getType <em>Type</em>}</li>
+ * </ul>
  *
  * @generated
  */
@@ -57,9 +56,9 @@ public class FillImpl extends EObjectImpl implements Fill {
 	protected int type = TYPE_EDEFAULT;
 
 	/**
-	 * This is true if the Type attribute has been set. <!-- begin-user-doc --> <!--
+	 * This is true if the Type attribute has been set.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -67,7 +66,6 @@ public class FillImpl extends EObjectImpl implements Fill {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected FillImpl() {
@@ -76,7 +74,6 @@ public class FillImpl extends EObjectImpl implements Fill {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -86,7 +83,6 @@ public class FillImpl extends EObjectImpl implements Fill {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -96,7 +92,6 @@ public class FillImpl extends EObjectImpl implements Fill {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -105,15 +100,13 @@ public class FillImpl extends EObjectImpl implements Fill {
 		type = newType;
 		boolean oldTypeESet = typeESet;
 		typeESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.FILL__TYPE, oldType, type,
 					!oldTypeESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -122,15 +115,13 @@ public class FillImpl extends EObjectImpl implements Fill {
 		boolean oldTypeESet = typeESet;
 		type = TYPE_EDEFAULT;
 		typeESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.FILL__TYPE, oldType, TYPE_EDEFAULT,
 					oldTypeESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -140,7 +131,6 @@ public class FillImpl extends EObjectImpl implements Fill {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -154,7 +144,6 @@ public class FillImpl extends EObjectImpl implements Fill {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -169,7 +158,6 @@ public class FillImpl extends EObjectImpl implements Fill {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -184,7 +172,6 @@ public class FillImpl extends EObjectImpl implements Fill {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -198,22 +185,19 @@ public class FillImpl extends EObjectImpl implements Fill {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) {
+		if (eIsProxy())
 			return super.toString();
-		}
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (type: "); //$NON-NLS-1$
-		if (typeESet) {
+		if (typeESet)
 			result.append(type);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(')');
 		return result.toString();
 	}

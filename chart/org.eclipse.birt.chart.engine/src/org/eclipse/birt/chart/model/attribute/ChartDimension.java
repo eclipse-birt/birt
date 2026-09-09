@@ -36,13 +36,13 @@ import org.eclipse.emf.common.util.Enumerator;
  */
 public enum ChartDimension implements Enumerator {
 	/**
-	 * The '<em><b>Two Dimensional</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Two Dimensional</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Two Dimensional</b></em>' literal object isn't
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #TWO_DIMENSIONAL
 	 * @generated
 	 * @ordered
@@ -63,14 +63,14 @@ public enum ChartDimension implements Enumerator {
 	 */
 	TWO_DIMENSIONAL_WITH_DEPTH_LITERAL(1, "TwoDimensionalWithDepth", "Two_Dimensional_With_Depth"),
 	/**
-	 * The '<em><b>Three Dimensional</b></em>' literal object. <!-- begin-user-doc
+	 * The '<em><b>Three Dimensional</b></em>' literal object.
+	 * <!-- begin-user-doc
 	 * -->
 	 * <p>
 	 * If the meaning of '<em><b>Three Dimensional</b></em>' literal object isn't
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #THREE_DIMENSIONAL
 	 * @generated
 	 * @ordered
@@ -78,11 +78,11 @@ public enum ChartDimension implements Enumerator {
 	THREE_DIMENSIONAL_LITERAL(2, "ThreeDimensional", "Three_Dimensional");
 
 	/**
-	 * The '<em><b>Two Dimensional</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Two Dimensional</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #TWO_DIMENSIONAL_LITERAL
-	 * @model name="Two_Dimensional"
+	 * @model name="TwoDimensional" literal="Two_Dimensional"
 	 * @generated
 	 * @ordered
 	 */
@@ -100,11 +100,11 @@ public enum ChartDimension implements Enumerator {
 	public static final int TWO_DIMENSIONAL_WITH_DEPTH = 1;
 
 	/**
-	 * The '<em><b>Three Dimensional</b></em>' literal value. <!-- begin-user-doc
+	 * The '<em><b>Three Dimensional</b></em>' literal value.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 *
 	 * @see #THREE_DIMENSIONAL_LITERAL
-	 * @model name="Three_Dimensional"
+	 * @model name="ThreeDimensional" literal="Three_Dimensional"
 	 * @generated
 	 * @ordered
 	 */
@@ -116,21 +116,21 @@ public enum ChartDimension implements Enumerator {
 	 *
 	 * @generated
 	 */
-	private static final ChartDimension[] VALUES_ARRAY = { TWO_DIMENSIONAL_LITERAL, TWO_DIMENSIONAL_WITH_DEPTH_LITERAL,
-			THREE_DIMENSIONAL_LITERAL, };
+	private static final ChartDimension[] VALUES_ARRAY = new ChartDimension[] { TWO_DIMENSIONAL_LITERAL,
+			TWO_DIMENSIONAL_WITH_DEPTH_LITERAL, THREE_DIMENSIONAL_LITERAL, };
 
 	/**
-	 * A public read-only list of all the '<em><b>Chart Dimension</b></em>'
-	 * enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * A public read-only list of all the '<em><b>Chart Dimension</b></em>' enumerators.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static final List<ChartDimension> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
 	/**
-	 * Returns the '<em><b>Chart Dimension</b></em>' literal with the specified
-	 * literal value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns the '<em><b>Chart Dimension</b></em>' literal with the specified literal value.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param literal the literal.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static ChartDimension get(String literal) {
@@ -144,9 +144,10 @@ public enum ChartDimension implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Chart Dimension</b></em>' literal with the specified
-	 * name. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns the '<em><b>Chart Dimension</b></em>' literal with the specified name.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param name the name.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static ChartDimension getByName(String name) {
@@ -160,9 +161,10 @@ public enum ChartDimension implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Chart Dimension</b></em>' literal with the specified
-	 * integer value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns the '<em><b>Chart Dimension</b></em>' literal with the specified integer value.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the integer value.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static ChartDimension get(int value) {
@@ -179,32 +181,29 @@ public enum ChartDimension implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private final int value;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private final String name;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private final String literal;
 
 	/**
-	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
+	 * Only this class can construct instances.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @generated
 	 */
-	ChartDimension(int value, String name, String literal) {
+	private ChartDimension(int value, String name, String literal) {
 		this.value = value;
 		this.name = name;
 		this.literal = literal;
@@ -212,7 +211,6 @@ public enum ChartDimension implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -222,7 +220,6 @@ public enum ChartDimension implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -232,7 +229,6 @@ public enum ChartDimension implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -241,9 +237,8 @@ public enum ChartDimension implements Enumerator {
 	}
 
 	/**
-	 * Returns the literal value of the enumerator, which is its string
-	 * representation. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns the literal value of the enumerator, which is its string representation.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override

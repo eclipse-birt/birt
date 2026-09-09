@@ -23,23 +23,19 @@ import org.eclipse.birt.chart.model.attribute.TriggerFlow;
  * '<em><b>Trigger</b></em>'. <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- *
- * This type defines a Trigger. A trigger defines interactivity for a chart
- * component.
- *
+ * 
+ * 			This type defines a Trigger. A trigger defines interactivity for a chart component.
+ * 			
  * <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.data.Trigger#getCondition
- * <em>Condition</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.data.Trigger#getAction
- * <em>Action</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.data.Trigger#getTriggerFlow
- * <em>Trigger Flow</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.data.Trigger#getCondition <em>Condition</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.Trigger#getAction <em>Action</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.Trigger#getTriggerFlow <em>Trigger Flow</em>}</li>
+ * </ul>
  *
  * @see org.eclipse.birt.chart.model.data.DataPackage#getTrigger()
  * @model extendedMetaData="name='Trigger' kind='elementOnly'"
@@ -72,10 +68,8 @@ public interface Trigger extends IChartObject {
 	TriggerCondition getCondition();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.data.Trigger#getCondition
-	 * <em>Condition</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.data.Trigger#getCondition <em>Condition</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Condition</em>' attribute.
 	 * @see org.eclipse.birt.chart.model.attribute.TriggerCondition
 	 * @see #isSetCondition()
@@ -86,10 +80,8 @@ public interface Trigger extends IChartObject {
 	void setCondition(TriggerCondition value);
 
 	/**
-	 * Unsets the value of the
-	 * '{@link org.eclipse.birt.chart.model.data.Trigger#getCondition
-	 * <em>Condition</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.data.Trigger#getCondition <em>Condition</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isSetCondition()
 	 * @see #getCondition()
 	 * @see #setCondition(TriggerCondition)
@@ -98,11 +90,9 @@ public interface Trigger extends IChartObject {
 	void unsetCondition();
 
 	/**
-	 * Returns whether the value of the '
-	 * {@link org.eclipse.birt.chart.model.data.Trigger#getCondition
-	 * <em>Condition</em>}' attribute is set. <!-- begin-user-doc --> <!--
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.data.Trigger#getCondition <em>Condition</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @return whether the value of the '<em>Condition</em>' attribute is set.
 	 * @see #unsetCondition()
 	 * @see #getCondition()
@@ -129,10 +119,8 @@ public interface Trigger extends IChartObject {
 	Action getAction();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.data.Trigger#getAction <em>Action</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.data.Trigger#getAction <em>Action</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Action</em>' containment reference.
 	 * @see #getAction()
 	 * @generated
@@ -159,10 +147,8 @@ public interface Trigger extends IChartObject {
 	TriggerFlow getTriggerFlow();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.data.Trigger#getTriggerFlow <em>Trigger
-	 * Flow</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.data.Trigger#getTriggerFlow <em>Trigger Flow</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Trigger Flow</em>' attribute.
 	 * @see org.eclipse.birt.chart.model.attribute.TriggerFlow
 	 * @see #isSetTriggerFlow()
@@ -173,10 +159,8 @@ public interface Trigger extends IChartObject {
 	void setTriggerFlow(TriggerFlow value);
 
 	/**
-	 * Unsets the value of the
-	 * '{@link org.eclipse.birt.chart.model.data.Trigger#getTriggerFlow <em>Trigger
-	 * Flow</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.data.Trigger#getTriggerFlow <em>Trigger Flow</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isSetTriggerFlow()
 	 * @see #getTriggerFlow()
 	 * @see #setTriggerFlow(TriggerFlow)
@@ -185,10 +169,8 @@ public interface Trigger extends IChartObject {
 	void unsetTriggerFlow();
 
 	/**
-	 * Returns whether the value of the
-	 * '{@link org.eclipse.birt.chart.model.data.Trigger#getTriggerFlow <em>Trigger
-	 * Flow</em>}' attribute is set. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.data.Trigger#getTriggerFlow <em>Trigger Flow</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return whether the value of the '<em>Trigger Flow</em>' attribute is set.
 	 * @see #unsetTriggerFlow()
 	 * @see #getTriggerFlow()

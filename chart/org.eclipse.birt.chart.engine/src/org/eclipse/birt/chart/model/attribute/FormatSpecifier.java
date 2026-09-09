@@ -20,8 +20,9 @@ import org.eclipse.birt.chart.model.IChartObject;
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Format
  * Specifier</b></em>'. <!-- end-user-doc -->
  *
- * <!-- begin-model-doc --> FormatSpecifier specifies how to format the output
- * text of a value. <!-- end-model-doc -->
+ * <!-- begin-model-doc -->
+ * FormatSpecifier specifies how to format the output text of a value.
+ * <!-- end-model-doc -->
  *
  *
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getFormatSpecifier()

@@ -35,39 +35,39 @@ import org.eclipse.emf.common.util.Enumerator;
  */
 public enum VerticalAlignment implements Enumerator {
 	/**
-	 * The '<em><b>Top</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Top</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Top</b></em>' literal object isn't clear, there
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #TOP
 	 * @generated
 	 * @ordered
 	 */
 	TOP_LITERAL(0, "Top", "Top"),
 	/**
-	 * The '<em><b>Center</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Center</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Center</b></em>' literal object isn't clear, there
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #CENTER
 	 * @generated
 	 * @ordered
 	 */
 	CENTER_LITERAL(1, "Center", "Center"),
 	/**
-	 * The '<em><b>Bottom</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Bottom</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Bottom</b></em>' literal object isn't clear, there
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #BOTTOM
 	 * @generated
 	 * @ordered
@@ -75,9 +75,9 @@ public enum VerticalAlignment implements Enumerator {
 	BOTTOM_LITERAL(2, "Bottom", "Bottom");
 
 	/**
-	 * The '<em><b>Top</b></em>' literal value. <!-- begin-user-doc --> <!--
+	 * The '<em><b>Top</b></em>' literal value.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #TOP_LITERAL
 	 * @model name="Top"
 	 * @generated
@@ -86,9 +86,9 @@ public enum VerticalAlignment implements Enumerator {
 	public static final int TOP = 0;
 
 	/**
-	 * The '<em><b>Center</b></em>' literal value. <!-- begin-user-doc --> <!--
+	 * The '<em><b>Center</b></em>' literal value.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #CENTER_LITERAL
 	 * @model name="Center"
 	 * @generated
@@ -97,9 +97,9 @@ public enum VerticalAlignment implements Enumerator {
 	public static final int CENTER = 1;
 
 	/**
-	 * The '<em><b>Bottom</b></em>' literal value. <!-- begin-user-doc --> <!--
+	 * The '<em><b>Bottom</b></em>' literal value.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #BOTTOM_LITERAL
 	 * @model name="Bottom"
 	 * @generated
@@ -113,20 +113,21 @@ public enum VerticalAlignment implements Enumerator {
 	 *
 	 * @generated
 	 */
-	private static final VerticalAlignment[] VALUES_ARRAY = { TOP_LITERAL, CENTER_LITERAL, BOTTOM_LITERAL, };
+	private static final VerticalAlignment[] VALUES_ARRAY = new VerticalAlignment[] { TOP_LITERAL, CENTER_LITERAL,
+			BOTTOM_LITERAL, };
 
 	/**
-	 * A public read-only list of all the '<em><b>Vertical Alignment</b></em>'
-	 * enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * A public read-only list of all the '<em><b>Vertical Alignment</b></em>' enumerators.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static final List<VerticalAlignment> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
 	/**
-	 * Returns the '<em><b>Vertical Alignment</b></em>' literal with the specified
-	 * literal value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns the '<em><b>Vertical Alignment</b></em>' literal with the specified literal value.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param literal the literal.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static VerticalAlignment get(String literal) {
@@ -140,9 +141,10 @@ public enum VerticalAlignment implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Vertical Alignment</b></em>' literal with the specified
-	 * name. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns the '<em><b>Vertical Alignment</b></em>' literal with the specified name.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param name the name.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static VerticalAlignment getByName(String name) {
@@ -156,9 +158,10 @@ public enum VerticalAlignment implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Vertical Alignment</b></em>' literal with the specified
-	 * integer value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns the '<em><b>Vertical Alignment</b></em>' literal with the specified integer value.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the integer value.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static VerticalAlignment get(int value) {
@@ -175,32 +178,29 @@ public enum VerticalAlignment implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private final int value;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private final String name;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private final String literal;
 
 	/**
-	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
+	 * Only this class can construct instances.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @generated
 	 */
-	VerticalAlignment(int value, String name, String literal) {
+	private VerticalAlignment(int value, String name, String literal) {
 		this.value = value;
 		this.name = name;
 		this.literal = literal;
@@ -208,7 +208,6 @@ public enum VerticalAlignment implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -218,7 +217,6 @@ public enum VerticalAlignment implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -228,7 +226,6 @@ public enum VerticalAlignment implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -237,9 +234,8 @@ public enum VerticalAlignment implements Enumerator {
 	}
 
 	/**
-	 * Returns the literal value of the enumerator, which is its string
-	 * representation. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns the literal value of the enumerator, which is its string representation.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override

@@ -22,8 +22,6 @@ import org.eclipse.emf.ecore.EClass;
 /**
  * <!-- begin-user-doc --> An implementation of the model object '<em><b>Date
  * Time Data Set</b></em>'. <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */
@@ -31,7 +29,6 @@ public class DateTimeDataSetImpl extends DataSetImpl implements DateTimeDataSet 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected DateTimeDataSetImpl() {
@@ -40,7 +37,6 @@ public class DateTimeDataSetImpl extends DataSetImpl implements DateTimeDataSet 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -87,6 +83,8 @@ public class DateTimeDataSetImpl extends DataSetImpl implements DateTimeDataSet 
 	protected void set(DateTimeDataSet src) {
 
 		super.set(src);
+
+		// children
 
 	}
 

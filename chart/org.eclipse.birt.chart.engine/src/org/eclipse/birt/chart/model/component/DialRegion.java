@@ -20,13 +20,11 @@ package org.eclipse.birt.chart.model.component;
  *
  * <p>
  * The following features are supported:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.component.DialRegion#getInnerRadius
- * <em>Inner Radius</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.DialRegion#getOuterRadius
- * <em>Outer Radius</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.component.DialRegion#getInnerRadius <em>Inner Radius</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.DialRegion#getOuterRadius <em>Outer Radius</em>}</li>
+ * </ul>
  *
  * @see org.eclipse.birt.chart.model.component.ComponentPackage#getDialRegion()
  * @model extendedMetaData="name='DialRegion' kind='elementOnly'"
@@ -79,11 +77,9 @@ public interface DialRegion extends MarkerRange {
 	void unsetInnerRadius();
 
 	/**
-	 * Returns whether the value of the
-	 * '{@link org.eclipse.birt.chart.model.component.DialRegion#getInnerRadius
-	 * <em>Inner Radius</em>}' attribute is set. <!-- begin-user-doc --> <!--
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.component.DialRegion#getInnerRadius <em>Inner Radius</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @return whether the value of the '<em>Inner Radius</em>' attribute is set.
 	 * @see #unsetInnerRadius()
 	 * @see #getInnerRadius()
@@ -137,11 +133,9 @@ public interface DialRegion extends MarkerRange {
 	void unsetOuterRadius();
 
 	/**
-	 * Returns whether the value of the
-	 * '{@link org.eclipse.birt.chart.model.component.DialRegion#getOuterRadius
-	 * <em>Outer Radius</em>}' attribute is set. <!-- begin-user-doc --> <!--
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.component.DialRegion#getOuterRadius <em>Outer Radius</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @return whether the value of the '<em>Outer Radius</em>' attribute is set.
 	 * @see #unsetOuterRadius()
 	 * @see #getOuterRadius()

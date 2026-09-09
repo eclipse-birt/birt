@@ -30,25 +30,20 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * List</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * <ul>
- * <li>{@link org.eclipse.birt.report.model.adapter.oda.model.impl.DynamicListImpl#getDataSetName
- * <em>Data Set Name</em>}</li>
- * <li>{@link org.eclipse.birt.report.model.adapter.oda.model.impl.DynamicListImpl#getEnabled
- * <em>Enabled</em>}</li>
- * <li>{@link org.eclipse.birt.report.model.adapter.oda.model.impl.DynamicListImpl#getLabelColumn
- * <em>Label Column</em>}</li>
- * <li>{@link org.eclipse.birt.report.model.adapter.oda.model.impl.DynamicListImpl#getValueColumn
- * <em>Value Column</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.report.model.adapter.oda.model.impl.DynamicListImpl#getDataSetName <em>Data Set Name</em>}</li>
+ *   <li>{@link org.eclipse.birt.report.model.adapter.oda.model.impl.DynamicListImpl#getEnabled <em>Enabled</em>}</li>
+ *   <li>{@link org.eclipse.birt.report.model.adapter.oda.model.impl.DynamicListImpl#getLabelColumn <em>Label Column</em>}</li>
+ *   <li>{@link org.eclipse.birt.report.model.adapter.oda.model.impl.DynamicListImpl#getValueColumn <em>Value Column</em>}</li>
+ * </ul>
  *
  * @generated
  */
 public class DynamicListImpl extends EObjectImpl implements DynamicList {
 	/**
-	 * The default value of the '{@link #getDataSetName() <em>Data Set Name</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The default value of the '{@link #getDataSetName() <em>Data Set Name</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getDataSetName()
 	 * @generated
 	 * @ordered
@@ -56,9 +51,8 @@ public class DynamicListImpl extends EObjectImpl implements DynamicList {
 	protected static final String DATA_SET_NAME_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getDataSetName() <em>Data Set Name</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getDataSetName() <em>Data Set Name</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getDataSetName()
 	 * @generated
 	 * @ordered
@@ -68,17 +62,15 @@ public class DynamicListImpl extends EObjectImpl implements DynamicList {
 	/**
 	 * The default value of the '{@link #getEnabled() <em>Enabled</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @see #getEnabled()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String ENABLED_EDEFAULT = null;
+	protected static final String ENABLED_EDEFAULT = "true";
 
 	/**
 	 * The cached value of the '{@link #getEnabled() <em>Enabled</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @see #getEnabled()
 	 * @generated
 	 * @ordered
@@ -86,9 +78,17 @@ public class DynamicListImpl extends EObjectImpl implements DynamicList {
 	protected String enabled = ENABLED_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getLabelColumn() <em>Label Column</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * This is true if the Enabled attribute has been set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean enabledESet;
+
+	/**
+	 * The default value of the '{@link #getLabelColumn() <em>Label Column</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getLabelColumn()
 	 * @generated
 	 * @ordered
@@ -96,9 +96,8 @@ public class DynamicListImpl extends EObjectImpl implements DynamicList {
 	protected static final String LABEL_COLUMN_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getLabelColumn() <em>Label Column</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getLabelColumn() <em>Label Column</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getLabelColumn()
 	 * @generated
 	 * @ordered
@@ -106,9 +105,8 @@ public class DynamicListImpl extends EObjectImpl implements DynamicList {
 	protected String labelColumn = LABEL_COLUMN_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getValueColumn() <em>Value Column</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The default value of the '{@link #getValueColumn() <em>Value Column</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getValueColumn()
 	 * @generated
 	 * @ordered
@@ -116,9 +114,8 @@ public class DynamicListImpl extends EObjectImpl implements DynamicList {
 	protected static final String VALUE_COLUMN_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getValueColumn() <em>Value Column</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getValueColumn() <em>Value Column</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getValueColumn()
 	 * @generated
 	 * @ordered
@@ -127,7 +124,6 @@ public class DynamicListImpl extends EObjectImpl implements DynamicList {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected DynamicListImpl() {
@@ -136,7 +132,6 @@ public class DynamicListImpl extends EObjectImpl implements DynamicList {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -146,7 +141,6 @@ public class DynamicListImpl extends EObjectImpl implements DynamicList {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -156,7 +150,6 @@ public class DynamicListImpl extends EObjectImpl implements DynamicList {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -171,7 +164,6 @@ public class DynamicListImpl extends EObjectImpl implements DynamicList {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -181,22 +173,49 @@ public class DynamicListImpl extends EObjectImpl implements DynamicList {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setEnabled(String newEnabled) {
 		String oldEnabled = enabled;
 		enabled = newEnabled;
+		boolean oldEnabledESet = enabledESet;
+		enabledESet = true;
 		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.DYNAMIC_LIST__ENABLED, oldEnabled,
-					enabled));
+					enabled, !oldEnabledESet));
 		}
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void unsetEnabled() {
+		String oldEnabled = enabled;
+		boolean oldEnabledESet = enabledESet;
+		enabled = ENABLED_EDEFAULT;
+		enabledESet = false;
+		if (eNotificationRequired()) {
+			eNotify(new ENotificationImpl(this, Notification.UNSET, ModelPackage.DYNAMIC_LIST__ENABLED, oldEnabled,
+					ENABLED_EDEFAULT, oldEnabledESet));
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public boolean isSetEnabled() {
+		return enabledESet;
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -206,7 +225,6 @@ public class DynamicListImpl extends EObjectImpl implements DynamicList {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -221,7 +239,6 @@ public class DynamicListImpl extends EObjectImpl implements DynamicList {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -231,7 +248,6 @@ public class DynamicListImpl extends EObjectImpl implements DynamicList {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -246,7 +262,6 @@ public class DynamicListImpl extends EObjectImpl implements DynamicList {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -266,7 +281,6 @@ public class DynamicListImpl extends EObjectImpl implements DynamicList {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -290,7 +304,6 @@ public class DynamicListImpl extends EObjectImpl implements DynamicList {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -300,7 +313,7 @@ public class DynamicListImpl extends EObjectImpl implements DynamicList {
 			setDataSetName(DATA_SET_NAME_EDEFAULT);
 			return;
 		case ModelPackage.DYNAMIC_LIST__ENABLED:
-			setEnabled(ENABLED_EDEFAULT);
+			unsetEnabled();
 			return;
 		case ModelPackage.DYNAMIC_LIST__LABEL_COLUMN:
 			setLabelColumn(LABEL_COLUMN_EDEFAULT);
@@ -314,7 +327,6 @@ public class DynamicListImpl extends EObjectImpl implements DynamicList {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -323,7 +335,7 @@ public class DynamicListImpl extends EObjectImpl implements DynamicList {
 		case ModelPackage.DYNAMIC_LIST__DATA_SET_NAME:
 			return DATA_SET_NAME_EDEFAULT == null ? dataSetName != null : !DATA_SET_NAME_EDEFAULT.equals(dataSetName);
 		case ModelPackage.DYNAMIC_LIST__ENABLED:
-			return ENABLED_EDEFAULT == null ? enabled != null : !ENABLED_EDEFAULT.equals(enabled);
+			return isSetEnabled();
 		case ModelPackage.DYNAMIC_LIST__LABEL_COLUMN:
 			return LABEL_COLUMN_EDEFAULT == null ? labelColumn != null : !LABEL_COLUMN_EDEFAULT.equals(labelColumn);
 		case ModelPackage.DYNAMIC_LIST__VALUE_COLUMN:
@@ -334,7 +346,6 @@ public class DynamicListImpl extends EObjectImpl implements DynamicList {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -347,7 +358,11 @@ public class DynamicListImpl extends EObjectImpl implements DynamicList {
 		result.append(" (dataSetName: ");
 		result.append(dataSetName);
 		result.append(", enabled: ");
-		result.append(enabled);
+		if (enabledESet) {
+			result.append(enabled);
+		} else {
+			result.append("<unset>");
+		}
 		result.append(", labelColumn: ");
 		result.append(labelColumn);
 		result.append(", valueColumn: ");

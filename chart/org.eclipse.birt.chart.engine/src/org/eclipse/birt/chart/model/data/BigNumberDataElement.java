@@ -25,16 +25,16 @@ import java.math.BigDecimal;
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Big
  * Number Data Element</b></em>'. <!-- end-user-doc -->
  *
- * <!-- begin-model-doc --> Element BigNUmberDataElement represents a
- * DataElement which BigDecimal value. <!-- end-model-doc -->
+ * <!-- begin-model-doc -->
+ * Element BigNUmberDataElement represents a DataElement which BigDecimal value.
+ * <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.data.BigNumberDataElement#getValue
- * <em>Value</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.data.BigNumberDataElement#getValue <em>Value</em>}</li>
+ * </ul>
  *
  * @see org.eclipse.birt.chart.model.data.DataPackage#getBigNumberDataElement()
  * @model extendedMetaData="name='BigNumberDataElement' kind='elementOnly'"
@@ -61,10 +61,8 @@ public interface BigNumberDataElement extends DataElement {
 	BigDecimal getValue();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.data.BigNumberDataElement#getValue
-	 * <em>Value</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.data.BigNumberDataElement#getValue <em>Value</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Value</em>' attribute.
 	 * @see #getValue()
 	 * @generated

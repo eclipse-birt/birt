@@ -27,13 +27,11 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
- * <ul>
- * <li>{@link org.eclipse.birt.report.model.adapter.oda.model.DataSetParameter#getParameterDefinition
- * <em>Parameter Definition</em>}</li>
- * <li>{@link org.eclipse.birt.report.model.adapter.oda.model.DataSetParameter#getDynamicList
- * <em>Dynamic List</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.report.model.adapter.oda.model.DataSetParameter#getParameterDefinition <em>Parameter Definition</em>}</li>
+ *   <li>{@link org.eclipse.birt.report.model.adapter.oda.model.DataSetParameter#getDynamicList <em>Dynamic List</em>}</li>
+ * </ul>
  *
  * @see org.eclipse.birt.report.model.adapter.oda.model.ModelPackage#getDataSetParameter()
  * @model extendedMetaData="name='DataSetParameter' kind='elementOnly'"
@@ -58,44 +56,37 @@ public interface DataSetParameter extends EObject {
 	ParameterDefinition getParameterDefinition();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.report.model.adapter.oda.model.DataSetParameter#getParameterDefinition
-	 * <em>Parameter Definition</em>}' containment reference. <!-- begin-user-doc
+	 * Sets the value of the '{@link org.eclipse.birt.report.model.adapter.oda.model.DataSetParameter#getParameterDefinition <em>Parameter Definition</em>}' containment reference.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 *
-	 * @param value the new value of the '<em>Parameter Definition</em>' containment
-	 *              reference.
+	 * @param value the new value of the '<em>Parameter Definition</em>' containment reference.
 	 * @see #getParameterDefinition()
 	 * @generated
 	 */
 	void setParameterDefinition(ParameterDefinition value);
 
 	/**
-	 * Returns the value of the '<em><b>Dynamic List</b></em>' containment
-	 * reference. <!-- begin-user-doc -->
+	 * Returns the value of the '<em><b>Dynamic List</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Dynamic List</em>' containment reference isn't
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @return the value of the '<em>Dynamic List</em>' containment reference.
 	 * @see #setDynamicList(DynamicList)
 	 * @see org.eclipse.birt.report.model.adapter.oda.model.ModelPackage#getDataSetParameter_DynamicList()
-	 * @model containment="true" extendedMetaData="kind='element'
-	 *        name='dynamicList'"
+	 * @model containment="true"
+	 *        extendedMetaData="kind='element' name='dynamicList'"
 	 * @generated
 	 */
 	DynamicList getDynamicList();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.report.model.adapter.oda.model.DataSetParameter#getDynamicList
-	 * <em>Dynamic List</em>}' containment reference. <!-- begin-user-doc --> <!--
+	 * Sets the value of the '{@link org.eclipse.birt.report.model.adapter.oda.model.DataSetParameter#getDynamicList <em>Dynamic List</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
-	 * @param value the new value of the '<em>Dynamic List</em>' containment
-	 *              reference.
+	 * @param value the new value of the '<em>Dynamic List</em>' containment reference.
 	 * @see #getDynamicList()
 	 * @generated
 	 */

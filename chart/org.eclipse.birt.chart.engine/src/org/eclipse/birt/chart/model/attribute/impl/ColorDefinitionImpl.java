@@ -28,26 +28,21 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * Definition</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl#getTransparency
- * <em>Transparency</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl#getRed
- * <em>Red</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl#getGreen
- * <em>Green</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl#getBlue
- * <em>Blue</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl#getTransparency <em>Transparency</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl#getRed <em>Red</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl#getGreen <em>Green</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl#getBlue <em>Blue</em>}</li>
+ * </ul>
  *
  * @generated
  */
 public class ColorDefinitionImpl extends FillImpl implements ColorDefinition {
 
 	/**
-	 * The default value of the ' {@link #getTransparency() <em>Transparency</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The default value of the '{@link #getTransparency() <em>Transparency</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getTransparency()
 	 * @generated
 	 * @ordered
@@ -55,9 +50,8 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition {
 	protected static final int TRANSPARENCY_EDEFAULT = 255;
 
 	/**
-	 * The cached value of the ' {@link #getTransparency() <em>Transparency</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getTransparency() <em>Transparency</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getTransparency()
 	 * @generated
 	 * @ordered
@@ -65,9 +59,9 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition {
 	protected int transparency = TRANSPARENCY_EDEFAULT;
 
 	/**
-	 * This is true if the Transparency attribute has been set. <!-- begin-user-doc
+	 * This is true if the Transparency attribute has been set.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -94,9 +88,9 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition {
 	protected int red = RED_EDEFAULT;
 
 	/**
-	 * This is true if the Red attribute has been set. <!-- begin-user-doc --> <!--
+	 * This is true if the Red attribute has been set.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -123,9 +117,9 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition {
 	protected int green = GREEN_EDEFAULT;
 
 	/**
-	 * This is true if the Green attribute has been set. <!-- begin-user-doc -->
+	 * This is true if the Green attribute has been set.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -152,9 +146,9 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition {
 	protected int blue = BLUE_EDEFAULT;
 
 	/**
-	 * This is true if the Blue attribute has been set. <!-- begin-user-doc --> <!--
+	 * This is true if the Blue attribute has been set.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -162,7 +156,6 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected ColorDefinitionImpl() {
@@ -208,7 +201,6 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -218,7 +210,6 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -228,7 +219,6 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -237,15 +227,13 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition {
 		transparency = newTransparency;
 		boolean oldTransparencyESet = transparencyESet;
 		transparencyESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.COLOR_DEFINITION__TRANSPARENCY,
 					oldTransparency, transparency, !oldTransparencyESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -254,15 +242,13 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition {
 		boolean oldTransparencyESet = transparencyESet;
 		transparency = TRANSPARENCY_EDEFAULT;
 		transparencyESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.COLOR_DEFINITION__TRANSPARENCY,
 					oldTransparency, TRANSPARENCY_EDEFAULT, oldTransparencyESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -272,7 +258,6 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -282,7 +267,6 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -291,15 +275,13 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition {
 		red = newRed;
 		boolean oldRedESet = redESet;
 		redESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.COLOR_DEFINITION__RED, oldRed, red,
 					!oldRedESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -308,15 +290,13 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition {
 		boolean oldRedESet = redESet;
 		red = RED_EDEFAULT;
 		redESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.COLOR_DEFINITION__RED, oldRed,
 					RED_EDEFAULT, oldRedESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -326,7 +306,6 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -336,7 +315,6 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -345,15 +323,13 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition {
 		blue = newBlue;
 		boolean oldBlueESet = blueESet;
 		blueESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.COLOR_DEFINITION__BLUE, oldBlue,
 					blue, !oldBlueESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -362,15 +338,13 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition {
 		boolean oldBlueESet = blueESet;
 		blue = BLUE_EDEFAULT;
 		blueESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.COLOR_DEFINITION__BLUE, oldBlue,
 					BLUE_EDEFAULT, oldBlueESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -380,7 +354,6 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -400,7 +373,6 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -424,7 +396,6 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -448,7 +419,6 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -468,7 +438,6 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -478,7 +447,6 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -487,15 +455,13 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition {
 		green = newGreen;
 		boolean oldGreenESet = greenESet;
 		greenESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.COLOR_DEFINITION__GREEN, oldGreen,
 					green, !oldGreenESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -504,15 +470,13 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition {
 		boolean oldGreenESet = greenESet;
 		green = GREEN_EDEFAULT;
 		greenESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.COLOR_DEFINITION__GREEN, oldGreen,
 					GREEN_EDEFAULT, oldGreenESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -522,40 +486,34 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) {
+		if (eIsProxy())
 			return super.toString();
-		}
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (transparency: "); //$NON-NLS-1$
-		if (transparencyESet) {
+		if (transparencyESet)
 			result.append(transparency);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", red: "); //$NON-NLS-1$
-		if (redESet) {
+		if (redESet)
 			result.append(red);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", green: "); //$NON-NLS-1$
-		if (greenESet) {
+		if (greenESet)
 			result.append(green);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", blue: "); //$NON-NLS-1$
-		if (blueESet) {
+		if (blueESet)
 			result.append(blue);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(')');
 		return result.toString();
 	}
@@ -566,6 +524,10 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition {
 	protected void set(ColorDefinition src) {
 
 		// attributes
+
+		type = src.getType();
+
+		typeESet = src.isSetType();
 
 		transparency = src.getTransparency();
 

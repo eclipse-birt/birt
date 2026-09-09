@@ -49,21 +49,19 @@ import org.eclipse.emf.ecore.plugin.EcorePlugin;
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Factory </b>. <!--
  * end-user-doc -->
- *
  * @generated
  */
 public class DataFactoryImpl extends EFactoryImpl implements DataFactory {
 
 	/**
-	 * Creates the default factory implementation. <!-- begin-user-doc --> <!--
+	 * Creates the default factory implementation.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public static DataFactory init() {
 		try {
-			DataFactory theDataFactory = (DataFactory) EPackage.Registry.INSTANCE
-					.getEFactory("http://www.birt.eclipse.org/ChartModelData"); //$NON-NLS-1$
+			DataFactory theDataFactory = (DataFactory) EPackage.Registry.INSTANCE.getEFactory(DataPackage.eNS_URI);
 			if (theDataFactory != null) {
 				return theDataFactory;
 			}
@@ -85,7 +83,6 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -144,7 +141,6 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -159,7 +155,6 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -174,7 +169,6 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -185,7 +179,6 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -196,7 +189,6 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -207,7 +199,6 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -218,7 +209,6 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -229,7 +219,6 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -240,7 +229,6 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -251,7 +239,6 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -262,7 +249,6 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -273,7 +259,6 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -284,7 +269,6 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -295,7 +279,6 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -306,7 +289,6 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -317,7 +299,6 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -328,7 +309,6 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -339,7 +319,6 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -350,7 +329,6 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -361,7 +339,6 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -372,7 +349,6 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -383,7 +359,6 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -394,7 +369,6 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -405,7 +379,6 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -416,7 +389,6 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -427,7 +399,6 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public Object createDataFromString(EDataType eDataType, String initialValue) {
@@ -436,7 +407,6 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public String convertDataToString(EDataType eDataType, Object instanceValue) {
@@ -445,7 +415,6 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -455,7 +424,6 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @deprecated
 	 * @generated
 	 */

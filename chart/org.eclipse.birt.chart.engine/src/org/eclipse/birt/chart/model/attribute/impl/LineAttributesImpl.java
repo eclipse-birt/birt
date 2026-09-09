@@ -31,17 +31,13 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * Attributes</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl#getStyle
- * <em>Style</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl#getThickness
- * <em>Thickness</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl#getColor
- * <em>Color</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl#isVisible
- * <em>Visible</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl#getStyle <em>Style</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl#getThickness <em>Thickness</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl#getColor <em>Color</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl#isVisible <em>Visible</em>}</li>
+ * </ul>
  *
  * @generated
  */
@@ -68,18 +64,17 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes {
 	protected LineStyle style = STYLE_EDEFAULT;
 
 	/**
-	 * This is true if the Style attribute has been set. <!-- begin-user-doc -->
+	 * This is true if the Style attribute has been set.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean styleESet;
 
 	/**
-	 * The default value of the '{@link #getThickness() <em>Thickness</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The default value of the '{@link #getThickness() <em>Thickness</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getThickness()
 	 * @generated
 	 * @ordered
@@ -87,9 +82,8 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes {
 	protected static final int THICKNESS_EDEFAULT = 1;
 
 	/**
-	 * The cached value of the '{@link #getThickness() <em>Thickness</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getThickness() <em>Thickness</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getThickness()
 	 * @generated
 	 * @ordered
@@ -97,18 +91,17 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes {
 	protected int thickness = THICKNESS_EDEFAULT;
 
 	/**
-	 * This is true if the Thickness attribute has been set. <!-- begin-user-doc -->
+	 * This is true if the Thickness attribute has been set.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean thicknessESet;
 
 	/**
-	 * The cached value of the '{@link #getColor() <em>Color</em>}' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getColor() <em>Color</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getColor()
 	 * @generated
 	 * @ordered
@@ -118,7 +111,6 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes {
 	/**
 	 * The default value of the '{@link #isVisible() <em>Visible</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @see #isVisible()
 	 * @generated
 	 * @ordered
@@ -128,7 +120,6 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes {
 	/**
 	 * The cached value of the '{@link #isVisible() <em>Visible</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @see #isVisible()
 	 * @generated
 	 * @ordered
@@ -136,9 +127,9 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes {
 	protected boolean visible = VISIBLE_EDEFAULT;
 
 	/**
-	 * This is true if the Visible attribute has been set. <!-- begin-user-doc -->
+	 * This is true if the Visible attribute has been set.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -146,7 +137,6 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected LineAttributesImpl() {
@@ -155,7 +145,6 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -165,7 +154,6 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -175,7 +163,6 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -184,15 +171,13 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes {
 		style = newStyle == null ? STYLE_EDEFAULT : newStyle;
 		boolean oldStyleESet = styleESet;
 		styleESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.LINE_ATTRIBUTES__STYLE, oldStyle,
 					style, !oldStyleESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -201,15 +186,13 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes {
 		boolean oldStyleESet = styleESet;
 		style = STYLE_EDEFAULT;
 		styleESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.LINE_ATTRIBUTES__STYLE, oldStyle,
 					STYLE_EDEFAULT, oldStyleESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -219,7 +202,6 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -229,7 +211,6 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -238,15 +219,13 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes {
 		thickness = newThickness;
 		boolean oldThicknessESet = thicknessESet;
 		thicknessESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.LINE_ATTRIBUTES__THICKNESS,
 					oldThickness, thickness, !oldThicknessESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -255,15 +234,13 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes {
 		boolean oldThicknessESet = thicknessESet;
 		thickness = THICKNESS_EDEFAULT;
 		thicknessESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.LINE_ATTRIBUTES__THICKNESS,
 					oldThickness, THICKNESS_EDEFAULT, oldThicknessESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -273,7 +250,6 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -283,7 +259,6 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetColor(ColorDefinition newColor, NotificationChain msgs) {
@@ -292,45 +267,38 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					AttributePackage.LINE_ATTRIBUTES__COLOR, oldColor, newColor);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setColor(ColorDefinition newColor) {
 		if (newColor != color) {
 			NotificationChain msgs = null;
-			if (color != null) {
+			if (color != null)
 				msgs = ((InternalEObject) color).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - AttributePackage.LINE_ATTRIBUTES__COLOR, null, msgs);
-			}
-			if (newColor != null) {
+			if (newColor != null)
 				msgs = ((InternalEObject) newColor).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - AttributePackage.LINE_ATTRIBUTES__COLOR, null, msgs);
-			}
 			msgs = basicSetColor(newColor, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.LINE_ATTRIBUTES__COLOR, newColor,
 					newColor));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -340,7 +308,6 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -349,15 +316,13 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes {
 		visible = newVisible;
 		boolean oldVisibleESet = visibleESet;
 		visibleESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.LINE_ATTRIBUTES__VISIBLE, oldVisible,
 					visible, !oldVisibleESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -366,15 +331,13 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes {
 		boolean oldVisibleESet = visibleESet;
 		visible = VISIBLE_EDEFAULT;
 		visibleESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.LINE_ATTRIBUTES__VISIBLE,
 					oldVisible, VISIBLE_EDEFAULT, oldVisibleESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -384,7 +347,6 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -398,7 +360,6 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -418,7 +379,6 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -442,7 +402,6 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -466,7 +425,6 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -486,34 +444,29 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) {
+		if (eIsProxy())
 			return super.toString();
-		}
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (style: "); //$NON-NLS-1$
-		if (styleESet) {
+		if (styleESet)
 			result.append(style);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", thickness: "); //$NON-NLS-1$
-		if (thicknessESet) {
+		if (thicknessESet)
 			result.append(thickness);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", visible: "); //$NON-NLS-1$
-		if (visibleESet) {
+		if (visibleESet)
 			result.append(visible);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(')');
 		return result.toString();
 	}

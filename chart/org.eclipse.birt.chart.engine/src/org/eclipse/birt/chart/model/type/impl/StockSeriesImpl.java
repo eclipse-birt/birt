@@ -15,6 +15,7 @@
 package org.eclipse.birt.chart.model.type.impl;
 
 import java.text.ParseException;
+import java.util.Map;
 
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.model.Chart;
@@ -30,8 +31,11 @@ import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
+import org.eclipse.birt.chart.model.data.DataSet;
 import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
+import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SampleData;
+import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.birt.chart.model.data.impl.QueryImpl;
 import org.eclipse.birt.chart.model.type.BarSeries;
 import org.eclipse.birt.chart.model.type.LineSeries;
@@ -41,6 +45,7 @@ import org.eclipse.birt.chart.model.type.TypePackage;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -54,26 +59,21 @@ import com.ibm.icu.util.ULocale;
  * Series</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.type.impl.StockSeriesImpl#getFill
- * <em>Fill</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.type.impl.StockSeriesImpl#getLineAttributes
- * <em>Line Attributes</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.type.impl.StockSeriesImpl#isShowAsBarStick
- * <em>Show As Bar Stick</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.type.impl.StockSeriesImpl#getStickLength
- * <em>Stick Length</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.type.impl.StockSeriesImpl#getFill <em>Fill</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.impl.StockSeriesImpl#getLineAttributes <em>Line Attributes</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.impl.StockSeriesImpl#isShowAsBarStick <em>Show As Bar Stick</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.impl.StockSeriesImpl#getStickLength <em>Stick Length</em>}</li>
+ * </ul>
  *
  * @generated
  */
 public class StockSeriesImpl extends SeriesImpl implements StockSeries {
 
 	/**
-	 * The cached value of the '{@link #getFill() <em>Fill</em>}' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getFill() <em>Fill</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getFill()
 	 * @generated
 	 * @ordered
@@ -81,10 +81,9 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries {
 	protected Fill fill;
 
 	/**
-	 * The cached value of the '{@link #getLineAttributes() <em>Line
-	 * Attributes</em>}' containment reference. <!-- begin-user-doc --> <!--
+	 * The cached value of the '{@link #getLineAttributes() <em>Line Attributes</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #getLineAttributes()
 	 * @generated
 	 * @ordered
@@ -92,9 +91,8 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries {
 	protected LineAttributes lineAttributes;
 
 	/**
-	 * The default value of the '{@link #isShowAsBarStick() <em>Show As Bar
-	 * Stick</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The default value of the '{@link #isShowAsBarStick() <em>Show As Bar Stick</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isShowAsBarStick()
 	 * @generated
 	 * @ordered
@@ -102,9 +100,8 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries {
 	protected static final boolean SHOW_AS_BAR_STICK_EDEFAULT = false;
 
 	/**
-	 * The cached value of the '{@link #isShowAsBarStick() <em>Show As Bar
-	 * Stick</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #isShowAsBarStick() <em>Show As Bar Stick</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isShowAsBarStick()
 	 * @generated
 	 * @ordered
@@ -121,9 +118,8 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries {
 	protected boolean showAsBarStickESet;
 
 	/**
-	 * The default value of the '{@link #getStickLength() <em>Stick Length</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The default value of the '{@link #getStickLength() <em>Stick Length</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getStickLength()
 	 * @generated
 	 * @ordered
@@ -131,9 +127,8 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries {
 	protected static final int STICK_LENGTH_EDEFAULT = 5;
 
 	/**
-	 * The cached value of the '{@link #getStickLength() <em>Stick Length</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getStickLength() <em>Stick Length</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getStickLength()
 	 * @generated
 	 * @ordered
@@ -141,9 +136,9 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries {
 	protected int stickLength = STICK_LENGTH_EDEFAULT;
 
 	/**
-	 * This is true if the Stick Length attribute has been set. <!-- begin-user-doc
+	 * This is true if the Stick Length attribute has been set.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -151,7 +146,6 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected StockSeriesImpl() {
@@ -160,7 +154,6 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -170,7 +163,6 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -180,7 +172,6 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetFill(Fill newFill, NotificationChain msgs) {
@@ -189,44 +180,37 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					TypePackage.STOCK_SERIES__FILL, oldFill, newFill);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setFill(Fill newFill) {
 		if (newFill != fill) {
 			NotificationChain msgs = null;
-			if (fill != null) {
+			if (fill != null)
 				msgs = ((InternalEObject) fill).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - TypePackage.STOCK_SERIES__FILL, null, msgs);
-			}
-			if (newFill != null) {
+			if (newFill != null)
 				msgs = ((InternalEObject) newFill).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - TypePackage.STOCK_SERIES__FILL, null, msgs);
-			}
 			msgs = basicSetFill(newFill, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.STOCK_SERIES__FILL, newFill, newFill));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -236,7 +220,6 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetLineAttributes(LineAttributes newLineAttributes, NotificationChain msgs) {
@@ -245,45 +228,38 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					TypePackage.STOCK_SERIES__LINE_ATTRIBUTES, oldLineAttributes, newLineAttributes);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setLineAttributes(LineAttributes newLineAttributes) {
 		if (newLineAttributes != lineAttributes) {
 			NotificationChain msgs = null;
-			if (lineAttributes != null) {
+			if (lineAttributes != null)
 				msgs = ((InternalEObject) lineAttributes).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - TypePackage.STOCK_SERIES__LINE_ATTRIBUTES, null, msgs);
-			}
-			if (newLineAttributes != null) {
+			if (newLineAttributes != null)
 				msgs = ((InternalEObject) newLineAttributes).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - TypePackage.STOCK_SERIES__LINE_ATTRIBUTES, null, msgs);
-			}
 			msgs = basicSetLineAttributes(newLineAttributes, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.STOCK_SERIES__LINE_ATTRIBUTES,
 					newLineAttributes, newLineAttributes));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -293,7 +269,6 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -302,15 +277,13 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries {
 		showAsBarStick = newShowAsBarStick;
 		boolean oldShowAsBarStickESet = showAsBarStickESet;
 		showAsBarStickESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.STOCK_SERIES__SHOW_AS_BAR_STICK,
 					oldShowAsBarStick, showAsBarStick, !oldShowAsBarStickESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -319,15 +292,13 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries {
 		boolean oldShowAsBarStickESet = showAsBarStickESet;
 		showAsBarStick = SHOW_AS_BAR_STICK_EDEFAULT;
 		showAsBarStickESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, TypePackage.STOCK_SERIES__SHOW_AS_BAR_STICK,
 					oldShowAsBarStick, SHOW_AS_BAR_STICK_EDEFAULT, oldShowAsBarStickESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -337,7 +308,6 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -347,7 +317,6 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -356,15 +325,13 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries {
 		stickLength = newStickLength;
 		boolean oldStickLengthESet = stickLengthESet;
 		stickLengthESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.STOCK_SERIES__STICK_LENGTH,
 					oldStickLength, stickLength, !oldStickLengthESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -373,15 +340,13 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries {
 		boolean oldStickLengthESet = stickLengthESet;
 		stickLength = STICK_LENGTH_EDEFAULT;
 		stickLengthESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, TypePackage.STOCK_SERIES__STICK_LENGTH,
 					oldStickLength, STICK_LENGTH_EDEFAULT, oldStickLengthESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -391,7 +356,6 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -407,7 +371,6 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -427,7 +390,6 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -451,7 +413,6 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -475,7 +436,6 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -495,28 +455,24 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) {
+		if (eIsProxy())
 			return super.toString();
-		}
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (showAsBarStick: "); //$NON-NLS-1$
-		if (showAsBarStickESet) {
+		if (showAsBarStickESet)
 			result.append(showAsBarStick);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", stickLength: "); //$NON-NLS-1$
-		if (stickLengthESet) {
+		if (stickLengthESet)
 			result.append(stickLength);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(')');
 		return result.toString();
 	}
@@ -794,6 +750,47 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries {
 
 		// children
 
+		if (src.getLabel() != null) {
+			setLabel(src.getLabel().copyInstance());
+		}
+
+		if (src.getDataDefinition() != null) {
+			EList<Query> list = getDataDefinition();
+			for (Query element : src.getDataDefinition()) {
+				list.add(element.copyInstance());
+			}
+		}
+
+		if (src.getDataPoint() != null) {
+			setDataPoint(src.getDataPoint().copyInstance());
+		}
+
+		if (src.getDataSets() != null) {
+			EMap<String, DataSet> map = getDataSets();
+			for (Map.Entry<String, DataSet> entry : src.getDataSets().entrySet()) {
+
+				DataSet entryValue = entry.getValue() != null ? entry.getValue().copyInstance() : null;
+
+				map.put(entry.getKey(), entryValue);
+
+			}
+		}
+
+		if (src.getTriggers() != null) {
+			EList<Trigger> list = getTriggers();
+			for (Trigger element : src.getTriggers()) {
+				list.add(element.copyInstance());
+			}
+		}
+
+		if (src.getCurveFitting() != null) {
+			setCurveFitting(src.getCurveFitting().copyInstance());
+		}
+
+		if (src.getCursor() != null) {
+			setCursor(src.getCursor().copyInstance());
+		}
+
 		if (src.getFill() != null) {
 			setFill(src.getFill().copyInstance());
 		}
@@ -803,6 +800,24 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries {
 		}
 
 		// attributes
+
+		visible = src.isVisible();
+
+		visibleESet = src.isSetVisible();
+
+		seriesIdentifier = src.getSeriesIdentifier();
+
+		labelPosition = src.getLabelPosition();
+
+		labelPositionESet = src.isSetLabelPosition();
+
+		stacked = src.isStacked();
+
+		stackedESet = src.isSetStacked();
+
+		translucent = src.isTranslucent();
+
+		translucentESet = src.isSetTranslucent();
 
 		showAsBarStick = src.isShowAsBarStick();
 

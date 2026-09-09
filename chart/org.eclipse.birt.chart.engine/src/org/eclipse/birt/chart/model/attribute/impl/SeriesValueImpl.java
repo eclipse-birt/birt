@@ -26,11 +26,10 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * Value</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.SeriesValueImpl#getName
- * <em>Name</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.SeriesValueImpl#getName <em>Name</em>}</li>
+ * </ul>
  *
  * @generated
  */
@@ -58,7 +57,6 @@ public class SeriesValueImpl extends ActionValueImpl implements SeriesValue {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected SeriesValueImpl() {
@@ -67,7 +65,6 @@ public class SeriesValueImpl extends ActionValueImpl implements SeriesValue {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -77,7 +74,6 @@ public class SeriesValueImpl extends ActionValueImpl implements SeriesValue {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -87,21 +83,18 @@ public class SeriesValueImpl extends ActionValueImpl implements SeriesValue {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.SERIES_VALUE__NAME, oldName, name));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -115,7 +108,6 @@ public class SeriesValueImpl extends ActionValueImpl implements SeriesValue {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -130,7 +122,6 @@ public class SeriesValueImpl extends ActionValueImpl implements SeriesValue {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -145,7 +136,6 @@ public class SeriesValueImpl extends ActionValueImpl implements SeriesValue {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -159,14 +149,12 @@ public class SeriesValueImpl extends ActionValueImpl implements SeriesValue {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) {
+		if (eIsProxy())
 			return super.toString();
-		}
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (name: "); //$NON-NLS-1$

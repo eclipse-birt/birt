@@ -34,9 +34,8 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
 public class ActionValueImpl extends EObjectImpl implements ActionValue {
 
 	/**
-	 * The cached value of the '{@link #getLabel() <em>Label</em>}' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getLabel() <em>Label</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getLabel()
 	 * @generated
 	 * @ordered
@@ -45,7 +44,6 @@ public class ActionValueImpl extends EObjectImpl implements ActionValue {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected ActionValueImpl() {
@@ -54,7 +52,6 @@ public class ActionValueImpl extends EObjectImpl implements ActionValue {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -64,7 +61,6 @@ public class ActionValueImpl extends EObjectImpl implements ActionValue {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -74,7 +70,6 @@ public class ActionValueImpl extends EObjectImpl implements ActionValue {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetLabel(Label newLabel, NotificationChain msgs) {
@@ -83,45 +78,38 @@ public class ActionValueImpl extends EObjectImpl implements ActionValue {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					AttributePackage.ACTION_VALUE__LABEL, oldLabel, newLabel);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setLabel(Label newLabel) {
 		if (newLabel != label) {
 			NotificationChain msgs = null;
-			if (label != null) {
+			if (label != null)
 				msgs = ((InternalEObject) label).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - AttributePackage.ACTION_VALUE__LABEL, null, msgs);
-			}
-			if (newLabel != null) {
+			if (newLabel != null)
 				msgs = ((InternalEObject) newLabel).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - AttributePackage.ACTION_VALUE__LABEL, null, msgs);
-			}
 			msgs = basicSetLabel(newLabel, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.ACTION_VALUE__LABEL, newLabel,
 					newLabel));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -135,7 +123,6 @@ public class ActionValueImpl extends EObjectImpl implements ActionValue {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -149,7 +136,6 @@ public class ActionValueImpl extends EObjectImpl implements ActionValue {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -164,7 +150,6 @@ public class ActionValueImpl extends EObjectImpl implements ActionValue {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -179,7 +164,6 @@ public class ActionValueImpl extends EObjectImpl implements ActionValue {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override

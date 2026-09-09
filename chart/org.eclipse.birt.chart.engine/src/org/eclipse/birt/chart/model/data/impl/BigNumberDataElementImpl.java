@@ -32,11 +32,10 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * Number Data Element</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.data.impl.BigNumberDataElementImpl#getValue
- * <em>Value</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.data.impl.BigNumberDataElementImpl#getValue <em>Value</em>}</li>
+ * </ul>
  *
  * @generated
  */
@@ -64,7 +63,6 @@ public class BigNumberDataElementImpl extends DataElementImpl implements BigNumb
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected BigNumberDataElementImpl() {
@@ -73,7 +71,6 @@ public class BigNumberDataElementImpl extends DataElementImpl implements BigNumb
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -83,7 +80,6 @@ public class BigNumberDataElementImpl extends DataElementImpl implements BigNumb
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -93,22 +89,19 @@ public class BigNumberDataElementImpl extends DataElementImpl implements BigNumb
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setValue(BigDecimal newValue) {
 		BigDecimal oldValue = value;
 		value = newValue;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, DataPackage.BIG_NUMBER_DATA_ELEMENT__VALUE, oldValue,
 					value));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -122,7 +115,6 @@ public class BigNumberDataElementImpl extends DataElementImpl implements BigNumb
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -137,7 +129,6 @@ public class BigNumberDataElementImpl extends DataElementImpl implements BigNumb
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -152,7 +143,6 @@ public class BigNumberDataElementImpl extends DataElementImpl implements BigNumb
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -166,14 +156,12 @@ public class BigNumberDataElementImpl extends DataElementImpl implements BigNumb
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) {
+		if (eIsProxy())
 			return super.toString();
-		}
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (value: "); //$NON-NLS-1$

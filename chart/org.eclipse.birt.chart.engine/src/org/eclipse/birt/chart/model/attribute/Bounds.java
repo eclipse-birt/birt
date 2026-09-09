@@ -20,22 +20,19 @@ import org.eclipse.birt.chart.model.IChartObject;
  * <!-- begin-user-doc --> A representation of the model object
  * '<em><b>Bounds</b></em>'. <!-- end-user-doc -->
  *
- * <!-- begin-model-doc --> Bounds represents the physical size and position of
- * an element. <!-- end-model-doc -->
+ * <!-- begin-model-doc -->
+ * Bounds represents the physical size and position of an element.
+ * <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.Bounds#getLeft
- * <em>Left</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.Bounds#getTop
- * <em>Top</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.Bounds#getWidth
- * <em>Width</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.Bounds#getHeight
- * <em>Height</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.Bounds#getLeft <em>Left</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.Bounds#getTop <em>Top</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.Bounds#getWidth <em>Width</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.Bounds#getHeight <em>Height</em>}</li>
+ * </ul>
  *
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getBounds()
  * @model extendedMetaData="name='Bounds' kind='elementOnly'"
@@ -65,11 +62,9 @@ public interface Bounds extends IChartObject {
 	double getLeft();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.Bounds#getLeft <em>Left</em>}'
-	 * attribute. <!-- begin-user-doc --> Sets the Left co-ord of the Top Left
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.Bounds#getLeft <em>Left</em>}' attribute.
+	 * <!-- begin-user-doc --> Sets the Left co-ord of the Top Left
 	 * Corner of chart element <!-- end-user-doc -->
-	 *
 	 * @param value the new value of the '<em>Left</em>' attribute.
 	 * @see #isSetLeft()
 	 * @see #unsetLeft()
@@ -79,10 +74,8 @@ public interface Bounds extends IChartObject {
 	void setLeft(double value);
 
 	/**
-	 * Unsets the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.Bounds#getLeft <em>Left</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.attribute.Bounds#getLeft <em>Left</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isSetLeft()
 	 * @see #getLeft()
 	 * @see #setLeft(double)
@@ -91,10 +84,8 @@ public interface Bounds extends IChartObject {
 	void unsetLeft();
 
 	/**
-	 * Returns whether the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.Bounds#getLeft <em>Left</em>}'
-	 * attribute is set. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.attribute.Bounds#getLeft <em>Left</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return whether the value of the '<em>Left</em>' attribute is set.
 	 * @see #unsetLeft()
 	 * @see #getLeft()
@@ -123,11 +114,9 @@ public interface Bounds extends IChartObject {
 	double getTop();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.Bounds#getTop <em>Top</em>}'
-	 * attribute. <!-- begin-user-doc --> Sets the Top co-ord of the Top Left Corner
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.Bounds#getTop <em>Top</em>}' attribute.
+	 * <!-- begin-user-doc --> Sets the Top co-ord of the Top Left Corner
 	 * of chart element <!-- end-user-doc -->
-	 *
 	 * @param value the new value of the '<em>Top</em>' attribute.
 	 * @see #isSetTop()
 	 * @see #unsetTop()
@@ -137,10 +126,8 @@ public interface Bounds extends IChartObject {
 	void setTop(double value);
 
 	/**
-	 * Unsets the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.Bounds#getTop <em>Top</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.attribute.Bounds#getTop <em>Top</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isSetTop()
 	 * @see #getTop()
 	 * @see #setTop(double)
@@ -149,10 +136,8 @@ public interface Bounds extends IChartObject {
 	void unsetTop();
 
 	/**
-	 * Returns whether the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.Bounds#getTop <em>Top</em>}'
-	 * attribute is set. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.attribute.Bounds#getTop <em>Top</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return whether the value of the '<em>Top</em>' attribute is set.
 	 * @see #unsetTop()
 	 * @see #getTop()
@@ -182,11 +167,9 @@ public interface Bounds extends IChartObject {
 	double getWidth();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.Bounds#getWidth
-	 * <em>Width</em>}' attribute. <!-- begin-user-doc --> Sets the width component
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.Bounds#getWidth <em>Width</em>}' attribute.
+	 * <!-- begin-user-doc --> Sets the width component
 	 * of the bounds. <!-- end-user-doc -->
-	 *
 	 * @param value the new value of the '<em>Width</em>' attribute.
 	 * @see #isSetWidth()
 	 * @see #unsetWidth()
@@ -196,10 +179,8 @@ public interface Bounds extends IChartObject {
 	void setWidth(double value);
 
 	/**
-	 * Unsets the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.Bounds#getWidth
-	 * <em>Width</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.attribute.Bounds#getWidth <em>Width</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isSetWidth()
 	 * @see #getWidth()
 	 * @see #setWidth(double)
@@ -242,11 +223,9 @@ public interface Bounds extends IChartObject {
 	double getHeight();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.Bounds#getHeight
-	 * <em>Height</em>}' attribute. <!-- begin-user-doc --> Sets the height
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.Bounds#getHeight <em>Height</em>}' attribute.
+	 * <!-- begin-user-doc --> Sets the height
 	 * component of the bounds. <!-- end-user-doc -->
-	 *
 	 * @param value the new value of the '<em>Height</em>' attribute.
 	 * @see #isSetHeight()
 	 * @see #unsetHeight()
@@ -256,10 +235,8 @@ public interface Bounds extends IChartObject {
 	void setHeight(double value);
 
 	/**
-	 * Unsets the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.Bounds#getHeight
-	 * <em>Height</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.attribute.Bounds#getHeight <em>Height</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isSetHeight()
 	 * @see #getHeight()
 	 * @see #setHeight(double)

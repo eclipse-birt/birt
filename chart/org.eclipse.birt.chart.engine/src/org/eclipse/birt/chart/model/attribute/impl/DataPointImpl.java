@@ -36,26 +36,21 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * Point</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.DataPointImpl#getComponents
- * <em>Components</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.DataPointImpl#getPrefix
- * <em>Prefix</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.DataPointImpl#getSuffix
- * <em>Suffix</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.DataPointImpl#getSeparator
- * <em>Separator</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.DataPointImpl#getComponents <em>Components</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.DataPointImpl#getPrefix <em>Prefix</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.DataPointImpl#getSuffix <em>Suffix</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.DataPointImpl#getSeparator <em>Separator</em>}</li>
+ * </ul>
  *
  * @generated
  */
 public class DataPointImpl extends EObjectImpl implements DataPoint {
 
 	/**
-	 * The cached value of the '{@link #getComponents() <em>Components</em>}'
-	 * containment reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getComponents() <em>Components</em>}' containment reference list.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getComponents()
 	 * @generated
 	 * @ordered
@@ -65,7 +60,6 @@ public class DataPointImpl extends EObjectImpl implements DataPoint {
 	/**
 	 * The default value of the '{@link #getPrefix() <em>Prefix</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @see #getPrefix()
 	 * @generated
 	 * @ordered
@@ -75,7 +69,6 @@ public class DataPointImpl extends EObjectImpl implements DataPoint {
 	/**
 	 * The cached value of the '{@link #getPrefix() <em>Prefix</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @see #getPrefix()
 	 * @generated
 	 * @ordered
@@ -85,7 +78,6 @@ public class DataPointImpl extends EObjectImpl implements DataPoint {
 	/**
 	 * The default value of the '{@link #getSuffix() <em>Suffix</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @see #getSuffix()
 	 * @generated
 	 * @ordered
@@ -95,7 +87,6 @@ public class DataPointImpl extends EObjectImpl implements DataPoint {
 	/**
 	 * The cached value of the '{@link #getSuffix() <em>Suffix</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @see #getSuffix()
 	 * @generated
 	 * @ordered
@@ -103,9 +94,8 @@ public class DataPointImpl extends EObjectImpl implements DataPoint {
 	protected String suffix = SUFFIX_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getSeparator() <em>Separator</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The default value of the '{@link #getSeparator() <em>Separator</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getSeparator()
 	 * @generated
 	 * @ordered
@@ -113,9 +103,8 @@ public class DataPointImpl extends EObjectImpl implements DataPoint {
 	protected static final String SEPARATOR_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getSeparator() <em>Separator</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getSeparator() <em>Separator</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getSeparator()
 	 * @generated
 	 * @ordered
@@ -124,7 +113,6 @@ public class DataPointImpl extends EObjectImpl implements DataPoint {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected DataPointImpl() {
@@ -133,7 +121,6 @@ public class DataPointImpl extends EObjectImpl implements DataPoint {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -143,13 +130,12 @@ public class DataPointImpl extends EObjectImpl implements DataPoint {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public EList<DataPointComponent> getComponents() {
 		if (components == null) {
-			components = new EObjectContainmentEList<>(DataPointComponent.class, this,
+			components = new EObjectContainmentEList<DataPointComponent>(DataPointComponent.class, this,
 					AttributePackage.DATA_POINT__COMPONENTS);
 		}
 		return components;
@@ -157,7 +143,6 @@ public class DataPointImpl extends EObjectImpl implements DataPoint {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -167,22 +152,19 @@ public class DataPointImpl extends EObjectImpl implements DataPoint {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setPrefix(String newPrefix) {
 		String oldPrefix = prefix;
 		prefix = newPrefix;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.DATA_POINT__PREFIX, oldPrefix,
 					prefix));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -192,22 +174,19 @@ public class DataPointImpl extends EObjectImpl implements DataPoint {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setSuffix(String newSuffix) {
 		String oldSuffix = suffix;
 		suffix = newSuffix;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.DATA_POINT__SUFFIX, oldSuffix,
 					suffix));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -217,22 +196,19 @@ public class DataPointImpl extends EObjectImpl implements DataPoint {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setSeparator(String newSeparator) {
 		String oldSeparator = separator;
 		separator = newSeparator;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.DATA_POINT__SEPARATOR, oldSeparator,
 					separator));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -246,7 +222,6 @@ public class DataPointImpl extends EObjectImpl implements DataPoint {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -266,7 +241,6 @@ public class DataPointImpl extends EObjectImpl implements DataPoint {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -292,7 +266,6 @@ public class DataPointImpl extends EObjectImpl implements DataPoint {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -316,7 +289,6 @@ public class DataPointImpl extends EObjectImpl implements DataPoint {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -336,14 +308,12 @@ public class DataPointImpl extends EObjectImpl implements DataPoint {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) {
+		if (eIsProxy())
 			return super.toString();
-		}
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (prefix: "); //$NON-NLS-1$

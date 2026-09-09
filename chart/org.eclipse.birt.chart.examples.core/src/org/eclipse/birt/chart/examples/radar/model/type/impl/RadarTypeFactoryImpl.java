@@ -26,20 +26,19 @@ import org.eclipse.emf.ecore.plugin.EcorePlugin;
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Factory</b>. <!--
  * end-user-doc -->
- *
  * @generated
  */
 public class RadarTypeFactoryImpl extends EFactoryImpl implements RadarTypeFactory {
 	/**
-	 * Creates the default factory implementation. <!-- begin-user-doc --> <!--
+	 * Creates the default factory implementation.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public static RadarTypeFactory init() {
 		try {
 			RadarTypeFactory theRadarTypeFactory = (RadarTypeFactory) EPackage.Registry.INSTANCE
-					.getEFactory("http://www.birt.eclipse.org/RadarChartModelType");
+					.getEFactory(RadarTypePackage.eNS_URI);
 			if (theRadarTypeFactory != null) {
 				return theRadarTypeFactory;
 			}
@@ -61,7 +60,6 @@ public class RadarTypeFactoryImpl extends EFactoryImpl implements RadarTypeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -76,7 +74,6 @@ public class RadarTypeFactoryImpl extends EFactoryImpl implements RadarTypeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -87,7 +84,6 @@ public class RadarTypeFactoryImpl extends EFactoryImpl implements RadarTypeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -97,7 +93,6 @@ public class RadarTypeFactoryImpl extends EFactoryImpl implements RadarTypeFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @deprecated
 	 * @generated
 	 */

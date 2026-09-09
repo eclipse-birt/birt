@@ -36,13 +36,11 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * To Data Set Map Entry</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.EStringToDataSetMapEntryImpl#getTypedKey
- * <em>Key</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.EStringToDataSetMapEntryImpl#getTypedValue
- * <em>Value</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.EStringToDataSetMapEntryImpl#getTypedKey <em>Key</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.EStringToDataSetMapEntryImpl#getTypedValue <em>Value</em>}</li>
+ * </ul>
  *
  * @generated
  */
@@ -51,7 +49,6 @@ public class EStringToDataSetMapEntryImpl extends EObjectImpl implements BasicEM
 	/**
 	 * The default value of the '{@link #getTypedKey() <em>Key</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @see #getTypedKey()
 	 * @generated
 	 * @ordered
@@ -69,9 +66,8 @@ public class EStringToDataSetMapEntryImpl extends EObjectImpl implements BasicEM
 	protected String key = KEY_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getTypedValue() <em>Value</em>}' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getTypedValue() <em>Value</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getTypedValue()
 	 * @generated
 	 * @ordered
@@ -80,7 +76,6 @@ public class EStringToDataSetMapEntryImpl extends EObjectImpl implements BasicEM
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected EStringToDataSetMapEntryImpl() {
@@ -89,7 +84,6 @@ public class EStringToDataSetMapEntryImpl extends EObjectImpl implements BasicEM
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -99,7 +93,6 @@ public class EStringToDataSetMapEntryImpl extends EObjectImpl implements BasicEM
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public String getTypedKey() {
@@ -108,21 +101,18 @@ public class EStringToDataSetMapEntryImpl extends EObjectImpl implements BasicEM
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public void setTypedKey(String newKey) {
 		String oldKey = key;
 		key = newKey;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.ESTRING_TO_DATA_SET_MAP_ENTRY__KEY,
 					oldKey, key));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public DataSet getTypedValue() {
@@ -131,7 +121,6 @@ public class EStringToDataSetMapEntryImpl extends EObjectImpl implements BasicEM
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetTypedValue(DataSet newValue, NotificationChain msgs) {
@@ -140,44 +129,37 @@ public class EStringToDataSetMapEntryImpl extends EObjectImpl implements BasicEM
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					ComponentPackage.ESTRING_TO_DATA_SET_MAP_ENTRY__VALUE, oldValue, newValue);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public void setTypedValue(DataSet newValue) {
 		if (newValue != value) {
 			NotificationChain msgs = null;
-			if (value != null) {
+			if (value != null)
 				msgs = ((InternalEObject) value).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - ComponentPackage.ESTRING_TO_DATA_SET_MAP_ENTRY__VALUE, null, msgs);
-			}
-			if (newValue != null) {
+			if (newValue != null)
 				msgs = ((InternalEObject) newValue).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - ComponentPackage.ESTRING_TO_DATA_SET_MAP_ENTRY__VALUE, null, msgs);
-			}
 			msgs = basicSetTypedValue(newValue, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.ESTRING_TO_DATA_SET_MAP_ENTRY__VALUE,
 					newValue, newValue));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -191,7 +173,6 @@ public class EStringToDataSetMapEntryImpl extends EObjectImpl implements BasicEM
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -207,7 +188,6 @@ public class EStringToDataSetMapEntryImpl extends EObjectImpl implements BasicEM
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -225,7 +205,6 @@ public class EStringToDataSetMapEntryImpl extends EObjectImpl implements BasicEM
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -243,7 +222,6 @@ public class EStringToDataSetMapEntryImpl extends EObjectImpl implements BasicEM
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -259,14 +237,12 @@ public class EStringToDataSetMapEntryImpl extends EObjectImpl implements BasicEM
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) {
+		if (eIsProxy())
 			return super.toString();
-		}
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (key: "); //$NON-NLS-1$
@@ -277,14 +253,12 @@ public class EStringToDataSetMapEntryImpl extends EObjectImpl implements BasicEM
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected int hash = -1;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -298,7 +272,6 @@ public class EStringToDataSetMapEntryImpl extends EObjectImpl implements BasicEM
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -308,7 +281,6 @@ public class EStringToDataSetMapEntryImpl extends EObjectImpl implements BasicEM
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -318,7 +290,6 @@ public class EStringToDataSetMapEntryImpl extends EObjectImpl implements BasicEM
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -328,7 +299,6 @@ public class EStringToDataSetMapEntryImpl extends EObjectImpl implements BasicEM
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -338,7 +308,6 @@ public class EStringToDataSetMapEntryImpl extends EObjectImpl implements BasicEM
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -350,7 +319,6 @@ public class EStringToDataSetMapEntryImpl extends EObjectImpl implements BasicEM
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")

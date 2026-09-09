@@ -14,6 +14,7 @@
 
 package org.eclipse.birt.chart.model.type.impl;
 
+import java.util.Map;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.Fill;
@@ -29,6 +30,9 @@ import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
+import org.eclipse.birt.chart.model.data.DataSet;
+import org.eclipse.birt.chart.model.data.Query;
+import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.birt.chart.model.type.GanttSeries;
 import org.eclipse.birt.chart.model.type.TypeFactory;
 import org.eclipse.birt.chart.model.type.TypePackage;
@@ -36,6 +40,8 @@ import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.NameSet;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -45,40 +51,28 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * Series</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl#getStartMarker
- * <em>Start Marker</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl#getStartMarkerPosition
- * <em>Start Marker Position</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl#getEndMarker
- * <em>End Marker</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl#getEndMarkerPosition
- * <em>End Marker Position</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl#getConnectionLine
- * <em>Connection Line</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl#getOutline
- * <em>Outline</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl#getOutlineFill
- * <em>Outline Fill</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl#isUseDecorationLabelValue
- * <em>Use Decoration Label Value</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl#getDecorationLabel
- * <em>Decoration Label</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl#getDecorationLabelPosition
- * <em>Decoration Label Position</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl#isPaletteLineColor
- * <em>Palette Line Color</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl#getStartMarker <em>Start Marker</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl#getStartMarkerPosition <em>Start Marker Position</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl#getEndMarker <em>End Marker</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl#getEndMarkerPosition <em>End Marker Position</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl#getConnectionLine <em>Connection Line</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl#getOutline <em>Outline</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl#getOutlineFill <em>Outline Fill</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl#isUseDecorationLabelValue <em>Use Decoration Label Value</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl#getDecorationLabel <em>Decoration Label</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl#getDecorationLabelPosition <em>Decoration Label Position</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl#isPaletteLineColor <em>Palette Line Color</em>}</li>
+ * </ul>
  *
  * @generated
  */
 public class GanttSeriesImpl extends SeriesImpl implements GanttSeries {
 
 	/**
-	 * The cached value of the '{@link #getStartMarker() <em>Start Marker</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getStartMarker() <em>Start Marker</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getStartMarker()
 	 * @generated
 	 * @ordered
@@ -86,9 +80,8 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries {
 	protected Marker startMarker;
 
 	/**
-	 * The default value of the '{@link #getStartMarkerPosition() <em>Start Marker
-	 * Position</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The default value of the '{@link #getStartMarkerPosition() <em>Start Marker Position</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getStartMarkerPosition()
 	 * @generated
 	 * @ordered
@@ -96,9 +89,8 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries {
 	protected static final Position START_MARKER_POSITION_EDEFAULT = Position.ABOVE_LITERAL;
 
 	/**
-	 * The cached value of the '{@link #getStartMarkerPosition() <em>Start Marker
-	 * Position</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getStartMarkerPosition() <em>Start Marker Position</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getStartMarkerPosition()
 	 * @generated
 	 * @ordered
@@ -115,9 +107,8 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries {
 	protected boolean startMarkerPositionESet;
 
 	/**
-	 * The cached value of the '{@link #getEndMarker() <em>End Marker</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getEndMarker() <em>End Marker</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getEndMarker()
 	 * @generated
 	 * @ordered
@@ -125,9 +116,8 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries {
 	protected Marker endMarker;
 
 	/**
-	 * The default value of the '{@link #getEndMarkerPosition() <em>End Marker
-	 * Position</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The default value of the '{@link #getEndMarkerPosition() <em>End Marker Position</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getEndMarkerPosition()
 	 * @generated
 	 * @ordered
@@ -135,9 +125,8 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries {
 	protected static final Position END_MARKER_POSITION_EDEFAULT = Position.ABOVE_LITERAL;
 
 	/**
-	 * The cached value of the '{@link #getEndMarkerPosition() <em>End Marker
-	 * Position</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getEndMarkerPosition() <em>End Marker Position</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getEndMarkerPosition()
 	 * @generated
 	 * @ordered
@@ -165,9 +154,8 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries {
 	protected LineAttributes connectionLine;
 
 	/**
-	 * The cached value of the '{@link #getOutline() <em>Outline</em>}' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getOutline() <em>Outline</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getOutline()
 	 * @generated
 	 * @ordered
@@ -175,9 +163,8 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries {
 	protected LineAttributes outline;
 
 	/**
-	 * The cached value of the '{@link #getOutlineFill() <em>Outline Fill</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getOutlineFill() <em>Outline Fill</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getOutlineFill()
 	 * @generated
 	 * @ordered
@@ -185,10 +172,9 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries {
 	protected Fill outlineFill;
 
 	/**
-	 * The default value of the '{@link #isUseDecorationLabelValue() <em>Use
-	 * Decoration Label Value</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * The default value of the '{@link #isUseDecorationLabelValue() <em>Use Decoration Label Value</em>}' attribute.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #isUseDecorationLabelValue()
 	 * @generated
 	 * @ordered
@@ -196,10 +182,9 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries {
 	protected static final boolean USE_DECORATION_LABEL_VALUE_EDEFAULT = false;
 
 	/**
-	 * The cached value of the '{@link #isUseDecorationLabelValue() <em>Use
-	 * Decoration Label Value</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * The cached value of the '{@link #isUseDecorationLabelValue() <em>Use Decoration Label Value</em>}' attribute.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #isUseDecorationLabelValue()
 	 * @generated
 	 * @ordered
@@ -258,9 +243,8 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries {
 	protected boolean decorationLabelPositionESet;
 
 	/**
-	 * The default value of the '{@link #isPaletteLineColor() <em>Palette Line
-	 * Color</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The default value of the '{@link #isPaletteLineColor() <em>Palette Line Color</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isPaletteLineColor()
 	 * @generated
 	 * @ordered
@@ -268,9 +252,8 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries {
 	protected static final boolean PALETTE_LINE_COLOR_EDEFAULT = false;
 
 	/**
-	 * The cached value of the '{@link #isPaletteLineColor() <em>Palette Line
-	 * Color</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #isPaletteLineColor() <em>Palette Line Color</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isPaletteLineColor()
 	 * @generated
 	 * @ordered
@@ -288,7 +271,6 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected GanttSeriesImpl() {
@@ -297,7 +279,6 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -307,7 +288,6 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -317,7 +297,6 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetStartMarker(Marker newStartMarker, NotificationChain msgs) {
@@ -326,45 +305,38 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					TypePackage.GANTT_SERIES__START_MARKER, oldStartMarker, newStartMarker);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setStartMarker(Marker newStartMarker) {
 		if (newStartMarker != startMarker) {
 			NotificationChain msgs = null;
-			if (startMarker != null) {
+			if (startMarker != null)
 				msgs = ((InternalEObject) startMarker).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - TypePackage.GANTT_SERIES__START_MARKER, null, msgs);
-			}
-			if (newStartMarker != null) {
+			if (newStartMarker != null)
 				msgs = ((InternalEObject) newStartMarker).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - TypePackage.GANTT_SERIES__START_MARKER, null, msgs);
-			}
 			msgs = basicSetStartMarker(newStartMarker, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.GANTT_SERIES__START_MARKER,
 					newStartMarker, newStartMarker));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -374,7 +346,6 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -383,15 +354,13 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries {
 		startMarkerPosition = newStartMarkerPosition == null ? START_MARKER_POSITION_EDEFAULT : newStartMarkerPosition;
 		boolean oldStartMarkerPositionESet = startMarkerPositionESet;
 		startMarkerPositionESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.GANTT_SERIES__START_MARKER_POSITION,
 					oldStartMarkerPosition, startMarkerPosition, !oldStartMarkerPositionESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -400,15 +369,13 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries {
 		boolean oldStartMarkerPositionESet = startMarkerPositionESet;
 		startMarkerPosition = START_MARKER_POSITION_EDEFAULT;
 		startMarkerPositionESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, TypePackage.GANTT_SERIES__START_MARKER_POSITION,
 					oldStartMarkerPosition, START_MARKER_POSITION_EDEFAULT, oldStartMarkerPositionESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -418,7 +385,6 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -428,7 +394,6 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetEndMarker(Marker newEndMarker, NotificationChain msgs) {
@@ -437,45 +402,38 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					TypePackage.GANTT_SERIES__END_MARKER, oldEndMarker, newEndMarker);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setEndMarker(Marker newEndMarker) {
 		if (newEndMarker != endMarker) {
 			NotificationChain msgs = null;
-			if (endMarker != null) {
+			if (endMarker != null)
 				msgs = ((InternalEObject) endMarker).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - TypePackage.GANTT_SERIES__END_MARKER, null, msgs);
-			}
-			if (newEndMarker != null) {
+			if (newEndMarker != null)
 				msgs = ((InternalEObject) newEndMarker).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - TypePackage.GANTT_SERIES__END_MARKER, null, msgs);
-			}
 			msgs = basicSetEndMarker(newEndMarker, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.GANTT_SERIES__END_MARKER, newEndMarker,
 					newEndMarker));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -485,7 +443,6 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -494,15 +451,13 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries {
 		endMarkerPosition = newEndMarkerPosition == null ? END_MARKER_POSITION_EDEFAULT : newEndMarkerPosition;
 		boolean oldEndMarkerPositionESet = endMarkerPositionESet;
 		endMarkerPositionESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.GANTT_SERIES__END_MARKER_POSITION,
 					oldEndMarkerPosition, endMarkerPosition, !oldEndMarkerPositionESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -511,15 +466,13 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries {
 		boolean oldEndMarkerPositionESet = endMarkerPositionESet;
 		endMarkerPosition = END_MARKER_POSITION_EDEFAULT;
 		endMarkerPositionESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, TypePackage.GANTT_SERIES__END_MARKER_POSITION,
 					oldEndMarkerPosition, END_MARKER_POSITION_EDEFAULT, oldEndMarkerPositionESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -529,7 +482,6 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -539,7 +491,6 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetConnectionLine(LineAttributes newConnectionLine, NotificationChain msgs) {
@@ -548,45 +499,38 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					TypePackage.GANTT_SERIES__CONNECTION_LINE, oldConnectionLine, newConnectionLine);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setConnectionLine(LineAttributes newConnectionLine) {
 		if (newConnectionLine != connectionLine) {
 			NotificationChain msgs = null;
-			if (connectionLine != null) {
+			if (connectionLine != null)
 				msgs = ((InternalEObject) connectionLine).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - TypePackage.GANTT_SERIES__CONNECTION_LINE, null, msgs);
-			}
-			if (newConnectionLine != null) {
+			if (newConnectionLine != null)
 				msgs = ((InternalEObject) newConnectionLine).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - TypePackage.GANTT_SERIES__CONNECTION_LINE, null, msgs);
-			}
 			msgs = basicSetConnectionLine(newConnectionLine, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.GANTT_SERIES__CONNECTION_LINE,
 					newConnectionLine, newConnectionLine));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -596,7 +540,6 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetOutline(LineAttributes newOutline, NotificationChain msgs) {
@@ -605,45 +548,38 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					TypePackage.GANTT_SERIES__OUTLINE, oldOutline, newOutline);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setOutline(LineAttributes newOutline) {
 		if (newOutline != outline) {
 			NotificationChain msgs = null;
-			if (outline != null) {
+			if (outline != null)
 				msgs = ((InternalEObject) outline).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - TypePackage.GANTT_SERIES__OUTLINE, null, msgs);
-			}
-			if (newOutline != null) {
+			if (newOutline != null)
 				msgs = ((InternalEObject) newOutline).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - TypePackage.GANTT_SERIES__OUTLINE, null, msgs);
-			}
 			msgs = basicSetOutline(newOutline, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.GANTT_SERIES__OUTLINE, newOutline,
 					newOutline));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -653,7 +589,6 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetOutlineFill(Fill newOutlineFill, NotificationChain msgs) {
@@ -662,45 +597,38 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					TypePackage.GANTT_SERIES__OUTLINE_FILL, oldOutlineFill, newOutlineFill);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setOutlineFill(Fill newOutlineFill) {
 		if (newOutlineFill != outlineFill) {
 			NotificationChain msgs = null;
-			if (outlineFill != null) {
+			if (outlineFill != null)
 				msgs = ((InternalEObject) outlineFill).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - TypePackage.GANTT_SERIES__OUTLINE_FILL, null, msgs);
-			}
-			if (newOutlineFill != null) {
+			if (newOutlineFill != null)
 				msgs = ((InternalEObject) newOutlineFill).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - TypePackage.GANTT_SERIES__OUTLINE_FILL, null, msgs);
-			}
 			msgs = basicSetOutlineFill(newOutlineFill, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.GANTT_SERIES__OUTLINE_FILL,
 					newOutlineFill, newOutlineFill));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -710,7 +638,6 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -719,15 +646,13 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries {
 		useDecorationLabelValue = newUseDecorationLabelValue;
 		boolean oldUseDecorationLabelValueESet = useDecorationLabelValueESet;
 		useDecorationLabelValueESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.GANTT_SERIES__USE_DECORATION_LABEL_VALUE,
 					oldUseDecorationLabelValue, useDecorationLabelValue, !oldUseDecorationLabelValueESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -736,16 +661,14 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries {
 		boolean oldUseDecorationLabelValueESet = useDecorationLabelValueESet;
 		useDecorationLabelValue = USE_DECORATION_LABEL_VALUE_EDEFAULT;
 		useDecorationLabelValueESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET,
 					TypePackage.GANTT_SERIES__USE_DECORATION_LABEL_VALUE, oldUseDecorationLabelValue,
 					USE_DECORATION_LABEL_VALUE_EDEFAULT, oldUseDecorationLabelValueESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -755,7 +678,6 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -765,7 +687,6 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetDecorationLabel(Label newDecorationLabel, NotificationChain msgs) {
@@ -774,45 +695,38 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					TypePackage.GANTT_SERIES__DECORATION_LABEL, oldDecorationLabel, newDecorationLabel);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setDecorationLabel(Label newDecorationLabel) {
 		if (newDecorationLabel != decorationLabel) {
 			NotificationChain msgs = null;
-			if (decorationLabel != null) {
+			if (decorationLabel != null)
 				msgs = ((InternalEObject) decorationLabel).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - TypePackage.GANTT_SERIES__DECORATION_LABEL, null, msgs);
-			}
-			if (newDecorationLabel != null) {
+			if (newDecorationLabel != null)
 				msgs = ((InternalEObject) newDecorationLabel).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - TypePackage.GANTT_SERIES__DECORATION_LABEL, null, msgs);
-			}
 			msgs = basicSetDecorationLabel(newDecorationLabel, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.GANTT_SERIES__DECORATION_LABEL,
 					newDecorationLabel, newDecorationLabel));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -822,7 +736,6 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -832,15 +745,13 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries {
 				: newDecorationLabelPosition;
 		boolean oldDecorationLabelPositionESet = decorationLabelPositionESet;
 		decorationLabelPositionESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.GANTT_SERIES__DECORATION_LABEL_POSITION,
 					oldDecorationLabelPosition, decorationLabelPosition, !oldDecorationLabelPositionESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -849,15 +760,13 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries {
 		boolean oldDecorationLabelPositionESet = decorationLabelPositionESet;
 		decorationLabelPosition = DECORATION_LABEL_POSITION_EDEFAULT;
 		decorationLabelPositionESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, TypePackage.GANTT_SERIES__DECORATION_LABEL_POSITION,
 					oldDecorationLabelPosition, DECORATION_LABEL_POSITION_EDEFAULT, oldDecorationLabelPositionESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -867,7 +776,6 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -877,7 +785,6 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -886,15 +793,13 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries {
 		paletteLineColor = newPaletteLineColor;
 		boolean oldPaletteLineColorESet = paletteLineColorESet;
 		paletteLineColorESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.GANTT_SERIES__PALETTE_LINE_COLOR,
 					oldPaletteLineColor, paletteLineColor, !oldPaletteLineColorESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -903,15 +808,13 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries {
 		boolean oldPaletteLineColorESet = paletteLineColorESet;
 		paletteLineColor = PALETTE_LINE_COLOR_EDEFAULT;
 		paletteLineColorESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, TypePackage.GANTT_SERIES__PALETTE_LINE_COLOR,
 					oldPaletteLineColor, PALETTE_LINE_COLOR_EDEFAULT, oldPaletteLineColorESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -921,7 +824,6 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -945,7 +847,6 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -979,7 +880,6 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1024,7 +924,6 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1069,7 +968,6 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1103,46 +1001,39 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) {
+		if (eIsProxy())
 			return super.toString();
-		}
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (startMarkerPosition: "); //$NON-NLS-1$
-		if (startMarkerPositionESet) {
+		if (startMarkerPositionESet)
 			result.append(startMarkerPosition);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", endMarkerPosition: "); //$NON-NLS-1$
-		if (endMarkerPositionESet) {
+		if (endMarkerPositionESet)
 			result.append(endMarkerPosition);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", useDecorationLabelValue: "); //$NON-NLS-1$
-		if (useDecorationLabelValueESet) {
+		if (useDecorationLabelValueESet)
 			result.append(useDecorationLabelValue);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", decorationLabelPosition: "); //$NON-NLS-1$
-		if (decorationLabelPositionESet) {
+		if (decorationLabelPositionESet)
 			result.append(decorationLabelPosition);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", paletteLineColor: "); //$NON-NLS-1$
-		if (paletteLineColorESet) {
+		if (paletteLineColorESet)
 			result.append(paletteLineColor);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(')');
 		return result.toString();
 	}
@@ -1261,6 +1152,47 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries {
 
 		// children
 
+		if (src.getLabel() != null) {
+			setLabel(src.getLabel().copyInstance());
+		}
+
+		if (src.getDataDefinition() != null) {
+			EList<Query> list = getDataDefinition();
+			for (Query element : src.getDataDefinition()) {
+				list.add(element.copyInstance());
+			}
+		}
+
+		if (src.getDataPoint() != null) {
+			setDataPoint(src.getDataPoint().copyInstance());
+		}
+
+		if (src.getDataSets() != null) {
+			EMap<String, DataSet> map = getDataSets();
+			for (Map.Entry<String, DataSet> entry : src.getDataSets().entrySet()) {
+
+				DataSet entryValue = entry.getValue() != null ? entry.getValue().copyInstance() : null;
+
+				map.put(entry.getKey(), entryValue);
+
+			}
+		}
+
+		if (src.getTriggers() != null) {
+			EList<Trigger> list = getTriggers();
+			for (Trigger element : src.getTriggers()) {
+				list.add(element.copyInstance());
+			}
+		}
+
+		if (src.getCurveFitting() != null) {
+			setCurveFitting(src.getCurveFitting().copyInstance());
+		}
+
+		if (src.getCursor() != null) {
+			setCursor(src.getCursor().copyInstance());
+		}
+
 		if (src.getStartMarker() != null) {
 			setStartMarker(src.getStartMarker().copyInstance());
 		}
@@ -1286,6 +1218,24 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries {
 		}
 
 		// attributes
+
+		visible = src.isVisible();
+
+		visibleESet = src.isSetVisible();
+
+		seriesIdentifier = src.getSeriesIdentifier();
+
+		labelPosition = src.getLabelPosition();
+
+		labelPositionESet = src.isSetLabelPosition();
+
+		stacked = src.isStacked();
+
+		stackedESet = src.isSetStacked();
+
+		translucent = src.isTranslucent();
+
+		translucentESet = src.isSetTranslucent();
 
 		startMarkerPosition = src.getStartMarkerPosition();
 

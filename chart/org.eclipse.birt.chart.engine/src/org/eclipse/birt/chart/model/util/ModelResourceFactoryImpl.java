@@ -53,9 +53,9 @@ public class ModelResourceFactoryImpl extends ResourceFactoryImpl {
 	}
 
 	/**
-	 * Creates an instance of the resource. <!-- begin-user-doc --> <!--
+	 * Creates an instance of the resource.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override

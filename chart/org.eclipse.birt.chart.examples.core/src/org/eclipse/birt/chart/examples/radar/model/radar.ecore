@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ecore:EPackage xmi:version="2.0"
-    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="type"
-    nsURI="http://www.birt.eclipse.org/RadarChartModelType" nsPrefix="type">
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="type" nsURI="http://www.birt.eclipse.org/RadarChartModelType"
+    nsPrefix="type">
   <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-    <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;Schema file for the chart.model package.&#xD;&#xA;&#x9;&#x9;"/>
+    <details key="documentation" value="&#xA;&#x9;&#x9;Schema file for the chart.model package.&#xA;&#x9;&#x9;"/>
   </eAnnotations>
-  <eClassifiers xsi:type="ecore:EClass" name="RadarSeries" eSuperTypes="../../../../../../../../../org.eclipse.birt.chart.engine/src/model/org.eclipse.birt.chart.model.component.ecore#//Series">
+  <eClassifiers xsi:type="ecore:EClass" name="RadarSeries" eSuperTypes="../../../../../../../../../org.eclipse.birt.chart.engine/model/org.eclipse.birt.chart.model.component.ecore#//Series">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="This is a Series type that, during design time, holds the query data for Line charts, and during run time, &#xD;&#xA;holds the value for each data point in the line.  When rendered, a line connects each data point."/>
+      <details key="documentation" value="This is a Series type that, during design time, holds the query data for Line charts, and during run time, &#xA;holds the value for each data point in the line.  When rendered, a line connects each data point."/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="RadarSeries"/>
       <details key="kind" value="elementOnly"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="marker" lowerBound="1"
-        eType="ecore:EClass ../../../../../../../../../org.eclipse.birt.chart.engine/src/model/org.eclipse.birt.chart.model.attribute.ecore#//Marker"
+        eType="ecore:EClass ../../../../../../../../../org.eclipse.birt.chart.engine/model/org.eclipse.birt.chart.model.attribute.ecore#//Marker"
         containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="Specifies the marker to be used for displaying the data point on the line in the chart."/>
@@ -25,10 +24,10 @@
         <details key="name" value="Marker"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="lineAttributes" eType="ecore:EClass ../../../../../../../../../org.eclipse.birt.chart.engine/src/model/org.eclipse.birt.chart.model.attribute.ecore#//LineAttributes"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="lineAttributes" eType="ecore:EClass ../../../../../../../../../org.eclipse.birt.chart.engine/model/org.eclipse.birt.chart.model.attribute.ecore#//LineAttributes"
         containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies the attributes for the line&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;used to represent this series.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies the attributes for the line&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;used to represent this series.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -39,7 +38,7 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Indicates if use the series palette&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;color to draw the line instead of the&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;color in LineAttributes&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Indicates if use the series palette&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;color to draw the line instead of the&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;color in LineAttributes&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -50,17 +49,17 @@
         lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;If using background oval fills, should&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;they be transparent.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;If using background oval fills, should&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;they be transparent.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
         <details key="name" value="BackgroundOvalTransparent"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="webLineAttributes" eType="ecore:EClass ../../../../../../../../../org.eclipse.birt.chart.engine/src/model/org.eclipse.birt.chart.model.attribute.ecore#//LineAttributes"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="webLineAttributes" eType="ecore:EClass ../../../../../../../../../org.eclipse.birt.chart.engine/model/org.eclipse.birt.chart.model.attribute.ecore#//LineAttributes"
         containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies spider grid Line Attributes.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies spider grid Line Attributes.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -70,7 +69,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="showWebLabels" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
         defaultValueLiteral="false" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies whether to show the spider&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;grid labels.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies whether to show the spider&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;grid labels.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -80,7 +79,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="showCatLabels" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
         defaultValueLiteral="true" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies whether to show the category&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;grid labels.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies whether to show the category&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;grid labels.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -91,7 +90,7 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
         defaultValueLiteral="true" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Indicates if use the series should automatically scale &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;or use scale min max settings.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Indicates if use the series should automatically scale &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;or use scale min max settings.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -102,7 +101,7 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Double" defaultValueLiteral="100"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Web Label Scale Max&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Web Label Scale Max&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -113,7 +112,7 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Double" defaultValueLiteral="0"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Web Label Scale Min&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Web Label Scale Min&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -124,7 +123,7 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String" defaultValueLiteral="%"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Web Label Scale Unit&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Web Label Scale Unit&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -135,7 +134,7 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Should polygons be filled or just use&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;lines.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Should polygons be filled or just use&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;lines.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -146,7 +145,7 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;If using unfilled polys should first and&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;last data points be connected.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;If using unfilled polys should first and&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;last data points be connected.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -154,10 +153,10 @@
       </eAnnotations>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="webLabel" lowerBound="1"
-        eType="ecore:EClass ../../../../../../../../../org.eclipse.birt.chart.engine/src/model/org.eclipse.birt.chart.model.component.ecore#//Label"
+        eType="ecore:EClass ../../../../../../../../../org.eclipse.birt.chart.engine/model/org.eclipse.birt.chart.model.component.ecore#//Label"
         containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Holds the properties for web labels.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Holds the properties for web labels.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -165,10 +164,10 @@
       </eAnnotations>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="catLabel" lowerBound="1"
-        eType="ecore:EClass ../../../../../../../../../org.eclipse.birt.chart.engine/src/model/org.eclipse.birt.chart.model.component.ecore#//Label"
+        eType="ecore:EClass ../../../../../../../../../org.eclipse.birt.chart.engine/model/org.eclipse.birt.chart.model.component.ecore#//Label"
         containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Holds the properties for category labels.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Holds the properties for category labels.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -176,7 +175,7 @@
       </eAnnotations>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="webLabelFormatSpecifier"
-        lowerBound="1" eType="ecore:EClass ../../../../../../../../../org.eclipse.birt.chart.engine/src/model/org.eclipse.birt.chart.model.attribute.ecore#//FormatSpecifier"
+        lowerBound="1" eType="ecore:EClass ../../../../../../../../../org.eclipse.birt.chart.engine/model/org.eclipse.birt.chart.model.attribute.ecore#//FormatSpecifier"
         containment="true" resolveProxies="false">
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -184,7 +183,7 @@
       </eAnnotations>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="catLabelFormatSpecifier"
-        lowerBound="1" eType="ecore:EClass ../../../../../../../../../org.eclipse.birt.chart.engine/src/model/org.eclipse.birt.chart.model.attribute.ecore#//FormatSpecifier"
+        lowerBound="1" eType="ecore:EClass ../../../../../../../../../org.eclipse.birt.chart.engine/model/org.eclipse.birt.chart.model.attribute.ecore#//FormatSpecifier"
         containment="true" resolveProxies="false">
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -195,7 +194,7 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Integer"
         defaultValueLiteral="5" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Defines how many steps are in the&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;web/radar&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Defines how many steps are in the&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;web/radar&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>

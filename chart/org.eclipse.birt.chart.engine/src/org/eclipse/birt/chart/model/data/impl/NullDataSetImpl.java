@@ -22,8 +22,6 @@ import org.eclipse.emf.ecore.EClass;
 /**
  * <!-- begin-user-doc --> An implementation of the model object '<em><b>Null
  * Data Set</b></em>'. <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */
@@ -31,7 +29,6 @@ public class NullDataSetImpl extends DataSetImpl implements NullDataSet {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected NullDataSetImpl() {
@@ -40,7 +37,6 @@ public class NullDataSetImpl extends DataSetImpl implements NullDataSet {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -85,6 +81,8 @@ public class NullDataSetImpl extends DataSetImpl implements NullDataSet {
 	protected void set(NullDataSet src) {
 
 		super.set(src);
+
+		// children
 
 	}
 

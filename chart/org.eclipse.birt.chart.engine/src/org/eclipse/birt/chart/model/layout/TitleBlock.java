@@ -19,14 +19,25 @@ package org.eclipse.birt.chart.model.layout;
  * Block</b></em>'. <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- *
- * This type defines the Title in a chart.
- *
+ * 
+ *   TitleBlock is a special sub-type of LabelBlock, which devotes itself to representing the title of the chart.
+ * 
+ *   <p xmlns="http://www.birt.eclipse.org/ChartModelLayout">
+ * Besides the general approach of using Chart.getBlock( ).getChildren( ) we can also access it using the 
+ * convenient method: Chart.getTitle( );
+ * </p>
+ * 
  * <!-- end-model-doc -->
  *
+ * <p>
+ * The following features are supported:
+ * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.TitleBlock#isAuto <em>Auto</em>}</li>
+ * </ul>
  *
  * @see org.eclipse.birt.chart.model.layout.LayoutPackage#getTitleBlock()
- * @model
+ * @model extendedMetaData="name='TitleBlock' kind='elementOnly'"
  * @generated
  */
 public interface TitleBlock extends LabelBlock {
@@ -51,10 +62,8 @@ public interface TitleBlock extends LabelBlock {
 	boolean isAuto();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.layout.TitleBlock#isAuto <em>Auto</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.layout.TitleBlock#isAuto <em>Auto</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Auto</em>' attribute.
 	 * @see #isSetAuto()
 	 * @see #unsetAuto()
@@ -64,10 +73,8 @@ public interface TitleBlock extends LabelBlock {
 	void setAuto(boolean value);
 
 	/**
-	 * Unsets the value of the
-	 * '{@link org.eclipse.birt.chart.model.layout.TitleBlock#isAuto <em>Auto</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.layout.TitleBlock#isAuto <em>Auto</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isSetAuto()
 	 * @see #isAuto()
 	 * @see #setAuto(boolean)
@@ -76,10 +83,8 @@ public interface TitleBlock extends LabelBlock {
 	void unsetAuto();
 
 	/**
-	 * Returns whether the value of the
-	 * '{@link org.eclipse.birt.chart.model.layout.TitleBlock#isAuto <em>Auto</em>}'
-	 * attribute is set. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.layout.TitleBlock#isAuto <em>Auto</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return whether the value of the '<em>Auto</em>' attribute is set.
 	 * @see #unsetAuto()
 	 * @see #isAuto()

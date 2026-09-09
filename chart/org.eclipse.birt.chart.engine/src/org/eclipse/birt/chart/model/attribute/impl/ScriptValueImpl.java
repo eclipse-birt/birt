@@ -28,11 +28,10 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * Value</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.ScriptValueImpl#getScript
- * <em>Script</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.ScriptValueImpl#getScript <em>Script</em>}</li>
+ * </ul>
  *
  * @generated
  */
@@ -41,7 +40,6 @@ public class ScriptValueImpl extends ActionValueImpl implements ScriptValue {
 	/**
 	 * The default value of the '{@link #getScript() <em>Script</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @see #getScript()
 	 * @generated
 	 * @ordered
@@ -51,7 +49,6 @@ public class ScriptValueImpl extends ActionValueImpl implements ScriptValue {
 	/**
 	 * The cached value of the '{@link #getScript() <em>Script</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @see #getScript()
 	 * @generated
 	 * @ordered
@@ -60,7 +57,6 @@ public class ScriptValueImpl extends ActionValueImpl implements ScriptValue {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected ScriptValueImpl() {
@@ -69,7 +65,6 @@ public class ScriptValueImpl extends ActionValueImpl implements ScriptValue {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -79,7 +74,6 @@ public class ScriptValueImpl extends ActionValueImpl implements ScriptValue {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -89,22 +83,19 @@ public class ScriptValueImpl extends ActionValueImpl implements ScriptValue {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setScript(String newScript) {
 		String oldScript = script;
 		script = newScript;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.SCRIPT_VALUE__SCRIPT, oldScript,
 					script));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -118,7 +109,6 @@ public class ScriptValueImpl extends ActionValueImpl implements ScriptValue {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -133,7 +123,6 @@ public class ScriptValueImpl extends ActionValueImpl implements ScriptValue {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -148,7 +137,6 @@ public class ScriptValueImpl extends ActionValueImpl implements ScriptValue {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -162,14 +150,12 @@ public class ScriptValueImpl extends ActionValueImpl implements ScriptValue {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) {
+		if (eIsProxy())
 			return super.toString();
-		}
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (script: "); //$NON-NLS-1$

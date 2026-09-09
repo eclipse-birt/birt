@@ -22,7 +22,6 @@ package org.eclipse.birt.chart.model.attribute.impl;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.MenuStylesKeyType;
@@ -45,15 +44,12 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * URL Values</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.MultiURLValuesImpl#getURLValues
- * <em>URL Values</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.MultiURLValuesImpl#getTooltip
- * <em>Tooltip</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.MultiURLValuesImpl#getPropertiesMap
- * <em>Properties Map</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.MultiURLValuesImpl#getURLValues <em>URL Values</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.MultiURLValuesImpl#getTooltip <em>Tooltip</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.MultiURLValuesImpl#getPropertiesMap <em>Properties Map</em>}</li>
+ * </ul>
  *
  * @generated
  */
@@ -72,9 +68,8 @@ public class MultiURLValuesImpl extends ActionValueImpl implements MultiURLValue
 	}
 
 	/**
-	 * The cached value of the '{@link #getURLValues() <em>URL Values</em>}'
-	 * containment reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getURLValues() <em>URL Values</em>}' containment reference list.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getURLValues()
 	 * @generated
 	 * @ordered
@@ -84,7 +79,6 @@ public class MultiURLValuesImpl extends ActionValueImpl implements MultiURLValue
 	/**
 	 * The default value of the '{@link #getTooltip() <em>Tooltip</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @see #getTooltip()
 	 * @generated
 	 * @ordered
@@ -94,7 +88,6 @@ public class MultiURLValuesImpl extends ActionValueImpl implements MultiURLValue
 	/**
 	 * The cached value of the '{@link #getTooltip() <em>Tooltip</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @see #getTooltip()
 	 * @generated
 	 * @ordered
@@ -102,9 +95,8 @@ public class MultiURLValuesImpl extends ActionValueImpl implements MultiURLValue
 	protected String tooltip = TOOLTIP_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getPropertiesMap() <em>Properties Map</em>}'
-	 * map. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getPropertiesMap() <em>Properties Map</em>}' map.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getPropertiesMap()
 	 * @generated
 	 * @ordered
@@ -113,7 +105,6 @@ public class MultiURLValuesImpl extends ActionValueImpl implements MultiURLValue
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected MultiURLValuesImpl() {
@@ -122,7 +113,6 @@ public class MultiURLValuesImpl extends ActionValueImpl implements MultiURLValue
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -132,13 +122,12 @@ public class MultiURLValuesImpl extends ActionValueImpl implements MultiURLValue
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public EList<URLValue> getURLValues() {
 		if (uRLValues == null) {
-			uRLValues = new EObjectContainmentEList<>(URLValue.class, this,
+			uRLValues = new EObjectContainmentEList<URLValue>(URLValue.class, this,
 					AttributePackage.MULTI_URL_VALUES__URL_VALUES);
 		}
 		return uRLValues;
@@ -146,7 +135,6 @@ public class MultiURLValuesImpl extends ActionValueImpl implements MultiURLValue
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -156,28 +144,25 @@ public class MultiURLValuesImpl extends ActionValueImpl implements MultiURLValue
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setTooltip(String newTooltip) {
 		String oldTooltip = tooltip;
 		tooltip = newTooltip;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.MULTI_URL_VALUES__TOOLTIP,
 					oldTooltip, tooltip));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public EMap<String, String> getPropertiesMap() {
 		if (propertiesMap == null) {
-			propertiesMap = new EcoreEMap<>(AttributePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY,
+			propertiesMap = new EcoreEMap<String, String>(AttributePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY,
 					EStringToStringMapEntryImpl.class, this, AttributePackage.MULTI_URL_VALUES__PROPERTIES_MAP);
 		}
 		return propertiesMap;
@@ -185,7 +170,6 @@ public class MultiURLValuesImpl extends ActionValueImpl implements MultiURLValue
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -201,7 +185,6 @@ public class MultiURLValuesImpl extends ActionValueImpl implements MultiURLValue
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -212,18 +195,16 @@ public class MultiURLValuesImpl extends ActionValueImpl implements MultiURLValue
 		case AttributePackage.MULTI_URL_VALUES__TOOLTIP:
 			return getTooltip();
 		case AttributePackage.MULTI_URL_VALUES__PROPERTIES_MAP:
-			if (coreType) {
+			if (coreType)
 				return getPropertiesMap();
-			} else {
+			else
 				return getPropertiesMap().map();
-			}
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -246,7 +227,6 @@ public class MultiURLValuesImpl extends ActionValueImpl implements MultiURLValue
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -267,7 +247,6 @@ public class MultiURLValuesImpl extends ActionValueImpl implements MultiURLValue
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -285,14 +264,12 @@ public class MultiURLValuesImpl extends ActionValueImpl implements MultiURLValue
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) {
+		if (eIsProxy())
 			return super.toString();
-		}
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (tooltip: "); //$NON-NLS-1$
@@ -328,6 +305,10 @@ public class MultiURLValuesImpl extends ActionValueImpl implements MultiURLValue
 	protected void set(MultiURLValues src) {
 
 		// children
+
+		if (src.getLabel() != null) {
+			setLabel(src.getLabel().copyInstance());
+		}
 
 		if (src.getURLValues() != null) {
 			EList<URLValue> list = getURLValues();

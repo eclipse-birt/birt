@@ -35,26 +35,26 @@ import org.eclipse.emf.common.util.Enumerator;
  */
 public enum LegendItemType implements Enumerator {
 	/**
-	 * The '<em><b>Series</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Series</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Series</b></em>' literal object isn't clear, there
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #SERIES
 	 * @generated
 	 * @ordered
 	 */
 	SERIES_LITERAL(0, "Series", "Series"),
 	/**
-	 * The '<em><b>Categories</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Categories</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Categories</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #CATEGORIES
 	 * @generated
 	 * @ordered
@@ -62,9 +62,9 @@ public enum LegendItemType implements Enumerator {
 	CATEGORIES_LITERAL(1, "Categories", "Categories");
 
 	/**
-	 * The '<em><b>Series</b></em>' literal value. <!-- begin-user-doc --> <!--
+	 * The '<em><b>Series</b></em>' literal value.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #SERIES_LITERAL
 	 * @model name="Series"
 	 * @generated
@@ -73,9 +73,9 @@ public enum LegendItemType implements Enumerator {
 	public static final int SERIES = 0;
 
 	/**
-	 * The '<em><b>Categories</b></em>' literal value. <!-- begin-user-doc --> <!--
+	 * The '<em><b>Categories</b></em>' literal value.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #CATEGORIES_LITERAL
 	 * @model name="Categories"
 	 * @generated
@@ -89,20 +89,20 @@ public enum LegendItemType implements Enumerator {
 	 *
 	 * @generated
 	 */
-	private static final LegendItemType[] VALUES_ARRAY = { SERIES_LITERAL, CATEGORIES_LITERAL, };
+	private static final LegendItemType[] VALUES_ARRAY = new LegendItemType[] { SERIES_LITERAL, CATEGORIES_LITERAL, };
 
 	/**
-	 * A public read-only list of all the '<em><b>Legend Item Type</b></em>'
-	 * enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * A public read-only list of all the '<em><b>Legend Item Type</b></em>' enumerators.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static final List<LegendItemType> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
 	/**
-	 * Returns the '<em><b>Legend Item Type</b></em>' literal with the specified
-	 * literal value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns the '<em><b>Legend Item Type</b></em>' literal with the specified literal value.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param literal the literal.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static LegendItemType get(String literal) {
@@ -116,9 +116,10 @@ public enum LegendItemType implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Legend Item Type</b></em>' literal with the specified
-	 * name. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns the '<em><b>Legend Item Type</b></em>' literal with the specified name.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param name the name.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static LegendItemType getByName(String name) {
@@ -132,9 +133,10 @@ public enum LegendItemType implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Legend Item Type</b></em>' literal with the specified
-	 * integer value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns the '<em><b>Legend Item Type</b></em>' literal with the specified integer value.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the integer value.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static LegendItemType get(int value) {
@@ -149,32 +151,29 @@ public enum LegendItemType implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private final int value;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private final String name;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private final String literal;
 
 	/**
-	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
+	 * Only this class can construct instances.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @generated
 	 */
-	LegendItemType(int value, String name, String literal) {
+	private LegendItemType(int value, String name, String literal) {
 		this.value = value;
 		this.name = name;
 		this.literal = literal;
@@ -182,7 +181,6 @@ public enum LegendItemType implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -192,7 +190,6 @@ public enum LegendItemType implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -202,7 +199,6 @@ public enum LegendItemType implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -211,9 +207,8 @@ public enum LegendItemType implements Enumerator {
 	}
 
 	/**
-	 * Returns the literal value of the enumerator, which is its string
-	 * representation. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns the literal value of the enumerator, which is its string representation.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override

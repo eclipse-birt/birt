@@ -34,14 +34,13 @@ import org.eclipse.emf.ecore.plugin.EcorePlugin;
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Factory</b>. <!--
  * end-user-doc -->
- *
  * @generated
  */
 public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory {
 	/**
-	 * Creates the default factory implementation. <!-- begin-user-doc --> <!--
+	 * Creates the default factory implementation.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public static ModelFactory init() {
@@ -68,7 +67,6 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -91,7 +89,6 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -102,7 +99,6 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -113,7 +109,6 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -124,7 +119,6 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -135,7 +129,6 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -146,7 +139,6 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -156,7 +148,6 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @deprecated
 	 * @generated
 	 */

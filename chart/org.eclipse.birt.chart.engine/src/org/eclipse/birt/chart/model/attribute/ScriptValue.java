@@ -21,21 +21,20 @@ import org.eclipse.birt.chart.model.data.ScriptExpression;
  * Value</b></em>'. <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- *
- * This type defines the value for a 'Invoke_Script' action.
- *
+ * ScriptValue extends type ActionValue to devote itself to 
+ * 'Invoke_Script' actions.
+ * 			
  * <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.ScriptValue#getScript
- * <em>Script</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.ScriptValue#getScript <em>Script</em>}</li>
+ * </ul>
  *
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getScriptValue()
- * @model
+ * @model extendedMetaData="name='ScriptValue' kind='elementOnly'"
  * @generated
  */
 public interface ScriptValue extends ActionValue {
@@ -57,10 +56,8 @@ public interface ScriptValue extends ActionValue {
 	String getScript();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.ScriptValue#getScript
-	 * <em>Script</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.ScriptValue#getScript <em>Script</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Script</em>' attribute.
 	 * @see #getScript()
 	 * @generated

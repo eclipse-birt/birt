@@ -29,15 +29,12 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <em><b>Tooltip Value</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.TooltipValueImpl#getText
- * <em>Text</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.TooltipValueImpl#getDelay
- * <em>Delay</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.TooltipValueImpl#getFormatSpecifier
- * <em>Format Specifier</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.TooltipValueImpl#getText <em>Text</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.TooltipValueImpl#getDelay <em>Delay</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.TooltipValueImpl#getFormatSpecifier <em>Format Specifier</em>}</li>
+ * </ul>
  *
  * @generated
  */
@@ -84,19 +81,18 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue {
 	protected int delay = DELAY_EDEFAULT;
 
 	/**
-	 * This is true if the Delay attribute has been set. <!-- begin-user-doc -->
+	 * This is true if the Delay attribute has been set.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean delayESet;
 
 	/**
-	 * The cached value of the '{@link #getFormatSpecifier() <em>Format
-	 * Specifier</em>}' containment reference. <!-- begin-user-doc --> <!--
+	 * The cached value of the '{@link #getFormatSpecifier() <em>Format Specifier</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #getFormatSpecifier()
 	 * @generated
 	 * @ordered
@@ -105,7 +101,6 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected TooltipValueImpl() {
@@ -114,7 +109,6 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -124,7 +118,6 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -134,21 +127,18 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setText(String newText) {
 		String oldText = text;
 		text = newText;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.TOOLTIP_VALUE__TEXT, oldText, text));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -158,7 +148,6 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -167,15 +156,13 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue {
 		delay = newDelay;
 		boolean oldDelayESet = delayESet;
 		delayESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.TOOLTIP_VALUE__DELAY, oldDelay,
 					delay, !oldDelayESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -184,15 +171,13 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue {
 		boolean oldDelayESet = delayESet;
 		delay = DELAY_EDEFAULT;
 		delayESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.TOOLTIP_VALUE__DELAY, oldDelay,
 					DELAY_EDEFAULT, oldDelayESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -202,7 +187,6 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -212,7 +196,6 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetFormatSpecifier(FormatSpecifier newFormatSpecifier, NotificationChain msgs) {
@@ -221,45 +204,38 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					AttributePackage.TOOLTIP_VALUE__FORMAT_SPECIFIER, oldFormatSpecifier, newFormatSpecifier);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setFormatSpecifier(FormatSpecifier newFormatSpecifier) {
 		if (newFormatSpecifier != formatSpecifier) {
 			NotificationChain msgs = null;
-			if (formatSpecifier != null) {
+			if (formatSpecifier != null)
 				msgs = ((InternalEObject) formatSpecifier).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - AttributePackage.TOOLTIP_VALUE__FORMAT_SPECIFIER, null, msgs);
-			}
-			if (newFormatSpecifier != null) {
+			if (newFormatSpecifier != null)
 				msgs = ((InternalEObject) newFormatSpecifier).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - AttributePackage.TOOLTIP_VALUE__FORMAT_SPECIFIER, null, msgs);
-			}
 			msgs = basicSetFormatSpecifier(newFormatSpecifier, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.TOOLTIP_VALUE__FORMAT_SPECIFIER,
 					newFormatSpecifier, newFormatSpecifier));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -273,7 +249,6 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -291,7 +266,6 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -312,7 +286,6 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -333,7 +306,6 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -351,24 +323,21 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) {
+		if (eIsProxy())
 			return super.toString();
-		}
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (text: "); //$NON-NLS-1$
 		result.append(text);
 		result.append(", delay: "); //$NON-NLS-1$
-		if (delayESet) {
+		if (delayESet)
 			result.append(delay);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(')');
 		return result.toString();
 	}

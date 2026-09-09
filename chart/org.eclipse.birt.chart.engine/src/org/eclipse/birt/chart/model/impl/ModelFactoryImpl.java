@@ -32,21 +32,19 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Factory </b>. <!--
  * end-user-doc -->
- *
  * @generated
  */
 public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory {
 
 	/**
-	 * Creates the default factory implementation. <!-- begin-user-doc --> <!--
+	 * Creates the default factory implementation.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public static ModelFactory init() {
 		try {
-			ModelFactory theModelFactory = (ModelFactory) EPackage.Registry.INSTANCE
-					.getEFactory("http://www.birt.eclipse.org/ChartModel"); //$NON-NLS-1$
+			ModelFactory theModelFactory = (ModelFactory) EPackage.Registry.INSTANCE.getEFactory(ModelPackage.eNS_URI);
 			if (theModelFactory != null) {
 				return theModelFactory;
 			}
@@ -68,7 +66,6 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -89,7 +86,6 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -106,7 +102,6 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -123,7 +118,6 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -134,7 +128,6 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -145,7 +138,6 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -156,7 +148,6 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -167,7 +158,6 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public Double createCoverageTypeFromString(EDataType eDataType, String initialValue) {
@@ -176,7 +166,6 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public String convertCoverageTypeToString(EDataType eDataType, Object instanceValue) {
@@ -185,7 +174,6 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public Double createCoverageTypeObjectFromString(EDataType eDataType, String initialValue) {
@@ -194,7 +182,6 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public String convertCoverageTypeObjectToString(EDataType eDataType, Object instanceValue) {
@@ -203,7 +190,6 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -213,7 +199,6 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @deprecated
 	 * @generated
 	 */

@@ -34,21 +34,20 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Factory </b>. <!--
  * end-user-doc -->
- *
  * @generated
  */
 public class LayoutFactoryImpl extends EFactoryImpl implements LayoutFactory {
 
 	/**
-	 * Creates the default factory implementation. <!-- begin-user-doc --> <!--
+	 * Creates the default factory implementation.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public static LayoutFactory init() {
 		try {
 			LayoutFactory theLayoutFactory = (LayoutFactory) EPackage.Registry.INSTANCE
-					.getEFactory("http://www.birt.eclipse.org/ChartModelLayout"); //$NON-NLS-1$
+					.getEFactory(LayoutPackage.eNS_URI);
 			if (theLayoutFactory != null) {
 				return theLayoutFactory;
 			}
@@ -70,7 +69,6 @@ public class LayoutFactoryImpl extends EFactoryImpl implements LayoutFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -95,7 +93,6 @@ public class LayoutFactoryImpl extends EFactoryImpl implements LayoutFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -116,7 +113,6 @@ public class LayoutFactoryImpl extends EFactoryImpl implements LayoutFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -137,7 +133,6 @@ public class LayoutFactoryImpl extends EFactoryImpl implements LayoutFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -148,7 +143,6 @@ public class LayoutFactoryImpl extends EFactoryImpl implements LayoutFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -159,7 +153,6 @@ public class LayoutFactoryImpl extends EFactoryImpl implements LayoutFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -170,7 +163,6 @@ public class LayoutFactoryImpl extends EFactoryImpl implements LayoutFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -181,7 +173,6 @@ public class LayoutFactoryImpl extends EFactoryImpl implements LayoutFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -192,7 +183,6 @@ public class LayoutFactoryImpl extends EFactoryImpl implements LayoutFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -203,7 +193,6 @@ public class LayoutFactoryImpl extends EFactoryImpl implements LayoutFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public Integer createEllipsisTypeFromString(EDataType eDataType, String initialValue) {
@@ -212,7 +201,6 @@ public class LayoutFactoryImpl extends EFactoryImpl implements LayoutFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public String convertEllipsisTypeToString(EDataType eDataType, Object instanceValue) {
@@ -221,7 +209,6 @@ public class LayoutFactoryImpl extends EFactoryImpl implements LayoutFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public Integer createEllipsisTypeObjectFromString(EDataType eDataType, String initialValue) {
@@ -230,7 +217,6 @@ public class LayoutFactoryImpl extends EFactoryImpl implements LayoutFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public String convertEllipsisTypeObjectToString(EDataType eDataType, Object instanceValue) {
@@ -239,7 +225,6 @@ public class LayoutFactoryImpl extends EFactoryImpl implements LayoutFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public Double createTitlePercentTypeFromString(EDataType eDataType, String initialValue) {
@@ -248,7 +233,6 @@ public class LayoutFactoryImpl extends EFactoryImpl implements LayoutFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public String convertTitlePercentTypeToString(EDataType eDataType, Object instanceValue) {
@@ -257,7 +241,6 @@ public class LayoutFactoryImpl extends EFactoryImpl implements LayoutFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public Double createTitlePercentTypeObjectFromString(EDataType eDataType, String initialValue) {
@@ -266,7 +249,6 @@ public class LayoutFactoryImpl extends EFactoryImpl implements LayoutFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public String convertTitlePercentTypeObjectToString(EDataType eDataType, Object instanceValue) {
@@ -275,7 +257,6 @@ public class LayoutFactoryImpl extends EFactoryImpl implements LayoutFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -285,7 +266,6 @@ public class LayoutFactoryImpl extends EFactoryImpl implements LayoutFactory {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @deprecated
 	 * @generated
 	 */

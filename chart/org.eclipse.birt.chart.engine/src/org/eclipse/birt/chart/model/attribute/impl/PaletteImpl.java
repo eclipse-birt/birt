@@ -43,13 +43,11 @@ import com.ibm.icu.util.ULocale;
  * <em><b>Palette</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.PaletteImpl#getName
- * <em>Name</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.PaletteImpl#getEntries
- * <em>Entries</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.PaletteImpl#getName <em>Name</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.PaletteImpl#getEntries <em>Entries</em>}</li>
+ * </ul>
  *
  * @generated
  */
@@ -76,9 +74,8 @@ public class PaletteImpl extends EObjectImpl implements Palette {
 	protected String name = NAME_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getEntries() <em>Entries</em>}' containment
-	 * reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getEntries() <em>Entries</em>}' containment reference list.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getEntries()
 	 * @generated
 	 * @ordered
@@ -128,7 +125,6 @@ public class PaletteImpl extends EObjectImpl implements Palette {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected PaletteImpl() {
@@ -137,7 +133,6 @@ public class PaletteImpl extends EObjectImpl implements Palette {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -147,7 +142,6 @@ public class PaletteImpl extends EObjectImpl implements Palette {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -157,34 +151,30 @@ public class PaletteImpl extends EObjectImpl implements Palette {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.PALETTE__NAME, oldName, name));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public EList<Fill> getEntries() {
 		if (entries == null) {
-			entries = new EObjectContainmentEList<>(Fill.class, this, AttributePackage.PALETTE__ENTRIES);
+			entries = new EObjectContainmentEList<Fill>(Fill.class, this, AttributePackage.PALETTE__ENTRIES);
 		}
 		return entries;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -198,7 +188,6 @@ public class PaletteImpl extends EObjectImpl implements Palette {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -214,7 +203,6 @@ public class PaletteImpl extends EObjectImpl implements Palette {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -234,7 +222,6 @@ public class PaletteImpl extends EObjectImpl implements Palette {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -252,7 +239,6 @@ public class PaletteImpl extends EObjectImpl implements Palette {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -268,14 +254,12 @@ public class PaletteImpl extends EObjectImpl implements Palette {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) {
+		if (eIsProxy())
 			return super.toString();
-		}
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (name: "); //$NON-NLS-1$

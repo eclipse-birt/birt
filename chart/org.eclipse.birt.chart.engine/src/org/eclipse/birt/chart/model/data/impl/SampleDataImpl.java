@@ -33,24 +33,21 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * Data</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.data.impl.SampleDataImpl#getBaseSampleData
- * <em>Base Sample Data</em>}</li>
- * <li>
- * {@link org.eclipse.birt.chart.model.data.impl.SampleDataImpl#getOrthogonalSampleData
- * <em>Orthogonal Sample Data</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.data.impl.SampleDataImpl#getBaseSampleData <em>Base Sample Data</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.impl.SampleDataImpl#getOrthogonalSampleData <em>Orthogonal Sample Data</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.impl.SampleDataImpl#getAncillarySampleData <em>Ancillary Sample Data</em>}</li>
+ * </ul>
  *
  * @generated
  */
 public class SampleDataImpl extends EObjectImpl implements SampleData {
 
 	/**
-	 * The cached value of the '{@link #getBaseSampleData() <em>Base Sample
-	 * Data</em>}' containment reference list. <!-- begin-user-doc --> <!--
+	 * The cached value of the '{@link #getBaseSampleData() <em>Base Sample Data</em>}' containment reference list.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #getBaseSampleData()
 	 * @generated
 	 * @ordered
@@ -58,10 +55,9 @@ public class SampleDataImpl extends EObjectImpl implements SampleData {
 	protected EList<BaseSampleData> baseSampleData;
 
 	/**
-	 * The cached value of the '{@link #getOrthogonalSampleData() <em>Orthogonal
-	 * Sample Data</em>}' containment reference list. <!-- begin-user-doc --> <!--
+	 * The cached value of the '{@link #getOrthogonalSampleData() <em>Orthogonal Sample Data</em>}' containment reference list.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #getOrthogonalSampleData()
 	 * @generated
 	 * @ordered
@@ -69,10 +65,9 @@ public class SampleDataImpl extends EObjectImpl implements SampleData {
 	protected EList<OrthogonalSampleData> orthogonalSampleData;
 
 	/**
-	 * The cached value of the '{@link #getAncillarySampleData() <em>Ancillary
-	 * Sample Data</em>}' containment reference list. <!-- begin-user-doc --> <!--
+	 * The cached value of the '{@link #getAncillarySampleData() <em>Ancillary Sample Data</em>}' containment reference list.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #getAncillarySampleData()
 	 * @generated
 	 * @ordered
@@ -81,7 +76,6 @@ public class SampleDataImpl extends EObjectImpl implements SampleData {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected SampleDataImpl() {
@@ -90,7 +84,6 @@ public class SampleDataImpl extends EObjectImpl implements SampleData {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -100,13 +93,12 @@ public class SampleDataImpl extends EObjectImpl implements SampleData {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public EList<BaseSampleData> getBaseSampleData() {
 		if (baseSampleData == null) {
-			baseSampleData = new EObjectContainmentEList<>(BaseSampleData.class, this,
+			baseSampleData = new EObjectContainmentEList<BaseSampleData>(BaseSampleData.class, this,
 					DataPackage.SAMPLE_DATA__BASE_SAMPLE_DATA);
 		}
 		return baseSampleData;
@@ -114,13 +106,12 @@ public class SampleDataImpl extends EObjectImpl implements SampleData {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public EList<OrthogonalSampleData> getOrthogonalSampleData() {
 		if (orthogonalSampleData == null) {
-			orthogonalSampleData = new EObjectContainmentEList<>(OrthogonalSampleData.class, this,
+			orthogonalSampleData = new EObjectContainmentEList<OrthogonalSampleData>(OrthogonalSampleData.class, this,
 					DataPackage.SAMPLE_DATA__ORTHOGONAL_SAMPLE_DATA);
 		}
 		return orthogonalSampleData;
@@ -128,13 +119,12 @@ public class SampleDataImpl extends EObjectImpl implements SampleData {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public EList<BaseSampleData> getAncillarySampleData() {
 		if (ancillarySampleData == null) {
-			ancillarySampleData = new EObjectContainmentEList<>(BaseSampleData.class, this,
+			ancillarySampleData = new EObjectContainmentEList<BaseSampleData>(BaseSampleData.class, this,
 					DataPackage.SAMPLE_DATA__ANCILLARY_SAMPLE_DATA);
 		}
 		return ancillarySampleData;
@@ -142,7 +132,6 @@ public class SampleDataImpl extends EObjectImpl implements SampleData {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -160,7 +149,6 @@ public class SampleDataImpl extends EObjectImpl implements SampleData {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -178,7 +166,6 @@ public class SampleDataImpl extends EObjectImpl implements SampleData {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -203,7 +190,6 @@ public class SampleDataImpl extends EObjectImpl implements SampleData {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -224,7 +210,6 @@ public class SampleDataImpl extends EObjectImpl implements SampleData {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override

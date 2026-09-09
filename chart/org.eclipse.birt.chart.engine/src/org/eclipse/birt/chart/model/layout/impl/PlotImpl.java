@@ -14,6 +14,7 @@
 
 package org.eclipse.birt.chart.model.layout.impl;
 
+import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.birt.chart.model.layout.Block;
 import org.eclipse.birt.chart.model.layout.ClientArea;
 import org.eclipse.birt.chart.model.layout.LayoutFactory;
@@ -21,6 +22,7 @@ import org.eclipse.birt.chart.model.layout.LayoutPackage;
 import org.eclipse.birt.chart.model.layout.Plot;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -30,24 +32,20 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <em><b>Plot</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.layout.impl.PlotImpl#getHorizontalSpacing
- * <em>Horizontal Spacing</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.layout.impl.PlotImpl#getVerticalSpacing
- * <em>Vertical Spacing</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.layout.impl.PlotImpl#getClientArea
- * <em>Client Area</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.impl.PlotImpl#getHorizontalSpacing <em>Horizontal Spacing</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.impl.PlotImpl#getVerticalSpacing <em>Vertical Spacing</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.impl.PlotImpl#getClientArea <em>Client Area</em>}</li>
+ * </ul>
  *
  * @generated
  */
 public class PlotImpl extends BlockImpl implements Plot {
 
 	/**
-	 * The default value of the '{@link #getHorizontalSpacing() <em>Horizontal
-	 * Spacing</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The default value of the '{@link #getHorizontalSpacing() <em>Horizontal Spacing</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getHorizontalSpacing()
 	 * @generated
 	 * @ordered
@@ -55,9 +53,8 @@ public class PlotImpl extends BlockImpl implements Plot {
 	protected static final int HORIZONTAL_SPACING_EDEFAULT = 5;
 
 	/**
-	 * The cached value of the '{@link #getHorizontalSpacing() <em>Horizontal
-	 * Spacing</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getHorizontalSpacing() <em>Horizontal Spacing</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getHorizontalSpacing()
 	 * @generated
 	 * @ordered
@@ -74,9 +71,8 @@ public class PlotImpl extends BlockImpl implements Plot {
 	protected boolean horizontalSpacingESet;
 
 	/**
-	 * The default value of the ' {@link #getVerticalSpacing() <em>Vertical
-	 * Spacing</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The default value of the '{@link #getVerticalSpacing() <em>Vertical Spacing</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getVerticalSpacing()
 	 * @generated
 	 * @ordered
@@ -84,9 +80,8 @@ public class PlotImpl extends BlockImpl implements Plot {
 	protected static final int VERTICAL_SPACING_EDEFAULT = 5;
 
 	/**
-	 * The cached value of the ' {@link #getVerticalSpacing() <em>Vertical
-	 * Spacing</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getVerticalSpacing() <em>Vertical Spacing</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getVerticalSpacing()
 	 * @generated
 	 * @ordered
@@ -103,9 +98,8 @@ public class PlotImpl extends BlockImpl implements Plot {
 	protected boolean verticalSpacingESet;
 
 	/**
-	 * The cached value of the '{@link #getClientArea() <em>Client Area</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getClientArea() <em>Client Area</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getClientArea()
 	 * @generated
 	 * @ordered
@@ -114,7 +108,6 @@ public class PlotImpl extends BlockImpl implements Plot {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected PlotImpl() {
@@ -123,7 +116,6 @@ public class PlotImpl extends BlockImpl implements Plot {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -133,7 +125,6 @@ public class PlotImpl extends BlockImpl implements Plot {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -143,7 +134,6 @@ public class PlotImpl extends BlockImpl implements Plot {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -152,15 +142,13 @@ public class PlotImpl extends BlockImpl implements Plot {
 		horizontalSpacing = newHorizontalSpacing;
 		boolean oldHorizontalSpacingESet = horizontalSpacingESet;
 		horizontalSpacingESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.PLOT__HORIZONTAL_SPACING,
 					oldHorizontalSpacing, horizontalSpacing, !oldHorizontalSpacingESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -169,15 +157,13 @@ public class PlotImpl extends BlockImpl implements Plot {
 		boolean oldHorizontalSpacingESet = horizontalSpacingESet;
 		horizontalSpacing = HORIZONTAL_SPACING_EDEFAULT;
 		horizontalSpacingESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, LayoutPackage.PLOT__HORIZONTAL_SPACING,
 					oldHorizontalSpacing, HORIZONTAL_SPACING_EDEFAULT, oldHorizontalSpacingESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -187,7 +173,6 @@ public class PlotImpl extends BlockImpl implements Plot {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -197,7 +182,6 @@ public class PlotImpl extends BlockImpl implements Plot {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -206,15 +190,13 @@ public class PlotImpl extends BlockImpl implements Plot {
 		verticalSpacing = newVerticalSpacing;
 		boolean oldVerticalSpacingESet = verticalSpacingESet;
 		verticalSpacingESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.PLOT__VERTICAL_SPACING,
 					oldVerticalSpacing, verticalSpacing, !oldVerticalSpacingESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -223,15 +205,13 @@ public class PlotImpl extends BlockImpl implements Plot {
 		boolean oldVerticalSpacingESet = verticalSpacingESet;
 		verticalSpacing = VERTICAL_SPACING_EDEFAULT;
 		verticalSpacingESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, LayoutPackage.PLOT__VERTICAL_SPACING,
 					oldVerticalSpacing, VERTICAL_SPACING_EDEFAULT, oldVerticalSpacingESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -241,7 +221,6 @@ public class PlotImpl extends BlockImpl implements Plot {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -251,7 +230,6 @@ public class PlotImpl extends BlockImpl implements Plot {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetClientArea(ClientArea newClientArea, NotificationChain msgs) {
@@ -260,45 +238,38 @@ public class PlotImpl extends BlockImpl implements Plot {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					LayoutPackage.PLOT__CLIENT_AREA, oldClientArea, newClientArea);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setClientArea(ClientArea newClientArea) {
 		if (newClientArea != clientArea) {
 			NotificationChain msgs = null;
-			if (clientArea != null) {
+			if (clientArea != null)
 				msgs = ((InternalEObject) clientArea).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - LayoutPackage.PLOT__CLIENT_AREA, null, msgs);
-			}
-			if (newClientArea != null) {
+			if (newClientArea != null)
 				msgs = ((InternalEObject) newClientArea).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - LayoutPackage.PLOT__CLIENT_AREA, null, msgs);
-			}
 			msgs = basicSetClientArea(newClientArea, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.PLOT__CLIENT_AREA, newClientArea,
 					newClientArea));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -312,7 +283,6 @@ public class PlotImpl extends BlockImpl implements Plot {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -330,7 +300,6 @@ public class PlotImpl extends BlockImpl implements Plot {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -351,7 +320,6 @@ public class PlotImpl extends BlockImpl implements Plot {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -372,7 +340,6 @@ public class PlotImpl extends BlockImpl implements Plot {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -390,28 +357,24 @@ public class PlotImpl extends BlockImpl implements Plot {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) {
+		if (eIsProxy())
 			return super.toString();
-		}
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (horizontalSpacing: "); //$NON-NLS-1$
-		if (horizontalSpacingESet) {
+		if (horizontalSpacingESet)
 			result.append(horizontalSpacing);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", verticalSpacing: "); //$NON-NLS-1$
-		if (verticalSpacingESet) {
+		if (verticalSpacingESet)
 			result.append(verticalSpacing);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(')');
 		return result.toString();
 	}
@@ -513,11 +476,85 @@ public class PlotImpl extends BlockImpl implements Plot {
 
 		// children
 
+		if (src.getChildren() != null) {
+			EList<Block> list = getChildren();
+			for (Block element : src.getChildren()) {
+				list.add(element.copyInstance());
+			}
+		}
+
+		if (src.getBounds() != null) {
+			setBounds(src.getBounds().copyInstance());
+		}
+
+		if (src.getInsets() != null) {
+			setInsets(src.getInsets().copyInstance());
+		}
+
+		if (src.getMinSize() != null) {
+			setMinSize(src.getMinSize().copyInstance());
+		}
+
+		if (src.getOutline() != null) {
+			setOutline(src.getOutline().copyInstance());
+		}
+
+		if (src.getBackground() != null) {
+			setBackground(src.getBackground().copyInstance());
+		}
+
+		if (src.getTriggers() != null) {
+			EList<Trigger> list = getTriggers();
+			for (Trigger element : src.getTriggers()) {
+				list.add(element.copyInstance());
+			}
+		}
+
+		if (src.getCursor() != null) {
+			setCursor(src.getCursor().copyInstance());
+		}
+
 		if (src.getClientArea() != null) {
 			setClientArea(src.getClientArea().copyInstance());
 		}
 
 		// attributes
+
+		anchor = src.getAnchor();
+
+		anchorESet = src.isSetAnchor();
+
+		stretch = src.getStretch();
+
+		stretchESet = src.isSetStretch();
+
+		row = src.getRow();
+
+		rowESet = src.isSetRow();
+
+		column = src.getColumn();
+
+		columnESet = src.isSetColumn();
+
+		rowspan = src.getRowspan();
+
+		rowspanESet = src.isSetRowspan();
+
+		columnspan = src.getColumnspan();
+
+		columnspanESet = src.isSetColumnspan();
+
+		visible = src.isVisible();
+
+		visibleESet = src.isSetVisible();
+
+		widthHint = src.getWidthHint();
+
+		widthHintESet = src.isSetWidthHint();
+
+		heightHint = src.getHeightHint();
+
+		heightHintESet = src.isSetHeightHint();
 
 		horizontalSpacing = src.getHorizontalSpacing();
 

@@ -22,7 +22,9 @@ import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.component.ComponentFactory;
 import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.component.DialRegion;
+import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
@@ -31,22 +33,19 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * Region</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.DialRegionImpl#getInnerRadius
- * <em>Inner Radius</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.DialRegionImpl#getOuterRadius
- * <em>Outer Radius</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.DialRegionImpl#getInnerRadius <em>Inner Radius</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.DialRegionImpl#getOuterRadius <em>Outer Radius</em>}</li>
+ * </ul>
  *
  * @generated
  */
 public class DialRegionImpl extends MarkerRangeImpl implements DialRegion {
 
 	/**
-	 * The default value of the '{@link #getInnerRadius() <em>Inner Radius</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The default value of the '{@link #getInnerRadius() <em>Inner Radius</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getInnerRadius()
 	 * @generated
 	 * @ordered
@@ -54,9 +53,8 @@ public class DialRegionImpl extends MarkerRangeImpl implements DialRegion {
 	protected static final double INNER_RADIUS_EDEFAULT = 0.0;
 
 	/**
-	 * The cached value of the '{@link #getInnerRadius() <em>Inner Radius</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getInnerRadius() <em>Inner Radius</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getInnerRadius()
 	 * @generated
 	 * @ordered
@@ -64,18 +62,17 @@ public class DialRegionImpl extends MarkerRangeImpl implements DialRegion {
 	protected double innerRadius = INNER_RADIUS_EDEFAULT;
 
 	/**
-	 * This is true if the Inner Radius attribute has been set. <!-- begin-user-doc
+	 * This is true if the Inner Radius attribute has been set.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean innerRadiusESet;
 
 	/**
-	 * The default value of the '{@link #getOuterRadius() <em>Outer Radius</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The default value of the '{@link #getOuterRadius() <em>Outer Radius</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getOuterRadius()
 	 * @generated
 	 * @ordered
@@ -83,9 +80,8 @@ public class DialRegionImpl extends MarkerRangeImpl implements DialRegion {
 	protected static final double OUTER_RADIUS_EDEFAULT = 0.0;
 
 	/**
-	 * The cached value of the '{@link #getOuterRadius() <em>Outer Radius</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getOuterRadius() <em>Outer Radius</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getOuterRadius()
 	 * @generated
 	 * @ordered
@@ -93,9 +89,9 @@ public class DialRegionImpl extends MarkerRangeImpl implements DialRegion {
 	protected double outerRadius = OUTER_RADIUS_EDEFAULT;
 
 	/**
-	 * This is true if the Outer Radius attribute has been set. <!-- begin-user-doc
+	 * This is true if the Outer Radius attribute has been set.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -103,7 +99,6 @@ public class DialRegionImpl extends MarkerRangeImpl implements DialRegion {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected DialRegionImpl() {
@@ -112,7 +107,6 @@ public class DialRegionImpl extends MarkerRangeImpl implements DialRegion {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -122,7 +116,6 @@ public class DialRegionImpl extends MarkerRangeImpl implements DialRegion {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -132,7 +125,6 @@ public class DialRegionImpl extends MarkerRangeImpl implements DialRegion {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -141,15 +133,13 @@ public class DialRegionImpl extends MarkerRangeImpl implements DialRegion {
 		innerRadius = newInnerRadius;
 		boolean oldInnerRadiusESet = innerRadiusESet;
 		innerRadiusESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.DIAL_REGION__INNER_RADIUS,
 					oldInnerRadius, innerRadius, !oldInnerRadiusESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -158,15 +148,13 @@ public class DialRegionImpl extends MarkerRangeImpl implements DialRegion {
 		boolean oldInnerRadiusESet = innerRadiusESet;
 		innerRadius = INNER_RADIUS_EDEFAULT;
 		innerRadiusESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, ComponentPackage.DIAL_REGION__INNER_RADIUS,
 					oldInnerRadius, INNER_RADIUS_EDEFAULT, oldInnerRadiusESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -176,7 +164,6 @@ public class DialRegionImpl extends MarkerRangeImpl implements DialRegion {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -186,7 +173,6 @@ public class DialRegionImpl extends MarkerRangeImpl implements DialRegion {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -195,15 +181,13 @@ public class DialRegionImpl extends MarkerRangeImpl implements DialRegion {
 		outerRadius = newOuterRadius;
 		boolean oldOuterRadiusESet = outerRadiusESet;
 		outerRadiusESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.DIAL_REGION__OUTER_RADIUS,
 					oldOuterRadius, outerRadius, !oldOuterRadiusESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -212,15 +196,13 @@ public class DialRegionImpl extends MarkerRangeImpl implements DialRegion {
 		boolean oldOuterRadiusESet = outerRadiusESet;
 		outerRadius = OUTER_RADIUS_EDEFAULT;
 		outerRadiusESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, ComponentPackage.DIAL_REGION__OUTER_RADIUS,
 					oldOuterRadius, OUTER_RADIUS_EDEFAULT, oldOuterRadiusESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -230,7 +212,6 @@ public class DialRegionImpl extends MarkerRangeImpl implements DialRegion {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -246,7 +227,6 @@ public class DialRegionImpl extends MarkerRangeImpl implements DialRegion {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -264,7 +244,6 @@ public class DialRegionImpl extends MarkerRangeImpl implements DialRegion {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -282,7 +261,6 @@ public class DialRegionImpl extends MarkerRangeImpl implements DialRegion {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -298,28 +276,24 @@ public class DialRegionImpl extends MarkerRangeImpl implements DialRegion {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) {
+		if (eIsProxy())
 			return super.toString();
-		}
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (innerRadius: "); //$NON-NLS-1$
-		if (innerRadiusESet) {
+		if (innerRadiusESet)
 			result.append(innerRadius);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", outerRadius: "); //$NON-NLS-1$
-		if (outerRadiusESet) {
+		if (outerRadiusESet)
 			result.append(outerRadius);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(')');
 		return result.toString();
 	}
@@ -374,7 +348,48 @@ public class DialRegionImpl extends MarkerRangeImpl implements DialRegion {
 
 		super.set(src);
 
+		// children
+
+		if (src.getOutline() != null) {
+			setOutline(src.getOutline().copyInstance());
+		}
+
+		if (src.getFill() != null) {
+			setFill(src.getFill().copyInstance());
+		}
+
+		if (src.getStartValue() != null) {
+			setStartValue(src.getStartValue().copyInstance());
+		}
+
+		if (src.getEndValue() != null) {
+			setEndValue(src.getEndValue().copyInstance());
+		}
+
+		if (src.getLabel() != null) {
+			setLabel(src.getLabel().copyInstance());
+		}
+
+		if (src.getFormatSpecifier() != null) {
+			setFormatSpecifier(src.getFormatSpecifier().copyInstance());
+		}
+
+		if (src.getTriggers() != null) {
+			EList<Trigger> list = getTriggers();
+			for (Trigger element : src.getTriggers()) {
+				list.add(element.copyInstance());
+			}
+		}
+
+		if (src.getCursor() != null) {
+			setCursor(src.getCursor().copyInstance());
+		}
+
 		// attributes
+
+		labelAnchor = src.getLabelAnchor();
+
+		labelAnchorESet = src.isSetLabelAnchor();
 
 		innerRadius = src.getInnerRadius();
 

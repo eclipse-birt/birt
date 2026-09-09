@@ -26,21 +26,15 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * Value</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.URLValueImpl#getBaseUrl
- * <em>Base Url</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.URLValueImpl#getTarget
- * <em>Target</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.URLValueImpl#getBaseParameterName
- * <em>Base Parameter Name</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.URLValueImpl#getValueParameterName
- * <em>Value Parameter Name</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.URLValueImpl#getSeriesParameterName
- * <em>Series Parameter Name</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.URLValueImpl#getTooltip
- * <em>Tooltip</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.URLValueImpl#getBaseUrl <em>Base Url</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.URLValueImpl#getTarget <em>Target</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.URLValueImpl#getBaseParameterName <em>Base Parameter Name</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.URLValueImpl#getValueParameterName <em>Value Parameter Name</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.URLValueImpl#getSeriesParameterName <em>Series Parameter Name</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.URLValueImpl#getTooltip <em>Tooltip</em>}</li>
+ * </ul>
  *
  * @generated
  */
@@ -49,7 +43,6 @@ public class URLValueImpl extends ActionValueImpl implements URLValue {
 	/**
 	 * The default value of the '{@link #getBaseUrl() <em>Base Url</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @see #getBaseUrl()
 	 * @generated
 	 * @ordered
@@ -59,7 +52,6 @@ public class URLValueImpl extends ActionValueImpl implements URLValue {
 	/**
 	 * The cached value of the '{@link #getBaseUrl() <em>Base Url</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @see #getBaseUrl()
 	 * @generated
 	 * @ordered
@@ -69,7 +61,6 @@ public class URLValueImpl extends ActionValueImpl implements URLValue {
 	/**
 	 * The default value of the '{@link #getTarget() <em>Target</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @see #getTarget()
 	 * @generated
 	 * @ordered
@@ -79,7 +70,6 @@ public class URLValueImpl extends ActionValueImpl implements URLValue {
 	/**
 	 * The cached value of the '{@link #getTarget() <em>Target</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @see #getTarget()
 	 * @generated
 	 * @ordered
@@ -87,9 +77,8 @@ public class URLValueImpl extends ActionValueImpl implements URLValue {
 	protected String target = TARGET_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getBaseParameterName() <em>Base Parameter
-	 * Name</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The default value of the '{@link #getBaseParameterName() <em>Base Parameter Name</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getBaseParameterName()
 	 * @generated
 	 * @ordered
@@ -97,9 +86,8 @@ public class URLValueImpl extends ActionValueImpl implements URLValue {
 	protected static final String BASE_PARAMETER_NAME_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getBaseParameterName() <em>Base Parameter
-	 * Name</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getBaseParameterName() <em>Base Parameter Name</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getBaseParameterName()
 	 * @generated
 	 * @ordered
@@ -107,9 +95,8 @@ public class URLValueImpl extends ActionValueImpl implements URLValue {
 	protected String baseParameterName = BASE_PARAMETER_NAME_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getValueParameterName() <em>Value Parameter
-	 * Name</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The default value of the '{@link #getValueParameterName() <em>Value Parameter Name</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getValueParameterName()
 	 * @generated
 	 * @ordered
@@ -117,9 +104,8 @@ public class URLValueImpl extends ActionValueImpl implements URLValue {
 	protected static final String VALUE_PARAMETER_NAME_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getValueParameterName() <em>Value Parameter
-	 * Name</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getValueParameterName() <em>Value Parameter Name</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getValueParameterName()
 	 * @generated
 	 * @ordered
@@ -151,7 +137,6 @@ public class URLValueImpl extends ActionValueImpl implements URLValue {
 	/**
 	 * The default value of the '{@link #getTooltip() <em>Tooltip</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @see #getTooltip()
 	 * @generated
 	 * @ordered
@@ -161,7 +146,6 @@ public class URLValueImpl extends ActionValueImpl implements URLValue {
 	/**
 	 * The cached value of the '{@link #getTooltip() <em>Tooltip</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @see #getTooltip()
 	 * @generated
 	 * @ordered
@@ -170,7 +154,6 @@ public class URLValueImpl extends ActionValueImpl implements URLValue {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected URLValueImpl() {
@@ -179,7 +162,6 @@ public class URLValueImpl extends ActionValueImpl implements URLValue {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -189,7 +171,6 @@ public class URLValueImpl extends ActionValueImpl implements URLValue {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -199,22 +180,19 @@ public class URLValueImpl extends ActionValueImpl implements URLValue {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setBaseUrl(String newBaseUrl) {
 		String oldBaseUrl = baseUrl;
 		baseUrl = newBaseUrl;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.URL_VALUE__BASE_URL, oldBaseUrl,
 					baseUrl));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -224,22 +202,19 @@ public class URLValueImpl extends ActionValueImpl implements URLValue {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setTarget(String newTarget) {
 		String oldTarget = target;
 		target = newTarget;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.URL_VALUE__TARGET, oldTarget,
 					target));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -249,22 +224,19 @@ public class URLValueImpl extends ActionValueImpl implements URLValue {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setBaseParameterName(String newBaseParameterName) {
 		String oldBaseParameterName = baseParameterName;
 		baseParameterName = newBaseParameterName;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.URL_VALUE__BASE_PARAMETER_NAME,
 					oldBaseParameterName, baseParameterName));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -274,22 +246,19 @@ public class URLValueImpl extends ActionValueImpl implements URLValue {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setValueParameterName(String newValueParameterName) {
 		String oldValueParameterName = valueParameterName;
 		valueParameterName = newValueParameterName;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.URL_VALUE__VALUE_PARAMETER_NAME,
 					oldValueParameterName, valueParameterName));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -299,22 +268,19 @@ public class URLValueImpl extends ActionValueImpl implements URLValue {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setSeriesParameterName(String newSeriesParameterName) {
 		String oldSeriesParameterName = seriesParameterName;
 		seriesParameterName = newSeriesParameterName;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.URL_VALUE__SERIES_PARAMETER_NAME,
 					oldSeriesParameterName, seriesParameterName));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -324,22 +290,19 @@ public class URLValueImpl extends ActionValueImpl implements URLValue {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setTooltip(String newTooltip) {
 		String oldTooltip = tooltip;
 		tooltip = newTooltip;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.URL_VALUE__TOOLTIP, oldTooltip,
 					tooltip));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -363,7 +326,6 @@ public class URLValueImpl extends ActionValueImpl implements URLValue {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -393,7 +355,6 @@ public class URLValueImpl extends ActionValueImpl implements URLValue {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -423,7 +384,6 @@ public class URLValueImpl extends ActionValueImpl implements URLValue {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -450,14 +410,12 @@ public class URLValueImpl extends ActionValueImpl implements URLValue {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) {
+		if (eIsProxy())
 			return super.toString();
-		}
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (baseUrl: "); //$NON-NLS-1$

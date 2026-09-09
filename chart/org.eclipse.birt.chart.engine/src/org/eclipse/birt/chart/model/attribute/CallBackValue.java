@@ -23,18 +23,17 @@ package org.eclipse.birt.chart.model.attribute;
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Call
  * Back Value</b></em>'. <!-- end-user-doc -->
  *
- * <!-- begin-model-doc --> CallBackValue extends the type ActionValue specific
- * for callbacks.
- *
+ * <!-- begin-model-doc -->
+ * CallBackValue extends the type ActionValue specific for callbacks.
+ * 		
  * <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.CallBackValue#getIdentifier
- * <em>Identifier</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.CallBackValue#getIdentifier <em>Identifier</em>}</li>
+ * </ul>
  *
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getCallBackValue()
  * @model extendedMetaData="name='CallBackValue' kind='elementOnly'"

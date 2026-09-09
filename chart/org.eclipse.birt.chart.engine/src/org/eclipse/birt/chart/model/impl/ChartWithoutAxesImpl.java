@@ -25,7 +25,9 @@ import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.ModelFactory;
 import org.eclipse.birt.chart.model.ModelPackage;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
+import org.eclipse.birt.chart.model.attribute.ExtendedProperty;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
+import org.eclipse.birt.chart.model.attribute.StyleMap;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.util.ChartElementUtil;
@@ -43,29 +45,23 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * Without Axes</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.impl.ChartWithoutAxesImpl#getSeriesDefinitions
- * <em>Series Definitions</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.impl.ChartWithoutAxesImpl#getMinSlice
- * <em>Min Slice</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.impl.ChartWithoutAxesImpl#isMinSlicePercent
- * <em>Min Slice Percent</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.impl.ChartWithoutAxesImpl#getMinSliceLabel
- * <em>Min Slice Label</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.impl.ChartWithoutAxesImpl#getCoverage
- * <em>Coverage</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.impl.ChartWithoutAxesImpl#getSeriesDefinitions <em>Series Definitions</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.impl.ChartWithoutAxesImpl#getMinSlice <em>Min Slice</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.impl.ChartWithoutAxesImpl#isMinSlicePercent <em>Min Slice Percent</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.impl.ChartWithoutAxesImpl#getMinSliceLabel <em>Min Slice Label</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.impl.ChartWithoutAxesImpl#getCoverage <em>Coverage</em>}</li>
+ * </ul>
  *
  * @generated
  */
 public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes {
 
 	/**
-	 * The cached value of the '{@link #getSeriesDefinitions() <em>Series
-	 * Definitions</em>}' containment reference list. <!-- begin-user-doc --> <!--
+	 * The cached value of the '{@link #getSeriesDefinitions() <em>Series Definitions</em>}' containment reference list.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #getSeriesDefinitions()
 	 * @generated
 	 * @ordered
@@ -73,9 +69,8 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes 
 	protected EList<SeriesDefinition> seriesDefinitions;
 
 	/**
-	 * The default value of the '{@link #getMinSlice() <em>Min Slice</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The default value of the '{@link #getMinSlice() <em>Min Slice</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getMinSlice()
 	 * @generated
 	 * @ordered
@@ -83,9 +78,8 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes 
 	protected static final double MIN_SLICE_EDEFAULT = 0.0;
 
 	/**
-	 * The cached value of the '{@link #getMinSlice() <em>Min Slice</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getMinSlice() <em>Min Slice</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getMinSlice()
 	 * @generated
 	 * @ordered
@@ -93,18 +87,17 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes 
 	protected double minSlice = MIN_SLICE_EDEFAULT;
 
 	/**
-	 * This is true if the Min Slice attribute has been set. <!-- begin-user-doc -->
+	 * This is true if the Min Slice attribute has been set.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean minSliceESet;
 
 	/**
-	 * The default value of the '{@link #isMinSlicePercent() <em>Min Slice
-	 * Percent</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The default value of the '{@link #isMinSlicePercent() <em>Min Slice Percent</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isMinSlicePercent()
 	 * @generated
 	 * @ordered
@@ -112,9 +105,8 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes 
 	protected static final boolean MIN_SLICE_PERCENT_EDEFAULT = false;
 
 	/**
-	 * The cached value of the '{@link #isMinSlicePercent() <em>Min Slice
-	 * Percent</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #isMinSlicePercent() <em>Min Slice Percent</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isMinSlicePercent()
 	 * @generated
 	 * @ordered
@@ -131,9 +123,8 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes 
 	protected boolean minSlicePercentESet;
 
 	/**
-	 * The default value of the '{@link #getMinSliceLabel() <em>Min Slice
-	 * Label</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The default value of the '{@link #getMinSliceLabel() <em>Min Slice Label</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getMinSliceLabel()
 	 * @generated
 	 * @ordered
@@ -141,9 +132,8 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes 
 	protected static final String MIN_SLICE_LABEL_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getMinSliceLabel() <em>Min Slice
-	 * Label</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getMinSliceLabel() <em>Min Slice Label</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getMinSliceLabel()
 	 * @generated
 	 * @ordered
@@ -151,9 +141,8 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes 
 	protected String minSliceLabel = MIN_SLICE_LABEL_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getCoverage() <em>Coverage</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The default value of the '{@link #getCoverage() <em>Coverage</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getCoverage()
 	 * @generated
 	 * @ordered
@@ -163,7 +152,6 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes 
 	/**
 	 * The cached value of the '{@link #getCoverage() <em>Coverage</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @see #getCoverage()
 	 * @generated
 	 * @ordered
@@ -171,9 +159,9 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes 
 	protected double coverage = COVERAGE_EDEFAULT;
 
 	/**
-	 * This is true if the Coverage attribute has been set. <!-- begin-user-doc -->
+	 * This is true if the Coverage attribute has been set.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -181,7 +169,6 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected ChartWithoutAxesImpl() {
@@ -190,7 +177,6 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -200,13 +186,12 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public EList<SeriesDefinition> getSeriesDefinitions() {
 		if (seriesDefinitions == null) {
-			seriesDefinitions = new EObjectContainmentEList<>(SeriesDefinition.class, this,
+			seriesDefinitions = new EObjectContainmentEList<SeriesDefinition>(SeriesDefinition.class, this,
 					ModelPackage.CHART_WITHOUT_AXES__SERIES_DEFINITIONS);
 		}
 		return seriesDefinitions;
@@ -214,7 +199,6 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -224,7 +208,6 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -233,15 +216,13 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes 
 		minSlice = newMinSlice;
 		boolean oldMinSliceESet = minSliceESet;
 		minSliceESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.CHART_WITHOUT_AXES__MIN_SLICE,
 					oldMinSlice, minSlice, !oldMinSliceESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -250,15 +231,13 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes 
 		boolean oldMinSliceESet = minSliceESet;
 		minSlice = MIN_SLICE_EDEFAULT;
 		minSliceESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, ModelPackage.CHART_WITHOUT_AXES__MIN_SLICE,
 					oldMinSlice, MIN_SLICE_EDEFAULT, oldMinSliceESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -268,7 +247,6 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -278,7 +256,6 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -287,15 +264,13 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes 
 		minSlicePercent = newMinSlicePercent;
 		boolean oldMinSlicePercentESet = minSlicePercentESet;
 		minSlicePercentESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.CHART_WITHOUT_AXES__MIN_SLICE_PERCENT,
 					oldMinSlicePercent, minSlicePercent, !oldMinSlicePercentESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -304,15 +279,13 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes 
 		boolean oldMinSlicePercentESet = minSlicePercentESet;
 		minSlicePercent = MIN_SLICE_PERCENT_EDEFAULT;
 		minSlicePercentESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, ModelPackage.CHART_WITHOUT_AXES__MIN_SLICE_PERCENT,
 					oldMinSlicePercent, MIN_SLICE_PERCENT_EDEFAULT, oldMinSlicePercentESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -322,7 +295,6 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -332,22 +304,19 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setMinSliceLabel(String newMinSliceLabel) {
 		String oldMinSliceLabel = minSliceLabel;
 		minSliceLabel = newMinSliceLabel;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.CHART_WITHOUT_AXES__MIN_SLICE_LABEL,
 					oldMinSliceLabel, minSliceLabel));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -357,7 +326,6 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -366,15 +334,13 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes 
 		coverage = newCoverage;
 		boolean oldCoverageESet = coverageESet;
 		coverageESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.CHART_WITHOUT_AXES__COVERAGE,
 					oldCoverage, coverage, !oldCoverageESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -383,15 +349,13 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes 
 		boolean oldCoverageESet = coverageESet;
 		coverage = COVERAGE_EDEFAULT;
 		coverageESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, ModelPackage.CHART_WITHOUT_AXES__COVERAGE,
 					oldCoverage, COVERAGE_EDEFAULT, oldCoverageESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -401,7 +365,6 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -415,7 +378,6 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -437,7 +399,6 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -466,7 +427,6 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -493,7 +453,6 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -516,36 +475,31 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) {
+		if (eIsProxy())
 			return super.toString();
-		}
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (minSlice: "); //$NON-NLS-1$
-		if (minSliceESet) {
+		if (minSliceESet)
 			result.append(minSlice);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", minSlicePercent: "); //$NON-NLS-1$
-		if (minSlicePercentESet) {
+		if (minSlicePercentESet)
 			result.append(minSlicePercent);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", minSliceLabel: "); //$NON-NLS-1$
 		result.append(minSliceLabel);
 		result.append(", coverage: "); //$NON-NLS-1$
-		if (coverageESet) {
+		if (coverageESet)
 			result.append(coverage);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(')');
 		return result.toString();
 	}
@@ -685,6 +639,40 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes 
 
 		// children
 
+		if (src.getDescription() != null) {
+			setDescription(src.getDescription().copyInstance());
+		}
+
+		if (src.getBlock() != null) {
+			setBlock(src.getBlock().copyInstance());
+		}
+
+		if (src.getExtendedProperties() != null) {
+			EList<ExtendedProperty> list = getExtendedProperties();
+			for (ExtendedProperty element : src.getExtendedProperties()) {
+				list.add(element.copyInstance());
+			}
+		}
+
+		if (src.getSampleData() != null) {
+			setSampleData(src.getSampleData().copyInstance());
+		}
+
+		if (src.getStyles() != null) {
+			EList<StyleMap> list = getStyles();
+			for (StyleMap element : src.getStyles()) {
+				list.add(element.copyInstance());
+			}
+		}
+
+		if (src.getInteractivity() != null) {
+			setInteractivity(src.getInteractivity().copyInstance());
+		}
+
+		if (src.getEmptyMessage() != null) {
+			setEmptyMessage(src.getEmptyMessage().copyInstance());
+		}
+
 		if (src.getSeriesDefinitions() != null) {
 			EList<SeriesDefinition> list = getSeriesDefinitions();
 			for (SeriesDefinition element : src.getSeriesDefinitions()) {
@@ -693,6 +681,30 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes 
 		}
 
 		// attributes
+
+		version = src.getVersion();
+
+		versionESet = src.isSetVersion();
+
+		type = src.getType();
+
+		subType = src.getSubType();
+
+		dimension = src.getDimension();
+
+		dimensionESet = src.isSetDimension();
+
+		script = src.getScript();
+
+		units = src.getUnits();
+
+		seriesThickness = src.getSeriesThickness();
+
+		seriesThicknessESet = src.isSetSeriesThickness();
+
+		gridColumnCount = src.getGridColumnCount();
+
+		gridColumnCountESet = src.isSetGridColumnCount();
 
 		minSlice = src.getMinSlice();
 

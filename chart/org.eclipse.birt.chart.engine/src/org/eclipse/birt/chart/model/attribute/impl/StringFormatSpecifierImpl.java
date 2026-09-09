@@ -34,11 +34,10 @@ import com.ibm.icu.util.ULocale;
  * Format Specifier</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.StringFormatSpecifierImpl#getPattern
- * <em>Pattern</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.StringFormatSpecifierImpl#getPattern <em>Pattern</em>}</li>
+ * </ul>
  *
  * @generated
  */
@@ -47,7 +46,6 @@ public class StringFormatSpecifierImpl extends FormatSpecifierImpl implements St
 	/**
 	 * The default value of the '{@link #getPattern() <em>Pattern</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @see #getPattern()
 	 * @generated
 	 * @ordered
@@ -57,7 +55,6 @@ public class StringFormatSpecifierImpl extends FormatSpecifierImpl implements St
 	/**
 	 * The cached value of the '{@link #getPattern() <em>Pattern</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @see #getPattern()
 	 * @generated
 	 * @ordered
@@ -66,7 +63,6 @@ public class StringFormatSpecifierImpl extends FormatSpecifierImpl implements St
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected StringFormatSpecifierImpl() {
@@ -75,7 +71,6 @@ public class StringFormatSpecifierImpl extends FormatSpecifierImpl implements St
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -85,7 +80,6 @@ public class StringFormatSpecifierImpl extends FormatSpecifierImpl implements St
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -95,22 +89,19 @@ public class StringFormatSpecifierImpl extends FormatSpecifierImpl implements St
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setPattern(String newPattern) {
 		String oldPattern = pattern;
 		pattern = newPattern;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.STRING_FORMAT_SPECIFIER__PATTERN,
 					oldPattern, pattern));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -124,7 +115,6 @@ public class StringFormatSpecifierImpl extends FormatSpecifierImpl implements St
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -139,7 +129,6 @@ public class StringFormatSpecifierImpl extends FormatSpecifierImpl implements St
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -154,7 +143,6 @@ public class StringFormatSpecifierImpl extends FormatSpecifierImpl implements St
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -168,14 +156,12 @@ public class StringFormatSpecifierImpl extends FormatSpecifierImpl implements St
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) {
+		if (eIsProxy())
 			return super.toString();
-		}
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (pattern: "); //$NON-NLS-1$

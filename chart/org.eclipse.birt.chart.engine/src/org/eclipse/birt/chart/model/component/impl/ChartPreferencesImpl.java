@@ -47,9 +47,8 @@ import org.eclipse.emf.ecore.util.InternalEList;
 public class ChartPreferencesImpl extends EObjectImpl implements ChartPreferences {
 
 	/**
-	 * The cached value of the '{@link #getLabels() <em>Labels</em>}' containment
-	 * reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getLabels() <em>Labels</em>}' containment reference list.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getLabels()
 	 * @generated
 	 * @ordered
@@ -57,9 +56,8 @@ public class ChartPreferencesImpl extends EObjectImpl implements ChartPreference
 	protected EList<Label> labels;
 
 	/**
-	 * The cached value of the '{@link #getBlocks() <em>Blocks</em>}' containment
-	 * reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getBlocks() <em>Blocks</em>}' containment reference list.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getBlocks()
 	 * @generated
 	 * @ordered
@@ -68,7 +66,6 @@ public class ChartPreferencesImpl extends EObjectImpl implements ChartPreference
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected ChartPreferencesImpl() {
@@ -77,7 +74,6 @@ public class ChartPreferencesImpl extends EObjectImpl implements ChartPreference
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -87,33 +83,30 @@ public class ChartPreferencesImpl extends EObjectImpl implements ChartPreference
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public EList<Label> getLabels() {
 		if (labels == null) {
-			labels = new EObjectContainmentEList<>(Label.class, this, ComponentPackage.CHART_PREFERENCES__LABELS);
+			labels = new EObjectContainmentEList<Label>(Label.class, this, ComponentPackage.CHART_PREFERENCES__LABELS);
 		}
 		return labels;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public EList<Block> getBlocks() {
 		if (blocks == null) {
-			blocks = new EObjectContainmentEList<>(Block.class, this, ComponentPackage.CHART_PREFERENCES__BLOCKS);
+			blocks = new EObjectContainmentEList<Block>(Block.class, this, ComponentPackage.CHART_PREFERENCES__BLOCKS);
 		}
 		return blocks;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -129,7 +122,6 @@ public class ChartPreferencesImpl extends EObjectImpl implements ChartPreference
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -145,7 +137,6 @@ public class ChartPreferencesImpl extends EObjectImpl implements ChartPreference
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -166,7 +157,6 @@ public class ChartPreferencesImpl extends EObjectImpl implements ChartPreference
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -184,7 +174,6 @@ public class ChartPreferencesImpl extends EObjectImpl implements ChartPreference
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override

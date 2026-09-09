@@ -23,38 +23,27 @@ import org.eclipse.birt.chart.model.data.DataElement;
  * '<em><b>Scale</b></em>'. <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- *
- * This type defines the scale associated with an axis.
- *
+ * 
+ * 			This type defines the scale associated with an axis.
+ * 			
  * <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.component.Scale#getMin
- * <em>Min</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.Scale#getMax
- * <em>Max</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.Scale#getStep
- * <em>Step</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.Scale#getUnit
- * <em>Unit</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.Scale#getMinorGridsPerUnit
- * <em>Minor Grids Per Unit</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.Scale#getStepNumber
- * <em>Step Number</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.Scale#isShowOutside
- * <em>Show Outside</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.Scale#isTickBetweenCategories
- * <em>Tick Between Categories</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.Scale#isAutoExpand <em>Auto
- * Expand</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.Scale#getMajorGridsStepNumber
- * <em>Major Grids Step Number</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.Scale#getFactor
- * <em>Factor</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Scale#getMin <em>Min</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Scale#getMax <em>Max</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Scale#getStep <em>Step</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Scale#getUnit <em>Unit</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Scale#getMinorGridsPerUnit <em>Minor Grids Per Unit</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Scale#getStepNumber <em>Step Number</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Scale#isShowOutside <em>Show Outside</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Scale#isTickBetweenCategories <em>Tick Between Categories</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Scale#isAutoExpand <em>Auto Expand</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Scale#getMajorGridsStepNumber <em>Major Grids Step Number</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Scale#getFactor <em>Factor</em>}</li>
+ * </ul>
  *
  * @see org.eclipse.birt.chart.model.component.ComponentPackage#getScale()
  * @model extendedMetaData="name='Scale' kind='elementOnly'"
@@ -81,10 +70,8 @@ public interface Scale extends IChartObject {
 	DataElement getMin();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.component.Scale#getMin <em>Min</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Scale#getMin <em>Min</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Min</em>' containment reference.
 	 * @see #getMin()
 	 * @generated
@@ -109,10 +96,8 @@ public interface Scale extends IChartObject {
 	DataElement getMax();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.component.Scale#getMax <em>Max</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Scale#getMax <em>Max</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Max</em>' containment reference.
 	 * @see #getMax()
 	 * @generated
@@ -140,10 +125,8 @@ public interface Scale extends IChartObject {
 	double getStep();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.component.Scale#getStep <em>Step</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Scale#getStep <em>Step</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Step</em>' attribute.
 	 * @see #isSetStep()
 	 * @see #unsetStep()
@@ -153,10 +136,8 @@ public interface Scale extends IChartObject {
 	void setStep(double value);
 
 	/**
-	 * Unsets the value of the
-	 * '{@link org.eclipse.birt.chart.model.component.Scale#getStep <em>Step</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.component.Scale#getStep <em>Step</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isSetStep()
 	 * @see #getStep()
 	 * @see #setStep(double)
@@ -165,10 +146,8 @@ public interface Scale extends IChartObject {
 	void unsetStep();
 
 	/**
-	 * Returns whether the value of the
-	 * '{@link org.eclipse.birt.chart.model.component.Scale#getStep <em>Step</em>}'
-	 * attribute is set. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.component.Scale#getStep <em>Step</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return whether the value of the '<em>Step</em>' attribute is set.
 	 * @see #unsetStep()
 	 * @see #getStep()
@@ -199,10 +178,8 @@ public interface Scale extends IChartObject {
 	ScaleUnitType getUnit();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.component.Scale#getUnit <em>Unit</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Scale#getUnit <em>Unit</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Unit</em>' attribute.
 	 * @see org.eclipse.birt.chart.model.attribute.ScaleUnitType
 	 * @see #isSetUnit()
@@ -213,10 +190,8 @@ public interface Scale extends IChartObject {
 	void setUnit(ScaleUnitType value);
 
 	/**
-	 * Unsets the value of the
-	 * '{@link org.eclipse.birt.chart.model.component.Scale#getUnit <em>Unit</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.component.Scale#getUnit <em>Unit</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isSetUnit()
 	 * @see #getUnit()
 	 * @see #setUnit(ScaleUnitType)
@@ -225,10 +200,8 @@ public interface Scale extends IChartObject {
 	void unsetUnit();
 
 	/**
-	 * Returns whether the value of the
-	 * '{@link org.eclipse.birt.chart.model.component.Scale#getUnit <em>Unit</em>}'
-	 * attribute is set. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.component.Scale#getUnit <em>Unit</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return whether the value of the '<em>Unit</em>' attribute is set.
 	 * @see #unsetUnit()
 	 * @see #getUnit()
@@ -257,11 +230,9 @@ public interface Scale extends IChartObject {
 	int getMinorGridsPerUnit();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.component.Scale#getMinorGridsPerUnit
-	 * <em>Minor Grids Per Unit</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Scale#getMinorGridsPerUnit <em>Minor Grids Per Unit</em>}' attribute.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @param value the new value of the '<em>Minor Grids Per Unit</em>' attribute.
 	 * @see #isSetMinorGridsPerUnit()
 	 * @see #unsetMinorGridsPerUnit()
@@ -271,11 +242,9 @@ public interface Scale extends IChartObject {
 	void setMinorGridsPerUnit(int value);
 
 	/**
-	 * Unsets the value of the
-	 * '{@link org.eclipse.birt.chart.model.component.Scale#getMinorGridsPerUnit
-	 * <em>Minor Grids Per Unit</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.component.Scale#getMinorGridsPerUnit <em>Minor Grids Per Unit</em>}' attribute.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #isSetMinorGridsPerUnit()
 	 * @see #getMinorGridsPerUnit()
 	 * @see #setMinorGridsPerUnit(int)
@@ -284,13 +253,10 @@ public interface Scale extends IChartObject {
 	void unsetMinorGridsPerUnit();
 
 	/**
-	 * Returns whether the value of the
-	 * '{@link org.eclipse.birt.chart.model.component.Scale#getMinorGridsPerUnit
-	 * <em>Minor Grids Per Unit</em>}' attribute is set. <!-- begin-user-doc -->
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.component.Scale#getMinorGridsPerUnit <em>Minor Grids Per Unit</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
-	 * @return whether the value of the '<em>Minor Grids Per Unit</em>' attribute is
-	 *         set.
+	 * @return whether the value of the '<em>Minor Grids Per Unit</em>' attribute is set.
 	 * @see #unsetMinorGridsPerUnit()
 	 * @see #getMinorGridsPerUnit()
 	 * @see #setMinorGridsPerUnit(int)
@@ -318,10 +284,8 @@ public interface Scale extends IChartObject {
 	int getStepNumber();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.component.Scale#getStepNumber <em>Step
-	 * Number</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Scale#getStepNumber <em>Step Number</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Step Number</em>' attribute.
 	 * @see #isSetStepNumber()
 	 * @see #unsetStepNumber()
@@ -331,10 +295,8 @@ public interface Scale extends IChartObject {
 	void setStepNumber(int value);
 
 	/**
-	 * Unsets the value of the
-	 * '{@link org.eclipse.birt.chart.model.component.Scale#getStepNumber <em>Step
-	 * Number</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.component.Scale#getStepNumber <em>Step Number</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isSetStepNumber()
 	 * @see #getStepNumber()
 	 * @see #setStepNumber(int)
@@ -343,10 +305,8 @@ public interface Scale extends IChartObject {
 	void unsetStepNumber();
 
 	/**
-	 * Returns whether the value of the
-	 * '{@link org.eclipse.birt.chart.model.component.Scale#getStepNumber <em>Step
-	 * Number</em>}' attribute is set. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.component.Scale#getStepNumber <em>Step Number</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return whether the value of the '<em>Step Number</em>' attribute is set.
 	 * @see #unsetStepNumber()
 	 * @see #getStepNumber()
@@ -377,10 +337,8 @@ public interface Scale extends IChartObject {
 	boolean isShowOutside();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.component.Scale#isShowOutside <em>Show
-	 * Outside</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Scale#isShowOutside <em>Show Outside</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Show Outside</em>' attribute.
 	 * @see #isSetShowOutside()
 	 * @see #unsetShowOutside()
@@ -390,10 +348,8 @@ public interface Scale extends IChartObject {
 	void setShowOutside(boolean value);
 
 	/**
-	 * Unsets the value of the
-	 * '{@link org.eclipse.birt.chart.model.component.Scale#isShowOutside <em>Show
-	 * Outside</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.component.Scale#isShowOutside <em>Show Outside</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isSetShowOutside()
 	 * @see #isShowOutside()
 	 * @see #setShowOutside(boolean)
@@ -438,13 +394,10 @@ public interface Scale extends IChartObject {
 	boolean isTickBetweenCategories();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.component.Scale#isTickBetweenCategories
-	 * <em>Tick Between Categories</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Scale#isTickBetweenCategories <em>Tick Between Categories</em>}' attribute.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
-	 * @param value the new value of the '<em>Tick Between Categories</em>'
-	 *              attribute.
+	 * @param value the new value of the '<em>Tick Between Categories</em>' attribute.
 	 * @see #isSetTickBetweenCategories()
 	 * @see #unsetTickBetweenCategories()
 	 * @see #isTickBetweenCategories()
@@ -453,11 +406,9 @@ public interface Scale extends IChartObject {
 	void setTickBetweenCategories(boolean value);
 
 	/**
-	 * Unsets the value of the
-	 * '{@link org.eclipse.birt.chart.model.component.Scale#isTickBetweenCategories
-	 * <em>Tick Between Categories</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.component.Scale#isTickBetweenCategories <em>Tick Between Categories</em>}' attribute.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #isSetTickBetweenCategories()
 	 * @see #isTickBetweenCategories()
 	 * @see #setTickBetweenCategories(boolean)
@@ -466,13 +417,10 @@ public interface Scale extends IChartObject {
 	void unsetTickBetweenCategories();
 
 	/**
-	 * Returns whether the value of the
-	 * '{@link org.eclipse.birt.chart.model.component.Scale#isTickBetweenCategories
-	 * <em>Tick Between Categories</em>}' attribute is set. <!-- begin-user-doc -->
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.component.Scale#isTickBetweenCategories <em>Tick Between Categories</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
-	 * @return whether the value of the '<em>Tick Between Categories</em>' attribute
-	 *         is set.
+	 * @return whether the value of the '<em>Tick Between Categories</em>' attribute is set.
 	 * @see #unsetTickBetweenCategories()
 	 * @see #isTickBetweenCategories()
 	 * @see #setTickBetweenCategories(boolean)
@@ -481,31 +429,29 @@ public interface Scale extends IChartObject {
 	boolean isSetTickBetweenCategories();
 
 	/**
-	 * Returns the value of the '<em><b>Auto Expand</b></em>' attribute. The default
-	 * value is <code>"true"</code>. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Returns the value of the '<em><b>Auto Expand</b></em>' attribute.
+	 * The default value is <code>"true"</code>.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 *
-	 * Specifes if min/max value should be expanded by 1 unit, by default is true.
-	 *
+	 * 
+	 * 						Specifes if min/max value should be expanded 
+	 * 						by 1 unit, by default is true.
+	 * 					
 	 * <!-- end-model-doc -->
-	 *
 	 * @return the value of the '<em>Auto Expand</em>' attribute.
 	 * @see #isSetAutoExpand()
 	 * @see #unsetAutoExpand()
 	 * @see #setAutoExpand(boolean)
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getScale_AutoExpand()
-	 * @model default="true" unsettable="true"
-	 *        dataType="org.eclipse.emf.ecore.xml.type.Boolean" required="true"
+	 * @model default="true" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean" required="true"
 	 *        extendedMetaData="kind='element' name='AutoExpand'"
 	 * @generated
 	 */
 	boolean isAutoExpand();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.component.Scale#isAutoExpand <em>Auto
-	 * Expand</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Scale#isAutoExpand <em>Auto Expand</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Auto Expand</em>' attribute.
 	 * @see #isSetAutoExpand()
 	 * @see #unsetAutoExpand()
@@ -515,10 +461,8 @@ public interface Scale extends IChartObject {
 	void setAutoExpand(boolean value);
 
 	/**
-	 * Unsets the value of the
-	 * '{@link org.eclipse.birt.chart.model.component.Scale#isAutoExpand <em>Auto
-	 * Expand</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.component.Scale#isAutoExpand <em>Auto Expand</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isSetAutoExpand()
 	 * @see #isAutoExpand()
 	 * @see #setAutoExpand(boolean)
@@ -527,10 +471,8 @@ public interface Scale extends IChartObject {
 	void unsetAutoExpand();
 
 	/**
-	 * Returns whether the value of the
-	 * '{@link org.eclipse.birt.chart.model.component.Scale#isAutoExpand <em>Auto
-	 * Expand</em>}' attribute is set. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.component.Scale#isAutoExpand <em>Auto Expand</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return whether the value of the '<em>Auto Expand</em>' attribute is set.
 	 * @see #unsetAutoExpand()
 	 * @see #isAutoExpand()
@@ -558,13 +500,10 @@ public interface Scale extends IChartObject {
 	int getMajorGridsStepNumber();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.component.Scale#getMajorGridsStepNumber
-	 * <em>Major Grids Step Number</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Scale#getMajorGridsStepNumber <em>Major Grids Step Number</em>}' attribute.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
-	 * @param value the new value of the '<em>Major Grids Step Number</em>'
-	 *              attribute.
+	 * @param value the new value of the '<em>Major Grids Step Number</em>' attribute.
 	 * @see #isSetMajorGridsStepNumber()
 	 * @see #unsetMajorGridsStepNumber()
 	 * @see #getMajorGridsStepNumber()
@@ -573,11 +512,9 @@ public interface Scale extends IChartObject {
 	void setMajorGridsStepNumber(int value);
 
 	/**
-	 * Unsets the value of the
-	 * '{@link org.eclipse.birt.chart.model.component.Scale#getMajorGridsStepNumber
-	 * <em>Major Grids Step Number</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.component.Scale#getMajorGridsStepNumber <em>Major Grids Step Number</em>}' attribute.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #isSetMajorGridsStepNumber()
 	 * @see #getMajorGridsStepNumber()
 	 * @see #setMajorGridsStepNumber(int)
@@ -586,13 +523,10 @@ public interface Scale extends IChartObject {
 	void unsetMajorGridsStepNumber();
 
 	/**
-	 * Returns whether the value of the
-	 * '{@link org.eclipse.birt.chart.model.component.Scale#getMajorGridsStepNumber
-	 * <em>Major Grids Step Number</em>}' attribute is set. <!-- begin-user-doc -->
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.component.Scale#getMajorGridsStepNumber <em>Major Grids Step Number</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
-	 * @return whether the value of the '<em>Major Grids Step Number</em>' attribute
-	 *         is set.
+	 * @return whether the value of the '<em>Major Grids Step Number</em>' attribute is set.
 	 * @see #unsetMajorGridsStepNumber()
 	 * @see #getMajorGridsStepNumber()
 	 * @see #setMajorGridsStepNumber(int)
@@ -620,10 +554,8 @@ public interface Scale extends IChartObject {
 	double getFactor();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.component.Scale#getFactor
-	 * <em>Factor</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Scale#getFactor <em>Factor</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Factor</em>' attribute.
 	 * @see #isSetFactor()
 	 * @see #unsetFactor()
@@ -633,10 +565,8 @@ public interface Scale extends IChartObject {
 	void setFactor(double value);
 
 	/**
-	 * Unsets the value of the
-	 * '{@link org.eclipse.birt.chart.model.component.Scale#getFactor
-	 * <em>Factor</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.component.Scale#getFactor <em>Factor</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isSetFactor()
 	 * @see #getFactor()
 	 * @see #setFactor(double)

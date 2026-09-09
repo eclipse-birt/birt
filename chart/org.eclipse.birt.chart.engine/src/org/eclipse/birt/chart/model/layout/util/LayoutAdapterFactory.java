@@ -30,23 +30,22 @@ import org.eclipse.emf.ecore.EObject;
  * <!-- begin-user-doc --> The <b>Adapter Factory </b> for the model. It
  * provides an adapter <code>createXXX</code> method for each class of the
  * model. <!-- end-user-doc -->
- *
  * @see org.eclipse.birt.chart.model.layout.LayoutPackage
  * @generated
  */
 public class LayoutAdapterFactory extends AdapterFactoryImpl {
 
 	/**
-	 * The cached model package. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached model package.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected static LayoutPackage modelPackage;
 
 	/**
-	 * Creates an instance of the adapter factory. <!-- begin-user-doc --> <!--
+	 * Creates an instance of the adapter factory.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public LayoutAdapterFactory() {
@@ -81,8 +80,7 @@ public class LayoutAdapterFactory extends AdapterFactoryImpl {
 	 *
 	 * @generated
 	 */
-	protected LayoutSwitch<Adapter> modelSwitch = new LayoutSwitch<>() {
-
+	protected LayoutSwitch<Adapter> modelSwitch = new LayoutSwitch<Adapter>() {
 		@Override
 		public Adapter caseBlock(Block object) {
 			return createBlockAdapter();
@@ -120,9 +118,9 @@ public class LayoutAdapterFactory extends AdapterFactoryImpl {
 	};
 
 	/**
-	 * Creates an adapter for the <code>target</code>. <!-- begin-user-doc --> <!--
+	 * Creates an adapter for the <code>target</code>.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @param target the object to adapt.
 	 * @return the adapter for the <code>target</code>.
 	 * @generated
@@ -148,12 +146,10 @@ public class LayoutAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class
-	 * '{@link org.eclipse.birt.chart.model.layout.ClientArea <em>Client
-	 * Area</em>}'. <!-- begin-user-doc --> This default implementation returns null
+	 * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.layout.ClientArea <em>Client Area</em>}'.
+	 * <!-- begin-user-doc --> This default implementation returns null
 	 * so that we can easily ignore cases; it's useful to ignore a case when
 	 * inheritance will catch all the cases anyway. <!-- end-user-doc -->
-	 *
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.layout.ClientArea
 	 * @generated
@@ -163,12 +159,10 @@ public class LayoutAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class
-	 * '{@link org.eclipse.birt.chart.model.layout.LabelBlock <em>Label
-	 * Block</em>}'. <!-- begin-user-doc --> This default implementation returns
+	 * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.layout.LabelBlock <em>Label Block</em>}'.
+	 * <!-- begin-user-doc --> This default implementation returns
 	 * null so that we can easily ignore cases; it's useful to ignore a case when
 	 * inheritance will catch all the cases anyway. <!-- end-user-doc -->
-	 *
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.layout.LabelBlock
 	 * @generated
@@ -208,12 +202,10 @@ public class LayoutAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class
-	 * '{@link org.eclipse.birt.chart.model.layout.TitleBlock <em>Title
-	 * Block</em>}'. <!-- begin-user-doc --> This default implementation returns
+	 * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.layout.TitleBlock <em>Title Block</em>}'.
+	 * <!-- begin-user-doc --> This default implementation returns
 	 * null so that we can easily ignore cases; it's useful to ignore a case when
 	 * inheritance will catch all the cases anyway. <!-- end-user-doc -->
-	 *
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.layout.TitleBlock
 	 * @generated
@@ -223,9 +215,9 @@ public class LayoutAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for the default case. <!-- begin-user-doc --> This
+	 * Creates a new adapter for the default case.
+	 * <!-- begin-user-doc --> This
 	 * default implementation returns null. <!-- end-user-doc -->
-	 *
 	 * @return the new adapter.
 	 * @generated
 	 */

@@ -22,8 +22,6 @@ import org.eclipse.emf.ecore.EClass;
 /**
  * <!-- begin-user-doc --> An implementation of the model object '<em><b>Text
  * Data Set</b></em>'. <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */
@@ -31,7 +29,6 @@ public class TextDataSetImpl extends DataSetImpl implements TextDataSet {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected TextDataSetImpl() {
@@ -40,7 +37,6 @@ public class TextDataSetImpl extends DataSetImpl implements TextDataSet {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -87,6 +83,8 @@ public class TextDataSetImpl extends DataSetImpl implements TextDataSet {
 	protected void set(TextDataSet src) {
 
 		super.set(src);
+
+		// children
 
 	}
 

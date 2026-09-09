@@ -20,21 +20,19 @@ import org.eclipse.birt.chart.model.IChartObject;
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Extended
  * Property</b></em>'. <!-- end-user-doc -->
  *
- * <!-- begin-model-doc --> ExtendedProperty is a name-value pair which is
- * specialized for representing an extended property entry that is created to
- * hold data for minor extensions to a chart.
- *
+ * <!-- begin-model-doc -->
+ * ExtendedProperty is a name-value pair which is specialized for representing an extended property 
+ * entry that is created to hold data for minor extensions to a chart.
+ * 			
  * <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.ExtendedProperty#getName
- * <em>Name</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.ExtendedProperty#getValue
- * <em>Value</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.ExtendedProperty#getName <em>Name</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.ExtendedProperty#getValue <em>Value</em>}</li>
+ * </ul>
  *
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getExtendedProperty()
  * @model extendedMetaData="name='ExtendedProperty' kind='elementOnly'"
@@ -60,10 +58,8 @@ public interface ExtendedProperty extends IChartObject {
 	String getName();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.ExtendedProperty#getName
-	 * <em>Name</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.ExtendedProperty#getName <em>Name</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Name</em>' attribute.
 	 * @see #getName()
 	 * @generated
@@ -87,10 +83,8 @@ public interface ExtendedProperty extends IChartObject {
 	String getValue();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.ExtendedProperty#getValue
-	 * <em>Value</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.ExtendedProperty#getValue <em>Value</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Value</em>' attribute.
 	 * @see #getValue()
 	 * @generated

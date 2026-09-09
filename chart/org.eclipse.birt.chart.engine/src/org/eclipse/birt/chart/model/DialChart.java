@@ -18,21 +18,26 @@ package org.eclipse.birt.chart.model;
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Dial
  * Chart</b></em>'. <!-- end-user-doc -->
  *
- * <!-- begin-model-doc --> DialChart represent a special type of
- * ChartWithoutAxes class that contains information specific to dials.
- * <p xmlns="http://www.birt.eclipse.org/ChartModel">
- * To create an instance use the factory method:<br/>
- * DialChartImpl.create( );
- * </p>
+ * <!-- begin-model-doc -->
+ * 
+ *   DialChart represent a special type of ChartWithoutAxes class that contains information specific to dials.
+ * 
+ *   <p xmlns="http://www.birt.eclipse.org/ChartModel">
+ *     To create an instance use the factory method:
+ *     <br/>
+ *     DialChartImpl.create( );
+ * 
+ *   </p>
+ *   		
+ * 
  * <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.DialChart#isDialSuperimposition
- * <em>Dial Superimposition</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.DialChart#isDialSuperimposition <em>Dial Superimposition</em>}</li>
+ * </ul>
  *
  * @see org.eclipse.birt.chart.model.ModelPackage#getDialChart()
  * @model extendedMetaData="name='DialChart' kind='elementOnly'"
@@ -87,13 +92,10 @@ public interface DialChart extends ChartWithoutAxes {
 	void unsetDialSuperimposition();
 
 	/**
-	 * Returns whether the value of the
-	 * '{@link org.eclipse.birt.chart.model.DialChart#isDialSuperimposition <em>Dial
-	 * Superimposition</em>}' attribute is set. <!-- begin-user-doc --> <!--
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.DialChart#isDialSuperimposition <em>Dial Superimposition</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
-	 * @return whether the value of the '<em>Dial Superimposition</em>' attribute is
-	 *         set.
+	 * @return whether the value of the '<em>Dial Superimposition</em>' attribute is set.
 	 * @see #unsetDialSuperimposition()
 	 * @see #isDialSuperimposition()
 	 * @see #setDialSuperimposition(boolean)

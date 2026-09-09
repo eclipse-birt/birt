@@ -14,6 +14,8 @@
 
 package org.eclipse.birt.chart.model.type.impl;
 
+import java.util.Map;
+
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
@@ -24,8 +26,11 @@ import org.eclipse.birt.chart.model.attribute.RiserType;
 import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
+import org.eclipse.birt.chart.model.data.DataSet;
 import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
+import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SampleData;
+import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.birt.chart.model.type.BarSeries;
 import org.eclipse.birt.chart.model.type.PieSeries;
 import org.eclipse.birt.chart.model.type.StockSeries;
@@ -36,6 +41,7 @@ import org.eclipse.birt.chart.util.NameSet;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -48,13 +54,11 @@ import com.ibm.icu.util.ULocale;
  * Series</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.type.impl.BarSeriesImpl#getRiser
- * <em>Riser</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.type.impl.BarSeriesImpl#getRiserOutline
- * <em>Riser Outline</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.type.impl.BarSeriesImpl#getRiser <em>Riser</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.impl.BarSeriesImpl#getRiserOutline <em>Riser Outline</em>}</li>
+ * </ul>
  *
  * @generated
  */
@@ -81,18 +85,17 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries {
 	protected RiserType riser = RISER_EDEFAULT;
 
 	/**
-	 * This is true if the Riser attribute has been set. <!-- begin-user-doc -->
+	 * This is true if the Riser attribute has been set.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean riserESet;
 
 	/**
-	 * The cached value of the '{@link #getRiserOutline() <em>Riser Outline</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getRiserOutline() <em>Riser Outline</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getRiserOutline()
 	 * @generated
 	 * @ordered
@@ -101,7 +104,6 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected BarSeriesImpl() {
@@ -110,7 +112,6 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -120,7 +121,6 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -130,7 +130,6 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -139,15 +138,13 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries {
 		riser = newRiser == null ? RISER_EDEFAULT : newRiser;
 		boolean oldRiserESet = riserESet;
 		riserESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.BAR_SERIES__RISER, oldRiser, riser,
 					!oldRiserESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -156,15 +153,13 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries {
 		boolean oldRiserESet = riserESet;
 		riser = RISER_EDEFAULT;
 		riserESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, TypePackage.BAR_SERIES__RISER, oldRiser,
 					RISER_EDEFAULT, oldRiserESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -174,7 +169,6 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -184,7 +178,6 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetRiserOutline(ColorDefinition newRiserOutline, NotificationChain msgs) {
@@ -193,45 +186,38 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					TypePackage.BAR_SERIES__RISER_OUTLINE, oldRiserOutline, newRiserOutline);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setRiserOutline(ColorDefinition newRiserOutline) {
 		if (newRiserOutline != riserOutline) {
 			NotificationChain msgs = null;
-			if (riserOutline != null) {
+			if (riserOutline != null)
 				msgs = ((InternalEObject) riserOutline).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - TypePackage.BAR_SERIES__RISER_OUTLINE, null, msgs);
-			}
-			if (newRiserOutline != null) {
+			if (newRiserOutline != null)
 				msgs = ((InternalEObject) newRiserOutline).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - TypePackage.BAR_SERIES__RISER_OUTLINE, null, msgs);
-			}
 			msgs = basicSetRiserOutline(newRiserOutline, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.BAR_SERIES__RISER_OUTLINE,
 					newRiserOutline, newRiserOutline));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -245,7 +231,6 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -261,7 +246,6 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -279,7 +263,6 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -297,7 +280,6 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -313,22 +295,19 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) {
+		if (eIsProxy())
 			return super.toString();
-		}
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (riser: "); //$NON-NLS-1$
-		if (riserESet) {
+		if (riserESet)
 			result.append(riser);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(')');
 		return result.toString();
 	}
@@ -541,11 +520,70 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries {
 
 		// children
 
+		if (src.getLabel() != null) {
+			setLabel(src.getLabel().copyInstance());
+		}
+
+		if (src.getDataDefinition() != null) {
+			EList<Query> list = getDataDefinition();
+			for (Query element : src.getDataDefinition()) {
+				list.add(element.copyInstance());
+			}
+		}
+
+		if (src.getDataPoint() != null) {
+			setDataPoint(src.getDataPoint().copyInstance());
+		}
+
+		if (src.getDataSets() != null) {
+			EMap<String, DataSet> map = getDataSets();
+			for (Map.Entry<String, DataSet> entry : src.getDataSets().entrySet()) {
+
+				DataSet entryValue = entry.getValue() != null ? entry.getValue().copyInstance() : null;
+
+				map.put(entry.getKey(), entryValue);
+
+			}
+		}
+
+		if (src.getTriggers() != null) {
+			EList<Trigger> list = getTriggers();
+			for (Trigger element : src.getTriggers()) {
+				list.add(element.copyInstance());
+			}
+		}
+
+		if (src.getCurveFitting() != null) {
+			setCurveFitting(src.getCurveFitting().copyInstance());
+		}
+
+		if (src.getCursor() != null) {
+			setCursor(src.getCursor().copyInstance());
+		}
+
 		if (src.getRiserOutline() != null) {
 			setRiserOutline(src.getRiserOutline().copyInstance());
 		}
 
 		// attributes
+
+		visible = src.isVisible();
+
+		visibleESet = src.isSetVisible();
+
+		seriesIdentifier = src.getSeriesIdentifier();
+
+		labelPosition = src.getLabelPosition();
+
+		labelPositionESet = src.isSetLabelPosition();
+
+		stacked = src.isStacked();
+
+		stackedESet = src.isSetStacked();
+
+		translucent = src.isTranslucent();
+
+		translucentESet = src.isSetTranslucent();
 
 		riser = src.getRiser();
 

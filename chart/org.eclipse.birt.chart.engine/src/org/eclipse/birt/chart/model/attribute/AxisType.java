@@ -36,52 +36,52 @@ import org.eclipse.emf.common.util.Enumerator;
  */
 public enum AxisType implements Enumerator {
 	/**
-	 * The '<em><b>Linear</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Linear</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Linear</b></em>' literal object isn't clear, there
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #LINEAR
 	 * @generated
 	 * @ordered
 	 */
 	LINEAR_LITERAL(0, "Linear", "Linear"),
 	/**
-	 * The '<em><b>Logarithmic</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Logarithmic</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Logarithmic</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #LOGARITHMIC
 	 * @generated
 	 * @ordered
 	 */
 	LOGARITHMIC_LITERAL(1, "Logarithmic", "Logarithmic"),
 	/**
-	 * The '<em><b>Text</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Text</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Text</b></em>' literal object isn't clear, there
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #TEXT
 	 * @generated
 	 * @ordered
 	 */
 	TEXT_LITERAL(2, "Text", "Text"),
 	/**
-	 * The '<em><b>Date Time</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Date Time</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Date Time</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #DATE_TIME
 	 * @generated
 	 * @ordered
@@ -89,9 +89,9 @@ public enum AxisType implements Enumerator {
 	DATE_TIME_LITERAL(3, "DateTime", "DateTime");
 
 	/**
-	 * The '<em><b>Linear</b></em>' literal value. <!-- begin-user-doc --> <!--
+	 * The '<em><b>Linear</b></em>' literal value.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #LINEAR_LITERAL
 	 * @model name="Linear"
 	 * @generated
@@ -100,9 +100,9 @@ public enum AxisType implements Enumerator {
 	public static final int LINEAR = 0;
 
 	/**
-	 * The '<em><b>Logarithmic</b></em>' literal value. <!-- begin-user-doc --> <!--
+	 * The '<em><b>Logarithmic</b></em>' literal value.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #LOGARITHMIC_LITERAL
 	 * @model name="Logarithmic"
 	 * @generated
@@ -111,9 +111,9 @@ public enum AxisType implements Enumerator {
 	public static final int LOGARITHMIC = 1;
 
 	/**
-	 * The '<em><b>Text</b></em>' literal value. <!-- begin-user-doc --> <!--
+	 * The '<em><b>Text</b></em>' literal value.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #TEXT_LITERAL
 	 * @model name="Text"
 	 * @generated
@@ -122,9 +122,9 @@ public enum AxisType implements Enumerator {
 	public static final int TEXT = 2;
 
 	/**
-	 * The '<em><b>Date Time</b></em>' literal value. <!-- begin-user-doc --> <!--
+	 * The '<em><b>Date Time</b></em>' literal value.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #DATE_TIME_LITERAL
 	 * @model name="DateTime"
 	 * @generated
@@ -138,21 +138,21 @@ public enum AxisType implements Enumerator {
 	 *
 	 * @generated
 	 */
-	private static final AxisType[] VALUES_ARRAY = { LINEAR_LITERAL, LOGARITHMIC_LITERAL, TEXT_LITERAL,
+	private static final AxisType[] VALUES_ARRAY = new AxisType[] { LINEAR_LITERAL, LOGARITHMIC_LITERAL, TEXT_LITERAL,
 			DATE_TIME_LITERAL, };
 
 	/**
 	 * A public read-only list of all the '<em><b>Axis Type</b></em>' enumerators.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public static final List<AxisType> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
 	/**
-	 * Returns the '<em><b>Axis Type</b></em>' literal with the specified literal
-	 * value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns the '<em><b>Axis Type</b></em>' literal with the specified literal value.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param literal the literal.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static AxisType get(String literal) {
@@ -182,9 +182,10 @@ public enum AxisType implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Axis Type</b></em>' literal with the specified integer
-	 * value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns the '<em><b>Axis Type</b></em>' literal with the specified integer value.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the integer value.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static AxisType get(int value) {
@@ -203,32 +204,29 @@ public enum AxisType implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private final int value;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private final String name;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private final String literal;
 
 	/**
-	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
+	 * Only this class can construct instances.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @generated
 	 */
-	AxisType(int value, String name, String literal) {
+	private AxisType(int value, String name, String literal) {
 		this.value = value;
 		this.name = name;
 		this.literal = literal;
@@ -236,7 +234,6 @@ public enum AxisType implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -246,7 +243,6 @@ public enum AxisType implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -256,7 +252,6 @@ public enum AxisType implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -265,9 +260,8 @@ public enum AxisType implements Enumerator {
 	}
 
 	/**
-	 * Returns the literal value of the enumerator, which is its string
-	 * representation. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns the literal value of the enumerator, which is its string representation.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override

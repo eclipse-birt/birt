@@ -27,33 +27,26 @@ import com.ibm.icu.util.ULocale;
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Fraction
  * Number Format Specifier</b></em>'. <!-- end-user-doc -->
  *
- * <!-- begin-model-doc --> FractionNumberFormatSpecifier extends type
- * FormatSpecifier and is specialized for displaying nummeric value as fraction
- * number.
- *
+ * <!-- begin-model-doc -->
+ * FractionNumberFormatSpecifier extends type FormatSpecifier 
+ * and is specialized for displaying nummeric value as fraction number.
+ * 			
  * <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.FractionNumberFormatSpecifier#isPrecise
- * <em>Precise</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.FractionNumberFormatSpecifier#getFractionDigits
- * <em>Fraction Digits</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.FractionNumberFormatSpecifier#getNumerator
- * <em>Numerator</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.FractionNumberFormatSpecifier#getPrefix
- * <em>Prefix</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.FractionNumberFormatSpecifier#getSuffix
- * <em>Suffix</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.FractionNumberFormatSpecifier#getDelimiter
- * <em>Delimiter</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.FractionNumberFormatSpecifier#isPrecise <em>Precise</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.FractionNumberFormatSpecifier#getFractionDigits <em>Fraction Digits</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.FractionNumberFormatSpecifier#getNumerator <em>Numerator</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.FractionNumberFormatSpecifier#getPrefix <em>Prefix</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.FractionNumberFormatSpecifier#getSuffix <em>Suffix</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.FractionNumberFormatSpecifier#getDelimiter <em>Delimiter</em>}</li>
+ * </ul>
  *
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getFractionNumberFormatSpecifier()
- * @model extendedMetaData="name='FractionNumberFormatSpecifier'
- *        kind='elementOnly'"
+ * @model extendedMetaData="name='FractionNumberFormatSpecifier' kind='elementOnly'"
  * @generated
  */
 public interface FractionNumberFormatSpecifier extends FormatSpecifier {
@@ -76,10 +69,8 @@ public interface FractionNumberFormatSpecifier extends FormatSpecifier {
 	boolean isPrecise();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.FractionNumberFormatSpecifier#isPrecise
-	 * <em>Precise</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.FractionNumberFormatSpecifier#isPrecise <em>Precise</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Precise</em>' attribute.
 	 * @see #isSetPrecise()
 	 * @see #unsetPrecise()
@@ -89,10 +80,8 @@ public interface FractionNumberFormatSpecifier extends FormatSpecifier {
 	void setPrecise(boolean value);
 
 	/**
-	 * Unsets the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.FractionNumberFormatSpecifier#isPrecise
-	 * <em>Precise</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.attribute.FractionNumberFormatSpecifier#isPrecise <em>Precise</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isSetPrecise()
 	 * @see #isPrecise()
 	 * @see #setPrecise(boolean)
@@ -101,11 +90,9 @@ public interface FractionNumberFormatSpecifier extends FormatSpecifier {
 	void unsetPrecise();
 
 	/**
-	 * Returns whether the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.FractionNumberFormatSpecifier#isPrecise
-	 * <em>Precise</em>}' attribute is set. <!-- begin-user-doc --> <!--
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.attribute.FractionNumberFormatSpecifier#isPrecise <em>Precise</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @return whether the value of the '<em>Precise</em>' attribute is set.
 	 * @see #unsetPrecise()
 	 * @see #isPrecise()
@@ -133,11 +120,9 @@ public interface FractionNumberFormatSpecifier extends FormatSpecifier {
 	int getFractionDigits();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.FractionNumberFormatSpecifier#getFractionDigits
-	 * <em>Fraction Digits</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.FractionNumberFormatSpecifier#getFractionDigits <em>Fraction Digits</em>}' attribute.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @param value the new value of the '<em>Fraction Digits</em>' attribute.
 	 * @see #isSetFractionDigits()
 	 * @see #unsetFractionDigits()
@@ -147,11 +132,9 @@ public interface FractionNumberFormatSpecifier extends FormatSpecifier {
 	void setFractionDigits(int value);
 
 	/**
-	 * Unsets the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.FractionNumberFormatSpecifier#getFractionDigits
-	 * <em>Fraction Digits</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.attribute.FractionNumberFormatSpecifier#getFractionDigits <em>Fraction Digits</em>}' attribute.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #isSetFractionDigits()
 	 * @see #getFractionDigits()
 	 * @see #setFractionDigits(int)
@@ -160,11 +143,9 @@ public interface FractionNumberFormatSpecifier extends FormatSpecifier {
 	void unsetFractionDigits();
 
 	/**
-	 * Returns whether the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.FractionNumberFormatSpecifier#getFractionDigits
-	 * <em>Fraction Digits</em>}' attribute is set. <!-- begin-user-doc --> <!--
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.attribute.FractionNumberFormatSpecifier#getFractionDigits <em>Fraction Digits</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @return whether the value of the '<em>Fraction Digits</em>' attribute is set.
 	 * @see #unsetFractionDigits()
 	 * @see #getFractionDigits()
@@ -192,10 +173,8 @@ public interface FractionNumberFormatSpecifier extends FormatSpecifier {
 	double getNumerator();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.FractionNumberFormatSpecifier#getNumerator
-	 * <em>Numerator</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.FractionNumberFormatSpecifier#getNumerator <em>Numerator</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Numerator</em>' attribute.
 	 * @see #isSetNumerator()
 	 * @see #unsetNumerator()
@@ -205,10 +184,8 @@ public interface FractionNumberFormatSpecifier extends FormatSpecifier {
 	void setNumerator(double value);
 
 	/**
-	 * Unsets the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.FractionNumberFormatSpecifier#getNumerator
-	 * <em>Numerator</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.attribute.FractionNumberFormatSpecifier#getNumerator <em>Numerator</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isSetNumerator()
 	 * @see #getNumerator()
 	 * @see #setNumerator(double)
@@ -217,11 +194,9 @@ public interface FractionNumberFormatSpecifier extends FormatSpecifier {
 	void unsetNumerator();
 
 	/**
-	 * Returns whether the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.FractionNumberFormatSpecifier#getNumerator
-	 * <em>Numerator</em>}' attribute is set. <!-- begin-user-doc --> <!--
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.attribute.FractionNumberFormatSpecifier#getNumerator <em>Numerator</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @return whether the value of the '<em>Numerator</em>' attribute is set.
 	 * @see #unsetNumerator()
 	 * @see #getNumerator()
@@ -245,10 +220,8 @@ public interface FractionNumberFormatSpecifier extends FormatSpecifier {
 	String getPrefix();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.FractionNumberFormatSpecifier#getPrefix
-	 * <em>Prefix</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.FractionNumberFormatSpecifier#getPrefix <em>Prefix</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Prefix</em>' attribute.
 	 * @see #getPrefix()
 	 * @generated
@@ -270,10 +243,8 @@ public interface FractionNumberFormatSpecifier extends FormatSpecifier {
 	String getSuffix();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.FractionNumberFormatSpecifier#getSuffix
-	 * <em>Suffix</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.FractionNumberFormatSpecifier#getSuffix <em>Suffix</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Suffix</em>' attribute.
 	 * @see #getSuffix()
 	 * @generated
@@ -299,10 +270,8 @@ public interface FractionNumberFormatSpecifier extends FormatSpecifier {
 	String getDelimiter();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.FractionNumberFormatSpecifier#getDelimiter
-	 * <em>Delimiter</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.FractionNumberFormatSpecifier#getDelimiter <em>Delimiter</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Delimiter</em>' attribute.
 	 * @see #isSetDelimiter()
 	 * @see #unsetDelimiter()
@@ -312,10 +281,8 @@ public interface FractionNumberFormatSpecifier extends FormatSpecifier {
 	void setDelimiter(String value);
 
 	/**
-	 * Unsets the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.FractionNumberFormatSpecifier#getDelimiter
-	 * <em>Delimiter</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.attribute.FractionNumberFormatSpecifier#getDelimiter <em>Delimiter</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isSetDelimiter()
 	 * @see #getDelimiter()
 	 * @see #setDelimiter(String)
@@ -324,11 +291,9 @@ public interface FractionNumberFormatSpecifier extends FormatSpecifier {
 	void unsetDelimiter();
 
 	/**
-	 * Returns whether the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.FractionNumberFormatSpecifier#getDelimiter
-	 * <em>Delimiter</em>}' attribute is set. <!-- begin-user-doc --> <!--
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.attribute.FractionNumberFormatSpecifier#getDelimiter <em>Delimiter</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @return whether the value of the '<em>Delimiter</em>' attribute is set.
 	 * @see #unsetDelimiter()
 	 * @see #getDelimiter()

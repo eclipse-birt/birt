@@ -20,24 +20,21 @@ import org.eclipse.birt.chart.model.IChartObject;
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Line
  * Attributes</b></em>'. <!-- end-user-doc -->
  *
- * <!-- begin-model-doc --> LineAttributes represents a holder of all settings
- * for rendering a line in the chart graphic.
- *
+ * <!-- begin-model-doc -->
+ * LineAttributes represents a holder of all settings for rendering 
+ * a line in the chart graphic.
+ * 			
  * <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.LineAttributes#getStyle
- * <em>Style</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.LineAttributes#getThickness
- * <em>Thickness</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.LineAttributes#getColor
- * <em>Color</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.LineAttributes#isVisible
- * <em>Visible</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.LineAttributes#getStyle <em>Style</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.LineAttributes#getThickness <em>Thickness</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.LineAttributes#getColor <em>Color</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.LineAttributes#isVisible <em>Visible</em>}</li>
+ * </ul>
  *
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getLineAttributes()
  * @model extendedMetaData="name='LineAttributes' kind='elementOnly'"
@@ -68,11 +65,9 @@ public interface LineAttributes extends IChartObject {
 	LineStyle getStyle();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.LineAttributes#getStyle
-	 * <em>Style</em>}' attribute. <!-- begin-user-doc --> Sets the line style. <!--
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.LineAttributes#getStyle <em>Style</em>}' attribute.
+	 * <!-- begin-user-doc --> Sets the line style. <!--
 	 * end-user-doc -->
-	 *
 	 * @param value the new value of the '<em>Style</em>' attribute.
 	 * @see org.eclipse.birt.chart.model.attribute.LineStyle
 	 * @see #isSetStyle()
@@ -83,10 +78,8 @@ public interface LineAttributes extends IChartObject {
 	void setStyle(LineStyle value);
 
 	/**
-	 * Unsets the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.LineAttributes#getStyle
-	 * <em>Style</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.attribute.LineAttributes#getStyle <em>Style</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isSetStyle()
 	 * @see #getStyle()
 	 * @see #setStyle(LineStyle)
@@ -129,11 +122,9 @@ public interface LineAttributes extends IChartObject {
 	int getThickness();
 
 	/**
-	 * Sets the value of the '
-	 * {@link org.eclipse.birt.chart.model.attribute.LineAttributes#getThickness
-	 * <em>Thickness</em>}' attribute. <!-- begin-user-doc --> Sets the thickness of
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.LineAttributes#getThickness <em>Thickness</em>}' attribute.
+	 * <!-- begin-user-doc --> Sets the thickness of
 	 * the line. <!-- end-user-doc -->
-	 *
 	 * @param value the new value of the '<em>Thickness</em>' attribute.
 	 * @see #isSetThickness()
 	 * @see #unsetThickness()
@@ -143,10 +134,8 @@ public interface LineAttributes extends IChartObject {
 	void setThickness(int value);
 
 	/**
-	 * Unsets the value of the '
-	 * {@link org.eclipse.birt.chart.model.attribute.LineAttributes#getThickness
-	 * <em>Thickness</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.attribute.LineAttributes#getThickness <em>Thickness</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isSetThickness()
 	 * @see #getThickness()
 	 * @see #setThickness(int)
@@ -155,11 +144,9 @@ public interface LineAttributes extends IChartObject {
 	void unsetThickness();
 
 	/**
-	 * Returns whether the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.LineAttributes#getThickness
-	 * <em>Thickness</em>}' attribute is set. <!-- begin-user-doc --> <!--
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.attribute.LineAttributes#getThickness <em>Thickness</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @return whether the value of the '<em>Thickness</em>' attribute is set.
 	 * @see #unsetThickness()
 	 * @see #getThickness()
@@ -186,11 +173,9 @@ public interface LineAttributes extends IChartObject {
 	ColorDefinition getColor();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.LineAttributes#getColor
-	 * <em>Color</em>}' containment reference. <!-- begin-user-doc --> Sets the line
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.LineAttributes#getColor <em>Color</em>}' containment reference.
+	 * <!-- begin-user-doc --> Sets the line
 	 * color. <!-- end-user-doc -->
-	 *
 	 * @param value the new value of the '<em>Color</em>' containment reference.
 	 * @see #getColor()
 	 * @generated
@@ -218,11 +203,9 @@ public interface LineAttributes extends IChartObject {
 	boolean isVisible();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.LineAttributes#isVisible
-	 * <em>Visible</em>}' attribute. <!-- begin-user-doc --> Specifies whether or
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.LineAttributes#isVisible <em>Visible</em>}' attribute.
+	 * <!-- begin-user-doc --> Specifies whether or
 	 * not the line is to be rendered. <!-- end-user-doc -->
-	 *
 	 * @param value the new value of the '<em>Visible</em>' attribute.
 	 * @see #isSetVisible()
 	 * @see #unsetVisible()
@@ -232,10 +215,8 @@ public interface LineAttributes extends IChartObject {
 	void setVisible(boolean value);
 
 	/**
-	 * Unsets the value of the '
-	 * {@link org.eclipse.birt.chart.model.attribute.LineAttributes#isVisible
-	 * <em>Visible</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.attribute.LineAttributes#isVisible <em>Visible</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isSetVisible()
 	 * @see #isVisible()
 	 * @see #setVisible(boolean)
@@ -244,11 +225,9 @@ public interface LineAttributes extends IChartObject {
 	void unsetVisible();
 
 	/**
-	 * Returns whether the value of the '
-	 * {@link org.eclipse.birt.chart.model.attribute.LineAttributes#isVisible
-	 * <em>Visible</em>}' attribute is set. <!-- begin-user-doc --> <!--
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.attribute.LineAttributes#isVisible <em>Visible</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @return whether the value of the '<em>Visible</em>' attribute is set.
 	 * @see #unsetVisible()
 	 * @see #isVisible()

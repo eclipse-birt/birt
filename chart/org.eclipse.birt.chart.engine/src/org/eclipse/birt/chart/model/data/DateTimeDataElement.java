@@ -23,18 +23,17 @@ import com.ibm.icu.util.Calendar;
  * Time Data Element</b></em>'. <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- *
- * This type defines a single element of date/time data.
- *
+ * 
+ * 			This type defines a single element of date/time data.
+ * 			
  * <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.data.DateTimeDataElement#getValue
- * <em>Value</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.data.DateTimeDataElement#getValue <em>Value</em>}</li>
+ * </ul>
  *
  * @see org.eclipse.birt.chart.model.data.DataPackage#getDateTimeDataElement()
  * @model extendedMetaData="name='DateTimeDataElement' kind='elementOnly'"
@@ -62,10 +61,8 @@ public interface DateTimeDataElement extends DataElement {
 	long getValue();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.data.DateTimeDataElement#getValue
-	 * <em>Value</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.data.DateTimeDataElement#getValue <em>Value</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Value</em>' attribute.
 	 * @see #isSetValue()
 	 * @see #unsetValue()
@@ -75,10 +72,8 @@ public interface DateTimeDataElement extends DataElement {
 	void setValue(long value);
 
 	/**
-	 * Unsets the value of the
-	 * '{@link org.eclipse.birt.chart.model.data.DateTimeDataElement#getValue
-	 * <em>Value</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.data.DateTimeDataElement#getValue <em>Value</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isSetValue()
 	 * @see #getValue()
 	 * @see #setValue(long)

@@ -30,40 +30,28 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <em><b>Scale</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#getMin
- * <em>Min</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#getMax
- * <em>Max</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#getStep
- * <em>Step</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#getUnit
- * <em>Unit</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#getMinorGridsPerUnit
- * <em>Minor Grids Per Unit</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#getStepNumber
- * <em>Step Number</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#isShowOutside
- * <em>Show Outside</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#isTickBetweenCategories
- * <em>Tick Between Categories</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#isAutoExpand
- * <em>Auto Expand</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#getMajorGridsStepNumber
- * <em>Major Grids Step Number</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#getFactor
- * <em>Factor</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#getMin <em>Min</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#getMax <em>Max</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#getStep <em>Step</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#getUnit <em>Unit</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#getMinorGridsPerUnit <em>Minor Grids Per Unit</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#getStepNumber <em>Step Number</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#isShowOutside <em>Show Outside</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#isTickBetweenCategories <em>Tick Between Categories</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#isAutoExpand <em>Auto Expand</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#getMajorGridsStepNumber <em>Major Grids Step Number</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#getFactor <em>Factor</em>}</li>
+ * </ul>
  *
  * @generated
  */
 public class ScaleImpl extends EObjectImpl implements Scale {
 
 	/**
-	 * The cached value of the '{@link #getMin() <em>Min</em>}' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getMin() <em>Min</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getMin()
 	 * @generated
 	 * @ordered
@@ -71,9 +59,8 @@ public class ScaleImpl extends EObjectImpl implements Scale {
 	protected DataElement min;
 
 	/**
-	 * The cached value of the '{@link #getMax() <em>Max</em>}' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getMax() <em>Max</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getMax()
 	 * @generated
 	 * @ordered
@@ -101,9 +88,9 @@ public class ScaleImpl extends EObjectImpl implements Scale {
 	protected double step = STEP_EDEFAULT;
 
 	/**
-	 * This is true if the Step attribute has been set. <!-- begin-user-doc --> <!--
+	 * This is true if the Step attribute has been set.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -130,18 +117,17 @@ public class ScaleImpl extends EObjectImpl implements Scale {
 	protected ScaleUnitType unit = UNIT_EDEFAULT;
 
 	/**
-	 * This is true if the Unit attribute has been set. <!-- begin-user-doc --> <!--
+	 * This is true if the Unit attribute has been set.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean unitESet;
 
 	/**
-	 * The default value of the '{@link #getMinorGridsPerUnit() <em>Minor Grids Per
-	 * Unit</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The default value of the '{@link #getMinorGridsPerUnit() <em>Minor Grids Per Unit</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getMinorGridsPerUnit()
 	 * @generated
 	 * @ordered
@@ -149,9 +135,8 @@ public class ScaleImpl extends EObjectImpl implements Scale {
 	protected static final int MINOR_GRIDS_PER_UNIT_EDEFAULT = 5;
 
 	/**
-	 * The cached value of the '{@link #getMinorGridsPerUnit() <em>Minor Grids Per
-	 * Unit</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getMinorGridsPerUnit() <em>Minor Grids Per Unit</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getMinorGridsPerUnit()
 	 * @generated
 	 * @ordered
@@ -168,9 +153,8 @@ public class ScaleImpl extends EObjectImpl implements Scale {
 	protected boolean minorGridsPerUnitESet;
 
 	/**
-	 * The default value of the '{@link #getStepNumber() <em>Step Number</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The default value of the '{@link #getStepNumber() <em>Step Number</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getStepNumber()
 	 * @generated
 	 * @ordered
@@ -178,9 +162,8 @@ public class ScaleImpl extends EObjectImpl implements Scale {
 	protected static final int STEP_NUMBER_EDEFAULT = 0;
 
 	/**
-	 * The cached value of the '{@link #getStepNumber() <em>Step Number</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getStepNumber() <em>Step Number</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getStepNumber()
 	 * @generated
 	 * @ordered
@@ -188,18 +171,17 @@ public class ScaleImpl extends EObjectImpl implements Scale {
 	protected int stepNumber = STEP_NUMBER_EDEFAULT;
 
 	/**
-	 * This is true if the Step Number attribute has been set. <!-- begin-user-doc
+	 * This is true if the Step Number attribute has been set.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean stepNumberESet;
 
 	/**
-	 * The default value of the '{@link #isShowOutside() <em>Show Outside</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The default value of the '{@link #isShowOutside() <em>Show Outside</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isShowOutside()
 	 * @generated
 	 * @ordered
@@ -207,9 +189,8 @@ public class ScaleImpl extends EObjectImpl implements Scale {
 	protected static final boolean SHOW_OUTSIDE_EDEFAULT = false;
 
 	/**
-	 * The cached value of the '{@link #isShowOutside() <em>Show Outside</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #isShowOutside() <em>Show Outside</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isShowOutside()
 	 * @generated
 	 * @ordered
@@ -217,18 +198,17 @@ public class ScaleImpl extends EObjectImpl implements Scale {
 	protected boolean showOutside = SHOW_OUTSIDE_EDEFAULT;
 
 	/**
-	 * This is true if the Show Outside attribute has been set. <!-- begin-user-doc
+	 * This is true if the Show Outside attribute has been set.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean showOutsideESet;
 
 	/**
-	 * The default value of the '{@link #isTickBetweenCategories() <em>Tick Between
-	 * Categories</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The default value of the '{@link #isTickBetweenCategories() <em>Tick Between Categories</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isTickBetweenCategories()
 	 * @generated
 	 * @ordered
@@ -236,9 +216,8 @@ public class ScaleImpl extends EObjectImpl implements Scale {
 	protected static final boolean TICK_BETWEEN_CATEGORIES_EDEFAULT = true;
 
 	/**
-	 * The cached value of the '{@link #isTickBetweenCategories() <em>Tick Between
-	 * Categories</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #isTickBetweenCategories() <em>Tick Between Categories</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isTickBetweenCategories()
 	 * @generated
 	 * @ordered
@@ -255,9 +234,8 @@ public class ScaleImpl extends EObjectImpl implements Scale {
 	protected boolean tickBetweenCategoriesESet;
 
 	/**
-	 * The default value of the '{@link #isAutoExpand() <em>Auto Expand</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The default value of the '{@link #isAutoExpand() <em>Auto Expand</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isAutoExpand()
 	 * @generated
 	 * @ordered
@@ -265,9 +243,8 @@ public class ScaleImpl extends EObjectImpl implements Scale {
 	protected static final boolean AUTO_EXPAND_EDEFAULT = true;
 
 	/**
-	 * The cached value of the '{@link #isAutoExpand() <em>Auto Expand</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #isAutoExpand() <em>Auto Expand</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isAutoExpand()
 	 * @generated
 	 * @ordered
@@ -275,18 +252,17 @@ public class ScaleImpl extends EObjectImpl implements Scale {
 	protected boolean autoExpand = AUTO_EXPAND_EDEFAULT;
 
 	/**
-	 * This is true if the Auto Expand attribute has been set. <!-- begin-user-doc
+	 * This is true if the Auto Expand attribute has been set.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean autoExpandESet;
 
 	/**
-	 * The default value of the '{@link #getMajorGridsStepNumber() <em>Major Grids
-	 * Step Number</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The default value of the '{@link #getMajorGridsStepNumber() <em>Major Grids Step Number</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getMajorGridsStepNumber()
 	 * @generated
 	 * @ordered
@@ -294,9 +270,8 @@ public class ScaleImpl extends EObjectImpl implements Scale {
 	protected static final int MAJOR_GRIDS_STEP_NUMBER_EDEFAULT = 1;
 
 	/**
-	 * The cached value of the '{@link #getMajorGridsStepNumber() <em>Major Grids
-	 * Step Number</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getMajorGridsStepNumber() <em>Major Grids Step Number</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getMajorGridsStepNumber()
 	 * @generated
 	 * @ordered
@@ -315,7 +290,6 @@ public class ScaleImpl extends EObjectImpl implements Scale {
 	/**
 	 * The default value of the '{@link #getFactor() <em>Factor</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @see #getFactor()
 	 * @generated
 	 * @ordered
@@ -325,7 +299,6 @@ public class ScaleImpl extends EObjectImpl implements Scale {
 	/**
 	 * The cached value of the '{@link #getFactor() <em>Factor</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @see #getFactor()
 	 * @generated
 	 * @ordered
@@ -333,9 +306,9 @@ public class ScaleImpl extends EObjectImpl implements Scale {
 	protected double factor = FACTOR_EDEFAULT;
 
 	/**
-	 * This is true if the Factor attribute has been set. <!-- begin-user-doc -->
+	 * This is true if the Factor attribute has been set.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -343,7 +316,6 @@ public class ScaleImpl extends EObjectImpl implements Scale {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected ScaleImpl() {
@@ -352,7 +324,6 @@ public class ScaleImpl extends EObjectImpl implements Scale {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -362,7 +333,6 @@ public class ScaleImpl extends EObjectImpl implements Scale {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -372,7 +342,6 @@ public class ScaleImpl extends EObjectImpl implements Scale {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetMin(DataElement newMin, NotificationChain msgs) {
@@ -381,44 +350,37 @@ public class ScaleImpl extends EObjectImpl implements Scale {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ComponentPackage.SCALE__MIN,
 					oldMin, newMin);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setMin(DataElement newMin) {
 		if (newMin != min) {
 			NotificationChain msgs = null;
-			if (min != null) {
+			if (min != null)
 				msgs = ((InternalEObject) min).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - ComponentPackage.SCALE__MIN, null, msgs);
-			}
-			if (newMin != null) {
+			if (newMin != null)
 				msgs = ((InternalEObject) newMin).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - ComponentPackage.SCALE__MIN, null, msgs);
-			}
 			msgs = basicSetMin(newMin, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.SCALE__MIN, newMin, newMin));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -428,7 +390,6 @@ public class ScaleImpl extends EObjectImpl implements Scale {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetMax(DataElement newMax, NotificationChain msgs) {
@@ -437,44 +398,37 @@ public class ScaleImpl extends EObjectImpl implements Scale {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ComponentPackage.SCALE__MAX,
 					oldMax, newMax);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setMax(DataElement newMax) {
 		if (newMax != max) {
 			NotificationChain msgs = null;
-			if (max != null) {
+			if (max != null)
 				msgs = ((InternalEObject) max).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - ComponentPackage.SCALE__MAX, null, msgs);
-			}
-			if (newMax != null) {
+			if (newMax != null)
 				msgs = ((InternalEObject) newMax).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - ComponentPackage.SCALE__MAX, null, msgs);
-			}
 			msgs = basicSetMax(newMax, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.SCALE__MAX, newMax, newMax));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -484,7 +438,6 @@ public class ScaleImpl extends EObjectImpl implements Scale {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -493,15 +446,13 @@ public class ScaleImpl extends EObjectImpl implements Scale {
 		step = newStep;
 		boolean oldStepESet = stepESet;
 		stepESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.SCALE__STEP, oldStep, step,
 					!oldStepESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -510,15 +461,13 @@ public class ScaleImpl extends EObjectImpl implements Scale {
 		boolean oldStepESet = stepESet;
 		step = STEP_EDEFAULT;
 		stepESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, ComponentPackage.SCALE__STEP, oldStep,
 					STEP_EDEFAULT, oldStepESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -528,7 +477,6 @@ public class ScaleImpl extends EObjectImpl implements Scale {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -538,7 +486,6 @@ public class ScaleImpl extends EObjectImpl implements Scale {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -547,15 +494,13 @@ public class ScaleImpl extends EObjectImpl implements Scale {
 		unit = newUnit == null ? UNIT_EDEFAULT : newUnit;
 		boolean oldUnitESet = unitESet;
 		unitESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.SCALE__UNIT, oldUnit, unit,
 					!oldUnitESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -564,15 +509,13 @@ public class ScaleImpl extends EObjectImpl implements Scale {
 		boolean oldUnitESet = unitESet;
 		unit = UNIT_EDEFAULT;
 		unitESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, ComponentPackage.SCALE__UNIT, oldUnit,
 					UNIT_EDEFAULT, oldUnitESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -582,7 +525,6 @@ public class ScaleImpl extends EObjectImpl implements Scale {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -592,7 +534,6 @@ public class ScaleImpl extends EObjectImpl implements Scale {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -601,15 +542,13 @@ public class ScaleImpl extends EObjectImpl implements Scale {
 		minorGridsPerUnit = newMinorGridsPerUnit;
 		boolean oldMinorGridsPerUnitESet = minorGridsPerUnitESet;
 		minorGridsPerUnitESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.SCALE__MINOR_GRIDS_PER_UNIT,
 					oldMinorGridsPerUnit, minorGridsPerUnit, !oldMinorGridsPerUnitESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -618,15 +557,13 @@ public class ScaleImpl extends EObjectImpl implements Scale {
 		boolean oldMinorGridsPerUnitESet = minorGridsPerUnitESet;
 		minorGridsPerUnit = MINOR_GRIDS_PER_UNIT_EDEFAULT;
 		minorGridsPerUnitESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, ComponentPackage.SCALE__MINOR_GRIDS_PER_UNIT,
 					oldMinorGridsPerUnit, MINOR_GRIDS_PER_UNIT_EDEFAULT, oldMinorGridsPerUnitESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -636,7 +573,6 @@ public class ScaleImpl extends EObjectImpl implements Scale {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -646,7 +582,6 @@ public class ScaleImpl extends EObjectImpl implements Scale {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -655,15 +590,13 @@ public class ScaleImpl extends EObjectImpl implements Scale {
 		stepNumber = newStepNumber;
 		boolean oldStepNumberESet = stepNumberESet;
 		stepNumberESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.SCALE__STEP_NUMBER, oldStepNumber,
 					stepNumber, !oldStepNumberESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -672,15 +605,13 @@ public class ScaleImpl extends EObjectImpl implements Scale {
 		boolean oldStepNumberESet = stepNumberESet;
 		stepNumber = STEP_NUMBER_EDEFAULT;
 		stepNumberESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, ComponentPackage.SCALE__STEP_NUMBER, oldStepNumber,
 					STEP_NUMBER_EDEFAULT, oldStepNumberESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -690,7 +621,6 @@ public class ScaleImpl extends EObjectImpl implements Scale {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -700,7 +630,6 @@ public class ScaleImpl extends EObjectImpl implements Scale {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -709,15 +638,13 @@ public class ScaleImpl extends EObjectImpl implements Scale {
 		showOutside = newShowOutside;
 		boolean oldShowOutsideESet = showOutsideESet;
 		showOutsideESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.SCALE__SHOW_OUTSIDE, oldShowOutside,
 					showOutside, !oldShowOutsideESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -726,15 +653,13 @@ public class ScaleImpl extends EObjectImpl implements Scale {
 		boolean oldShowOutsideESet = showOutsideESet;
 		showOutside = SHOW_OUTSIDE_EDEFAULT;
 		showOutsideESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, ComponentPackage.SCALE__SHOW_OUTSIDE,
 					oldShowOutside, SHOW_OUTSIDE_EDEFAULT, oldShowOutsideESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -744,7 +669,6 @@ public class ScaleImpl extends EObjectImpl implements Scale {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -754,7 +678,6 @@ public class ScaleImpl extends EObjectImpl implements Scale {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -763,15 +686,13 @@ public class ScaleImpl extends EObjectImpl implements Scale {
 		tickBetweenCategories = newTickBetweenCategories;
 		boolean oldTickBetweenCategoriesESet = tickBetweenCategoriesESet;
 		tickBetweenCategoriesESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.SCALE__TICK_BETWEEN_CATEGORIES,
 					oldTickBetweenCategories, tickBetweenCategories, !oldTickBetweenCategoriesESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -780,15 +701,13 @@ public class ScaleImpl extends EObjectImpl implements Scale {
 		boolean oldTickBetweenCategoriesESet = tickBetweenCategoriesESet;
 		tickBetweenCategories = TICK_BETWEEN_CATEGORIES_EDEFAULT;
 		tickBetweenCategoriesESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, ComponentPackage.SCALE__TICK_BETWEEN_CATEGORIES,
 					oldTickBetweenCategories, TICK_BETWEEN_CATEGORIES_EDEFAULT, oldTickBetweenCategoriesESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -798,7 +717,6 @@ public class ScaleImpl extends EObjectImpl implements Scale {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -808,7 +726,6 @@ public class ScaleImpl extends EObjectImpl implements Scale {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -817,15 +734,13 @@ public class ScaleImpl extends EObjectImpl implements Scale {
 		autoExpand = newAutoExpand;
 		boolean oldAutoExpandESet = autoExpandESet;
 		autoExpandESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.SCALE__AUTO_EXPAND, oldAutoExpand,
 					autoExpand, !oldAutoExpandESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -834,15 +749,13 @@ public class ScaleImpl extends EObjectImpl implements Scale {
 		boolean oldAutoExpandESet = autoExpandESet;
 		autoExpand = AUTO_EXPAND_EDEFAULT;
 		autoExpandESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, ComponentPackage.SCALE__AUTO_EXPAND, oldAutoExpand,
 					AUTO_EXPAND_EDEFAULT, oldAutoExpandESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -852,7 +765,6 @@ public class ScaleImpl extends EObjectImpl implements Scale {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -862,7 +774,6 @@ public class ScaleImpl extends EObjectImpl implements Scale {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -871,15 +782,13 @@ public class ScaleImpl extends EObjectImpl implements Scale {
 		majorGridsStepNumber = newMajorGridsStepNumber;
 		boolean oldMajorGridsStepNumberESet = majorGridsStepNumberESet;
 		majorGridsStepNumberESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.SCALE__MAJOR_GRIDS_STEP_NUMBER,
 					oldMajorGridsStepNumber, majorGridsStepNumber, !oldMajorGridsStepNumberESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -888,15 +797,13 @@ public class ScaleImpl extends EObjectImpl implements Scale {
 		boolean oldMajorGridsStepNumberESet = majorGridsStepNumberESet;
 		majorGridsStepNumber = MAJOR_GRIDS_STEP_NUMBER_EDEFAULT;
 		majorGridsStepNumberESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, ComponentPackage.SCALE__MAJOR_GRIDS_STEP_NUMBER,
 					oldMajorGridsStepNumber, MAJOR_GRIDS_STEP_NUMBER_EDEFAULT, oldMajorGridsStepNumberESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -906,7 +813,6 @@ public class ScaleImpl extends EObjectImpl implements Scale {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -916,7 +822,6 @@ public class ScaleImpl extends EObjectImpl implements Scale {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -925,15 +830,13 @@ public class ScaleImpl extends EObjectImpl implements Scale {
 		factor = newFactor;
 		boolean oldFactorESet = factorESet;
 		factorESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.SCALE__FACTOR, oldFactor, factor,
 					!oldFactorESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -942,15 +845,13 @@ public class ScaleImpl extends EObjectImpl implements Scale {
 		boolean oldFactorESet = factorESet;
 		factor = FACTOR_EDEFAULT;
 		factorESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, ComponentPackage.SCALE__FACTOR, oldFactor,
 					FACTOR_EDEFAULT, oldFactorESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -960,7 +861,6 @@ public class ScaleImpl extends EObjectImpl implements Scale {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -976,7 +876,6 @@ public class ScaleImpl extends EObjectImpl implements Scale {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1010,7 +909,6 @@ public class ScaleImpl extends EObjectImpl implements Scale {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1055,7 +953,6 @@ public class ScaleImpl extends EObjectImpl implements Scale {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1100,7 +997,6 @@ public class ScaleImpl extends EObjectImpl implements Scale {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1134,70 +1030,59 @@ public class ScaleImpl extends EObjectImpl implements Scale {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) {
+		if (eIsProxy())
 			return super.toString();
-		}
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (step: "); //$NON-NLS-1$
-		if (stepESet) {
+		if (stepESet)
 			result.append(step);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", unit: "); //$NON-NLS-1$
-		if (unitESet) {
+		if (unitESet)
 			result.append(unit);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", minorGridsPerUnit: "); //$NON-NLS-1$
-		if (minorGridsPerUnitESet) {
+		if (minorGridsPerUnitESet)
 			result.append(minorGridsPerUnit);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", stepNumber: "); //$NON-NLS-1$
-		if (stepNumberESet) {
+		if (stepNumberESet)
 			result.append(stepNumber);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", showOutside: "); //$NON-NLS-1$
-		if (showOutsideESet) {
+		if (showOutsideESet)
 			result.append(showOutside);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", tickBetweenCategories: "); //$NON-NLS-1$
-		if (tickBetweenCategoriesESet) {
+		if (tickBetweenCategoriesESet)
 			result.append(tickBetweenCategories);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", autoExpand: "); //$NON-NLS-1$
-		if (autoExpandESet) {
+		if (autoExpandESet)
 			result.append(autoExpand);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", majorGridsStepNumber: "); //$NON-NLS-1$
-		if (majorGridsStepNumberESet) {
+		if (majorGridsStepNumberESet)
 			result.append(majorGridsStepNumber);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", factor: "); //$NON-NLS-1$
-		if (factorESet) {
+		if (factorESet)
 			result.append(factor);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(')');
 		return result.toString();
 	}

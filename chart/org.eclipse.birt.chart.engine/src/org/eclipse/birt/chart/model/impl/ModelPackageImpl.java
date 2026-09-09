@@ -43,63 +43,56 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Package </b>. <!--
  * end-user-doc -->
- *
  * @generated
  */
 public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass chartEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass chartWithAxesEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass chartWithoutAxesEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass dialChartEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EDataType coverageTypeEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EDataType coverageTypeObjectEDataType = null;
 
 	/**
-	 * Creates an instance of the model <b>Package </b>, registered with
-	 * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry}by the
-	 * package package URI value.
-	 * <p>
-	 * Note: the correct way to create the package is via the static factory method
-	 * {@link #init init()}, which also performs initialization of the package, or
-	 * returns the registered package, if one already exists. <!-- begin-user-doc
+	 * Creates an instance of the model <b>Package</b>, registered with
+	 * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry} by the package
+	 * package URI value.
+	 * <p>Note: the correct way to create the package is via the static
+	 * factory method {@link #init init()}, which also performs
+	 * initialization of the package, or returns the registered package,
+	 * if one already exists.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 *
 	 * @see org.eclipse.emf.ecore.EPackage.Registry
 	 * @see org.eclipse.birt.chart.model.ModelPackage#eNS_URI
 	 * @see #init()
@@ -111,35 +104,31 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private static boolean isInited = false;
 
 	/**
-	 * Creates, registers, and initializes the <b>Package</b> for this model, and
-	 * for any others upon which it depends.
+	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
 	 *
-	 * <p>
-	 * This method is used to initialize {@link ModelPackage#eINSTANCE} when that
-	 * field is accessed. Clients should not invoke it directly. Instead, they
-	 * should simply access that field to obtain the package. <!-- begin-user-doc
+	 * <p>This method is used to initialize {@link ModelPackage#eINSTANCE} when that field is accessed.
+	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 *
 	 * @see #eNS_URI
 	 * @see #createPackageContents()
 	 * @see #initializePackageContents()
 	 * @generated
 	 */
 	public static ModelPackage init() {
-		if (isInited) {
+		if (isInited)
 			return (ModelPackage) EPackage.Registry.INSTANCE.getEPackage(ModelPackage.eNS_URI);
-		}
 
 		// Obtain or create and register package
-		ModelPackageImpl theModelPackage = (ModelPackageImpl) (EPackage.Registry.INSTANCE
-				.get(eNS_URI) instanceof ModelPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI)
-						: new ModelPackageImpl());
+		Object registeredModelPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+		ModelPackageImpl theModelPackage = registeredModelPackage instanceof ModelPackageImpl
+				? (ModelPackageImpl) registeredModelPackage
+				: new ModelPackageImpl();
 
 		isInited = true;
 
@@ -147,26 +136,26 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 		XMLTypePackage.eINSTANCE.eClass();
 
 		// Obtain or create and register interdependencies
-		AttributePackageImpl theAttributePackage = (AttributePackageImpl) (EPackage.Registry.INSTANCE
-				.getEPackage(AttributePackage.eNS_URI) instanceof AttributePackageImpl
-						? EPackage.Registry.INSTANCE.getEPackage(AttributePackage.eNS_URI)
-						: AttributePackage.eINSTANCE);
-		ComponentPackageImpl theComponentPackage = (ComponentPackageImpl) (EPackage.Registry.INSTANCE
-				.getEPackage(ComponentPackage.eNS_URI) instanceof ComponentPackageImpl
-						? EPackage.Registry.INSTANCE.getEPackage(ComponentPackage.eNS_URI)
-						: ComponentPackage.eINSTANCE);
-		DataPackageImpl theDataPackage = (DataPackageImpl) (EPackage.Registry.INSTANCE
-				.getEPackage(DataPackage.eNS_URI) instanceof DataPackageImpl
-						? EPackage.Registry.INSTANCE.getEPackage(DataPackage.eNS_URI)
-						: DataPackage.eINSTANCE);
-		TypePackageImpl theTypePackage = (TypePackageImpl) (EPackage.Registry.INSTANCE
-				.getEPackage(TypePackage.eNS_URI) instanceof TypePackageImpl
-						? EPackage.Registry.INSTANCE.getEPackage(TypePackage.eNS_URI)
-						: TypePackage.eINSTANCE);
-		LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) (EPackage.Registry.INSTANCE
-				.getEPackage(LayoutPackage.eNS_URI) instanceof LayoutPackageImpl
-						? EPackage.Registry.INSTANCE.getEPackage(LayoutPackage.eNS_URI)
-						: LayoutPackage.eINSTANCE);
+		Object registeredPackage = EPackage.Registry.INSTANCE.getEPackage(AttributePackage.eNS_URI);
+		AttributePackageImpl theAttributePackage = (AttributePackageImpl) (registeredPackage instanceof AttributePackageImpl
+				? registeredPackage
+				: AttributePackage.eINSTANCE);
+		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(ComponentPackage.eNS_URI);
+		ComponentPackageImpl theComponentPackage = (ComponentPackageImpl) (registeredPackage instanceof ComponentPackageImpl
+				? registeredPackage
+				: ComponentPackage.eINSTANCE);
+		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(DataPackage.eNS_URI);
+		DataPackageImpl theDataPackage = (DataPackageImpl) (registeredPackage instanceof DataPackageImpl
+				? registeredPackage
+				: DataPackage.eINSTANCE);
+		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(TypePackage.eNS_URI);
+		TypePackageImpl theTypePackage = (TypePackageImpl) (registeredPackage instanceof TypePackageImpl
+				? registeredPackage
+				: TypePackage.eINSTANCE);
+		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(LayoutPackage.eNS_URI);
+		LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) (registeredPackage instanceof LayoutPackageImpl
+				? registeredPackage
+				: LayoutPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theModelPackage.createPackageContents();
@@ -186,8 +175,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 		// Register package validator
 		EValidator.Registry.INSTANCE.put(theModelPackage, new EValidator.Descriptor() {
-
-			@Override
 			public EValidator getEValidator() {
 				return ModelValidator.INSTANCE;
 			}
@@ -203,7 +190,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -213,7 +199,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -223,7 +208,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -233,7 +217,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -243,7 +226,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -253,7 +235,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -263,7 +244,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -273,7 +253,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -283,7 +262,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -293,7 +271,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -303,7 +280,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -313,7 +289,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -323,7 +298,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -333,7 +307,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -343,7 +316,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -353,7 +325,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -363,7 +334,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -373,7 +343,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -383,7 +352,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -393,7 +361,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -403,7 +370,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -413,7 +379,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -423,7 +388,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -433,7 +397,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -443,7 +406,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -453,7 +415,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -463,7 +424,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -473,7 +433,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -483,7 +442,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -493,7 +451,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -503,7 +460,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -513,7 +469,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -523,7 +478,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -533,7 +487,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -543,7 +496,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -553,7 +505,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -563,22 +514,20 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private boolean isCreated = false;
 
 	/**
-	 * Creates the meta-model objects for the package. This method is guarded to
-	 * have no affect on any invocation but its first. <!-- begin-user-doc --> <!--
+	 * Creates the meta-model objects for the package.  This method is
+	 * guarded to have no affect on any invocation but its first.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public void createPackageContents() {
-		if (isCreated) {
+		if (isCreated)
 			return;
-		}
 		isCreated = true;
 
 		// Create classes and their features
@@ -626,7 +575,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private boolean isInitialized = false;
@@ -639,9 +587,8 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 	 * @generated
 	 */
 	public void initializePackageContents() {
-		if (isInitialized) {
+		if (isInitialized)
 			return;
-		}
 		isInitialized = true;
 
 		// Initialize package
@@ -670,7 +617,7 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(chartEClass, Chart.class, "Chart", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
-		initEAttribute(getChart_Version(), theXMLTypePackage.getString(), "version", "1.0.0", 1, 1, Chart.class, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getChart_Version(), theXMLTypePackage.getString(), "version", "1.0.0", 1, 1, Chart.class, //$NON-NLS-1$//$NON-NLS-2$
 				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getChart_Type(), theXMLTypePackage.getString(), "type", null, 1, 1, Chart.class, !IS_TRANSIENT, //$NON-NLS-1$
 				!IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -682,14 +629,14 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 		initEReference(getChart_Block(), theLayoutPackage.getBlock(), null, "block", null, 1, 1, Chart.class, //$NON-NLS-1$
 				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE,
 				IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getChart_Dimension(), theAttributePackage.getChartDimension(), "dimension", "Two_Dimensional", 1, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getChart_Dimension(), theAttributePackage.getChartDimension(), "dimension", "Two_Dimensional", 1, //$NON-NLS-1$//$NON-NLS-2$
 				1, Chart.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
 				!IS_DERIVED, IS_ORDERED);
 		initEAttribute(getChart_Script(), theXMLTypePackage.getString(), "script", null, 1, 1, Chart.class, //$NON-NLS-1$
 				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getChart_Units(), theXMLTypePackage.getString(), "units", null, 0, 1, Chart.class, !IS_TRANSIENT, //$NON-NLS-1$
 				!IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getChart_SeriesThickness(), theXMLTypePackage.getDouble(), "seriesThickness", "10", 0, 1, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getChart_SeriesThickness(), theXMLTypePackage.getDouble(), "seriesThickness", "10", 0, 1, //$NON-NLS-1$//$NON-NLS-2$
 				Chart.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
 				IS_ORDERED);
 		initEAttribute(getChart_GridColumnCount(), theXMLTypePackage.getInt(), "gridColumnCount", null, 1, 1, //$NON-NLS-1$
@@ -722,16 +669,16 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 		initEReference(getChartWithAxes_FloorFill(), theAttributePackage.getFill(), null, "floorFill", null, 1, 1, //$NON-NLS-1$
 				ChartWithAxes.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
 				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getChartWithAxes_Orientation(), theAttributePackage.getOrientation(), "orientation", "Vertical", //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getChartWithAxes_Orientation(), theAttributePackage.getOrientation(), "orientation", "Vertical", //$NON-NLS-1$//$NON-NLS-2$
 				1, 1, ChartWithAxes.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
 				!IS_DERIVED, IS_ORDERED);
-		initEAttribute(getChartWithAxes_UnitSpacing(), theAttributePackage.getPercentage(), "unitSpacing", "50", 1, 1, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getChartWithAxes_UnitSpacing(), theAttributePackage.getPercentage(), "unitSpacing", "50", 1, 1, //$NON-NLS-1$//$NON-NLS-2$
 				ChartWithAxes.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
 				!IS_DERIVED, IS_ORDERED);
 		initEReference(getChartWithAxes_Rotation(), theAttributePackage.getRotation3D(), null, "rotation", null, 0, 1, //$NON-NLS-1$
 				ChartWithAxes.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
 				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getChartWithAxes_ReverseCategory(), theXMLTypePackage.getBoolean(), "reverseCategory", "false", //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getChartWithAxes_ReverseCategory(), theXMLTypePackage.getBoolean(), "reverseCategory", "false", //$NON-NLS-1$//$NON-NLS-2$
 				1, 1, ChartWithAxes.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
 				!IS_DERIVED, IS_ORDERED);
 		initEAttribute(getChartWithAxes_StudyLayout(), theXMLTypePackage.getBoolean(), "studyLayout", null, 1, 1, //$NON-NLS-1$

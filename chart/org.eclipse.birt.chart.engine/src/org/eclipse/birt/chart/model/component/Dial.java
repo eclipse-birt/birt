@@ -24,39 +24,27 @@ import org.eclipse.emf.common.util.EList;
  * <!-- begin-user-doc --> A representation of the model object
  * '<em><b>Dial</b></em>'. <!-- end-user-doc -->
  *
- * <!-- begin-model-doc --> This type defines the basic elements that are
- * expected in a dial chart. This can further be extended for special dial chart
- * types. <!-- end-model-doc -->
+ * <!-- begin-model-doc -->
+ * This type defines the basic elements that are expected in a dial chart. This can further be extended for special dial chart types.
+ * <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.component.Dial#getStartAngle
- * <em>Start Angle</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.Dial#getStopAngle <em>Stop
- * Angle</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.Dial#getRadius
- * <em>Radius</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.Dial#getLineAttributes
- * <em>Line Attributes</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.Dial#getFill
- * <em>Fill</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.Dial#getDialRegions
- * <em>Dial Regions</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.Dial#getMajorGrid <em>Major
- * Grid</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.Dial#getMinorGrid <em>Minor
- * Grid</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.Dial#getScale
- * <em>Scale</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.Dial#isInverseScale
- * <em>Inverse Scale</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.Dial#getLabel
- * <em>Label</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.Dial#getFormatSpecifier
- * <em>Format Specifier</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Dial#getStartAngle <em>Start Angle</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Dial#getStopAngle <em>Stop Angle</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Dial#getRadius <em>Radius</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Dial#getLineAttributes <em>Line Attributes</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Dial#getFill <em>Fill</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Dial#getDialRegions <em>Dial Regions</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Dial#getMajorGrid <em>Major Grid</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Dial#getMinorGrid <em>Minor Grid</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Dial#getScale <em>Scale</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Dial#isInverseScale <em>Inverse Scale</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Dial#getLabel <em>Label</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Dial#getFormatSpecifier <em>Format Specifier</em>}</li>
+ * </ul>
  *
  * @see org.eclipse.birt.chart.model.component.ComponentPackage#getDial()
  * @model extendedMetaData="name='Dial' kind='elementOnly'"
@@ -84,10 +72,8 @@ public interface Dial extends IChartObject {
 	double getStartAngle();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.component.Dial#getStartAngle <em>Start
-	 * Angle</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Dial#getStartAngle <em>Start Angle</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Start Angle</em>' attribute.
 	 * @see #isSetStartAngle()
 	 * @see #unsetStartAngle()
@@ -97,10 +83,8 @@ public interface Dial extends IChartObject {
 	void setStartAngle(double value);
 
 	/**
-	 * Unsets the value of the
-	 * '{@link org.eclipse.birt.chart.model.component.Dial#getStartAngle <em>Start
-	 * Angle</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.component.Dial#getStartAngle <em>Start Angle</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isSetStartAngle()
 	 * @see #getStartAngle()
 	 * @see #setStartAngle(double)
@@ -109,10 +93,8 @@ public interface Dial extends IChartObject {
 	void unsetStartAngle();
 
 	/**
-	 * Returns whether the value of the
-	 * '{@link org.eclipse.birt.chart.model.component.Dial#getStartAngle <em>Start
-	 * Angle</em>}' attribute is set. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.component.Dial#getStartAngle <em>Start Angle</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return whether the value of the '<em>Start Angle</em>' attribute is set.
 	 * @see #unsetStartAngle()
 	 * @see #getStartAngle()
@@ -122,28 +104,26 @@ public interface Dial extends IChartObject {
 	boolean isSetStartAngle();
 
 	/**
-	 * Returns the value of the '<em><b>Stop Angle</b></em>' attribute. The default
-	 * value is <code>"180"</code>. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * <!-- begin-model-doc --> Specifies the stop angle of the dial. <!--
-	 * end-model-doc -->
-	 *
+	 * Returns the value of the '<em><b>Stop Angle</b></em>' attribute.
+	 * The default value is <code>"180"</code>.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * Specifies the stop angle of the dial.
+	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Stop Angle</em>' attribute.
 	 * @see #isSetStopAngle()
 	 * @see #unsetStopAngle()
 	 * @see #setStopAngle(double)
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getDial_StopAngle()
-	 * @model default="180" unsettable="true"
-	 *        dataType="org.eclipse.emf.ecore.xml.type.Double"
+	 * @model default="180" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double"
 	 *        extendedMetaData="kind='element' name='StopAngle'"
 	 * @generated
 	 */
 	double getStopAngle();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.component.Dial#getStopAngle <em>Stop
-	 * Angle</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Dial#getStopAngle <em>Stop Angle</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Stop Angle</em>' attribute.
 	 * @see #isSetStopAngle()
 	 * @see #unsetStopAngle()
@@ -153,10 +133,8 @@ public interface Dial extends IChartObject {
 	void setStopAngle(double value);
 
 	/**
-	 * Unsets the value of the
-	 * '{@link org.eclipse.birt.chart.model.component.Dial#getStopAngle <em>Stop
-	 * Angle</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.component.Dial#getStopAngle <em>Stop Angle</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isSetStopAngle()
 	 * @see #getStopAngle()
 	 * @see #setStopAngle(double)
@@ -165,10 +143,8 @@ public interface Dial extends IChartObject {
 	void unsetStopAngle();
 
 	/**
-	 * Returns whether the value of the
-	 * '{@link org.eclipse.birt.chart.model.component.Dial#getStopAngle <em>Stop
-	 * Angle</em>}' attribute is set. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.component.Dial#getStopAngle <em>Stop Angle</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return whether the value of the '<em>Stop Angle</em>' attribute is set.
 	 * @see #unsetStopAngle()
 	 * @see #getStopAngle()
@@ -194,10 +170,8 @@ public interface Dial extends IChartObject {
 	double getRadius();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.component.Dial#getRadius
-	 * <em>Radius</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Dial#getRadius <em>Radius</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Radius</em>' attribute.
 	 * @see #isSetRadius()
 	 * @see #unsetRadius()
@@ -207,10 +181,8 @@ public interface Dial extends IChartObject {
 	void setRadius(double value);
 
 	/**
-	 * Unsets the value of the
-	 * '{@link org.eclipse.birt.chart.model.component.Dial#getRadius
-	 * <em>Radius</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.component.Dial#getRadius <em>Radius</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isSetRadius()
 	 * @see #getRadius()
 	 * @see #setRadius(double)
@@ -247,13 +219,10 @@ public interface Dial extends IChartObject {
 	LineAttributes getLineAttributes();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.component.Dial#getLineAttributes
-	 * <em>Line Attributes</em>}' containment reference. <!-- begin-user-doc -->
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Dial#getLineAttributes <em>Line Attributes</em>}' containment reference.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
-	 * @param value the new value of the '<em>Line Attributes</em>' containment
-	 *              reference.
+	 * @param value the new value of the '<em>Line Attributes</em>' containment reference.
 	 * @see #getLineAttributes()
 	 * @generated
 	 */
@@ -273,10 +242,8 @@ public interface Dial extends IChartObject {
 	Fill getFill();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.component.Dial#getFill <em>Fill</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Dial#getFill <em>Fill</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Fill</em>' containment reference.
 	 * @see #getFill()
 	 * @generated
@@ -369,10 +336,8 @@ public interface Dial extends IChartObject {
 	Scale getScale();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.component.Dial#getScale <em>Scale</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Dial#getScale <em>Scale</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Scale</em>' containment reference.
 	 * @see #getScale()
 	 * @generated
@@ -425,11 +390,9 @@ public interface Dial extends IChartObject {
 	void unsetInverseScale();
 
 	/**
-	 * Returns whether the value of the
-	 * '{@link org.eclipse.birt.chart.model.component.Dial#isInverseScale
-	 * <em>Inverse Scale</em>}' attribute is set. <!-- begin-user-doc --> <!--
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.component.Dial#isInverseScale <em>Inverse Scale</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @return whether the value of the '<em>Inverse Scale</em>' attribute is set.
 	 * @see #unsetInverseScale()
 	 * @see #isInverseScale()
@@ -453,10 +416,8 @@ public interface Dial extends IChartObject {
 	Label getLabel();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.component.Dial#getLabel <em>Label</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Dial#getLabel <em>Label</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Label</em>' containment reference.
 	 * @see #getLabel()
 	 * @generated
@@ -478,13 +439,10 @@ public interface Dial extends IChartObject {
 	FormatSpecifier getFormatSpecifier();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.component.Dial#getFormatSpecifier
-	 * <em>Format Specifier</em>}' containment reference. <!-- begin-user-doc -->
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Dial#getFormatSpecifier <em>Format Specifier</em>}' containment reference.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
-	 * @param value the new value of the '<em>Format Specifier</em>' containment
-	 *              reference.
+	 * @param value the new value of the '<em>Format Specifier</em>' containment reference.
 	 * @see #getFormatSpecifier()
 	 * @generated
 	 */

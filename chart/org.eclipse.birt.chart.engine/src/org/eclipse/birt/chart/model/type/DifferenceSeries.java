@@ -27,23 +27,21 @@ import org.eclipse.emf.common.util.EList;
  * <!-- begin-user-doc --> A representation of the model object
  * '<em><b>Difference Series</b></em>'. <!-- end-user-doc -->
  *
- * <!-- begin-model-doc --> This is a Series type that, during design time,
- * holds the query data for Difference charts, and during run time, holds the
- * values for each data point in the series. Each data point in a Difference
- * Series holds two values. When rendered, a line connects each high value of
- * each data point, another line connects each low value of each data point, and
- * the area between the high and low lines is filled with the series color. <!--
- * end-model-doc -->
+ * <!-- begin-model-doc -->
+ * This is a Series type that, during design time, holds the query data for Difference charts, and during 
+ * run time, holds the values for each data point in the series.  Each data point in a Difference Series
+ * holds two values.  When rendered, a line connects each high value of each data point, another line
+ * connects each low value of each data point, and the area between the high and low lines is filled with 
+ * the series color.
+ * <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.type.DifferenceSeries#getNegativeMarkers
- * <em>Negative Markers</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.type.DifferenceSeries#getNegativeLineAttributes
- * <em>Negative Line Attributes</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.type.DifferenceSeries#getNegativeMarkers <em>Negative Markers</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.DifferenceSeries#getNegativeLineAttributes <em>Negative Line Attributes</em>}</li>
+ * </ul>
  *
  * @see org.eclipse.birt.chart.model.type.TypePackage#getDifferenceSeries()
  * @model extendedMetaData="name='DifferenceSeries' kind='elementOnly'"

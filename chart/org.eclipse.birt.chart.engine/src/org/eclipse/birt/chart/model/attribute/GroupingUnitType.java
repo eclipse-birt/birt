@@ -41,181 +41,181 @@ import org.eclipse.emf.common.util.Enumerator;
  */
 public enum GroupingUnitType implements Enumerator {
 	/**
-	 * The '<em><b>Seconds</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Seconds</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Seconds</b></em>' literal object isn't clear, there
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #SECONDS
 	 * @generated
 	 * @ordered
 	 */
 	SECONDS_LITERAL(0, "Seconds", "Seconds"),
 	/**
-	 * The '<em><b>Minutes</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Minutes</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Minutes</b></em>' literal object isn't clear, there
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #MINUTES
 	 * @generated
 	 * @ordered
 	 */
 	MINUTES_LITERAL(1, "Minutes", "Minutes"),
 	/**
-	 * The '<em><b>Hours</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Hours</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Hours</b></em>' literal object isn't clear, there
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #HOURS
 	 * @generated
 	 * @ordered
 	 */
 	HOURS_LITERAL(2, "Hours", "Hours"),
 	/**
-	 * The '<em><b>Days</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Days</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Days</b></em>' literal object isn't clear, there
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #DAYS
 	 * @generated
 	 * @ordered
 	 */
 	DAYS_LITERAL(3, "Days", "Days"),
 	/**
-	 * The '<em><b>Weeks</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Weeks</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Weeks</b></em>' literal object isn't clear, there
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #WEEKS
 	 * @generated
 	 * @ordered
 	 */
 	WEEKS_LITERAL(4, "Weeks", "Weeks"),
 	/**
-	 * The '<em><b>Months</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Months</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Months</b></em>' literal object isn't clear, there
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #MONTHS
 	 * @generated
 	 * @ordered
 	 */
 	MONTHS_LITERAL(5, "Months", "Months"),
 	/**
-	 * The '<em><b>Quarters</b></em>' literal object. <!-- begin-user-doc --> <!--
+	 * The '<em><b>Quarters</b></em>' literal object.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #QUARTERS
 	 * @generated
 	 * @ordered
 	 */
 	QUARTERS_LITERAL(6, "Quarters", "Quarters"),
 	/**
-	 * The '<em><b>Years</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Years</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Years</b></em>' literal object isn't clear, there
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #YEARS
 	 * @generated
 	 * @ordered
 	 */
 	YEARS_LITERAL(7, "Years", "Years"),
 	/**
-	 * The '<em><b>String</b></em>' literal object. <!-- begin-user-doc --> <!--
+	 * The '<em><b>String</b></em>' literal object.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #STRING
 	 * @generated
 	 * @ordered
 	 */
 	STRING_LITERAL(8, "String", "String"),
 	/**
-	 * The '<em><b>String Prefix</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>String Prefix</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #STRING_PREFIX
 	 * @generated
 	 * @ordered
 	 */
 	STRING_PREFIX_LITERAL(9, "StringPrefix", "StringPrefix"),
 	/**
-	 * The '<em><b>Week Of Month</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Week Of Month</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #WEEK_OF_MONTH
 	 * @generated
 	 * @ordered
 	 */
 	WEEK_OF_MONTH_LITERAL(10, "WeekOfMonth", "WeekOfMonth"),
 	/**
-	 * The '<em><b>Week Of Year</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Week Of Year</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #WEEK_OF_YEAR
 	 * @generated
 	 * @ordered
 	 */
 	WEEK_OF_YEAR_LITERAL(11, "WeekOfYear", "WeekOfYear"),
 	/**
-	 * The '<em><b>Day Of Week</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Day Of Week</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #DAY_OF_WEEK
 	 * @generated
 	 * @ordered
 	 */
 	DAY_OF_WEEK_LITERAL(12, "DayOfWeek", "DayOfWeek"),
 	/**
-	 * The '<em><b>Day Of Month</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Day Of Month</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #DAY_OF_MONTH
 	 * @generated
 	 * @ordered
 	 */
 	DAY_OF_MONTH_LITERAL(13, "DayOfMonth", "DayOfMonth"),
 	/**
-	 * The '<em><b>Day Of Year</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Day Of Year</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #DAY_OF_YEAR
 	 * @generated
 	 * @ordered
 	 */
 	DAY_OF_YEAR_LITERAL(14, "DayOfYear", "DayOfYear"),
 	/**
-	 * The '<em><b>Week Of Quarter</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Week Of Quarter</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #WEEK_OF_QUARTER
 	 * @generated
 	 * @ordered
 	 */
 	WEEK_OF_QUARTER_LITERAL(15, "WeekOfQuarter", "WeekOfQuarter"),
 	/**
-	 * The '<em><b>Day Of Quarter</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Day Of Quarter</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #DAY_OF_QUARTER
 	 * @generated
 	 * @ordered
@@ -223,9 +223,9 @@ public enum GroupingUnitType implements Enumerator {
 	DAY_OF_QUARTER_LITERAL(16, "DayOfQuarter", "DayOfQuarter");
 
 	/**
-	 * The '<em><b>Seconds</b></em>' literal value. <!-- begin-user-doc --> <!--
+	 * The '<em><b>Seconds</b></em>' literal value.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #SECONDS_LITERAL
 	 * @model name="Seconds"
 	 * @generated
@@ -234,9 +234,9 @@ public enum GroupingUnitType implements Enumerator {
 	public static final int SECONDS = 0;
 
 	/**
-	 * The '<em><b>Minutes</b></em>' literal value. <!-- begin-user-doc --> <!--
+	 * The '<em><b>Minutes</b></em>' literal value.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #MINUTES_LITERAL
 	 * @model name="Minutes"
 	 * @generated
@@ -245,9 +245,9 @@ public enum GroupingUnitType implements Enumerator {
 	public static final int MINUTES = 1;
 
 	/**
-	 * The '<em><b>Hours</b></em>' literal value. <!-- begin-user-doc --> <!--
+	 * The '<em><b>Hours</b></em>' literal value.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #HOURS_LITERAL
 	 * @model name="Hours"
 	 * @generated
@@ -256,9 +256,9 @@ public enum GroupingUnitType implements Enumerator {
 	public static final int HOURS = 2;
 
 	/**
-	 * The '<em><b>Days</b></em>' literal value. <!-- begin-user-doc --> <!--
+	 * The '<em><b>Days</b></em>' literal value.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #DAYS_LITERAL
 	 * @model name="Days"
 	 * @generated
@@ -267,9 +267,9 @@ public enum GroupingUnitType implements Enumerator {
 	public static final int DAYS = 3;
 
 	/**
-	 * The '<em><b>Weeks</b></em>' literal value. <!-- begin-user-doc --> <!--
+	 * The '<em><b>Weeks</b></em>' literal value.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #WEEKS_LITERAL
 	 * @model name="Weeks"
 	 * @generated
@@ -278,9 +278,9 @@ public enum GroupingUnitType implements Enumerator {
 	public static final int WEEKS = 4;
 
 	/**
-	 * The '<em><b>Months</b></em>' literal value. <!-- begin-user-doc --> <!--
+	 * The '<em><b>Months</b></em>' literal value.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #MONTHS_LITERAL
 	 * @model name="Months"
 	 * @generated
@@ -289,13 +289,13 @@ public enum GroupingUnitType implements Enumerator {
 	public static final int MONTHS = 5;
 
 	/**
-	 * The '<em><b>Quarters</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Quarters</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Quarters</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #QUARTERS_LITERAL
 	 * @model name="Quarters"
 	 * @generated
@@ -304,9 +304,9 @@ public enum GroupingUnitType implements Enumerator {
 	public static final int QUARTERS = 6;
 
 	/**
-	 * The '<em><b>Years</b></em>' literal value. <!-- begin-user-doc --> <!--
+	 * The '<em><b>Years</b></em>' literal value.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #YEARS_LITERAL
 	 * @model name="Years"
 	 * @generated
@@ -315,13 +315,13 @@ public enum GroupingUnitType implements Enumerator {
 	public static final int YEARS = 7;
 
 	/**
-	 * The '<em><b>String</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>String</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>String</b></em>' literal object isn't clear, there
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #STRING_LITERAL
 	 * @model name="String"
 	 * @generated
@@ -330,13 +330,13 @@ public enum GroupingUnitType implements Enumerator {
 	public static final int STRING = 8;
 
 	/**
-	 * The '<em><b>String Prefix</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>String Prefix</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>String Prefix</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #STRING_PREFIX_LITERAL
 	 * @model name="StringPrefix"
 	 * @generated
@@ -345,13 +345,13 @@ public enum GroupingUnitType implements Enumerator {
 	public static final int STRING_PREFIX = 9;
 
 	/**
-	 * The '<em><b>Week Of Month</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Week Of Month</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Week Of Month</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #WEEK_OF_MONTH_LITERAL
 	 * @model name="WeekOfMonth"
 	 * @generated
@@ -360,13 +360,13 @@ public enum GroupingUnitType implements Enumerator {
 	public static final int WEEK_OF_MONTH = 10;
 
 	/**
-	 * The '<em><b>Week Of Year</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Week Of Year</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Week Of Year</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #WEEK_OF_YEAR_LITERAL
 	 * @model name="WeekOfYear"
 	 * @generated
@@ -375,13 +375,13 @@ public enum GroupingUnitType implements Enumerator {
 	public static final int WEEK_OF_YEAR = 11;
 
 	/**
-	 * The '<em><b>Day Of Week</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Day Of Week</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Day Of Week</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #DAY_OF_WEEK_LITERAL
 	 * @model name="DayOfWeek"
 	 * @generated
@@ -390,13 +390,13 @@ public enum GroupingUnitType implements Enumerator {
 	public static final int DAY_OF_WEEK = 12;
 
 	/**
-	 * The '<em><b>Day Of Month</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Day Of Month</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Day Of Month</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #DAY_OF_MONTH_LITERAL
 	 * @model name="DayOfMonth"
 	 * @generated
@@ -405,13 +405,13 @@ public enum GroupingUnitType implements Enumerator {
 	public static final int DAY_OF_MONTH = 13;
 
 	/**
-	 * The '<em><b>Day Of Year</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Day Of Year</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Day Of Year</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #DAY_OF_YEAR_LITERAL
 	 * @model name="DayOfYear"
 	 * @generated
@@ -420,13 +420,13 @@ public enum GroupingUnitType implements Enumerator {
 	public static final int DAY_OF_YEAR = 14;
 
 	/**
-	 * The '<em><b>Week Of Quarter</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Week Of Quarter</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Week Of Quarter</b></em>' literal object isn't
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #WEEK_OF_QUARTER_LITERAL
 	 * @model name="WeekOfQuarter"
 	 * @generated
@@ -435,13 +435,13 @@ public enum GroupingUnitType implements Enumerator {
 	public static final int WEEK_OF_QUARTER = 15;
 
 	/**
-	 * The '<em><b>Day Of Quarter</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Day Of Quarter</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Day Of Quarter</b></em>' literal object isn't
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #DAY_OF_QUARTER_LITERAL
 	 * @model name="DayOfQuarter"
 	 * @generated
@@ -455,23 +455,23 @@ public enum GroupingUnitType implements Enumerator {
 	 *
 	 * @generated
 	 */
-	private static final GroupingUnitType[] VALUES_ARRAY = { SECONDS_LITERAL, MINUTES_LITERAL, HOURS_LITERAL,
-			DAYS_LITERAL, WEEKS_LITERAL, MONTHS_LITERAL, QUARTERS_LITERAL, YEARS_LITERAL, STRING_LITERAL,
+	private static final GroupingUnitType[] VALUES_ARRAY = new GroupingUnitType[] { SECONDS_LITERAL, MINUTES_LITERAL,
+			HOURS_LITERAL, DAYS_LITERAL, WEEKS_LITERAL, MONTHS_LITERAL, QUARTERS_LITERAL, YEARS_LITERAL, STRING_LITERAL,
 			STRING_PREFIX_LITERAL, WEEK_OF_MONTH_LITERAL, WEEK_OF_YEAR_LITERAL, DAY_OF_WEEK_LITERAL,
 			DAY_OF_MONTH_LITERAL, DAY_OF_YEAR_LITERAL, WEEK_OF_QUARTER_LITERAL, DAY_OF_QUARTER_LITERAL, };
 
 	/**
-	 * A public read-only list of all the '<em><b>Grouping Unit Type</b></em>'
-	 * enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * A public read-only list of all the '<em><b>Grouping Unit Type</b></em>' enumerators.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static final List<GroupingUnitType> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
 	/**
-	 * Returns the '<em><b>Grouping Unit Type</b></em>' literal with the specified
-	 * literal value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns the '<em><b>Grouping Unit Type</b></em>' literal with the specified literal value.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param literal the literal.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static GroupingUnitType get(String literal) {
@@ -485,9 +485,10 @@ public enum GroupingUnitType implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Grouping Unit Type</b></em>' literal with the specified
-	 * name. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns the '<em><b>Grouping Unit Type</b></em>' literal with the specified name.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param name the name.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static GroupingUnitType getByName(String name) {
@@ -501,9 +502,10 @@ public enum GroupingUnitType implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Grouping Unit Type</b></em>' literal with the specified
-	 * integer value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns the '<em><b>Grouping Unit Type</b></em>' literal with the specified integer value.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the integer value.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static GroupingUnitType get(int value) {
@@ -548,32 +550,29 @@ public enum GroupingUnitType implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private final int value;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private final String name;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private final String literal;
 
 	/**
-	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
+	 * Only this class can construct instances.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @generated
 	 */
-	GroupingUnitType(int value, String name, String literal) {
+	private GroupingUnitType(int value, String name, String literal) {
 		this.value = value;
 		this.name = name;
 		this.literal = literal;
@@ -581,7 +580,6 @@ public enum GroupingUnitType implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -591,7 +589,6 @@ public enum GroupingUnitType implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -601,7 +598,6 @@ public enum GroupingUnitType implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -610,9 +606,8 @@ public enum GroupingUnitType implements Enumerator {
 	}
 
 	/**
-	 * Returns the literal value of the enumerator, which is its string
-	 * representation. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns the literal value of the enumerator, which is its string representation.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override

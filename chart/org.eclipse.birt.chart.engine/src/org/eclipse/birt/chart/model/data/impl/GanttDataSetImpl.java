@@ -27,8 +27,6 @@ import org.eclipse.emf.ecore.EClass;
 /**
  * <!-- begin-user-doc --> An implementation of the model object '<em><b>Gantt
  * Data Set</b></em>'. <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */
@@ -36,7 +34,6 @@ public class GanttDataSetImpl extends DataSetImpl implements GanttDataSet {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected GanttDataSetImpl() {
@@ -45,7 +42,6 @@ public class GanttDataSetImpl extends DataSetImpl implements GanttDataSet {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -92,6 +88,8 @@ public class GanttDataSetImpl extends DataSetImpl implements GanttDataSet {
 	protected void set(GanttDataSet src) {
 
 		super.set(src);
+
+		// children
 
 	}
 

@@ -22,22 +22,19 @@ import org.eclipse.emf.common.util.EList;
  * '<em><b>Query</b></em>'. <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- *
- * This type represents design-time definition for the dataset in a series.
- *
+ * 
+ * 			This type represents design-time definition for the dataset in a series.
+ * 			
  * <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.data.Query#getDefinition
- * <em>Definition</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.data.Query#getRules
- * <em>Rules</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.data.Query#getGrouping
- * <em>Grouping</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.data.Query#getDefinition <em>Definition</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.Query#getRules <em>Rules</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.Query#getGrouping <em>Grouping</em>}</li>
+ * </ul>
  *
  * @see org.eclipse.birt.chart.model.data.DataPackage#getQuery()
  * @model extendedMetaData="name='Query' kind='elementOnly'"
@@ -93,22 +90,19 @@ public interface Query extends IChartObject {
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @return the value of the '<em>Grouping</em>' containment reference.
 	 * @see #setGrouping(SeriesGrouping)
 	 * @see org.eclipse.birt.chart.model.data.DataPackage#getQuery_Grouping()
-	 * @model containment="true" required="true" extendedMetaData="kind='element'
-	 *        name='Grouping'"
+	 * @model containment="true" required="true"
+	 *        extendedMetaData="kind='element' name='Grouping'"
 	 * @generated
 	 */
 	SeriesGrouping getGrouping();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.data.Query#getGrouping
-	 * <em>Grouping</em>}' containment reference. <!-- begin-user-doc --> <!--
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.data.Query#getGrouping <em>Grouping</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @param value the new value of the '<em>Grouping</em>' containment reference.
 	 * @see #getGrouping()
 	 * @generated

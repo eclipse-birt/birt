@@ -18,20 +18,18 @@ package org.eclipse.birt.chart.model.attribute;
  * <!-- begin-user-doc --> A representation of the model object
  * '<em><b>Image</b></em>'. <!-- end-user-doc -->
  *
- * <!-- begin-model-doc --> Image extends Fill specialized to represent an
- * image.
- *
+ * <!-- begin-model-doc -->
+ * Image extends Fill specialized to represent an image.
+ * 			
  * <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.Image#getURL
- * <em>URL</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.Image#getSource
- * <em>Source</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.Image#getURL <em>URL</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.Image#getSource <em>Source</em>}</li>
+ * </ul>
  *
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getImage()
  * @model extendedMetaData="name='Image' kind='elementOnly'"
@@ -58,11 +56,9 @@ public interface Image extends Fill {
 	String getURL();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.Image#getURL <em>URL</em>}'
-	 * attribute. <!-- begin-user-doc --> Sets the URL for the image. <!--
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.Image#getURL <em>URL</em>}' attribute.
+	 * <!-- begin-user-doc --> Sets the URL for the image. <!--
 	 * end-user-doc -->
-	 *
 	 * @param value the new value of the '<em>URL</em>' attribute.
 	 * @see #getURL()
 	 * @generated
@@ -89,10 +85,8 @@ public interface Image extends Fill {
 	ImageSourceType getSource();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.Image#getSource
-	 * <em>Source</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.Image#getSource <em>Source</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Source</em>' attribute.
 	 * @see org.eclipse.birt.chart.model.attribute.ImageSourceType
 	 * @see #isSetSource()
@@ -103,10 +97,8 @@ public interface Image extends Fill {
 	void setSource(ImageSourceType value);
 
 	/**
-	 * Unsets the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.Image#getSource
-	 * <em>Source</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.attribute.Image#getSource <em>Source</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isSetSource()
 	 * @see #getSource()
 	 * @see #setSource(ImageSourceType)

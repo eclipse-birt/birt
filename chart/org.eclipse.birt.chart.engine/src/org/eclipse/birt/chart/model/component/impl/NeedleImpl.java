@@ -34,23 +34,20 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * '<em><b>Needle</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.NeedleImpl#getLineAttributes
- * <em>Line Attributes</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.NeedleImpl#getDecorator
- * <em>Decorator</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.NeedleImpl#getLineAttributes <em>Line Attributes</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.NeedleImpl#getDecorator <em>Decorator</em>}</li>
+ * </ul>
  *
  * @generated
  */
 public class NeedleImpl extends EObjectImpl implements Needle {
 
 	/**
-	 * The cached value of the '{@link #getLineAttributes() <em>Line
-	 * Attributes</em>}' containment reference. <!-- begin-user-doc --> <!--
+	 * The cached value of the '{@link #getLineAttributes() <em>Line Attributes</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #getLineAttributes()
 	 * @generated
 	 * @ordered
@@ -58,9 +55,8 @@ public class NeedleImpl extends EObjectImpl implements Needle {
 	protected LineAttributes lineAttributes;
 
 	/**
-	 * The default value of the '{@link #getDecorator() <em>Decorator</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The default value of the '{@link #getDecorator() <em>Decorator</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getDecorator()
 	 * @generated
 	 * @ordered
@@ -68,9 +64,8 @@ public class NeedleImpl extends EObjectImpl implements Needle {
 	protected static final LineDecorator DECORATOR_EDEFAULT = LineDecorator.ARROW_LITERAL;
 
 	/**
-	 * The cached value of the '{@link #getDecorator() <em>Decorator</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getDecorator() <em>Decorator</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getDecorator()
 	 * @generated
 	 * @ordered
@@ -78,9 +73,9 @@ public class NeedleImpl extends EObjectImpl implements Needle {
 	protected LineDecorator decorator = DECORATOR_EDEFAULT;
 
 	/**
-	 * This is true if the Decorator attribute has been set. <!-- begin-user-doc -->
+	 * This is true if the Decorator attribute has been set.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -88,7 +83,6 @@ public class NeedleImpl extends EObjectImpl implements Needle {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected NeedleImpl() {
@@ -97,7 +91,6 @@ public class NeedleImpl extends EObjectImpl implements Needle {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -107,7 +100,6 @@ public class NeedleImpl extends EObjectImpl implements Needle {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -117,7 +109,6 @@ public class NeedleImpl extends EObjectImpl implements Needle {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetLineAttributes(LineAttributes newLineAttributes, NotificationChain msgs) {
@@ -126,45 +117,38 @@ public class NeedleImpl extends EObjectImpl implements Needle {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					ComponentPackage.NEEDLE__LINE_ATTRIBUTES, oldLineAttributes, newLineAttributes);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setLineAttributes(LineAttributes newLineAttributes) {
 		if (newLineAttributes != lineAttributes) {
 			NotificationChain msgs = null;
-			if (lineAttributes != null) {
+			if (lineAttributes != null)
 				msgs = ((InternalEObject) lineAttributes).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - ComponentPackage.NEEDLE__LINE_ATTRIBUTES, null, msgs);
-			}
-			if (newLineAttributes != null) {
+			if (newLineAttributes != null)
 				msgs = ((InternalEObject) newLineAttributes).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - ComponentPackage.NEEDLE__LINE_ATTRIBUTES, null, msgs);
-			}
 			msgs = basicSetLineAttributes(newLineAttributes, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.NEEDLE__LINE_ATTRIBUTES,
 					newLineAttributes, newLineAttributes));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -174,7 +158,6 @@ public class NeedleImpl extends EObjectImpl implements Needle {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -183,15 +166,13 @@ public class NeedleImpl extends EObjectImpl implements Needle {
 		decorator = newDecorator == null ? DECORATOR_EDEFAULT : newDecorator;
 		boolean oldDecoratorESet = decoratorESet;
 		decoratorESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.NEEDLE__DECORATOR, oldDecorator,
 					decorator, !oldDecoratorESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -200,15 +181,13 @@ public class NeedleImpl extends EObjectImpl implements Needle {
 		boolean oldDecoratorESet = decoratorESet;
 		decorator = DECORATOR_EDEFAULT;
 		decoratorESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, ComponentPackage.NEEDLE__DECORATOR, oldDecorator,
 					DECORATOR_EDEFAULT, oldDecoratorESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -218,7 +197,6 @@ public class NeedleImpl extends EObjectImpl implements Needle {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -232,7 +210,6 @@ public class NeedleImpl extends EObjectImpl implements Needle {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -248,7 +225,6 @@ public class NeedleImpl extends EObjectImpl implements Needle {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -266,7 +242,6 @@ public class NeedleImpl extends EObjectImpl implements Needle {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -284,7 +259,6 @@ public class NeedleImpl extends EObjectImpl implements Needle {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -300,22 +274,19 @@ public class NeedleImpl extends EObjectImpl implements Needle {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) {
+		if (eIsProxy())
 			return super.toString();
-		}
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (decorator: "); //$NON-NLS-1$
-		if (decoratorESet) {
+		if (decoratorESet)
 			result.append(decorator);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(')');
 		return result.toString();
 	}

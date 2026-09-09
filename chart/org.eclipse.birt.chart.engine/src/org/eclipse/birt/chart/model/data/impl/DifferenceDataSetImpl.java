@@ -27,8 +27,6 @@ import org.eclipse.emf.ecore.EClass;
 /**
  * <!-- begin-user-doc --> An implementation of the model object
  * '<em><b>Difference Data Set</b></em>'. <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */
@@ -36,7 +34,6 @@ public class DifferenceDataSetImpl extends DataSetImpl implements DifferenceData
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected DifferenceDataSetImpl() {
@@ -45,7 +42,6 @@ public class DifferenceDataSetImpl extends DataSetImpl implements DifferenceData
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -92,6 +88,8 @@ public class DifferenceDataSetImpl extends DataSetImpl implements DifferenceData
 	protected void set(DifferenceDataSet src) {
 
 		super.set(src);
+
+		// children
 
 	}
 

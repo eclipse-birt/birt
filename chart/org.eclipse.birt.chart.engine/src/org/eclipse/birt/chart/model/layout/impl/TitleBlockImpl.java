@@ -24,11 +24,13 @@ import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.factory.RunTimeContext.StateKey;
 import org.eclipse.birt.chart.model.component.Label;
+import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.birt.chart.model.layout.Block;
 import org.eclipse.birt.chart.model.layout.LayoutFactory;
 import org.eclipse.birt.chart.model.layout.LayoutPackage;
 import org.eclipse.birt.chart.model.layout.TitleBlock;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
@@ -36,7 +38,11 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- begin-user-doc --> An implementation of the model object '<em><b>Title
  * Block</b></em>'. <!-- end-user-doc -->
  * <p>
+ * The following features are implemented:
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.impl.TitleBlockImpl#isAuto <em>Auto</em>}</li>
+ * </ul>
  *
  * @generated
  */
@@ -61,9 +67,9 @@ public class TitleBlockImpl extends LabelBlockImpl implements TitleBlock {
 	 */
 	protected boolean auto = AUTO_EDEFAULT;
 	/**
-	 * This is true if the Auto attribute has been set. <!-- begin-user-doc --> <!--
+	 * This is true if the Auto attribute has been set.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -71,7 +77,6 @@ public class TitleBlockImpl extends LabelBlockImpl implements TitleBlock {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected TitleBlockImpl() {
@@ -102,7 +107,6 @@ public class TitleBlockImpl extends LabelBlockImpl implements TitleBlock {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -112,7 +116,6 @@ public class TitleBlockImpl extends LabelBlockImpl implements TitleBlock {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -122,7 +125,6 @@ public class TitleBlockImpl extends LabelBlockImpl implements TitleBlock {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -131,15 +133,13 @@ public class TitleBlockImpl extends LabelBlockImpl implements TitleBlock {
 		auto = newAuto;
 		boolean oldAutoESet = autoESet;
 		autoESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.TITLE_BLOCK__AUTO, oldAuto, auto,
 					!oldAutoESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -148,15 +148,13 @@ public class TitleBlockImpl extends LabelBlockImpl implements TitleBlock {
 		boolean oldAutoESet = autoESet;
 		auto = AUTO_EDEFAULT;
 		autoESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, LayoutPackage.TITLE_BLOCK__AUTO, oldAuto,
 					AUTO_EDEFAULT, oldAutoESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -166,7 +164,6 @@ public class TitleBlockImpl extends LabelBlockImpl implements TitleBlock {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -180,7 +177,6 @@ public class TitleBlockImpl extends LabelBlockImpl implements TitleBlock {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -195,7 +191,6 @@ public class TitleBlockImpl extends LabelBlockImpl implements TitleBlock {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -210,7 +205,6 @@ public class TitleBlockImpl extends LabelBlockImpl implements TitleBlock {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -224,22 +218,19 @@ public class TitleBlockImpl extends LabelBlockImpl implements TitleBlock {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) {
+		if (eIsProxy())
 			return super.toString();
-		}
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (auto: "); //$NON-NLS-1$
-		if (autoESet) {
+		if (autoESet)
 			result.append(auto);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(')');
 		return result.toString();
 	}
@@ -305,7 +296,87 @@ public class TitleBlockImpl extends LabelBlockImpl implements TitleBlock {
 
 		super.set(src);
 
+		// children
+
+		if (src.getChildren() != null) {
+			EList<Block> list = getChildren();
+			for (Block element : src.getChildren()) {
+				list.add(element.copyInstance());
+			}
+		}
+
+		if (src.getBounds() != null) {
+			setBounds(src.getBounds().copyInstance());
+		}
+
+		if (src.getInsets() != null) {
+			setInsets(src.getInsets().copyInstance());
+		}
+
+		if (src.getMinSize() != null) {
+			setMinSize(src.getMinSize().copyInstance());
+		}
+
+		if (src.getOutline() != null) {
+			setOutline(src.getOutline().copyInstance());
+		}
+
+		if (src.getBackground() != null) {
+			setBackground(src.getBackground().copyInstance());
+		}
+
+		if (src.getTriggers() != null) {
+			EList<Trigger> list = getTriggers();
+			for (Trigger element : src.getTriggers()) {
+				list.add(element.copyInstance());
+			}
+		}
+
+		if (src.getCursor() != null) {
+			setCursor(src.getCursor().copyInstance());
+		}
+
+		if (src.getLabel() != null) {
+			setLabel(src.getLabel().copyInstance());
+		}
+
 		// attributes
+
+		anchor = src.getAnchor();
+
+		anchorESet = src.isSetAnchor();
+
+		stretch = src.getStretch();
+
+		stretchESet = src.isSetStretch();
+
+		row = src.getRow();
+
+		rowESet = src.isSetRow();
+
+		column = src.getColumn();
+
+		columnESet = src.isSetColumn();
+
+		rowspan = src.getRowspan();
+
+		rowspanESet = src.isSetRowspan();
+
+		columnspan = src.getColumnspan();
+
+		columnspanESet = src.isSetColumnspan();
+
+		visible = src.isVisible();
+
+		visibleESet = src.isSetVisible();
+
+		widthHint = src.getWidthHint();
+
+		widthHintESet = src.isSetWidthHint();
+
+		heightHint = src.getHeightHint();
+
+		heightHintESet = src.isSetHeightHint();
 
 		auto = src.isAuto();
 

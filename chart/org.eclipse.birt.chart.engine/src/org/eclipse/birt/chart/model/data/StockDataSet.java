@@ -19,14 +19,14 @@ package org.eclipse.birt.chart.model.data;
  * Data Set</b></em>'. <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- *
- * This type holds the stock data associated with a series.
- *
+ * 
+ * 			This type holds the stock data associated with a series.
+ * 			
  * <!-- end-model-doc -->
  *
  *
  * @see org.eclipse.birt.chart.model.data.DataPackage#getStockDataSet()
- * @model
+ * @model extendedMetaData="name='StockDataSet' kind='elementOnly'"
  * @generated
  */
 public interface StockDataSet extends DataSet {

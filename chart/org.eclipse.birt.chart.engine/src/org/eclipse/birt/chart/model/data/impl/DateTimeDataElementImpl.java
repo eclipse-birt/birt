@@ -29,11 +29,10 @@ import com.ibm.icu.util.Calendar;
  * Time Data Element</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.data.impl.DateTimeDataElementImpl#getValue
- * <em>Value</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.data.impl.DateTimeDataElementImpl#getValue <em>Value</em>}</li>
+ * </ul>
  *
  * @generated
  */
@@ -60,9 +59,9 @@ public class DateTimeDataElementImpl extends DataElementImpl implements DateTime
 	protected long value = VALUE_EDEFAULT;
 
 	/**
-	 * This is true if the Value attribute has been set. <!-- begin-user-doc -->
+	 * This is true if the Value attribute has been set.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -70,7 +69,6 @@ public class DateTimeDataElementImpl extends DataElementImpl implements DateTime
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected DateTimeDataElementImpl() {
@@ -79,7 +77,6 @@ public class DateTimeDataElementImpl extends DataElementImpl implements DateTime
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -89,7 +86,6 @@ public class DateTimeDataElementImpl extends DataElementImpl implements DateTime
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -99,7 +95,6 @@ public class DateTimeDataElementImpl extends DataElementImpl implements DateTime
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -108,15 +103,13 @@ public class DateTimeDataElementImpl extends DataElementImpl implements DateTime
 		value = newValue;
 		boolean oldValueESet = valueESet;
 		valueESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, DataPackage.DATE_TIME_DATA_ELEMENT__VALUE, oldValue,
 					value, !oldValueESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -125,15 +118,13 @@ public class DateTimeDataElementImpl extends DataElementImpl implements DateTime
 		boolean oldValueESet = valueESet;
 		value = VALUE_EDEFAULT;
 		valueESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, DataPackage.DATE_TIME_DATA_ELEMENT__VALUE, oldValue,
 					VALUE_EDEFAULT, oldValueESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -143,7 +134,6 @@ public class DateTimeDataElementImpl extends DataElementImpl implements DateTime
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -157,7 +147,6 @@ public class DateTimeDataElementImpl extends DataElementImpl implements DateTime
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -172,7 +161,6 @@ public class DateTimeDataElementImpl extends DataElementImpl implements DateTime
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -187,7 +175,6 @@ public class DateTimeDataElementImpl extends DataElementImpl implements DateTime
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override

@@ -27,11 +27,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
- * <ul>
- * <li>{@link org.eclipse.birt.report.model.adapter.oda.model.DataSetParameters#getParameter
- * <em>Parameter</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.report.model.adapter.oda.model.DataSetParameters#getParameters <em>Parameters</em>}</li>
+ * </ul>
  *
  * @see org.eclipse.birt.report.model.adapter.oda.model.ModelPackage#getDataSetParameters()
  * @model extendedMetaData="name='DataSetParameters' kind='elementOnly'"
@@ -39,20 +38,18 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface DataSetParameters extends EObject {
 	/**
-	 * Returns the value of the '<em><b>Parameter</b></em>' containment reference
-	 * list. The list contents are of type
-	 * {@link org.eclipse.birt.report.model.adapter.oda.model.DataSetParameter}.
+	 * Returns the value of the '<em><b>Parameters</b></em>' containment reference list.
+	 * The list contents are of type {@link org.eclipse.birt.report.model.adapter.oda.model.DataSetParameter}.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Parameter</em>' containment reference list isn't
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
-	 * @return the value of the '<em>Parameter</em>' containment reference list.
-	 * @see org.eclipse.birt.report.model.adapter.oda.model.ModelPackage#getDataSetParameters_Parameter()
-	 * @model containment="true" required="true" extendedMetaData="kind='element'
-	 *        name='parameter'"
+	 * @return the value of the '<em>Parameters</em>' containment reference list.
+	 * @see org.eclipse.birt.report.model.adapter.oda.model.ModelPackage#getDataSetParameters_Parameters()
+	 * @model containment="true" required="true"
+	 *        extendedMetaData="kind='element' name='parameter'"
 	 * @generated
 	 */
 	EList<DataSetParameter> getParameters();

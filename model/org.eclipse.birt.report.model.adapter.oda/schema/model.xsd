@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- edited with XML Spy v4.3 U (http://www.xmlspy.com) by LEGO (LEGO) -->
-<xsd:schema targetNamespace="http://www.eclipse.org/birt/report/model/model/odaModel" xmlns:model="http://www.eclipse.org/birt/report/model/model/odaModel" xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<xsd:schema 
+  targetNamespace="http://www.eclipse.org/birt/report/model/adapter/odaModel"
+  xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+  xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel"
+  xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<!-- 
+	This import should reference the latest version of this file.
+	https://raw.githubusercontent.com/eclipse-datatools/datatools/refs/heads/master/plugins/connectivity/org.eclipse.datatools.connectivity.oda.design/model/DesignXML.xsd
+	Youc an also copy this file to the schema folder.
+	The .gitignore will igore the copy.
+	-->
 	<xsd:import namespace="http://www.eclipse.org/datatools/connectivity/oda/design" schemaLocation="DesignXML.xsd"/>
 	<xsd:annotation>
 		<xsd:documentation xml:lang="en">
@@ -33,7 +44,7 @@
 
 	<xsd:complexType name="DataSetParameters">
 		<xsd:sequence>
-			<xsd:element name="parameters" type="model:DataSetParameter" minOccurs="1" maxOccurs="unbounded"></xsd:element>
+			<xsd:element name="parameter" ecore:name="parameters" type="model:DataSetParameter" minOccurs="1" maxOccurs="unbounded"></xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 

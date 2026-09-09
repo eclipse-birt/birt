@@ -26,18 +26,17 @@ import org.eclipse.birt.chart.model.attribute.Orientation;
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Bubble
  * Series</b></em>'. <!-- end-user-doc -->
  *
- * <!-- begin-model-doc --> This is a Series type that holds data for Bubble
- * Charts. <!-- end-model-doc -->
+ * <!-- begin-model-doc -->
+ * This is a Series type that holds data for Bubble Charts.			
+ * <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.type.BubbleSeries#getAccLineAttributes
- * <em>Acc Line Attributes</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.type.BubbleSeries#getAccOrientation
- * <em>Acc Orientation</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.type.BubbleSeries#getAccLineAttributes <em>Acc Line Attributes</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.BubbleSeries#getAccOrientation <em>Acc Orientation</em>}</li>
+ * </ul>
  *
  * @see org.eclipse.birt.chart.model.type.TypePackage#getBubbleSeries()
  * @model extendedMetaData="name='BubbleSeries' kind='elementOnly'"
@@ -66,13 +65,10 @@ public interface BubbleSeries extends ScatterSeries {
 	LineAttributes getAccLineAttributes();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.type.BubbleSeries#getAccLineAttributes
-	 * <em>Acc Line Attributes</em>}' containment reference. <!-- begin-user-doc -->
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.type.BubbleSeries#getAccLineAttributes <em>Acc Line Attributes</em>}' containment reference.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
-	 * @param value the new value of the '<em>Acc Line Attributes</em>' containment
-	 *              reference.
+	 * @param value the new value of the '<em>Acc Line Attributes</em>' containment reference.
 	 * @see #getAccLineAttributes()
 	 * @generated
 	 */
@@ -98,11 +94,9 @@ public interface BubbleSeries extends ScatterSeries {
 	Orientation getAccOrientation();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.type.BubbleSeries#getAccOrientation
-	 * <em>Acc Orientation</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.type.BubbleSeries#getAccOrientation <em>Acc Orientation</em>}' attribute.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @param value the new value of the '<em>Acc Orientation</em>' attribute.
 	 * @see org.eclipse.birt.chart.model.attribute.Orientation
 	 * @see #isSetAccOrientation()
@@ -113,11 +107,9 @@ public interface BubbleSeries extends ScatterSeries {
 	void setAccOrientation(Orientation value);
 
 	/**
-	 * Unsets the value of the
-	 * '{@link org.eclipse.birt.chart.model.type.BubbleSeries#getAccOrientation
-	 * <em>Acc Orientation</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.type.BubbleSeries#getAccOrientation <em>Acc Orientation</em>}' attribute.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #isSetAccOrientation()
 	 * @see #getAccOrientation()
 	 * @see #setAccOrientation(Orientation)
@@ -126,11 +118,9 @@ public interface BubbleSeries extends ScatterSeries {
 	void unsetAccOrientation();
 
 	/**
-	 * Returns whether the value of the
-	 * '{@link org.eclipse.birt.chart.model.type.BubbleSeries#getAccOrientation
-	 * <em>Acc Orientation</em>}' attribute is set. <!-- begin-user-doc --> <!--
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.type.BubbleSeries#getAccOrientation <em>Acc Orientation</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @return whether the value of the '<em>Acc Orientation</em>' attribute is set.
 	 * @see #unsetAccOrientation()
 	 * @see #getAccOrientation()

@@ -21,21 +21,36 @@ import org.eclipse.birt.chart.model.component.Label;
  * Block</b></em>'. <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- *
- * This type defines a text block in the chart.
- *
+ * 
+ *   LabelBlock is a sub-type of Block, which is specialized for laying out a text  
+ * in the chart for general purpose. It contains a Label, which holds the content 
+ * and graphical properties of the text to be rendered.  Following example shows
+ * how to add a arbitrary text "Sample Text" to a chart: 
+ * 
+ *   <p xmlns="http://www.birt.eclipse.org/ChartModelLayout">
+ *     		Chart cm = ....
+ *     <br/>
+ *     		LabelBlock lbBlock = (LabelBlock) LabelBlockImpl.create( );
+ *     <br/>
+ *     		lbBlock.getBounds( ).set( 50, 50, 100, 100 );
+ *     <br/>
+ *     		lbBlock.getLabel( ).getCaption( ).setValue( "Sample Text" );
+ *     <br/>
+ *     		cm.getBlock( ).getChildren( ).add( lbBlock );
+ * 
+ *   </p>
+ * 
  * <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.layout.LabelBlock#getLabel
- * <em>Label</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.LabelBlock#getLabel <em>Label</em>}</li>
+ * </ul>
  *
  * @see org.eclipse.birt.chart.model.layout.LayoutPackage#getLabelBlock()
- * @model
+ * @model extendedMetaData="name='LabelBlock' kind='elementOnly'"
  * @generated
  */
 public interface LabelBlock extends Block {
@@ -57,11 +72,9 @@ public interface LabelBlock extends Block {
 	Label getLabel();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.layout.LabelBlock#getLabel
-	 * <em>Label</em>}' containment reference. <!-- begin-user-doc --> <!--
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.layout.LabelBlock#getLabel <em>Label</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @param value the new value of the '<em>Label</em>' containment reference.
 	 * @see #getLabel()
 	 * @generated

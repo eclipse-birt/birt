@@ -23,22 +23,18 @@ import org.eclipse.birt.chart.model.attribute.ActionValue;
  * '<em><b>Action</b></em>'. <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- *
- * This type defines an Action. An action is a property defining interactivity
- * for an element. It is associated in a trigger with a trigger condition that
- * defines when the action is to be processed.
- *
+ * 
+ * 			This type defines an Action. An action is a property defining interactivity for an element. It is associated in a trigger with a trigger condition that defines when the action is to be processed.
+ * 			
  * <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.data.Action#getType
- * <em>Type</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.data.Action#getValue
- * <em>Value</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.data.Action#getType <em>Type</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.Action#getValue <em>Value</em>}</li>
+ * </ul>
  *
  * @see org.eclipse.birt.chart.model.data.DataPackage#getAction()
  * @model extendedMetaData="name='Action' kind='elementOnly'"
@@ -71,10 +67,8 @@ public interface Action extends IChartObject {
 	ActionType getType();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.data.Action#getType <em>Type</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.data.Action#getType <em>Type</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Type</em>' attribute.
 	 * @see org.eclipse.birt.chart.model.attribute.ActionType
 	 * @see #isSetType()
@@ -85,10 +79,8 @@ public interface Action extends IChartObject {
 	void setType(ActionType value);
 
 	/**
-	 * Unsets the value of the
-	 * '{@link org.eclipse.birt.chart.model.data.Action#getType <em>Type</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.data.Action#getType <em>Type</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isSetType()
 	 * @see #getType()
 	 * @see #setType(ActionType)
@@ -97,10 +89,8 @@ public interface Action extends IChartObject {
 	void unsetType();
 
 	/**
-	 * Returns whether the value of the
-	 * '{@link org.eclipse.birt.chart.model.data.Action#getType <em>Type</em>}'
-	 * attribute is set. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.data.Action#getType <em>Type</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return whether the value of the '<em>Type</em>' attribute is set.
 	 * @see #unsetType()
 	 * @see #getType()
@@ -129,10 +119,8 @@ public interface Action extends IChartObject {
 	ActionValue getValue();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.data.Action#getValue <em>Value</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.data.Action#getValue <em>Value</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Value</em>' containment reference.
 	 * @see #getValue()
 	 * @generated

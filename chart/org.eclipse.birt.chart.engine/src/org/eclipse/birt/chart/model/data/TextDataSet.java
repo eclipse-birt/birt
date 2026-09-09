@@ -19,14 +19,14 @@ package org.eclipse.birt.chart.model.data;
  * Data Set</b></em>'. <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- *
- * This type holds the text data associated with a series.
- *
+ * 
+ * 			This type holds the text data associated with a series.
+ * 			
  * <!-- end-model-doc -->
  *
  *
  * @see org.eclipse.birt.chart.model.data.DataPackage#getTextDataSet()
- * @model
+ * @model extendedMetaData="name='TextDataSet' kind='elementOnly'"
  * @generated
  */
 public interface TextDataSet extends DataSet {

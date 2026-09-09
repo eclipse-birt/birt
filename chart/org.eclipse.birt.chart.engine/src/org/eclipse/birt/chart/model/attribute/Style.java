@@ -25,24 +25,20 @@ import org.eclipse.birt.chart.model.IChartObject;
  * <!-- begin-user-doc --> A representation of the model object
  * '<em><b>Style</b></em>'. <!-- end-user-doc -->
  *
- * <!-- begin-model-doc --> Style provides a holder for all properties that can
- * be styled. <!-- end-model-doc -->
+ * <!-- begin-model-doc -->
+ * Style provides a holder for all properties that can be styled.
+ * <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.Style#getFont
- * <em>Font</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.Style#getColor
- * <em>Color</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.Style#getBackgroundColor
- * <em>Background Color</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.Style#getBackgroundImage
- * <em>Background Image</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.Style#getPadding
- * <em>Padding</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.Style#getFont <em>Font</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.Style#getColor <em>Color</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.Style#getBackgroundColor <em>Background Color</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.Style#getBackgroundImage <em>Background Image</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.Style#getPadding <em>Padding</em>}</li>
+ * </ul>
  *
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getStyle()
  * @model extendedMetaData="name='Style' kind='elementOnly'"
@@ -66,10 +62,8 @@ public interface Style extends IChartObject {
 	FontDefinition getFont();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.Style#getFont <em>Font</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.Style#getFont <em>Font</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Font</em>' containment reference.
 	 * @see #getFont()
 	 * @generated
@@ -91,11 +85,9 @@ public interface Style extends IChartObject {
 	ColorDefinition getColor();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.Style#getColor
-	 * <em>Color</em>}' containment reference. <!-- begin-user-doc --> <!--
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.Style#getColor <em>Color</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @param value the new value of the '<em>Color</em>' containment reference.
 	 * @see #getColor()
 	 * @generated
@@ -117,13 +109,10 @@ public interface Style extends IChartObject {
 	ColorDefinition getBackgroundColor();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.Style#getBackgroundColor
-	 * <em>Background Color</em>}' containment reference. <!-- begin-user-doc -->
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.Style#getBackgroundColor <em>Background Color</em>}' containment reference.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
-	 * @param value the new value of the '<em>Background Color</em>' containment
-	 *              reference.
+	 * @param value the new value of the '<em>Background Color</em>' containment reference.
 	 * @see #getBackgroundColor()
 	 * @generated
 	 */
@@ -144,13 +133,10 @@ public interface Style extends IChartObject {
 	Image getBackgroundImage();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.Style#getBackgroundImage
-	 * <em>Background Image</em>}' containment reference. <!-- begin-user-doc -->
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.Style#getBackgroundImage <em>Background Image</em>}' containment reference.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
-	 * @param value the new value of the '<em>Background Image</em>' containment
-	 *              reference.
+	 * @param value the new value of the '<em>Background Image</em>' containment reference.
 	 * @see #getBackgroundImage()
 	 * @generated
 	 */
@@ -170,11 +156,9 @@ public interface Style extends IChartObject {
 	Insets getPadding();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.Style#getPadding
-	 * <em>Padding</em>}' containment reference. <!-- begin-user-doc --> <!--
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.Style#getPadding <em>Padding</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @param value the new value of the '<em>Padding</em>' containment reference.
 	 * @see #getPadding()
 	 * @generated

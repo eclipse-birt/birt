@@ -36,55 +36,49 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Package</b>. <!--
  * end-user-doc -->
- *
  * @generated
  */
 public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass dataSetParameterEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass dataSetParametersEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass designValuesEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass documentRootEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass dynamicListEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
-	 * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry} by the
-	 * package package URI value.
-	 * <p>
-	 * Note: the correct way to create the package is via the static factory method
-	 * {@link #init init()}, which also performs initialization of the package, or
-	 * returns the registered package, if one already exists. <!-- begin-user-doc
+	 * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry} by the package
+	 * package URI value.
+	 * <p>Note: the correct way to create the package is via the static
+	 * factory method {@link #init init()}, which also performs
+	 * initialization of the package, or returns the registered package,
+	 * if one already exists.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 *
 	 * @see org.eclipse.emf.ecore.EPackage.Registry
 	 * @see org.eclipse.birt.report.model.adapter.oda.model.ModelPackage#eNS_URI
 	 * @see #init()
@@ -96,21 +90,17 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private static boolean isInited = false;
 
 	/**
-	 * Creates, registers, and initializes the <b>Package</b> for this model, and
-	 * for any others upon which it depends.
+	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
 	 *
-	 * <p>
-	 * This method is used to initialize {@link ModelPackage#eINSTANCE} when that
-	 * field is accessed. Clients should not invoke it directly. Instead, they
-	 * should simply access that field to obtain the package. <!-- begin-user-doc
+	 * <p>This method is used to initialize {@link ModelPackage#eINSTANCE} when that field is accessed.
+	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 *
 	 * @see #eNS_URI
 	 * @see #createPackageContents()
 	 * @see #initializePackageContents()
@@ -122,9 +112,10 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 		}
 
 		// Obtain or create and register package
-		ModelPackageImpl theModelPackage = (ModelPackageImpl) (EPackage.Registry.INSTANCE
-				.get(eNS_URI) instanceof ModelPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI)
-						: new ModelPackageImpl());
+		Object registeredModelPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+		ModelPackageImpl theModelPackage = registeredModelPackage instanceof ModelPackageImpl
+				? (ModelPackageImpl) registeredModelPackage
+				: new ModelPackageImpl();
 
 		isInited = true;
 
@@ -148,7 +139,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -158,7 +148,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -168,7 +157,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -178,7 +166,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -187,18 +174,17 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public EReference getDataSetParameters_Parameter() {
+	public EReference getDataSetParameters_Parameters() {
 		return (EReference) dataSetParametersEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -208,7 +194,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -218,7 +203,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -228,7 +212,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -238,7 +221,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -248,7 +230,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -258,7 +239,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -268,7 +248,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -278,7 +257,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -288,7 +266,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -298,7 +275,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -308,7 +284,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -318,7 +293,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -328,7 +302,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -338,7 +311,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -348,7 +320,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -358,7 +329,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -368,7 +338,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -378,7 +347,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -388,16 +356,15 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private boolean isCreated = false;
 
 	/**
-	 * Creates the meta-model objects for the package. This method is guarded to
-	 * have no affect on any invocation but its first. <!-- begin-user-doc --> <!--
+	 * Creates the meta-model objects for the package.  This method is
+	 * guarded to have no affect on any invocation but its first.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public void createPackageContents() {
@@ -412,7 +379,7 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 		createEReference(dataSetParameterEClass, DATA_SET_PARAMETER__DYNAMIC_LIST);
 
 		dataSetParametersEClass = createEClass(DATA_SET_PARAMETERS);
-		createEReference(dataSetParametersEClass, DATA_SET_PARAMETERS__PARAMETER);
+		createEReference(dataSetParametersEClass, DATA_SET_PARAMETERS__PARAMETERS);
 
 		designValuesEClass = createEClass(DESIGN_VALUES);
 		createEAttribute(designValuesEClass, DESIGN_VALUES__VERSION);
@@ -438,7 +405,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private boolean isInitialized = false;
@@ -484,13 +450,13 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 		initEClass(dataSetParametersEClass, DataSetParameters.class, "DataSetParameters", !IS_ABSTRACT, !IS_INTERFACE,
 				IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getDataSetParameters_Parameter(), this.getDataSetParameter(), null, "parameter", null, 1, -1,
+		initEReference(getDataSetParameters_Parameters(), this.getDataSetParameter(), null, "parameters", null, 1, -1,
 				DataSetParameters.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
 				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(designValuesEClass, DesignValues.class, "DesignValues", !IS_ABSTRACT, !IS_INTERFACE,
 				IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getDesignValues_Version(), theXMLTypePackage.getString(), "version", "2.0.0", 1, 1,
+		initEAttribute(getDesignValues_Version(), theXMLTypePackage.getString(), "version", "2.0", 1, 1,
 				DesignValues.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
 				!IS_DERIVED, IS_ORDERED);
 		initEReference(getDesignValues_DataSetParameters(), this.getDataSetParameters(), null, "dataSetParameters",
@@ -532,8 +498,8 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 		initEAttribute(getDynamicList_DataSetName(), theXMLTypePackage.getString(), "dataSetName", null, 0, 1,
 				DynamicList.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
 				!IS_DERIVED, IS_ORDERED);
-		initEAttribute(getDynamicList_Enabled(), theXMLTypePackage.getString(), "enabled", null, 0, 1,
-				DynamicList.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
+		initEAttribute(getDynamicList_Enabled(), theXMLTypePackage.getString(), "enabled", "true", 0, 1,
+				DynamicList.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
 				!IS_DERIVED, IS_ORDERED);
 		initEAttribute(getDynamicList_LabelColumn(), theXMLTypePackage.getString(), "labelColumn", null, 0, 1,
 				DynamicList.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
@@ -567,7 +533,7 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 				new String[] { "kind", "element", "name", "dynamicList" });
 		addAnnotation(dataSetParametersEClass, source,
 				new String[] { "name", "DataSetParameters", "kind", "elementOnly" });
-		addAnnotation(getDataSetParameters_Parameter(), source,
+		addAnnotation(getDataSetParameters_Parameters(), source,
 				new String[] { "kind", "element", "name", "parameter" });
 		addAnnotation(designValuesEClass, source, new String[] { "name", "DesignValues", "kind", "elementOnly" });
 		addAnnotation(getDesignValues_Version(), source, new String[] { "kind", "element", "name", "Version" });
@@ -592,10 +558,13 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 		addAnnotation(getDocumentRoot_DynamicList(), source,
 				new String[] { "kind", "element", "name", "DynamicList", "namespace", "##targetNamespace" });
 		addAnnotation(dynamicListEClass, source, new String[] { "name", "DynamicList", "kind", "empty" });
-		addAnnotation(getDynamicList_DataSetName(), source, new String[] { "kind", "element", "name", "dataSetName" });
-		addAnnotation(getDynamicList_Enabled(), source, new String[] { "kind", "element", "name", "enabled" });
-		addAnnotation(getDynamicList_LabelColumn(), source, new String[] { "kind", "element", "name", "labelColumn" });
-		addAnnotation(getDynamicList_ValueColumn(), source, new String[] { "kind", "element", "name", "valueColumn" });
+		addAnnotation(getDynamicList_DataSetName(), source,
+				new String[] { "kind", "attribute", "name", "dataSetName" });
+		addAnnotation(getDynamicList_Enabled(), source, new String[] { "kind", "attribute", "name", "enabled" });
+		addAnnotation(getDynamicList_LabelColumn(), source,
+				new String[] { "kind", "attribute", "name", "labelColumn" });
+		addAnnotation(getDynamicList_ValueColumn(), source,
+				new String[] { "kind", "attribute", "name", "valueColumn" });
 	}
 
 } // ModelPackageImpl

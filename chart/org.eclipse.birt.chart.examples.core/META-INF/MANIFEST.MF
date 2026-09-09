@@ -1,17 +1,20 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: %Bundle-Name
+Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.birt.chart.examples.core;singleton:=true
 Bundle-Version: 4.26.0.qualifier
 Bundle-Activator: org.eclipse.birt.chart.examples.ChartExamplesCorePlugin
 Require-Bundle: org.eclipse.birt.chart.engine;bundle-version="[4.26.0,5.0.0)",
  org.eclipse.birt.chart.engine.extension;bundle-version="[2.6.0,5.0.0)"
 Bundle-RequiredExecutionEnvironment: JavaSE-25
-Bundle-Vendor: %Bundle-Vendor
-Export-Package: org.eclipse.birt.chart.examples.radar.i18n,
+Bundle-Vendor: %providerName
+Export-Package: org.eclipse.birt.chart.examples,
+ org.eclipse.birt.chart.examples.radar.i18n,
+ org.eclipse.birt.chart.examples.radar.model,
  org.eclipse.birt.chart.examples.radar.model.type,
  org.eclipse.birt.chart.examples.radar.model.type.impl,
  org.eclipse.birt.chart.examples.radar.model.type.util,
  org.eclipse.birt.chart.examples.radar.render
 Bundle-ActivationPolicy: lazy
+Bundle-Localization: plugin
 Automatic-Module-Name: org.eclipse.birt.chart.examples.core

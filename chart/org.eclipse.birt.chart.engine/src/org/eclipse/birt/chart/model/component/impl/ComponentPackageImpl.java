@@ -50,112 +50,98 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Package </b>. <!--
  * end-user-doc -->
- *
  * @generated
  */
 public class ComponentPackageImpl extends EPackageImpl implements ComponentPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass axisEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass chartPreferencesEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass curveFittingEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass dialEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass dialRegionEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass gridEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass labelEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass markerLineEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass markerRangeEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass needleEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass scaleEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass seriesEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private EClass eStringToDataSetMapEntryEClass = null;
 
 	/**
-	 * Creates an instance of the model <b>Package </b>, registered with
-	 * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry}by the
-	 * package package URI value.
-	 * <p>
-	 * Note: the correct way to create the package is via the static factory method
-	 * {@link #init init()}, which also performs initialization of the package, or
-	 * returns the registered package, if one already exists. <!-- begin-user-doc
+	 * Creates an instance of the model <b>Package</b>, registered with
+	 * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry} by the package
+	 * package URI value.
+	 * <p>Note: the correct way to create the package is via the static
+	 * factory method {@link #init init()}, which also performs
+	 * initialization of the package, or returns the registered package,
+	 * if one already exists.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 *
 	 * @see org.eclipse.emf.ecore.EPackage.Registry
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#eNS_URI
 	 * @see #init()
@@ -167,35 +153,31 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private static boolean isInited = false;
 
 	/**
-	 * Creates, registers, and initializes the <b>Package</b> for this model, and
-	 * for any others upon which it depends.
+	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
 	 *
-	 * <p>
-	 * This method is used to initialize {@link ComponentPackage#eINSTANCE} when
-	 * that field is accessed. Clients should not invoke it directly. Instead, they
-	 * should simply access that field to obtain the package. <!-- begin-user-doc
+	 * <p>This method is used to initialize {@link ComponentPackage#eINSTANCE} when that field is accessed.
+	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 *
 	 * @see #eNS_URI
 	 * @see #createPackageContents()
 	 * @see #initializePackageContents()
 	 * @generated
 	 */
 	public static ComponentPackage init() {
-		if (isInited) {
+		if (isInited)
 			return (ComponentPackage) EPackage.Registry.INSTANCE.getEPackage(ComponentPackage.eNS_URI);
-		}
 
 		// Obtain or create and register package
-		ComponentPackageImpl theComponentPackage = (ComponentPackageImpl) (EPackage.Registry.INSTANCE
-				.get(eNS_URI) instanceof ComponentPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI)
-						: new ComponentPackageImpl());
+		Object registeredComponentPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+		ComponentPackageImpl theComponentPackage = registeredComponentPackage instanceof ComponentPackageImpl
+				? (ComponentPackageImpl) registeredComponentPackage
+				: new ComponentPackageImpl();
 
 		isInited = true;
 
@@ -203,26 +185,26 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 		XMLTypePackage.eINSTANCE.eClass();
 
 		// Obtain or create and register interdependencies
-		AttributePackageImpl theAttributePackage = (AttributePackageImpl) (EPackage.Registry.INSTANCE
-				.getEPackage(AttributePackage.eNS_URI) instanceof AttributePackageImpl
-						? EPackage.Registry.INSTANCE.getEPackage(AttributePackage.eNS_URI)
-						: AttributePackage.eINSTANCE);
-		DataPackageImpl theDataPackage = (DataPackageImpl) (EPackage.Registry.INSTANCE
-				.getEPackage(DataPackage.eNS_URI) instanceof DataPackageImpl
-						? EPackage.Registry.INSTANCE.getEPackage(DataPackage.eNS_URI)
-						: DataPackage.eINSTANCE);
-		TypePackageImpl theTypePackage = (TypePackageImpl) (EPackage.Registry.INSTANCE
-				.getEPackage(TypePackage.eNS_URI) instanceof TypePackageImpl
-						? EPackage.Registry.INSTANCE.getEPackage(TypePackage.eNS_URI)
-						: TypePackage.eINSTANCE);
-		LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) (EPackage.Registry.INSTANCE
-				.getEPackage(LayoutPackage.eNS_URI) instanceof LayoutPackageImpl
-						? EPackage.Registry.INSTANCE.getEPackage(LayoutPackage.eNS_URI)
-						: LayoutPackage.eINSTANCE);
-		ModelPackageImpl theModelPackage = (ModelPackageImpl) (EPackage.Registry.INSTANCE
-				.getEPackage(ModelPackage.eNS_URI) instanceof ModelPackageImpl
-						? EPackage.Registry.INSTANCE.getEPackage(ModelPackage.eNS_URI)
-						: ModelPackage.eINSTANCE);
+		Object registeredPackage = EPackage.Registry.INSTANCE.getEPackage(AttributePackage.eNS_URI);
+		AttributePackageImpl theAttributePackage = (AttributePackageImpl) (registeredPackage instanceof AttributePackageImpl
+				? registeredPackage
+				: AttributePackage.eINSTANCE);
+		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(DataPackage.eNS_URI);
+		DataPackageImpl theDataPackage = (DataPackageImpl) (registeredPackage instanceof DataPackageImpl
+				? registeredPackage
+				: DataPackage.eINSTANCE);
+		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(TypePackage.eNS_URI);
+		TypePackageImpl theTypePackage = (TypePackageImpl) (registeredPackage instanceof TypePackageImpl
+				? registeredPackage
+				: TypePackage.eINSTANCE);
+		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(LayoutPackage.eNS_URI);
+		LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) (registeredPackage instanceof LayoutPackageImpl
+				? registeredPackage
+				: LayoutPackage.eINSTANCE);
+		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(ModelPackage.eNS_URI);
+		ModelPackageImpl theModelPackage = (ModelPackageImpl) (registeredPackage instanceof ModelPackageImpl
+				? registeredPackage
+				: ModelPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theComponentPackage.createPackageContents();
@@ -250,7 +232,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -260,7 +241,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -270,7 +250,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -280,7 +259,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -290,7 +268,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -300,7 +277,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -310,7 +286,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -320,7 +295,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -330,7 +304,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -340,7 +313,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -350,7 +322,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -360,7 +331,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -370,7 +340,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -380,7 +349,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -390,7 +358,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -400,7 +367,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -410,7 +376,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -420,7 +385,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -430,7 +394,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -440,7 +403,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -450,7 +412,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -460,7 +421,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -470,7 +430,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -480,7 +439,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -490,7 +448,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -500,7 +457,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -510,7 +466,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -520,7 +475,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -530,7 +484,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -540,7 +493,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -550,7 +502,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -560,7 +511,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -570,7 +520,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -580,7 +529,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -590,7 +538,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -600,7 +547,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -610,7 +556,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -620,7 +565,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -630,7 +574,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -640,7 +583,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -650,7 +592,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -660,7 +601,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -670,7 +610,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -680,7 +619,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -690,7 +628,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -700,7 +637,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -710,7 +646,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -720,7 +655,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -730,7 +664,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -740,7 +673,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -750,7 +682,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -760,7 +691,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -770,7 +700,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -780,7 +709,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -790,7 +718,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -800,7 +727,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -810,7 +736,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -820,7 +745,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -830,7 +754,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -840,7 +763,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -850,7 +772,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -860,7 +781,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -870,7 +790,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -880,7 +799,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -890,7 +808,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -900,7 +817,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -910,7 +826,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -920,7 +835,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -930,7 +844,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -940,7 +853,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -950,7 +862,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -960,7 +871,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -970,7 +880,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -980,7 +889,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -990,7 +898,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1000,7 +907,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1010,7 +916,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1020,7 +925,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1030,7 +934,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1040,7 +943,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1050,7 +952,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1060,7 +961,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1070,7 +970,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1080,7 +979,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1090,7 +988,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1100,7 +997,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1110,7 +1006,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1120,7 +1015,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1130,7 +1024,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1140,7 +1033,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1150,7 +1042,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1160,7 +1051,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1170,7 +1060,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1180,7 +1069,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1190,7 +1078,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1200,7 +1087,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1210,7 +1096,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1220,7 +1105,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1230,7 +1114,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1240,7 +1123,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1250,7 +1132,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1260,7 +1141,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1270,7 +1150,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1280,7 +1159,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1290,7 +1168,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1300,7 +1177,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1310,7 +1186,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1320,7 +1195,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1330,7 +1204,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1340,7 +1213,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1350,7 +1222,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1360,7 +1231,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1370,7 +1240,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1380,7 +1249,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1390,7 +1258,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1400,7 +1267,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1410,7 +1276,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1420,7 +1285,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1430,7 +1294,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -1440,22 +1303,20 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private boolean isCreated = false;
 
 	/**
-	 * Creates the meta-model objects for the package. This method is guarded to
-	 * have no affect on any invocation but its first. <!-- begin-user-doc --> <!--
+	 * Creates the meta-model objects for the package.  This method is
+	 * guarded to have no affect on any invocation but its first.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public void createPackageContents() {
-		if (isCreated) {
+		if (isCreated)
 			return;
-		}
 		isCreated = true;
 
 		// Create classes and their features
@@ -1593,7 +1454,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private boolean isInitialized = false;
@@ -1606,9 +1466,8 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 	 * @generated
 	 */
 	public void initializePackageContents() {
-		if (isInitialized) {
+		if (isInitialized)
 			return;
-		}
 		isInitialized = true;
 
 		// Initialize package
@@ -1641,7 +1500,7 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 		initEReference(getAxis_SubTitle(), this.getLabel(), null, "subTitle", null, 0, 1, Axis.class, !IS_TRANSIENT, //$NON-NLS-1$
 				!IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED,
 				IS_ORDERED);
-		initEAttribute(getAxis_TitlePosition(), theAttributePackage.getPosition(), "titlePosition", "Left", 0, 1, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getAxis_TitlePosition(), theAttributePackage.getPosition(), "titlePosition", "Left", 0, 1, //$NON-NLS-1$//$NON-NLS-2$
 				Axis.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
 				IS_ORDERED);
 		initEReference(getAxis_AssociatedAxes(), this.getAxis(), null, "associatedAxes", null, 0, -1, Axis.class, //$NON-NLS-1$
@@ -1655,7 +1514,7 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getAxis_GapWidth(), theXMLTypePackage.getDouble(), "gapWidth", null, 0, 1, Axis.class, //$NON-NLS-1$
 				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getAxis_Orientation(), theAttributePackage.getOrientation(), "orientation", "Vertical", 0, 1, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getAxis_Orientation(), theAttributePackage.getOrientation(), "orientation", "Vertical", 0, 1, //$NON-NLS-1$//$NON-NLS-2$
 				Axis.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
 				IS_ORDERED);
 		initEReference(getAxis_LineAttributes(), theAttributePackage.getLineAttributes(), null, "lineAttributes", null, //$NON-NLS-1$
@@ -1667,12 +1526,12 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 		initEReference(getAxis_FormatSpecifier(), theAttributePackage.getFormatSpecifier(), null, "formatSpecifier", //$NON-NLS-1$
 				null, 0, 1, Axis.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
 				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getAxis_LabelPosition(), theAttributePackage.getPosition(), "labelPosition", "Left", 0, 1, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getAxis_LabelPosition(), theAttributePackage.getPosition(), "labelPosition", "Left", 0, 1, //$NON-NLS-1$//$NON-NLS-2$
 				Axis.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
 				IS_ORDERED);
 		initEAttribute(getAxis_Staggered(), theXMLTypePackage.getBoolean(), "staggered", null, 1, 1, Axis.class, //$NON-NLS-1$
 				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getAxis_Interval(), theXMLTypePackage.getInt(), "interval", "1", 0, 1, Axis.class, !IS_TRANSIENT, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getAxis_Interval(), theXMLTypePackage.getInt(), "interval", "1", 0, 1, Axis.class, !IS_TRANSIENT, //$NON-NLS-1$//$NON-NLS-2$
 				!IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getAxis_MarkerLines(), this.getMarkerLine(), null, "markerLines", null, 0, -1, Axis.class, //$NON-NLS-1$
 				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE,
@@ -1701,12 +1560,12 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getAxis_Percent(), theXMLTypePackage.getBoolean(), "percent", null, 1, 1, Axis.class, //$NON-NLS-1$
 				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getAxis_LabelWithinAxes(), theXMLTypePackage.getBoolean(), "labelWithinAxes", "false", 1, 1, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getAxis_LabelWithinAxes(), theXMLTypePackage.getBoolean(), "labelWithinAxes", "false", 1, 1, //$NON-NLS-1$//$NON-NLS-2$
 				Axis.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
 				IS_ORDERED);
-		initEAttribute(getAxis_Aligned(), theXMLTypePackage.getBoolean(), "aligned", "false", 1, 1, Axis.class, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getAxis_Aligned(), theXMLTypePackage.getBoolean(), "aligned", "false", 1, 1, Axis.class, //$NON-NLS-1$//$NON-NLS-2$
 				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getAxis_SideBySide(), theXMLTypePackage.getBoolean(), "sideBySide", "false", 1, 1, Axis.class, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getAxis_SideBySide(), theXMLTypePackage.getBoolean(), "sideBySide", "false", 1, 1, Axis.class, //$NON-NLS-1$//$NON-NLS-2$
 				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getAxis_Cursor(), theAttributePackage.getCursor(), null, "cursor", null, 0, 1, Axis.class, //$NON-NLS-1$
 				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE,
@@ -1738,9 +1597,9 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 				!IS_DERIVED, IS_ORDERED);
 
 		initEClass(dialEClass, Dial.class, "Dial", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
-		initEAttribute(getDial_StartAngle(), theXMLTypePackage.getDouble(), "startAngle", "0", 0, 1, Dial.class, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getDial_StartAngle(), theXMLTypePackage.getDouble(), "startAngle", "0", 0, 1, Dial.class, //$NON-NLS-1$//$NON-NLS-2$
 				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getDial_StopAngle(), theXMLTypePackage.getDouble(), "stopAngle", "180", 0, 1, Dial.class, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getDial_StopAngle(), theXMLTypePackage.getDouble(), "stopAngle", "180", 0, 1, Dial.class, //$NON-NLS-1$//$NON-NLS-2$
 				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getDial_Radius(), theXMLTypePackage.getDouble(), "radius", null, 0, 1, Dial.class, !IS_TRANSIENT, //$NON-NLS-1$
 				!IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1762,7 +1621,7 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 		initEReference(getDial_Scale(), this.getScale(), null, "scale", null, 1, 1, Dial.class, !IS_TRANSIENT, //$NON-NLS-1$
 				!IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED,
 				IS_ORDERED);
-		initEAttribute(getDial_InverseScale(), theXMLTypePackage.getBoolean(), "inverseScale", "false", 1, 1, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getDial_InverseScale(), theXMLTypePackage.getBoolean(), "inverseScale", "false", 1, 1, //$NON-NLS-1$//$NON-NLS-2$
 				Dial.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
 				IS_ORDERED);
 		initEReference(getDial_Label(), this.getLabel(), null, "label", null, 1, 1, Dial.class, !IS_TRANSIENT, //$NON-NLS-1$
@@ -1794,7 +1653,7 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 		initEReference(getGrid_LineAttributes(), theAttributePackage.getLineAttributes(), null, "lineAttributes", null, //$NON-NLS-1$
 				1, 1, Grid.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
 				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getGrid_TickStyle(), theAttributePackage.getTickStyle(), "tickStyle", "Across", 1, 1, Grid.class, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getGrid_TickStyle(), theAttributePackage.getTickStyle(), "tickStyle", "Across", 1, 1, Grid.class, //$NON-NLS-1$//$NON-NLS-2$
 				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getGrid_TickAttributes(), theAttributePackage.getLineAttributes(), null, "tickAttributes", null, //$NON-NLS-1$
 				0, 1, Grid.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
@@ -1820,9 +1679,9 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 		initEReference(getLabel_Insets(), theAttributePackage.getInsets(), null, "insets", null, 1, 1, Label.class, //$NON-NLS-1$
 				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE,
 				IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getLabel_Visible(), theXMLTypePackage.getBoolean(), "visible", "true", 1, 1, Label.class, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getLabel_Visible(), theXMLTypePackage.getBoolean(), "visible", "true", 1, 1, Label.class, //$NON-NLS-1$//$NON-NLS-2$
 				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getLabel_Ellipsis(), theXMLTypePackage.getInt(), "ellipsis", "0", 1, 1, Label.class, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getLabel_Ellipsis(), theXMLTypePackage.getInt(), "ellipsis", "0", 1, 1, Label.class, //$NON-NLS-1$//$NON-NLS-2$
 				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(markerLineEClass, MarkerLine.class, "MarkerLine", !IS_ABSTRACT, !IS_INTERFACE, //$NON-NLS-1$
@@ -1898,27 +1757,27 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 				!IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getScale_Unit(), theAttributePackage.getScaleUnitType(), "unit", null, 1, 1, Scale.class, //$NON-NLS-1$
 				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getScale_MinorGridsPerUnit(), theXMLTypePackage.getInt(), "minorGridsPerUnit", "5", 1, 1, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getScale_MinorGridsPerUnit(), theXMLTypePackage.getInt(), "minorGridsPerUnit", "5", 1, 1, //$NON-NLS-1$//$NON-NLS-2$
 				Scale.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
 				IS_ORDERED);
 		initEAttribute(getScale_StepNumber(), theXMLTypePackage.getInt(), "stepNumber", null, 1, 1, Scale.class, //$NON-NLS-1$
 				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getScale_ShowOutside(), theXMLTypePackage.getBoolean(), "showOutside", "false", 1, 1, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getScale_ShowOutside(), theXMLTypePackage.getBoolean(), "showOutside", "false", 1, 1, //$NON-NLS-1$//$NON-NLS-2$
 				Scale.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
 				IS_ORDERED);
 		initEAttribute(getScale_TickBetweenCategories(), theXMLTypePackage.getBoolean(), "tickBetweenCategories", //$NON-NLS-1$
 				"true", 0, 1, Scale.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, //$NON-NLS-1$
 				!IS_DERIVED, IS_ORDERED);
-		initEAttribute(getScale_AutoExpand(), theXMLTypePackage.getBoolean(), "autoExpand", "true", 1, 1, Scale.class, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getScale_AutoExpand(), theXMLTypePackage.getBoolean(), "autoExpand", "true", 1, 1, Scale.class, //$NON-NLS-1$//$NON-NLS-2$
 				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getScale_MajorGridsStepNumber(), theXMLTypePackage.getInt(), "majorGridsStepNumber", "1", 1, 1, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getScale_MajorGridsStepNumber(), theXMLTypePackage.getInt(), "majorGridsStepNumber", "1", 1, 1, //$NON-NLS-1$//$NON-NLS-2$
 				Scale.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
 				IS_ORDERED);
 		initEAttribute(getScale_Factor(), theXMLTypePackage.getDouble(), "factor", null, 1, 1, Scale.class, //$NON-NLS-1$
 				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(seriesEClass, Series.class, "Series", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
-		initEAttribute(getSeries_Visible(), theXMLTypePackage.getBoolean(), "visible", "true", 0, 1, Series.class, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getSeries_Visible(), theXMLTypePackage.getBoolean(), "visible", "true", 0, 1, Series.class, //$NON-NLS-1$//$NON-NLS-2$
 				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getSeries_Label(), this.getLabel(), null, "label", null, 1, 1, Series.class, !IS_TRANSIENT, //$NON-NLS-1$
 				!IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED,
@@ -1935,7 +1794,7 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 		initEReference(getSeries_DataSets(), this.getEStringToDataSetMapEntry(), null, "dataSets", null, 1, -1, //$NON-NLS-1$
 				Series.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
 				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getSeries_LabelPosition(), theAttributePackage.getPosition(), "labelPosition", "Outside", 0, 1, //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute(getSeries_LabelPosition(), theAttributePackage.getPosition(), "labelPosition", "Outside", 0, 1, //$NON-NLS-1$//$NON-NLS-2$
 				Series.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
 				IS_ORDERED);
 		initEAttribute(getSeries_Stacked(), theXMLTypePackage.getBoolean(), "stacked", null, 0, 1, Series.class, //$NON-NLS-1$

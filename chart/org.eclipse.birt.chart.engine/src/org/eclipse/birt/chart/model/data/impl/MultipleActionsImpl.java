@@ -45,22 +45,19 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * '<em><b>Multiple Actions</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.data.impl.MultipleActionsImpl#getActions
- * <em>Actions</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.data.impl.MultipleActionsImpl#getPropertiesMap
- * <em>Properties Map</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.data.impl.MultipleActionsImpl#getActions <em>Actions</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.impl.MultipleActionsImpl#getPropertiesMap <em>Properties Map</em>}</li>
+ * </ul>
  *
  * @generated
  */
 public class MultipleActionsImpl extends ActionImpl implements MultipleActions {
 
 	/**
-	 * The cached value of the '{@link #getActions() <em>Actions</em>}' containment
-	 * reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getActions() <em>Actions</em>}' containment reference list.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getActions()
 	 * @generated
 	 * @ordered
@@ -68,9 +65,8 @@ public class MultipleActionsImpl extends ActionImpl implements MultipleActions {
 	protected EList<Action> actions;
 
 	/**
-	 * The cached value of the '{@link #getPropertiesMap() <em>Properties Map</em>}'
-	 * map. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getPropertiesMap() <em>Properties Map</em>}' map.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getPropertiesMap()
 	 * @generated
 	 * @ordered
@@ -91,7 +87,6 @@ public class MultipleActionsImpl extends ActionImpl implements MultipleActions {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected MultipleActionsImpl() {
@@ -100,7 +95,6 @@ public class MultipleActionsImpl extends ActionImpl implements MultipleActions {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -110,26 +104,24 @@ public class MultipleActionsImpl extends ActionImpl implements MultipleActions {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public EList<Action> getActions() {
 		if (actions == null) {
-			actions = new EObjectContainmentEList<>(Action.class, this, DataPackage.MULTIPLE_ACTIONS__ACTIONS);
+			actions = new EObjectContainmentEList<Action>(Action.class, this, DataPackage.MULTIPLE_ACTIONS__ACTIONS);
 		}
 		return actions;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public EMap<String, String> getPropertiesMap() {
 		if (propertiesMap == null) {
-			propertiesMap = new EcoreEMap<>(AttributePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY,
+			propertiesMap = new EcoreEMap<String, String>(AttributePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY,
 					EStringToStringMapEntryImpl.class, this, DataPackage.MULTIPLE_ACTIONS__PROPERTIES_MAP);
 		}
 		return propertiesMap;
@@ -137,7 +129,6 @@ public class MultipleActionsImpl extends ActionImpl implements MultipleActions {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -153,7 +144,6 @@ public class MultipleActionsImpl extends ActionImpl implements MultipleActions {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -162,18 +152,16 @@ public class MultipleActionsImpl extends ActionImpl implements MultipleActions {
 		case DataPackage.MULTIPLE_ACTIONS__ACTIONS:
 			return getActions();
 		case DataPackage.MULTIPLE_ACTIONS__PROPERTIES_MAP:
-			if (coreType) {
+			if (coreType)
 				return getPropertiesMap();
-			} else {
+			else
 				return getPropertiesMap().map();
-			}
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -193,7 +181,6 @@ public class MultipleActionsImpl extends ActionImpl implements MultipleActions {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -211,7 +198,6 @@ public class MultipleActionsImpl extends ActionImpl implements MultipleActions {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -234,6 +220,10 @@ public class MultipleActionsImpl extends ActionImpl implements MultipleActions {
 
 		// children
 
+		if (src.getValue() != null) {
+			setValue(src.getValue().copyInstance());
+		}
+
 		if (src.getActions() != null) {
 			EList<Action> list = getActions();
 			for (Action element : src.getActions()) {
@@ -249,6 +239,12 @@ public class MultipleActionsImpl extends ActionImpl implements MultipleActions {
 
 			}
 		}
+
+		// attributes
+
+		type = src.getType();
+
+		typeESet = src.isSetType();
 
 	}
 

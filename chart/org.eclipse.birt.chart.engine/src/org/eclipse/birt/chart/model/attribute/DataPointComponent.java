@@ -20,22 +20,20 @@ import org.eclipse.birt.chart.model.IChartObject;
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Data
  * Point Component</b></em>'. <!-- end-user-doc -->
  *
- * <!-- begin-model-doc --> DataPointComponent represents the data value being
- * used for establishing the label text of a series' datapoint.
- *
+ * <!-- begin-model-doc -->
+ * DataPointComponent represents the data value being used for 
+ * establishing the label text of a series' datapoint.
+ * 			
  * <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.DataPointComponent#getType
- * <em>Type</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.DataPointComponent#getFormatSpecifier
- * <em>Format Specifier</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.DataPointComponent#getOrthogonalType
- * <em>Orthogonal Type</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.DataPointComponent#getType <em>Type</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.DataPointComponent#getFormatSpecifier <em>Format Specifier</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.DataPointComponent#getOrthogonalType <em>Orthogonal Type</em>}</li>
+ * </ul>
  *
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getDataPointComponent()
  * @model extendedMetaData="name='DataPointComponent' kind='elementOnly'"
@@ -66,10 +64,8 @@ public interface DataPointComponent extends IChartObject {
 	DataPointComponentType getType();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.DataPointComponent#getType
-	 * <em>Type</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.DataPointComponent#getType <em>Type</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Type</em>' attribute.
 	 * @see org.eclipse.birt.chart.model.attribute.DataPointComponentType
 	 * @see #isSetType()
@@ -80,10 +76,8 @@ public interface DataPointComponent extends IChartObject {
 	void setType(DataPointComponentType value);
 
 	/**
-	 * Unsets the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.DataPointComponent#getType
-	 * <em>Type</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.attribute.DataPointComponent#getType <em>Type</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isSetType()
 	 * @see #getType()
 	 * @see #setType(DataPointComponentType)
@@ -124,13 +118,10 @@ public interface DataPointComponent extends IChartObject {
 	FormatSpecifier getFormatSpecifier();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.DataPointComponent#getFormatSpecifier
-	 * <em>Format Specifier</em>}' containment reference. <!-- begin-user-doc -->
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.DataPointComponent#getFormatSpecifier <em>Format Specifier</em>}' containment reference.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
-	 * @param value the new value of the '<em>Format Specifier</em>' containment
-	 *              reference.
+	 * @param value the new value of the '<em>Format Specifier</em>' containment reference.
 	 * @see #getFormatSpecifier()
 	 * @generated
 	 */
@@ -156,11 +147,9 @@ public interface DataPointComponent extends IChartObject {
 	String getOrthogonalType();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.DataPointComponent#getOrthogonalType
-	 * <em>Orthogonal Type</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.DataPointComponent#getOrthogonalType <em>Orthogonal Type</em>}' attribute.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @param value the new value of the '<em>Orthogonal Type</em>' attribute.
 	 * @see #isSetOrthogonalType()
 	 * @see #unsetOrthogonalType()
@@ -170,11 +159,9 @@ public interface DataPointComponent extends IChartObject {
 	void setOrthogonalType(String value);
 
 	/**
-	 * Unsets the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.DataPointComponent#getOrthogonalType
-	 * <em>Orthogonal Type</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.attribute.DataPointComponent#getOrthogonalType <em>Orthogonal Type</em>}' attribute.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #isSetOrthogonalType()
 	 * @see #getOrthogonalType()
 	 * @see #setOrthogonalType(String)
@@ -183,11 +170,9 @@ public interface DataPointComponent extends IChartObject {
 	void unsetOrthogonalType();
 
 	/**
-	 * Returns whether the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.DataPointComponent#getOrthogonalType
-	 * <em>Orthogonal Type</em>}' attribute is set. <!-- begin-user-doc --> <!--
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.attribute.DataPointComponent#getOrthogonalType <em>Orthogonal Type</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @return whether the value of the '<em>Orthogonal Type</em>' attribute is set.
 	 * @see #unsetOrthogonalType()
 	 * @see #getOrthogonalType()

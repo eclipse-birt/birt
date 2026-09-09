@@ -22,18 +22,17 @@ import org.eclipse.birt.chart.model.attribute.LineDecorator;
  * <!-- begin-user-doc --> A representation of the model object
  * '<em><b>Needle</b></em>'. <!-- end-user-doc -->
  *
- * <!-- begin-model-doc --> This type defines a needle of a dial. <!--
- * end-model-doc -->
+ * <!-- begin-model-doc -->
+ * 			This type defines a needle of a dial.
+ * <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.component.Needle#getLineAttributes
- * <em>Line Attributes</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.Needle#getDecorator
- * <em>Decorator</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Needle#getLineAttributes <em>Line Attributes</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Needle#getDecorator <em>Decorator</em>}</li>
+ * </ul>
  *
  * @see org.eclipse.birt.chart.model.component.ComponentPackage#getNeedle()
  * @model extendedMetaData="name='Needle' kind='elementOnly'"
@@ -57,13 +56,10 @@ public interface Needle extends IChartObject {
 	LineAttributes getLineAttributes();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.component.Needle#getLineAttributes
-	 * <em>Line Attributes</em>}' containment reference. <!-- begin-user-doc -->
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Needle#getLineAttributes <em>Line Attributes</em>}' containment reference.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
-	 * @param value the new value of the '<em>Line Attributes</em>' containment
-	 *              reference.
+	 * @param value the new value of the '<em>Line Attributes</em>' containment reference.
 	 * @see #getLineAttributes()
 	 * @generated
 	 */
@@ -89,10 +85,8 @@ public interface Needle extends IChartObject {
 	LineDecorator getDecorator();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.component.Needle#getDecorator
-	 * <em>Decorator</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Needle#getDecorator <em>Decorator</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Decorator</em>' attribute.
 	 * @see org.eclipse.birt.chart.model.attribute.LineDecorator
 	 * @see #isSetDecorator()
@@ -103,10 +97,8 @@ public interface Needle extends IChartObject {
 	void setDecorator(LineDecorator value);
 
 	/**
-	 * Unsets the value of the
-	 * '{@link org.eclipse.birt.chart.model.component.Needle#getDecorator
-	 * <em>Decorator</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.component.Needle#getDecorator <em>Decorator</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isSetDecorator()
 	 * @see #getDecorator()
 	 * @see #setDecorator(LineDecorator)
@@ -115,11 +107,9 @@ public interface Needle extends IChartObject {
 	void unsetDecorator();
 
 	/**
-	 * Returns whether the value of the
-	 * '{@link org.eclipse.birt.chart.model.component.Needle#getDecorator
-	 * <em>Decorator</em>}' attribute is set. <!-- begin-user-doc --> <!--
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.component.Needle#getDecorator <em>Decorator</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @return whether the value of the '<em>Decorator</em>' attribute is set.
 	 * @see #unsetDecorator()
 	 * @see #getDecorator()

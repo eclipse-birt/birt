@@ -18,29 +18,27 @@ package org.eclipse.birt.chart.model.layout;
  * <!-- begin-user-doc --> A representation of the model object
  * '<em><b>Plot</b></em>'. <!-- end-user-doc -->
  *
- * <!-- begin-model-doc --> Plot represent the rectangular area in a chart,
- * inside where the graph of its datapoints is displayed. It extends to the
- * client area of a chart's block excluding the title and legend. Plot is a
- * sub-type of Block, and exists as a child block of the chart's block in a
- * chart's model.
- * <p xmlns="http://www.birt.eclipse.org/ChartModelLayout">
- * Besides the general approach of using Chart.getBlock( ).getChildren( ) we can
- * also access it using the convenient method: Chart.getPlot( );
+ * <!-- begin-model-doc -->
+ * 
+ *   Plot represent the rectangular area in a chart, inside where the graph of its datapoints is displayed. 
+ * It extends to the client area of a chart's block excluding the title and legend.  Plot is a sub-type of Block, 
+ * and exists as a child block of the chart's block in a chart's model.  
+ * 
+ *   <p xmlns="http://www.birt.eclipse.org/ChartModelLayout">
+ * Besides the general approach of using Chart.getBlock( ).getChildren( ) we can also access it using the 
+ * convenient method: Chart.getPlot( );
  * </p>
- *
+ * 
  * <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.layout.Plot#getHorizontalSpacing
- * <em>Horizontal Spacing</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.layout.Plot#getVerticalSpacing
- * <em>Vertical Spacing</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.layout.Plot#getClientArea <em>Client
- * Area</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.Plot#getHorizontalSpacing <em>Horizontal Spacing</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.Plot#getVerticalSpacing <em>Vertical Spacing</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.Plot#getClientArea <em>Client Area</em>}</li>
+ * </ul>
  *
  * @see org.eclipse.birt.chart.model.layout.LayoutPackage#getPlot()
  * @model extendedMetaData="name='Plot' kind='elementOnly'"
@@ -69,11 +67,9 @@ public interface Plot extends Block {
 	int getHorizontalSpacing();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.layout.Plot#getHorizontalSpacing
-	 * <em>Horizontal Spacing</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.layout.Plot#getHorizontalSpacing <em>Horizontal Spacing</em>}' attribute.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @param value the new value of the '<em>Horizontal Spacing</em>' attribute.
 	 * @see #isSetHorizontalSpacing()
 	 * @see #unsetHorizontalSpacing()
@@ -83,11 +79,9 @@ public interface Plot extends Block {
 	void setHorizontalSpacing(int value);
 
 	/**
-	 * Unsets the value of the
-	 * '{@link org.eclipse.birt.chart.model.layout.Plot#getHorizontalSpacing
-	 * <em>Horizontal Spacing</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.layout.Plot#getHorizontalSpacing <em>Horizontal Spacing</em>}' attribute.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #isSetHorizontalSpacing()
 	 * @see #getHorizontalSpacing()
 	 * @see #setHorizontalSpacing(int)
@@ -96,13 +90,10 @@ public interface Plot extends Block {
 	void unsetHorizontalSpacing();
 
 	/**
-	 * Returns whether the value of the
-	 * '{@link org.eclipse.birt.chart.model.layout.Plot#getHorizontalSpacing
-	 * <em>Horizontal Spacing</em>}' attribute is set. <!-- begin-user-doc --> <!--
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.layout.Plot#getHorizontalSpacing <em>Horizontal Spacing</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
-	 * @return whether the value of the '<em>Horizontal Spacing</em>' attribute is
-	 *         set.
+	 * @return whether the value of the '<em>Horizontal Spacing</em>' attribute is set.
 	 * @see #unsetHorizontalSpacing()
 	 * @see #getHorizontalSpacing()
 	 * @see #setHorizontalSpacing(int)
@@ -131,11 +122,9 @@ public interface Plot extends Block {
 	int getVerticalSpacing();
 
 	/**
-	 * Sets the value of the '
-	 * {@link org.eclipse.birt.chart.model.layout.Plot#getVerticalSpacing
-	 * <em>Vertical Spacing</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.layout.Plot#getVerticalSpacing <em>Vertical Spacing</em>}' attribute.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @param value the new value of the '<em>Vertical Spacing</em>' attribute.
 	 * @see #isSetVerticalSpacing()
 	 * @see #unsetVerticalSpacing()
@@ -145,11 +134,9 @@ public interface Plot extends Block {
 	void setVerticalSpacing(int value);
 
 	/**
-	 * Unsets the value of the '
-	 * {@link org.eclipse.birt.chart.model.layout.Plot#getVerticalSpacing
-	 * <em>Vertical Spacing</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.layout.Plot#getVerticalSpacing <em>Vertical Spacing</em>}' attribute.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #isSetVerticalSpacing()
 	 * @see #getVerticalSpacing()
 	 * @see #setVerticalSpacing(int)
@@ -158,13 +145,10 @@ public interface Plot extends Block {
 	void unsetVerticalSpacing();
 
 	/**
-	 * Returns whether the value of the
-	 * '{@link org.eclipse.birt.chart.model.layout.Plot#getVerticalSpacing
-	 * <em>Vertical Spacing</em>}' attribute is set. <!-- begin-user-doc --> <!--
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.layout.Plot#getVerticalSpacing <em>Vertical Spacing</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
-	 * @return whether the value of the '<em>Vertical Spacing</em>' attribute is
-	 *         set.
+	 * @return whether the value of the '<em>Vertical Spacing</em>' attribute is set.
 	 * @see #unsetVerticalSpacing()
 	 * @see #getVerticalSpacing()
 	 * @see #setVerticalSpacing(int)

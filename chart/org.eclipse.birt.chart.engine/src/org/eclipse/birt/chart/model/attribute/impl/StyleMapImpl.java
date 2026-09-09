@@ -31,22 +31,19 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * Map</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.StyleMapImpl#getComponentName
- * <em>Component Name</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.StyleMapImpl#getStyle
- * <em>Style</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.StyleMapImpl#getComponentName <em>Component Name</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.StyleMapImpl#getStyle <em>Style</em>}</li>
+ * </ul>
  *
  * @generated
  */
 public class StyleMapImpl extends EObjectImpl implements StyleMap {
 
 	/**
-	 * The default value of the ' {@link #getComponentName() <em>Component
-	 * Name</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The default value of the '{@link #getComponentName() <em>Component Name</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getComponentName()
 	 * @generated
 	 * @ordered
@@ -54,9 +51,8 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap {
 	protected static final StyledComponent COMPONENT_NAME_EDEFAULT = StyledComponent.CHART_ALL_LITERAL;
 
 	/**
-	 * The cached value of the ' {@link #getComponentName() <em>Component
-	 * Name</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getComponentName() <em>Component Name</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getComponentName()
 	 * @generated
 	 * @ordered
@@ -73,9 +69,8 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap {
 	protected boolean componentNameESet;
 
 	/**
-	 * The cached value of the '{@link #getStyle() <em>Style</em>}' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getStyle() <em>Style</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getStyle()
 	 * @generated
 	 * @ordered
@@ -84,7 +79,6 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected StyleMapImpl() {
@@ -93,7 +87,6 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -103,7 +96,6 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -113,7 +105,6 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -122,15 +113,13 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap {
 		componentName = newComponentName == null ? COMPONENT_NAME_EDEFAULT : newComponentName;
 		boolean oldComponentNameESet = componentNameESet;
 		componentNameESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.STYLE_MAP__COMPONENT_NAME,
 					oldComponentName, componentName, !oldComponentNameESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -139,15 +128,13 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap {
 		boolean oldComponentNameESet = componentNameESet;
 		componentName = COMPONENT_NAME_EDEFAULT;
 		componentNameESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.STYLE_MAP__COMPONENT_NAME,
 					oldComponentName, COMPONENT_NAME_EDEFAULT, oldComponentNameESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -157,7 +144,6 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -167,7 +153,6 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetStyle(Style newStyle, NotificationChain msgs) {
@@ -176,45 +161,38 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap {
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					AttributePackage.STYLE_MAP__STYLE, oldStyle, newStyle);
-			if (msgs == null) {
+			if (msgs == null)
 				msgs = notification;
-			} else {
+			else
 				msgs.add(notification);
-			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setStyle(Style newStyle) {
 		if (newStyle != style) {
 			NotificationChain msgs = null;
-			if (style != null) {
+			if (style != null)
 				msgs = ((InternalEObject) style).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - AttributePackage.STYLE_MAP__STYLE, null, msgs);
-			}
-			if (newStyle != null) {
+			if (newStyle != null)
 				msgs = ((InternalEObject) newStyle).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - AttributePackage.STYLE_MAP__STYLE, null, msgs);
-			}
 			msgs = basicSetStyle(newStyle, msgs);
-			if (msgs != null) {
+			if (msgs != null)
 				msgs.dispatch();
-			}
-		} else if (eNotificationRequired()) {
+		} else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.STYLE_MAP__STYLE, newStyle,
 					newStyle));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -228,7 +206,6 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -244,7 +221,6 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -262,7 +238,6 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -280,7 +255,6 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -296,22 +270,19 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) {
+		if (eIsProxy())
 			return super.toString();
-		}
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (componentName: "); //$NON-NLS-1$
-		if (componentNameESet) {
+		if (componentNameESet)
 			result.append(componentName);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(')');
 		return result.toString();
 	}

@@ -15,12 +15,14 @@
  *******************************************************************************
 -->
 <plugin>
+
    <extension
          point="org.eclipse.birt.chart.engine.modelrenderers">
       <modelRenderer
             renderer="org.eclipse.birt.chart.examples.radar.render.Radar"
             series="org.eclipse.birt.chart.examples.radar.model.type.impl.RadarSeriesImpl"/>
    </extension>
+
       <extension
          point="org.eclipse.birt.chart.engine.datasetprocessors">
       <datasetProcessor
@@ -36,6 +38,20 @@
                typePackage="org.eclipse.birt.chart.examples.radar.model.RadarTypePackageLoader">
          </chartType>
       </extension>
-      
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http://www.birt.eclipse.org/RadarChartModelType"
+            class="org.eclipse.birt.chart.examples.radar.model.type.RadarTypePackage"
+            genModel="src/org/eclipse/birt/chart/examples/radar/model/radar.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated radar -->
+      <package
+            uri="http://www.birt.eclipse.org/RadarChartModelType"
+            class="org.eclipse.birt.chart.examples.radar.model.type.RadarTypePackage"
+            genModel="src/org/eclipse/birt/chart/examples/radar/model/radar.genmodel"/>
+   </extension>
 
 </plugin>

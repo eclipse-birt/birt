@@ -21,10 +21,9 @@ import org.eclipse.birt.chart.model.IChartObject;
  * '<em><b>Element</b></em>'. <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- *
- * This type defines a single element of data to be plotted in a chart. A data
- * element can hold a scalar or a multi-dimensional value.
- *
+ * 
+ * 			This type defines a single element of data to be plotted in a chart. A data element can hold a scalar or a multi-dimensional value.
+ * 			
  * <!-- end-model-doc -->
  *
  *

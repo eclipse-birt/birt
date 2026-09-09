@@ -30,13 +30,11 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * '<em><b>Accessibility Value</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.AccessibilityValueImpl#getText
- * <em>Text</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.AccessibilityValueImpl#getAccessibility
- * <em>Accessibility</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.AccessibilityValueImpl#getText <em>Text</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.AccessibilityValueImpl#getAccessibility <em>Accessibility</em>}</li>
+ * </ul>
  *
  * @generated
  */
@@ -63,9 +61,8 @@ public class AccessibilityValueImpl extends ActionValueImpl implements Accessibi
 	protected String text = TEXT_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getAccessibility() <em>Accessibility</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The default value of the '{@link #getAccessibility() <em>Accessibility</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getAccessibility()
 	 * @generated
 	 * @ordered
@@ -73,9 +70,8 @@ public class AccessibilityValueImpl extends ActionValueImpl implements Accessibi
 	protected static final String ACCESSIBILITY_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getAccessibility() <em>Accessibility</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getAccessibility() <em>Accessibility</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getAccessibility()
 	 * @generated
 	 * @ordered
@@ -84,7 +80,6 @@ public class AccessibilityValueImpl extends ActionValueImpl implements Accessibi
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected AccessibilityValueImpl() {
@@ -93,7 +88,6 @@ public class AccessibilityValueImpl extends ActionValueImpl implements Accessibi
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -103,7 +97,6 @@ public class AccessibilityValueImpl extends ActionValueImpl implements Accessibi
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -113,22 +106,19 @@ public class AccessibilityValueImpl extends ActionValueImpl implements Accessibi
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setText(String newText) {
 		String oldText = text;
 		text = newText;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.ACCESSIBILITY_VALUE__TEXT, oldText,
 					text));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -138,22 +128,19 @@ public class AccessibilityValueImpl extends ActionValueImpl implements Accessibi
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public void setAccessibility(String newAccessibility) {
 		String oldAccessibility = accessibility;
 		accessibility = newAccessibility;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.ACCESSIBILITY_VALUE__ACCESSIBILITY,
 					oldAccessibility, accessibility));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -169,7 +156,6 @@ public class AccessibilityValueImpl extends ActionValueImpl implements Accessibi
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -187,7 +173,6 @@ public class AccessibilityValueImpl extends ActionValueImpl implements Accessibi
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -205,7 +190,6 @@ public class AccessibilityValueImpl extends ActionValueImpl implements Accessibi
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -222,14 +206,12 @@ public class AccessibilityValueImpl extends ActionValueImpl implements Accessibi
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) {
+		if (eIsProxy())
 			return super.toString();
-		}
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (text: "); //$NON-NLS-1$

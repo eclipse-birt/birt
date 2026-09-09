@@ -20,24 +20,21 @@ import org.eclipse.birt.chart.model.IChartObject;
  * <!-- begin-user-doc --> A representation of the model object
  * '<em><b>Insets</b></em>'. <!-- end-user-doc -->
  *
- * <!-- begin-model-doc --> Insets represents a reserved blank area between the
- * edges and the client area of a chart element (e.g. Block, Label... etc.).
- *
+ * <!-- begin-model-doc -->
+ * Insets represents a reserved blank area between the edges and 
+ * the client area of a chart element (e.g. Block, Label... etc.).
+ * 			
  * <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.Insets#getTop
- * <em>Top</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.Insets#getLeft
- * <em>Left</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.Insets#getBottom
- * <em>Bottom</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.Insets#getRight
- * <em>Right</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.Insets#getTop <em>Top</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.Insets#getLeft <em>Left</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.Insets#getBottom <em>Bottom</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.Insets#getRight <em>Right</em>}</li>
+ * </ul>
  *
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getInsets()
  * @model extendedMetaData="name='Insets' kind='elementOnly'"
@@ -66,11 +63,9 @@ public interface Insets extends IChartObject {
 	double getTop();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.Insets#getTop <em>Top</em>}'
-	 * attribute. <!-- begin-user-doc --> Sets the top component of the insets. <!--
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.Insets#getTop <em>Top</em>}' attribute.
+	 * <!-- begin-user-doc --> Sets the top component of the insets. <!--
 	 * end-user-doc -->
-	 *
 	 * @param value the new value of the '<em>Top</em>' attribute.
 	 * @see #isSetTop()
 	 * @see #unsetTop()
@@ -80,10 +75,8 @@ public interface Insets extends IChartObject {
 	void setTop(double value);
 
 	/**
-	 * Unsets the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.Insets#getTop <em>Top</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.attribute.Insets#getTop <em>Top</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isSetTop()
 	 * @see #getTop()
 	 * @see #setTop(double)
@@ -92,10 +85,8 @@ public interface Insets extends IChartObject {
 	void unsetTop();
 
 	/**
-	 * Returns whether the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.Insets#getTop <em>Top</em>}'
-	 * attribute is set. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.attribute.Insets#getTop <em>Top</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return whether the value of the '<em>Top</em>' attribute is set.
 	 * @see #unsetTop()
 	 * @see #getTop()
@@ -124,11 +115,9 @@ public interface Insets extends IChartObject {
 	double getLeft();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.Insets#getLeft <em>Left</em>}'
-	 * attribute. <!-- begin-user-doc --> Sets the left component of the insets.
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.Insets#getLeft <em>Left</em>}' attribute.
+	 * <!-- begin-user-doc --> Sets the left component of the insets.
 	 * <!-- end-user-doc -->
-	 *
 	 * @param value the new value of the '<em>Left</em>' attribute.
 	 * @see #isSetLeft()
 	 * @see #unsetLeft()
@@ -138,10 +127,8 @@ public interface Insets extends IChartObject {
 	void setLeft(double value);
 
 	/**
-	 * Unsets the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.Insets#getLeft <em>Left</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.attribute.Insets#getLeft <em>Left</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isSetLeft()
 	 * @see #getLeft()
 	 * @see #setLeft(double)
@@ -150,10 +137,8 @@ public interface Insets extends IChartObject {
 	void unsetLeft();
 
 	/**
-	 * Returns whether the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.Insets#getLeft <em>Left</em>}'
-	 * attribute is set. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.attribute.Insets#getLeft <em>Left</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return whether the value of the '<em>Left</em>' attribute is set.
 	 * @see #unsetLeft()
 	 * @see #getLeft()
@@ -182,11 +167,9 @@ public interface Insets extends IChartObject {
 	double getBottom();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.Insets#getBottom
-	 * <em>Bottom</em>}' attribute. <!-- begin-user-doc --> Sets the bottom
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.Insets#getBottom <em>Bottom</em>}' attribute.
+	 * <!-- begin-user-doc --> Sets the bottom
 	 * component of the insets. <!-- end-user-doc -->
-	 *
 	 * @param value the new value of the '<em>Bottom</em>' attribute.
 	 * @see #isSetBottom()
 	 * @see #unsetBottom()
@@ -196,10 +179,8 @@ public interface Insets extends IChartObject {
 	void setBottom(double value);
 
 	/**
-	 * Unsets the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.Insets#getBottom
-	 * <em>Bottom</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.attribute.Insets#getBottom <em>Bottom</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isSetBottom()
 	 * @see #getBottom()
 	 * @see #setBottom(double)
@@ -241,11 +222,9 @@ public interface Insets extends IChartObject {
 	double getRight();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.Insets#getRight
-	 * <em>Right</em>}' attribute. <!-- begin-user-doc --> Sets the right component
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.Insets#getRight <em>Right</em>}' attribute.
+	 * <!-- begin-user-doc --> Sets the right component
 	 * of the insets. <!-- end-user-doc -->
-	 *
 	 * @param value the new value of the '<em>Right</em>' attribute.
 	 * @see #isSetRight()
 	 * @see #unsetRight()
@@ -255,10 +234,8 @@ public interface Insets extends IChartObject {
 	void setRight(double value);
 
 	/**
-	 * Unsets the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.Insets#getRight
-	 * <em>Right</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.attribute.Insets#getRight <em>Right</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isSetRight()
 	 * @see #getRight()
 	 * @see #setRight(double)

@@ -35,13 +35,11 @@ import com.ibm.icu.util.ULocale;
  * Format Specifier</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.DateFormatSpecifierImpl#getType
- * <em>Type</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.DateFormatSpecifierImpl#getDetail
- * <em>Detail</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.DateFormatSpecifierImpl#getType <em>Type</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.DateFormatSpecifierImpl#getDetail <em>Detail</em>}</li>
+ * </ul>
  *
  * @generated
  */
@@ -68,9 +66,9 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements Date
 	protected DateFormatType type = TYPE_EDEFAULT;
 
 	/**
-	 * This is true if the Type attribute has been set. <!-- begin-user-doc --> <!--
+	 * This is true if the Type attribute has been set.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -79,7 +77,6 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements Date
 	/**
 	 * The default value of the '{@link #getDetail() <em>Detail</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @see #getDetail()
 	 * @generated
 	 * @ordered
@@ -89,7 +86,6 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements Date
 	/**
 	 * The cached value of the '{@link #getDetail() <em>Detail</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @see #getDetail()
 	 * @generated
 	 * @ordered
@@ -97,9 +93,9 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements Date
 	protected DateFormatDetail detail = DETAIL_EDEFAULT;
 
 	/**
-	 * This is true if the Detail attribute has been set. <!-- begin-user-doc -->
+	 * This is true if the Detail attribute has been set.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -107,7 +103,6 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements Date
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected DateFormatSpecifierImpl() {
@@ -116,7 +111,6 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements Date
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -126,35 +120,30 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements Date
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) {
+		if (eIsProxy())
 			return super.toString();
-		}
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (type: "); //$NON-NLS-1$
-		if (typeESet) {
+		if (typeESet)
 			result.append(type);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(", detail: "); //$NON-NLS-1$
-		if (detailESet) {
+		if (detailESet)
 			result.append(detail);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(')');
 		return result.toString();
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -183,7 +172,6 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements Date
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -192,15 +180,13 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements Date
 		type = newType == null ? TYPE_EDEFAULT : newType;
 		boolean oldTypeESet = typeESet;
 		typeESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.DATE_FORMAT_SPECIFIER__TYPE, oldType,
 					type, !oldTypeESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -209,15 +195,13 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements Date
 		boolean oldTypeESet = typeESet;
 		type = TYPE_EDEFAULT;
 		typeESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.DATE_FORMAT_SPECIFIER__TYPE,
 					oldType, TYPE_EDEFAULT, oldTypeESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -227,7 +211,6 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements Date
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -237,7 +220,6 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements Date
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -246,15 +228,13 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements Date
 		detail = newDetail == null ? DETAIL_EDEFAULT : newDetail;
 		boolean oldDetailESet = detailESet;
 		detailESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.DATE_FORMAT_SPECIFIER__DETAIL,
 					oldDetail, detail, !oldDetailESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -263,15 +243,13 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements Date
 		boolean oldDetailESet = detailESet;
 		detail = DETAIL_EDEFAULT;
 		detailESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.DATE_FORMAT_SPECIFIER__DETAIL,
 					oldDetail, DETAIL_EDEFAULT, oldDetailESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -281,7 +259,6 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements Date
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -297,7 +274,6 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements Date
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -315,7 +291,6 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements Date
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -333,7 +308,6 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements Date
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override

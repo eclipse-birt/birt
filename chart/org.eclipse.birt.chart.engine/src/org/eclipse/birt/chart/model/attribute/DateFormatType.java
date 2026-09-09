@@ -35,52 +35,52 @@ import org.eclipse.emf.common.util.Enumerator;
  */
 public enum DateFormatType implements Enumerator {
 	/**
-	 * The '<em><b>Long</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Long</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Long</b></em>' literal object isn't clear, there
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #LONG
 	 * @generated
 	 * @ordered
 	 */
 	LONG_LITERAL(0, "Long", "Long"),
 	/**
-	 * The '<em><b>Short</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Short</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Short</b></em>' literal object isn't clear, there
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #SHORT
 	 * @generated
 	 * @ordered
 	 */
 	SHORT_LITERAL(1, "Short", "Short"),
 	/**
-	 * The '<em><b>Medium</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Medium</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Medium</b></em>' literal object isn't clear, there
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #MEDIUM
 	 * @generated
 	 * @ordered
 	 */
 	MEDIUM_LITERAL(2, "Medium", "Medium"),
 	/**
-	 * The '<em><b>Full</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Full</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Full</b></em>' literal object isn't clear, there
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 *
 	 * @see #FULL
 	 * @generated
 	 * @ordered
@@ -88,9 +88,9 @@ public enum DateFormatType implements Enumerator {
 	FULL_LITERAL(3, "Full", "Full");
 
 	/**
-	 * The '<em><b>Long</b></em>' literal value. <!-- begin-user-doc --> <!--
+	 * The '<em><b>Long</b></em>' literal value.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #LONG_LITERAL
 	 * @model name="Long"
 	 * @generated
@@ -99,9 +99,9 @@ public enum DateFormatType implements Enumerator {
 	public static final int LONG = 0;
 
 	/**
-	 * The '<em><b>Short</b></em>' literal value. <!-- begin-user-doc --> <!--
+	 * The '<em><b>Short</b></em>' literal value.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #SHORT_LITERAL
 	 * @model name="Short"
 	 * @generated
@@ -110,9 +110,9 @@ public enum DateFormatType implements Enumerator {
 	public static final int SHORT = 1;
 
 	/**
-	 * The '<em><b>Medium</b></em>' literal value. <!-- begin-user-doc --> <!--
+	 * The '<em><b>Medium</b></em>' literal value.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #MEDIUM_LITERAL
 	 * @model name="Medium"
 	 * @generated
@@ -121,9 +121,9 @@ public enum DateFormatType implements Enumerator {
 	public static final int MEDIUM = 2;
 
 	/**
-	 * The '<em><b>Full</b></em>' literal value. <!-- begin-user-doc --> <!--
+	 * The '<em><b>Full</b></em>' literal value.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @see #FULL_LITERAL
 	 * @model name="Full"
 	 * @generated
@@ -137,20 +137,21 @@ public enum DateFormatType implements Enumerator {
 	 *
 	 * @generated
 	 */
-	private static final DateFormatType[] VALUES_ARRAY = { LONG_LITERAL, SHORT_LITERAL, MEDIUM_LITERAL, FULL_LITERAL, };
+	private static final DateFormatType[] VALUES_ARRAY = new DateFormatType[] { LONG_LITERAL, SHORT_LITERAL,
+			MEDIUM_LITERAL, FULL_LITERAL, };
 
 	/**
-	 * A public read-only list of all the '<em><b>Date Format Type</b></em>'
-	 * enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * A public read-only list of all the '<em><b>Date Format Type</b></em>' enumerators.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static final List<DateFormatType> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
 	/**
-	 * Returns the '<em><b>Date Format Type</b></em>' literal with the specified
-	 * literal value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns the '<em><b>Date Format Type</b></em>' literal with the specified literal value.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param literal the literal.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static DateFormatType get(String literal) {
@@ -164,9 +165,10 @@ public enum DateFormatType implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Date Format Type</b></em>' literal with the specified
-	 * name. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns the '<em><b>Date Format Type</b></em>' literal with the specified name.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param name the name.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static DateFormatType getByName(String name) {
@@ -180,9 +182,10 @@ public enum DateFormatType implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Date Format Type</b></em>' literal with the specified
-	 * integer value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns the '<em><b>Date Format Type</b></em>' literal with the specified integer value.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the integer value.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static DateFormatType get(int value) {
@@ -201,32 +204,29 @@ public enum DateFormatType implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private final int value;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private final String name;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	private final String literal;
 
 	/**
-	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
+	 * Only this class can construct instances.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @generated
 	 */
-	DateFormatType(int value, String name, String literal) {
+	private DateFormatType(int value, String name, String literal) {
 		this.value = value;
 		this.name = name;
 		this.literal = literal;
@@ -234,7 +234,6 @@ public enum DateFormatType implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -244,7 +243,6 @@ public enum DateFormatType implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -254,7 +252,6 @@ public enum DateFormatType implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -263,9 +260,8 @@ public enum DateFormatType implements Enumerator {
 	}
 
 	/**
-	 * Returns the literal value of the enumerator, which is its string
-	 * representation. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns the literal value of the enumerator, which is its string representation.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override

@@ -21,24 +21,20 @@ import org.eclipse.emf.common.util.EList;
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Data
  * Point</b></em>'. <!-- end-user-doc -->
  *
- * <!-- begin-model-doc --> DataPoint holds the settings for establishing the
- * label text of a series' datapoints.
- *
+ * <!-- begin-model-doc -->
+ * DataPoint holds the settings for establishing the label text of a series' datapoints.
+ * 			
  * <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.DataPoint#getComponents
- * <em>Components</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.DataPoint#getPrefix
- * <em>Prefix</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.DataPoint#getSuffix
- * <em>Suffix</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.DataPoint#getSeparator
- * <em>Separator</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.DataPoint#getComponents <em>Components</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.DataPoint#getPrefix <em>Prefix</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.DataPoint#getSuffix <em>Suffix</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.DataPoint#getSeparator <em>Separator</em>}</li>
+ * </ul>
  *
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getDataPoint()
  * @model extendedMetaData="name='DataPoint' kind='elementOnly'"
@@ -82,10 +78,8 @@ public interface DataPoint extends IChartObject {
 	String getPrefix();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.DataPoint#getPrefix
-	 * <em>Prefix</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.DataPoint#getPrefix <em>Prefix</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Prefix</em>' attribute.
 	 * @see #getPrefix()
 	 * @generated
@@ -109,10 +103,8 @@ public interface DataPoint extends IChartObject {
 	String getSuffix();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.DataPoint#getSuffix
-	 * <em>Suffix</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.DataPoint#getSuffix <em>Suffix</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Suffix</em>' attribute.
 	 * @see #getSuffix()
 	 * @generated
@@ -137,10 +129,8 @@ public interface DataPoint extends IChartObject {
 	String getSeparator();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.attribute.DataPoint#getSeparator
-	 * <em>Separator</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.DataPoint#getSeparator <em>Separator</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Separator</em>' attribute.
 	 * @see #getSeparator()
 	 * @generated

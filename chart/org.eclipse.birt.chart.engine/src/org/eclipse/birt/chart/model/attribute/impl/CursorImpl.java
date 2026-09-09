@@ -40,13 +40,11 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * '<em><b>Cursor</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.CursorImpl#getType
- * <em>Type</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.CursorImpl#getImage
- * <em>Image</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.CursorImpl#getType <em>Type</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.CursorImpl#getImage <em>Image</em>}</li>
+ * </ul>
  *
  * @generated
  */
@@ -73,18 +71,17 @@ public class CursorImpl extends EObjectImpl implements Cursor {
 	protected CursorType type = TYPE_EDEFAULT;
 
 	/**
-	 * This is true if the Type attribute has been set. <!-- begin-user-doc --> <!--
+	 * This is true if the Type attribute has been set.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean typeESet;
 
 	/**
-	 * The cached value of the '{@link #getImage() <em>Image</em>}' containment
-	 * reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * The cached value of the '{@link #getImage() <em>Image</em>}' containment reference list.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getImage()
 	 * @generated
 	 * @ordered
@@ -93,7 +90,6 @@ public class CursorImpl extends EObjectImpl implements Cursor {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	protected CursorImpl() {
@@ -102,7 +98,6 @@ public class CursorImpl extends EObjectImpl implements Cursor {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -112,7 +107,6 @@ public class CursorImpl extends EObjectImpl implements Cursor {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -122,7 +116,6 @@ public class CursorImpl extends EObjectImpl implements Cursor {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -131,15 +124,13 @@ public class CursorImpl extends EObjectImpl implements Cursor {
 		type = newType == null ? TYPE_EDEFAULT : newType;
 		boolean oldTypeESet = typeESet;
 		typeESet = true;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.CURSOR__TYPE, oldType, type,
 					!oldTypeESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -148,15 +139,13 @@ public class CursorImpl extends EObjectImpl implements Cursor {
 		boolean oldTypeESet = typeESet;
 		type = TYPE_EDEFAULT;
 		typeESet = false;
-		if (eNotificationRequired()) {
+		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.CURSOR__TYPE, oldType,
 					TYPE_EDEFAULT, oldTypeESet));
-		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -166,20 +155,18 @@ public class CursorImpl extends EObjectImpl implements Cursor {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public EList<Image> getImage() {
 		if (image == null) {
-			image = new EObjectContainmentEList<>(Image.class, this, AttributePackage.CURSOR__IMAGE);
+			image = new EObjectContainmentEList<Image>(Image.class, this, AttributePackage.CURSOR__IMAGE);
 		}
 		return image;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -193,7 +180,6 @@ public class CursorImpl extends EObjectImpl implements Cursor {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -209,7 +195,6 @@ public class CursorImpl extends EObjectImpl implements Cursor {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -229,7 +214,6 @@ public class CursorImpl extends EObjectImpl implements Cursor {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -247,7 +231,6 @@ public class CursorImpl extends EObjectImpl implements Cursor {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
@@ -263,22 +246,19 @@ public class CursorImpl extends EObjectImpl implements Cursor {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) {
+		if (eIsProxy())
 			return super.toString();
-		}
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (type: "); //$NON-NLS-1$
-		if (typeESet) {
+		if (typeESet)
 			result.append(type);
-		} else {
+		else
 			result.append("<unset>"); //$NON-NLS-1$
-		}
 		result.append(')');
 		return result.toString();
 	}

@@ -21,18 +21,17 @@ import org.eclipse.birt.chart.model.IChartObject;
  * '<em><b>Set</b></em>'. <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- *
- * This type holds the data associated with a series.
- *
+ * 
+ * 			This type holds the data associated with a series.
+ * 			
  * <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.data.DataSet#getValues
- * <em>Values</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.data.DataSet#getValues <em>Values</em>}</li>
+ * </ul>
  *
  * @see org.eclipse.birt.chart.model.data.DataPackage#getDataSet()
  * @model extendedMetaData="name='DataSet' kind='elementOnly'"
@@ -59,10 +58,8 @@ public interface DataSet extends IChartObject {
 	Object getValues();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.data.DataSet#getValues <em>Values</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.data.DataSet#getValues <em>Values</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Values</em>' attribute.
 	 * @see #getValues()
 	 * @generated

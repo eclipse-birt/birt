@@ -22,20 +22,19 @@ import org.eclipse.birt.chart.model.component.Series;
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Bar
  * Series</b></em>'. <!-- end-user-doc -->
  *
- * <!-- begin-model-doc --> This is a Series type that, during design time,
- * holds the query data for Bar charts, and during run time, holds the value for
- * each riser in the series. When rendered, a riser extends from the x-axis to
- * the value of each data point. <!-- end-model-doc -->
+ * <!-- begin-model-doc -->
+ * This is a Series type that, during design time, holds the query data for Bar charts, and during run time, 
+ * holds the value for each riser in the series.  When rendered, a riser extends from the x-axis to the 
+ * value of each data point.
+ * <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:
- * <ul>
- * <li>{@link org.eclipse.birt.chart.model.type.BarSeries#getRiser
- * <em>Riser</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.type.BarSeries#getRiserOutline
- * <em>Riser Outline</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.birt.chart.model.type.BarSeries#getRiser <em>Riser</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.BarSeries#getRiserOutline <em>Riser Outline</em>}</li>
+ * </ul>
  *
  * @see org.eclipse.birt.chart.model.type.TypePackage#getBarSeries()
  * @model extendedMetaData="name='BarSeries' kind='elementOnly'"
@@ -65,10 +64,8 @@ public interface BarSeries extends Series {
 	RiserType getRiser();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.type.BarSeries#getRiser <em>Riser</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.type.BarSeries#getRiser <em>Riser</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Riser</em>' attribute.
 	 * @see org.eclipse.birt.chart.model.attribute.RiserType
 	 * @see #isSetRiser()
@@ -79,10 +76,8 @@ public interface BarSeries extends Series {
 	void setRiser(RiserType value);
 
 	/**
-	 * Unsets the value of the
-	 * '{@link org.eclipse.birt.chart.model.type.BarSeries#getRiser <em>Riser</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.type.BarSeries#getRiser <em>Riser</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isSetRiser()
 	 * @see #getRiser()
 	 * @see #setRiser(RiserType)
@@ -91,10 +86,8 @@ public interface BarSeries extends Series {
 	void unsetRiser();
 
 	/**
-	 * Returns whether the value of the
-	 * '{@link org.eclipse.birt.chart.model.type.BarSeries#getRiser <em>Riser</em>}'
-	 * attribute is set. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.type.BarSeries#getRiser <em>Riser</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return whether the value of the '<em>Riser</em>' attribute is set.
 	 * @see #unsetRiser()
 	 * @see #getRiser()
@@ -121,13 +114,10 @@ public interface BarSeries extends Series {
 	ColorDefinition getRiserOutline();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.birt.chart.model.type.BarSeries#getRiserOutline <em>Riser
-	 * Outline</em>}' containment reference. <!-- begin-user-doc --> <!--
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.type.BarSeries#getRiserOutline <em>Riser Outline</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 *
-	 * @param value the new value of the '<em>Riser Outline</em>' containment
-	 *              reference.
+	 * @param value the new value of the '<em>Riser Outline</em>' containment reference.
 	 * @see #getRiserOutline()
 	 * @generated
 	 */
