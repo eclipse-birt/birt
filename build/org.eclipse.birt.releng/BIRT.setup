@@ -531,6 +531,8 @@
       <requirement
           name="jakarta.servlet.jsp-api"
           versionRange="[3.1.1,4.0.0)"/>
+      <requirement
+          name="com.twelvemonkeys.imageio.webp"/>
       <sourceLocator
           rootFolder="${git.clone.birt.location}"
           locateNestedProjects="true"/>

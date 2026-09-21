@@ -20,6 +20,13 @@
       <unit id="com.github.weisj.jsvg" version="0.0.0"/>
       <unit id="com.jcraft.jsch" version="0.0.0"/>
       <unit id="com.sun.xml.bind.jaxb-osgi" version="0.0.0"/>
+      <unit id="com.twelvemonkeys.common.image" version="0.0.0"/>
+      <unit id="com.twelvemonkeys.common.io" version="0.0.0"/>
+      <unit id="com.twelvemonkeys.common.lang" version="0.0.0"/>
+      <unit id="com.twelvemonkeys.imageio.core" version="0.0.0"/>
+      <unit id="com.twelvemonkeys.imageio.metadata" version="0.0.0"/>
+      <unit id="com.twelvemonkeys.imageio.psd" version="0.0.0"/>
+      <unit id="com.twelvemonkeys.imageio.webp" version="0.0.0"/>
       <unit id="com.zaxxer.sparsebits" version="0.0.0"/>
       <unit id="jakarta.activation-api" version="[2.0.0,3.0.0)"/>
       <unit id="jakarta.annotation-api" version="0.0.0"/>
