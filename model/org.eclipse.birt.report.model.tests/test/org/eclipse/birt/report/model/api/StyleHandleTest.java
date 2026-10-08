@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2026 Actuate Corporation.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -296,6 +296,20 @@ public class StyleHandleTest extends BaseTestCase {
 
 		styleHandle.setOverflow(DesignChoiceConstants.OVERFLOW_HIDDEN);
 		assertEquals(DesignChoiceConstants.OVERFLOW_HIDDEN, styleHandle.getOverflow());
+	}
+
+	/**
+	 * Tests that a freshly created style reports 0pt padding by default, matching
+	 * render output.
+	 */
+	public void testPaddingDafaultValue() {
+		StyleHandle style = designHandle.getElementFactory().newStyle("default-padding-style"); //$NON-NLS-1$
+
+		assertEquals(0.0, style.getPaddingTop().getMeasure(), 0.0001);
+		assertEquals(0.0, style.getPaddingLeft().getMeasure(), 0.0001);
+		assertEquals(0.0, style.getPaddingRight().getMeasure(), 0.0001);
+		assertEquals(0.0, style.getPaddingBottom().getMeasure(), 0.0001);
+
 	}
 
 	/**

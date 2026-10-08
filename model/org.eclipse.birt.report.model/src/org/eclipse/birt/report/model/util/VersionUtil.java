@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2024 Actuate Corporation and others
+ * Copyright (c) 2004, 2026 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -118,6 +118,9 @@ public class VersionUtil {
 
 	/** property: report design file version 3.2.27 */
 	public static final int VERSION_3_2_27 = 3022700;
+
+	/** property: report design file version 3.2.28 */
+	public static final int VERSION_3_2_28 = 3022800;
 
 	/**
 	 *

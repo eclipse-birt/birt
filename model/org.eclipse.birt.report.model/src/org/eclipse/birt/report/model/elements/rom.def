@@ -2608,19 +2608,19 @@
       </Property>
       <Property canInherit="false" displayNameID="Element.Style.padding.top" isStyleProperty="true" name="paddingTop" since="1.0" type="dimension" validator="NonNegativeValueValidator">
       	<DefaultUnit>pt</DefaultUnit>
-        <Default>1</Default>        
+        <Default>0</Default>        
       </Property>
       <Property canInherit="false" displayNameID="Element.Style.padding.left" isStyleProperty="true" name="paddingLeft" since="1.0" type="dimension" validator="NonNegativeValueValidator">
       	<DefaultUnit>pt</DefaultUnit>
-        <Default>1</Default>        
+        <Default>0</Default>        
       </Property>
       <Property canInherit="false" displayNameID="Element.Style.padding.bottom" isStyleProperty="true" name="paddingBottom" since="1.0" type="dimension" validator="NonNegativeValueValidator">
       	 <DefaultUnit>pt</DefaultUnit>
-        <Default>1</Default>       
+        <Default>0</Default>       
       </Property>
       <Property canInherit="false" displayNameID="Element.Style.padding.right" isStyleProperty="true" name="paddingRight" since="1.0" type="dimension" validator="NonNegativeValueValidator">
       	<DefaultUnit>pt</DefaultUnit>
-        <Default>1</Default>        
+        <Default>0</Default>        
       </Property>
     </PropertyGroup>
     <PropertyGroup displayNameID="Element.Style.format">
