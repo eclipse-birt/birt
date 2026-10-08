@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2024 Actuate Corporation and others
+ * Copyright (c) 2004, 2026 Actuate Corporation and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -26,12 +26,12 @@ interface IDesignSchemaConstants {
 	/**
 	 * The version of report design.
 	 */
-	String REPORT_VERSION = "3.2.27"; //$NON-NLS-1$
+	String REPORT_VERSION = "3.2.28"; //$NON-NLS-1$
 
 	/**
 	 * The number representation for the current version string.
 	 */
-	int REPORT_VERSION_NUMBER = VersionUtil.VERSION_3_2_27;
+	int REPORT_VERSION_NUMBER = VersionUtil.VERSION_3_2_28;
 
 	String ACCESS_CONTROL_TAG = "access-control"; //$NON-NLS-1$
 	String AUTO_TEXT_TAG = "auto-text"; //$NON-NLS-1$

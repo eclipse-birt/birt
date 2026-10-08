@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2026 Actuate Corporation.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -23,6 +23,7 @@ import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
@@ -284,5 +285,26 @@ public class PropertyDefnTest extends AbstractMetaTest {
 		assertEquals(DesignChoiceConstants.PAGE_BREAK_AFTER_AUTO, choices.getChoices()[0].getName());
 		assertEquals(DesignChoiceConstants.PAGE_BREAK_AFTER_ALWAYS, choices.getChoices()[1].getName());
 		assertEquals(DesignChoiceConstants.PAGE_BREAK_AFTER_AVOID, choices.getChoices()[2].getName());
+	}
+
+	/**
+	 * Tests that the padding properties on the "style" element default to 0pt,
+	 * matching the render time default in BIRTPropertyManagerFactory.
+	 *
+	 * @throws MetaDataParserException
+	 */
+	public void testPaddingDafultValue() throws MetaDataParserException {
+		IElementDefn styleDefn = MetaDataDictionary.getInstance().getElement(ReportDesignConstants.STYLE_ELEMENT);
+
+		String[] paddingProps = { Style.PADDING_TOP_PROP, Style.PADDING_BOTTOM_PROP, Style.PADDING_LEFT_PROP,
+				Style.PADDING_RIGHT_PROP };
+
+		for (String propName : paddingProps) {
+			ElementPropertyDefn defn = (ElementPropertyDefn) styleDefn.getProperty(propName);
+			DimensionValue def = (DimensionValue) defn.getDefault();
+			assertNotNull(def);
+			assertEquals(0.0, def.getMeasure(), 0.0001);
+			assertEquals("pt", def.getUnits()); //$NON-NLS-1$
+		}
 	}
 }
