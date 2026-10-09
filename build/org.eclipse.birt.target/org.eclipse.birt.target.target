@@ -39,11 +39,8 @@
       <unit id="jakarta.servlet.jsp-api" version="[3.0.0,4.0.0)"/>
       <unit id="jakarta.transaction-api" version="0.0.0"/>
       <unit id="jakarta.xml.bind-api" version="[4.0.0,5.0.0)"/>
-      <unit id="org.apache.aries.spifly.dynamic.bundle" version="0.0.0"/>
       <unit id="org.apache.batik.anim" version="0.0.0"/>
-      <unit id="org.apache.batik.awt.util" version="0.0.0"/>
       <unit id="org.apache.batik.bridge" version="0.0.0"/>
-      <unit id="org.apache.batik.codec" version="0.0.0"/>
       <unit id="org.apache.batik.constants" version="0.0.0"/>
       <unit id="org.apache.batik.css" version="0.0.0"/>
       <unit id="org.apache.batik.dom" version="0.0.0"/>
@@ -54,7 +51,6 @@
       <unit id="org.apache.batik.i18n" version="0.0.0"/>
       <unit id="org.apache.batik.parser" version="0.0.0"/>
       <unit id="org.apache.batik.script" version="0.0.0"/>
-      <unit id="org.apache.batik.svggen" version="0.0.0"/>
       <unit id="org.apache.batik.transcoder" version="0.0.0"/>
       <unit id="org.apache.batik.util" version="0.0.0"/>
       <unit id="org.apache.batik.xml" version="0.0.0"/>
@@ -153,7 +149,6 @@
       <unit id="org.mortbay.jasper.mortbay-apache-jsp" version="[9.0.0,10.0.0)"/>
       <unit id="org.mortbay.jasper.mortbay-apache-jsp" version="[10.0.0,11.0.0)"/>
       <unit id="org.mozilla.rhino" version="0.0.0"/>
-      <unit id="org.objectweb.asm.commons" version="0.0.0"/>
       <unit id="org.osgi.namespace.contract" version="0.0.0"/>
       <unit id="org.osgi.namespace.extender" version="0.0.0"/>
       <unit id="org.osgi.namespace.service" version="0.0.0"/>
