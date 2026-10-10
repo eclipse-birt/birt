@@ -35,6 +35,7 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
+import org.eclipse.birt.core.internal.util.ImageConversionUtil;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
 import org.eclipse.birt.report.engine.api.IRenderOption;
@@ -185,7 +186,7 @@ public class EmitterUtil {
 					if (SvgFile.isSvg(content.getURI())) {
 						buffer = SvgFile.transSvgToArray(new ByteArrayInputStream(buffer));
 					}
-					image = Image.getInstance(buffer);
+					image = Image.getInstance(ImageConversionUtil.convertUnsupportedFormat(buffer));
 				}
 				break;
 			case IImageContent.IMAGE_NAME:
@@ -196,16 +197,16 @@ public class EmitterUtil {
 					data = SvgFile.transSvgToArray(in);
 				}
 				in.close();
-				image = Image.getInstance(data);
+				image = Image.getInstance(ImageConversionUtil.convertUnsupportedFormat(data));
 				break;
 
 			case IImageContent.IMAGE_URL:
-				if (SvgFile.isSvg(uri)) {
-					image = Image.getInstance(SvgFile.transSvgToArray(uri));
-				} else {
-					image = Image.getInstance(new URL(content.getURI()));
+				// decodes data URLs, and converts SVG and the formats OpenPDF cannot read
+				// (such as WebP) to PNG
+				byte[] urlData = getImageData(uri);
+				if (urlData != null) {
+					image = Image.getInstance(urlData);
 				}
-
 				break;
 			default:
 				assert (false);
@@ -358,7 +359,7 @@ public class EmitterUtil {
 				}
 			}
 		}
-		return imageData;
+		return ImageConversionUtil.convertUnsupportedFormat(imageData);
 	}
 
 	/**
@@ -369,13 +370,7 @@ public class EmitterUtil {
 	 * @throws IOException
 	 */
 	public static byte[] readData(InputStream imageStream) throws IOException {
-		ByteArrayOutputStream byteArrayStream = new ByteArrayOutputStream();
-		int data = -1;
-		while ((data = imageStream.read()) >= 0) {
-			byteArrayStream.write(data);
-		}
-		byteArrayStream.close();
-		return byteArrayStream.toByteArray();
+		return imageStream.readAllBytes();
 	}
 
 	/**
@@ -485,6 +480,7 @@ public class EmitterUtil {
 				}
 				break;
 			}
+			data = ImageConversionUtil.convertUnsupportedFormat(data);
 			imageInfo = new org.eclipse.birt.report.engine.layout.emitter.Image();
 			if (data != null) {
 				imageInfo.setInput(data);
@@ -518,7 +514,7 @@ public class EmitterUtil {
 			String extension) throws IOException {
 		if (imageData != null) {
 			org.eclipse.birt.report.engine.layout.emitter.Image imageInfo = new org.eclipse.birt.report.engine.layout.emitter.Image();
-			imageInfo.setInput(imageData);
+			imageInfo.setInput(ImageConversionUtil.convertUnsupportedFormat(imageData));
 			if (!imageInfo.check()) {
 				imageInfo.setData(null);
 			}

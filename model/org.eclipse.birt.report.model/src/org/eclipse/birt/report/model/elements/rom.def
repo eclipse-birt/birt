@@ -324,6 +324,7 @@
     <Choice displayNameID="Choices.imageType.image/tiff" name="image/tiff"/>
     <Choice displayNameID="Choices.imageType.image/svg+xml" name="image/svg+xml"/>
     <Choice displayNameID="Choices.imageType.image/x-icon" name="image/x-icon"/>
+    <Choice displayNameID="Choices.imageType.image/webp" name="image/webp"/>
   </ChoiceType>
   <ChoiceType name="actionLinkType">
     <Choice displayNameID="Choices.actionLinkType.none" name="none"/>

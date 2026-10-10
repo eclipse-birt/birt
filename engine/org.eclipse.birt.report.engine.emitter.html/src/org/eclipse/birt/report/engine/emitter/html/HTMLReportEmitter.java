@@ -14,7 +14,9 @@
 package org.eclipse.birt.report.engine.emitter.html;
 
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -37,6 +39,7 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.internal.util.ImageConversionUtil;
 import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.HTMLRenderOption;
@@ -3132,10 +3135,19 @@ public class HTMLReportEmitter extends ContentEmitterAdapter {
 			if (image.getImageSource() == IImageContent.IMAGE_URL && !imgUri.contains(URL_PROTOCOL_TYPE_FILE)) {
 
 				try {
-					// fetch the raw image size
+					// fetch the raw image size, ImageIO cannot read every format, such as WebP
 					URL url = new URL(imgUri);
-					BufferedImage bImg = ImageIO.read(url);
-					image.setImageRawSize(new ImageSize("px", bImg.getWidth(), bImg.getHeight()));
+					byte[] data;
+					try (InputStream in = url.openStream()) {
+						data = in.readAllBytes();
+					}
+					BufferedImage bImg = ImageIO.read(new ByteArrayInputStream(data));
+					int[] size = bImg != null ? new int[] { bImg.getWidth(), bImg.getHeight() }
+							: ImageConversionUtil.getSize(data);
+					if (size == null) {
+						size = new int[] { DEFAULT_IMAGE_PX_WIDTH, DEFAULT_IMAGE_PX_HEIGHT };
+					}
+					image.setImageRawSize(new ImageSize("px", size[0], size[1]));
 				} catch (Exception ex) {
 					image.setImageRawSize(new ImageSize("px", DEFAULT_IMAGE_PX_WIDTH, DEFAULT_IMAGE_PX_HEIGHT));
 				}

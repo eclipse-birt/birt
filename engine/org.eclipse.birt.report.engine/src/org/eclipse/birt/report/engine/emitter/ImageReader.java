@@ -27,6 +27,7 @@ import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.internal.util.ImageConversionUtil;
 import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.content.impl.ReportContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
@@ -57,6 +58,13 @@ public class ImageReader {
 
 	/** property: type image object, converted svg image */
 	public static final int TYPE_CONVERTED_SVG_OBJECT = 3;
+
+	/**
+	 * property: type image object, converted to png from an unsupported format
+	 *
+	 * @since 4.26
+	 */
+	public static final int TYPE_CONVERTED_IMAGE_OBJECT = 4;
 
 	/** property: image read status, unloaded */
 	public static final int OBJECT_UNLOADED = -1;
@@ -269,6 +277,7 @@ public class ImageReader {
 		if (isOutputSupported()) {
 			buffer = getImageByteArray(in);
 			status = OBJECT_LOADED_SUCCESSFULLY;
+			convertUnsupportedFormat();
 		} else if (objectType == TYPE_SVG_OBJECT) {
 			try {
 				buffer = SvgFile.transSvgToArray(in);
@@ -294,6 +303,7 @@ public class ImageReader {
 		if (isOutputSupported()) {
 			buffer = data;
 			status = OBJECT_LOADED_SUCCESSFULLY;
+			convertUnsupportedFormat();
 		} else if (objectType == TYPE_SVG_OBJECT) {
 			try (InputStream in = new ByteArrayInputStream(data)) {
 				buffer = SvgFile.transSvgToArray(in);
@@ -307,6 +317,19 @@ public class ImageReader {
 		} else {
 			buffer = null;
 			status = UNSUPPORTED_OBJECTS;
+		}
+	}
+
+	/**
+	 * Converts a loaded image in a format that none of the paginated emitters can
+	 * embed, such as WebP, to PNG. The format is recognized by the content because
+	 * URL and expression images often come without a MIME type.
+	 */
+	private void convertUnsupportedFormat() {
+		byte[] converted = ImageConversionUtil.convertUnsupportedFormat(buffer);
+		if (converted != buffer) {
+			buffer = converted;
+			objectType = TYPE_CONVERTED_IMAGE_OBJECT;
 		}
 	}
 

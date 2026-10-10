@@ -15,6 +15,7 @@
 package org.eclipse.birt.core;
 
 import org.eclipse.birt.core.script.AllScriptTests;
+import org.eclipse.birt.core.util.ImageConversionUtilTest;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -32,6 +33,7 @@ public class AllTests {
 	public static Test suite() {
 		TestSuite test = new TestSuite();
 		test.addTest(AllScriptTests.suite());
+		test.addTestSuite(ImageConversionUtilTest.class);
 
 		return test;
 	}
