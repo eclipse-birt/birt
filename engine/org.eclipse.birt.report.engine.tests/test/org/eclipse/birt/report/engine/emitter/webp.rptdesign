@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.27" id="1">
+    <text-property name="title">Simple WebP Report</text-property>
+    <property name="units">in</property>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2"/>
+    </page-setup>
+    <body>
+        <image id="3">
+            <property name="height">0.5in</property>
+            <property name="width">1in</property>
+            <property name="source">embed</property>
+            <property name="imageName">webp.webp</property>
+        </image>
+        <grid id="4">
+            <property name="backgroundImage">background.webp</property>
+            <property name="backgroundImageType">embed</property>
+            <property name="width">2in</property>
+            <column id="5"/>
+            <row id="6">
+                <property name="height">1in</property>
+                <cell id="7"/>
+            </row>
+        </grid>
+    </body>
+    <list-property name="images">
+        <structure>
+            <property name="name">webp.webp</property>
+            <property name="type">image/webp</property>
+            <property name="data">UklGRiQAAABXRUJQVlA4TBcAAAAvD8ABEA8QMf/zHwyxYDJ/6c4UIvofOgA=</property>
+        </structure>
+        <structure>
+            <property name="name">background.webp</property>
+            <property name="type">image/webp</property>
+            <property name="data">UklGRlYAAABXRUJQVlA4IEoAAADQAQCdASoQAAgAAUAmJbACdAEOu5fu8AD+/GvcXPbNrhL7AXIToB07l90R+W+0flx8Jx8XV/7+f6IGQ/xBr+wZNf/9X/Hf/XgAAA==</property>
+        </structure>
+    </list-property>
+</report>

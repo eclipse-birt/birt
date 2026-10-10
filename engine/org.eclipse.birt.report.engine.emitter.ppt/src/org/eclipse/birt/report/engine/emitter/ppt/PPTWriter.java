@@ -536,6 +536,9 @@ public class PPTWriter {
 
 		if (extension.equals("svg")) {
 			extension = "jpg";
+		} else if (extension.equals("webp")) {
+			// WebP images are converted to PNG
+			extension = "png";
 		}
 		return extension;
 	}

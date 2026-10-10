@@ -39,6 +39,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.internal.util.ImageConversionUtil;
 import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
 import org.eclipse.birt.report.engine.api.impl.Action;
 import org.eclipse.birt.report.engine.content.ICellContent;
@@ -815,7 +816,7 @@ public class CellContentHandler extends AbstractHandler {
 				conn.connect();
 				mimeType = conn.getContentType();
 				int imageType = smu.poiImageTypeFromMimeType(mimeType, null);
-				if (imageType == 0) {
+				if (imageType == 0 && !isWebpMimeType(mimeType)) {
 					log.debug("Unrecognised/unhandled image MIME type: " + mimeType);
 				} else {
 					data = smu.downloadImage(conn);
@@ -825,6 +826,12 @@ public class CellContentHandler extends AbstractHandler {
 				log.debug(ex.getClass(), ": ", ex.getMessage());
 				ex.printStackTrace();
 			}
+		}
+		byte[] png = ImageConversionUtil.convertUnsupportedFormat(data);
+		if (png != data) {
+			// Excel cannot show formats such as WebP, so it gets the image converted to PNG
+			data = png;
+			mimeType = "image/png";
 		}
 		if (data != null) {
 			int imageType = smu.poiImageTypeFromMimeType(mimeType, data);
@@ -923,6 +930,15 @@ public class CellContentHandler extends AbstractHandler {
 			}
 		}
 		return uri;
+	}
+
+	/**
+	 * Check whether the MIME type of a downloaded image is WebP, which gets
+	 * converted to PNG
+	 */
+	private static boolean isWebpMimeType(String mimeType) {
+		return mimeType != null && (mimeType.toLowerCase().startsWith("image/webp") //$NON-NLS-1$
+				|| mimeType.toLowerCase().startsWith("image/x-webp")); //$NON-NLS-1$
 	}
 
 }

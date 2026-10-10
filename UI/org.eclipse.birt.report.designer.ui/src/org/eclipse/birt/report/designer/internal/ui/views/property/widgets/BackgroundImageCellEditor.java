@@ -50,7 +50,8 @@ public class BackgroundImageCellEditor extends CDialogCellEditor {
 			".tif", //$NON-NLS-1$
 			".tiff", //$NON-NLS-1$
 			".ico", //$NON-NLS-1$
-			".svg" //$NON-NLS-1$
+			".svg", //$NON-NLS-1$
+			".webp" //$NON-NLS-1$
 	};
 
 	Listener filter = new Listener() {
@@ -180,7 +181,7 @@ public class BackgroundImageCellEditor extends CDialogCellEditor {
 
 	@Override
 	protected Object openDialogBox(Control cellEditorWindow) {
-		String extensions[] = { "*.bmp;*.jpg;*.jpeg;*.jpe;*.jfif;*.gif;*.png;*.tif;*.tiff;*.ico;*.svg"//$NON-NLS-1$
+		String extensions[] = { "*.bmp;*.jpg;*.jpeg;*.jpe;*.jfif;*.gif;*.png;*.tif;*.tiff;*.ico;*.svg;*.webp"//$NON-NLS-1$
 																										// //$NON-NLS-3$
 																										// //$NON-NLS-4$
 																										// //$NON-NLS-5$

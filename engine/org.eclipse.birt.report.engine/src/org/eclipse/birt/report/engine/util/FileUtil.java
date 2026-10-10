@@ -61,6 +61,7 @@ public class FileUtil {
 		fileExtension.put("image/tif", ".tif"); //$NON-NLS-1$//$NON-NLS-2$
 		fileExtension.put("image/svg+xml", ".svg"); //$NON-NLS-1$//$NON-NLS-2$
 		fileExtension.put("image/x-icon", ".ico");//$NON-NLS-1$//$NON-NLS-2$
+		fileExtension.put("image/webp", ".webp"); //$NON-NLS-1$//$NON-NLS-2$
 
 		// initialize mimeType
 		mimeType.put(".bmp", "image/bmp"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -72,6 +73,7 @@ public class FileUtil {
 		mimeType.put(".tif", "image/tif"); //$NON-NLS-1$//$NON-NLS-2$
 		mimeType.put(".svg", "image/svg+xml"); //$NON-NLS-1$//$NON-NLS-2$
 		mimeType.put(".ico", "image/x-icon"); //$NON-NLS-1$//$NON-NLS-2$
+		mimeType.put(".webp", "image/webp"); //$NON-NLS-1$//$NON-NLS-2$
 	}
 
 	/**

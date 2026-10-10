@@ -31,6 +31,7 @@ import javax.imageio.ImageReader;
 import javax.imageio.metadata.IIOMetadata;
 import javax.imageio.stream.ImageInputStream;
 
+import org.eclipse.birt.core.internal.util.ImageConversionUtil;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
@@ -254,11 +255,12 @@ public class BackgroundImageInfo extends AreaConstants {
 	/**
 	 * Create the data URL of the image
 	 *
+	 * @param reuseDataUrl reuse the image URL if it is a data URL already
 	 * @since 4.13
 	 */
-	private void createDataUrl() {
+	private void createDataUrl(boolean reuseDataUrl) {
 
-		if (this.url != null && this.url.contains(DATA_PROTOCOL)) {
+		if (reuseDataUrl && this.url != null && this.url.contains(DATA_PROTOCOL)) {
 			this.dataUrl = this.url;
 
 		} else if (this.imageData != null) {
@@ -395,7 +397,11 @@ public class BackgroundImageInfo extends AreaConstants {
 			this.imageData = imageData;
 		}
 
+		boolean converted = false;
 		if (this.imageData != null) {
+			byte[] data = ImageConversionUtil.convertUnsupportedFormat(this.imageData);
+			converted = data != this.imageData;
+			this.imageData = data;
 			try {
 				this.image = Image.getInstance(this.imageData);
 			} catch (Exception e) {
@@ -410,7 +416,12 @@ public class BackgroundImageInfo extends AreaConstants {
 			}
 		}
 		this.setMimeType(mimeType);
-		this.createDataUrl();
+		if (converted && this.imageData != null) {
+			// the data is PNG now, whatever the URL or the embedded image type say
+			this.mimeType = "image/png"; //$NON-NLS-1$
+			this.fileExtension = "png"; //$NON-NLS-1$
+		}
+		this.createDataUrl(!converted);
 	}
 
 	/**

@@ -41,9 +41,9 @@ public class EmbeddedImagesNodeProvider extends DefaultNodeProvider {
 	// .getString( "ImageBuilderDialog.FileDialog.FilterMessage" );
 	// //$NON-NLS-1$
 	private static String[] EXTENSIONS = { ".bmp", ".jpg", //$NON-NLS-1$ //$NON-NLS-2$
-			".jpeg", ".jpe", ".jfif", ".gif", ".png", ".tif", ".tiff", ".ico", ".svg" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$ //$NON-NLS-9$
+			".jpeg", ".jpe", ".jfif", ".gif", ".png", ".tif", ".tiff", ".ico", ".svg", ".webp" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$ //$NON-NLS-9$ //$NON-NLS-10$
 
-	private static String[] ALLEXTENSIONS = { "*.bmp;*.jpg;*.jpeg;*.jpe;*.jfif;*.gif;*.png;*.tif;*.tiff;*.ico;*.svg" }; //$NON-NLS-1$
+	private static String[] ALLEXTENSIONS = { "*.bmp;*.jpg;*.jpeg;*.jpe;*.jfif;*.gif;*.png;*.tif;*.tiff;*.ico;*.svg;*.webp" }; //$NON-NLS-1$
 
 	@Override
 	public Object[] getChildren(Object model) {

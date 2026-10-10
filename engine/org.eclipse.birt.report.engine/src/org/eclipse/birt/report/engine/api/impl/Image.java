@@ -23,15 +23,19 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
+import java.nio.file.Files;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
 
+import org.eclipse.birt.core.internal.util.ImageConversionUtil;
 import org.eclipse.birt.report.engine.api.IImage;
 import org.eclipse.birt.report.engine.api.ImageSize;
 import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.util.FileUtil;
+import org.eclipse.birt.report.engine.util.SvgFile;
 
 /**
  * Defines an image object that provides services for passing or writing image
@@ -310,9 +314,11 @@ public class Image extends ReportPart implements IImage {
 			parentDir.mkdirs();
 		}
 		OutputStream output = null;
+		boolean copied = false;
 		try {
 			output = new BufferedOutputStream(new FileOutputStream(dest));
 			copyStream(input, output);
+			copied = true;
 		} catch (IOException ex) {
 			logger.log(Level.SEVERE, ex.getMessage(), ex);
 		} finally {
@@ -330,13 +336,52 @@ public class Image extends ReportPart implements IImage {
 					logger.log(Level.SEVERE, e.getMessage(), e);
 				}
 			}
-			try {
-				BufferedImage bImg = ImageIO.read(dest);
-				this.imageRawSize = new ImageSize("px", bImg.getWidth(), bImg.getHeight());
-			} catch (Exception ex) {
-				this.imageRawSize = new ImageSize("px", 0, 0);
-			}
+			// a failed copy has been logged already
+			this.imageRawSize = copied ? readRawSize(dest) : new ImageSize("px", 0, 0); //$NON-NLS-1$
 		}
+	}
+
+	/**
+	 * Reads the pixel size of the written image. ImageIO cannot read every format,
+	 * such as WebP, so those get their size from {@link ImageConversionUtil}.
+	 *
+	 * @param file the image file
+	 * @return the size in pixels, or 0x0 if the image cannot be read
+	 */
+	private ImageSize readRawSize(File file) {
+		try {
+			BufferedImage bImg = ImageIO.read(file);
+			if (bImg != null) {
+				return new ImageSize("px", bImg.getWidth(), bImg.getHeight()); //$NON-NLS-1$
+			}
+			byte[] imageData = Files.readAllBytes(file.toPath());
+			int[] size = ImageConversionUtil.getSize(imageData);
+			if (size != null) {
+				return new ImageSize("px", size[0], size[1]); //$NON-NLS-1$
+			}
+			if (isReadableType(imageData)) {
+				logger.log(Level.SEVERE, "image {0} has data in an unknown format", id); //$NON-NLS-1$
+			}
+		} catch (IOException | RuntimeException ex) {
+			logger.log(Level.SEVERE, "image " + id + " cannot be read", ex); //$NON-NLS-1$ //$NON-NLS-2$
+		}
+		return new ImageSize("px", 0, 0); //$NON-NLS-1$
+	}
+
+	/**
+	 * Checks whether ImageIO should be able to read the image. Types that it has no
+	 * reader for, such as SVG or ICO, are passed to the browser as they are, so
+	 * their size is unknown without that being an error.
+	 */
+	private boolean isReadableType(byte[] imageData) {
+		if (mimeType != null) {
+			return ImageIO.getImageReadersByMIMEType(mimeType.toLowerCase(Locale.ROOT)).hasNext();
+		}
+		if (extension != null) {
+			String suffix = extension.startsWith(".") ? extension.substring(1) : extension; //$NON-NLS-1$
+			return ImageIO.getImageReadersBySuffix(suffix.toLowerCase(Locale.ROOT)).hasNext();
+		}
+		return !SvgFile.isSvg(null, id, null, imageData);
 	}
 
 	/**
