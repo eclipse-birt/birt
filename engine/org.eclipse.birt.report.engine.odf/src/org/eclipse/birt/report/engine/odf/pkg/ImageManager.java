@@ -82,8 +82,15 @@ public class ImageManager {
 			return entry;
 		}
 
-		String fileName = generateFileName(image.getExtension(), image.getMIMEType());
-		entry = new ImageEntry(pkg, fileName, image.getMIMEType(), image);
+		String extension = image.getExtension();
+		String mimeType = image.getMIMEType();
+		if (".webp".equalsIgnoreCase(extension) || "image/webp".equalsIgnoreCase(mimeType)) { //$NON-NLS-1$ //$NON-NLS-2$
+			// WebP images are converted to PNG when they are parsed
+			extension = ".png"; //$NON-NLS-1$
+			mimeType = "image/png"; //$NON-NLS-1$
+		}
+		String fileName = generateFileName(extension, mimeType);
+		entry = new ImageEntry(pkg, fileName, mimeType, image);
 		if (processEntry(entry, entry.getImage().getData())) {
 			images.put(image.getURI(), entry);
 		}
@@ -125,6 +132,9 @@ public class ImageManager {
 
 		if (extension.equals("svg")) {
 			extension = "jpg";
+		} else if (extension.equals("webp")) {
+			// WebP images are converted to PNG
+			extension = "png";
 		}
 		return extension;
 	}

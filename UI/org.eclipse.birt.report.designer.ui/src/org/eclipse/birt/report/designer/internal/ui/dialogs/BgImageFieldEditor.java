@@ -48,11 +48,12 @@ public class BgImageFieldEditor extends AbstractFieldEditor {
 			".tif", //$NON-NLS-1$
 			".tiff", //$NON-NLS-1$
 			".ico", //$NON-NLS-1$
-			".svg" //$NON-NLS-1$
+			".svg", //$NON-NLS-1$
+			".webp" //$NON-NLS-1$
 	};
 
 	private static final String[] IMAGE_FILEFILTERS = {
-			"*.bmp;*.jpg;*.jpeg;*.jpe;*.jfif;*.gif;*.png;*.tif;*.tiff;*.ico;*.svg" //$NON-NLS-1$
+			"*.bmp;*.jpg;*.jpeg;*.jpe;*.jfif;*.gif;*.png;*.tif;*.tiff;*.ico;*.svg;*.webp" //$NON-NLS-1$
 	};
 
 	/**

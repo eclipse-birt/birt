@@ -36,6 +36,7 @@ import org.apache.batik.transcoder.TranscoderInput;
 import org.apache.batik.transcoder.TranscoderOutput;
 import org.apache.batik.transcoder.image.JPEGTranscoder;
 import org.apache.batik.transcoder.image.PNGTranscoder;
+import org.eclipse.birt.core.internal.util.ImageConversionUtil;
 import org.eclipse.birt.report.designer.core.CorePlugin;
 import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
@@ -223,7 +224,7 @@ public class ImageManager {
 				// use the outputstream as Image input stream.
 				in = new ByteArrayInputStream(ostream.toByteArray());
 			} else {
-				in = new ByteArrayInputStream(embeddedImage.getData(handle.getModule()));
+				in = toLoaderInput(embeddedImage.getData(handle.getModule()));
 			}
 			ImageData[] datas = new ImageLoader().load(in);
 			if (datas != null && datas.length != 0) {
@@ -319,7 +320,7 @@ public class ImageManager {
 			} else {
 				String[] imageDataArray = key.split(URL_PROTOCOL_TYPE_DATA_BASE);
 				String imageDataBase64 = imageDataArray[1];
-				in = new ByteArrayInputStream(decoder.decode(imageDataBase64));
+				in = toLoaderInput(decoder.decode(imageDataBase64));
 			}
 			ImageData[] datas = new ImageLoader().load(in);
 			if (datas != null && datas.length != 0) {
@@ -474,7 +475,11 @@ public class ImageManager {
 				// use the outputstream as Image input stream.
 				in = new ByteArrayInputStream(ostream.toByteArray());
 			} else {
-				in = url.openStream();
+				byte[] data;
+				try (InputStream stream = url.openStream()) {
+					data = stream.readAllBytes();
+				}
+				in = toLoaderInput(data);
 			}
 			ImageData[] datas = new ImageLoader().load(in);
 			if (datas != null && datas.length != 0) {
@@ -526,6 +531,14 @@ public class ImageManager {
 		ostream.close();
 		// use the outputstream as Image input stream.
 		return new ByteArrayInputStream(ostream.toByteArray());
+	}
+
+	/**
+	 * Creates the input of the SWT image loader. SWT cannot load every format, so
+	 * an image in a format such as WebP is converted to PNG first.
+	 */
+	private static InputStream toLoaderInput(byte[] data) {
+		return new ByteArrayInputStream(ImageConversionUtil.convertUnsupportedFormat(data));
 	}
 
 	private ImageRegistry getImageRegistry() {
@@ -643,7 +656,7 @@ public class ImageManager {
 				uriParts = uri.split(URL_PROTOCOL_TYPE_DATA_BASE);
 				if (uriParts.length >= 2) {
 					String encodedImg = uriParts[1];
-					InputStream in = new ByteArrayInputStream(
+					InputStream in = toLoaderInput(
 							Base64.getDecoder().decode(encodedImg.getBytes(StandardCharsets.UTF_8)));
 					ImageData[] datas = new ImageLoader().load(in);
 					if (datas != null && datas.length != 0) {

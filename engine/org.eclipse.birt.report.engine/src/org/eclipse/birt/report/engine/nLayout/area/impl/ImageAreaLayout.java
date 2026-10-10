@@ -103,7 +103,8 @@ public class ImageAreaLayout implements ILayout {
 		case ImageReader.OBJECT_LOADED_SUCCESSFULLY:
 			// the object is accessible.
 			if (reader.getType() == ImageReader.TYPE_IMAGE_OBJECT
-					|| reader.getType() == ImageReader.TYPE_CONVERTED_SVG_OBJECT) {
+					|| reader.getType() == ImageReader.TYPE_CONVERTED_SVG_OBJECT
+					|| reader.getType() == ImageReader.TYPE_CONVERTED_IMAGE_OBJECT) {
 				try {
 					imageObject = Image.getInstance(reader.getByteArray());
 				} catch (Exception e) {
@@ -232,7 +233,8 @@ public class ImageAreaLayout implements ILayout {
 			int referenceWidth = pWidth;
 			int referenceHeight = -1;
 			if (reader.getType() == ImageReader.TYPE_IMAGE_OBJECT
-					|| reader.getType() == ImageReader.TYPE_CONVERTED_SVG_OBJECT) {
+					|| reader.getType() == ImageReader.TYPE_CONVERTED_SVG_OBJECT
+					|| reader.getType() == ImageReader.TYPE_CONVERTED_IMAGE_OBJECT) {
 				if (imageObject != null) {
 					imageFileDpiX = imageObject.getDpiX();
 					imageFileDpiY = imageObject.getDpiY();
@@ -500,6 +502,11 @@ public class ImageAreaLayout implements ILayout {
 				// this SVG has been converted into JPEG.
 				area.setMIMEType("image/jpeg");
 				area.setExtension(".jpg");
+			}
+			if (reader.getType() == ImageReader.TYPE_CONVERTED_IMAGE_OBJECT) {
+				// this image has been converted into PNG.
+				area.setMIMEType("image/png");
+				area.setExtension(".png");
 			}
 
 			if (content instanceof ObjectContent) {

@@ -833,6 +833,13 @@ public interface DesignChoiceConstants {
 	/** design constant: image type image x icon */
 	String IMAGE_TYPE_IMAGE_X_ICON = "image/x-icon"; //$NON-NLS-1$
 
+	/**
+	 * design constant: image type image webp
+	 *
+	 * @since 4.26
+	 */
+	String IMAGE_TYPE_IMAGE_WEBP = "image/webp"; //$NON-NLS-1$
+
 
 	// lineSpacing
 	/** design constant: choice line spacing */
