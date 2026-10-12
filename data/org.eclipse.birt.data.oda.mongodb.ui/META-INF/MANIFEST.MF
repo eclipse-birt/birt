@@ -12,7 +12,7 @@ Require-Bundle: org.eclipse.ui;bundle-version="3.119.100",
 Bundle-RequiredExecutionEnvironment: JavaSE-25
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: org.eclipse.birt.data.oda.mongodb.ui.Activator
-Import-Package: com.mongodb;version="[3.2.2,4.0.0)"
+Import-Package: com.mongodb;version="[5.13.0,6.0.0)"
 Automatic-Module-Name: org.eclipse.birt.data.oda.mongodb.ui
 Export-Package: org.eclipse.birt.data.oda.mongodb.ui;x-internal:=true,
  org.eclipse.birt.data.oda.mongodb.ui.i18n;x-internal:=true,

@@ -29,9 +29,6 @@ import org.eclipse.birt.data.oda.mongodb.nls.Messages;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.datatools.connectivity.oda.spec.QuerySpecification;
 
-import com.mongodb.BasicDBList;
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
@@ -190,7 +187,7 @@ public class QueryModel {
 		return effectiveProps != null ? effectiveProps.serialize() : DriverUtil.EMPTY_STRING;
 	}
 
-	private static final DBObject parseExprToDBObject(String jsonExpr) throws OdaException {
+	private static final Object parseExprToDBObject(String jsonExpr) throws OdaException {
 		return DriverUtil.parseExprToDBObject(jsonExpr);
 	}
 
@@ -219,10 +216,10 @@ public class QueryModel {
 		if (sortExpr == null) {
 			return; // nothing to validate
 		}
-		DBObject parsedSortObj = parseExprToDBObject(sortExpr.trim());
+		Object parsedSortObj = parseExprToDBObject(sortExpr.trim());
 
-		if (parsedSortObj instanceof BasicDBObject) {
-			BasicDBObject sortExprObj = (BasicDBObject) parsedSortObj;
+		if (parsedSortObj instanceof Document) {
+			Document sortExprObj = (Document) parsedSortObj;
 			for (Object sortKeySpec : sortExprObj.values()) {
 				// a Boolean value, both true and false, are handled by Mongo as ascending
 				// order;
@@ -258,22 +255,26 @@ public class QueryModel {
 			commandExpr = QueryProperties.addArrayMarkers(commandExpr);
 		}
 
-		DBObject parsedCmdObj = parseExprToDBObject(commandExpr);
+		Object parsedCmdObj = parseExprToDBObject(commandExpr);
+		if (cmdOp != CommandOperationType.AGGREGATE && !(parsedCmdObj instanceof Document)) {
+			throw new OdaException(Messages.bind(Messages.driverUtil_invalidExpr,
+					parsedCmdObj.getClass().getSimpleName()));
+		}
 
 		if (cmdOp == CommandOperationType.MAP_REDUCE) {
 			// check that expected command keys exist
-			validateMapReduceCommand(parsedCmdObj);
+			validateMapReduceCommand((Document) parsedCmdObj);
 		} else if (cmdOp == CommandOperationType.AGGREGATE) {
 			validateAggregateCommand(parsedCmdObj);
 		} else if (cmdOp == CommandOperationType.RUN_DB_COMMAND) {
-			validateDBCommand(parsedCmdObj);
+			validateDBCommand((Document) parsedCmdObj);
 		}
 	}
 
-	private static void validateMapReduceCommand(DBObject commandObj) throws OdaException {
+	private static void validateMapReduceCommand(Document commandObj) throws OdaException {
 		for (int i = 0; i < REQUIRED_MAPREDUCE_KEYS.length; i++) {
 			String requiredKey = REQUIRED_MAPREDUCE_KEYS[i];
-			if (!commandObj.containsField(requiredKey)) {
+			if (!commandObj.containsKey(requiredKey)) {
 				throw new OdaException(Messages.bind(Messages.queryModel_missingMapReduceKey, requiredKey));
 			}
 			if (commandObj.get(requiredKey) == null) {
@@ -282,19 +283,19 @@ public class QueryModel {
 		}
 	}
 
-	private static void validateAggregateCommand(DBObject commandObj) throws OdaException {
+	private static void validateAggregateCommand(Object commandObj) throws OdaException {
 		// validate a $group pipeline operation expression, if specified
-		List<BasicDBObject> groupOps = findPipelineOperation(commandObj, GROUP_AGGR_KEY);
-		for (BasicDBObject groupOp : groupOps) {
-			if (!groupOp.containsField(DOC_ID_FIELD_NAME)) {
+		List<Document> groupOps = findPipelineOperation(commandObj, GROUP_AGGR_KEY);
+		for (Document groupOp : groupOps) {
+			if (!groupOp.containsKey(DOC_ID_FIELD_NAME)) {
 				throw new OdaException(Messages.bind(Messages.queryModel_missingGroupAggrKey,
 						new Object[] { GROUP_AGGR_KEY, DOC_ID_FIELD_NAME, groupOp }));
 			}
 		}
 
 		// validate a $sort pipeline operation expression, if specified
-		List<BasicDBObject> sortOps = findPipelineOperation(commandObj, SORT_AGGR_KEY);
-		for (BasicDBObject sortOp : sortOps) {
+		List<Document> sortOps = findPipelineOperation(commandObj, SORT_AGGR_KEY);
+		for (Document sortOp : sortOps) {
 			for (Object sortKeySpec : sortOp.values()) {
 				if (sortKeySpec instanceof Number) {
 					int sortKeyValue = ((Number) sortKeySpec).intValue();
@@ -307,26 +308,26 @@ public class QueryModel {
 		}
 	}
 
-	private static List<BasicDBObject> findPipelineOperation(DBObject commandObj, String operator) throws OdaException {
-		List<BasicDBObject> foundOps = new ArrayList<>(2);
-		if (commandObj instanceof BasicDBObject) {
-			BasicDBObject foundOp = findOperation((BasicDBObject) commandObj, operator);
+	private static List<Document> findPipelineOperation(Object commandObj, String operator) throws OdaException {
+		List<Document> foundOps = new ArrayList<>(2);
+		if (commandObj instanceof Document) {
+			Document foundOp = findOperation((Document) commandObj, operator);
 			if (foundOp != null) {
 				foundOps.add(foundOp);
 			}
-		} else if (commandObj instanceof BasicDBList) {
-			BasicDBList ops = (BasicDBList) commandObj;
-			Iterator<Object> opsItr = ops.iterator();
+		} else if (commandObj instanceof List<?>) {
+			List<?> ops = (List<?>) commandObj;
+			Iterator<?> opsItr = ops.iterator();
 			while (opsItr.hasNext()) {
 				Object op = opsItr.next();
-				if (!(op instanceof DBObject)) {
+				if (!(op instanceof Document) && !(op instanceof List<?>)) {
 					if (String.valueOf(op).isEmpty()) {
 						op = Messages.queryModel_emptyExprErrorMsg;
 					}
 					throw new OdaException(Messages.bind(Messages.queryModel_invalidPipelineOp, op));
 				}
 
-				List<BasicDBObject> foundOpsInElement = findPipelineOperation((DBObject) op, operator);
+				List<Document> foundOpsInElement = findPipelineOperation(op, operator);
 				if (!foundOpsInElement.isEmpty()) {
 					foundOps.addAll(foundOpsInElement);
 				}
@@ -338,21 +339,21 @@ public class QueryModel {
 		return foundOps;
 	}
 
-	private static BasicDBObject findOperation(BasicDBObject opObj, String operator) {
+	private static Document findOperation(Document opObj, String operator) {
 		if (opObj == null) {
 			return null;
 		}
 		Object op = opObj.get(operator);
-		return op instanceof BasicDBObject ? (BasicDBObject) op : null;
+		return op instanceof Document ? (Document) op : null;
 	}
 
-	private static void validateDBCommand(DBObject commandObj) throws OdaException {
+	private static void validateDBCommand(Document commandObj) throws OdaException {
 		// check that the db command is one of the supported ones
 		boolean hasSupportedCommand = false;
 		for (int i = 0; i < SUPPORTED_DB_COMMANDS.length; i++) {
 			String supportedCommand = SUPPORTED_DB_COMMANDS[i];
-			if (commandObj.containsField(supportedCommand)
-					|| commandObj.containsField(supportedCommand.toLowerCase())) {
+			if (commandObj.containsKey(supportedCommand)
+					|| commandObj.containsKey(supportedCommand.toLowerCase())) {
 				hasSupportedCommand = true;
 				break;
 			}
@@ -363,7 +364,7 @@ public class QueryModel {
 		}
 
 		// only supports eval command w/ {nolock : true}
-		if (commandObj.containsField(EVAL_KEY)) {
+		if (commandObj.containsKey(EVAL_KEY)) {
 			boolean noLockValue = getBooleanValueOfKey(commandObj, NOLOCK_KEY, false);
 			if (!noLockValue) {
 				throw new OdaException(Messages.bind(Messages.queryModel_invalidDbCmdKeyValue, EVAL_KEY,
@@ -372,7 +373,7 @@ public class QueryModel {
 		}
 	}
 
-	private static boolean getBooleanValueOfKey(DBObject commandObj, String keyName, boolean defaultValue) {
+	private static boolean getBooleanValueOfKey(Document commandObj, String keyName, boolean defaultValue) {
 		Object value = commandObj.get(keyName);
 		if (value == null) {
 			return defaultValue;

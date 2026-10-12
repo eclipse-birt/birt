@@ -4,6 +4,7 @@ package org.eclipse.birt.tests.data.engine;
 import org.eclipse.birt.tests.data.engine.api.MultiPassTest;
 import org.eclipse.birt.tests.data.engine.api.MultiPass_FilterTest;
 import org.eclipse.birt.tests.data.engine.api.MultiPass_SortTest;
+import org.eclipse.birt.tests.data.oda.mongodb.MongoDBTest;
 
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
@@ -38,6 +39,7 @@ public class AllTests {
 		// suite.addTestSuite( MultiPass_NestedQueryTest.class );
 		suite.addTestSuite(MultiPass_SortTest.class);
 		suite.addTestSuite(MultiPassTest.class);
+		suite.addTestSuite(MongoDBTest.class);
 
 		return suite;
 	}

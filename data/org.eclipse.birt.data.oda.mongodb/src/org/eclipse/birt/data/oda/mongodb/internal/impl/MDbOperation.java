@@ -27,9 +27,6 @@ import org.eclipse.birt.data.oda.mongodb.impl.MDbResultSetMetaData;
 import org.eclipse.birt.data.oda.mongodb.nls.Messages;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
 import com.mongodb.ReadPreference;
 import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.FindIterable;
@@ -46,8 +43,8 @@ public class MDbOperation {
 	private QueryModel m_model;
 
 	private MongoCollection<Document> m_queryCollection;
-	private BasicDBObject m_fieldsObj;
-	private BasicDBObject m_queryObj;
+	private Document m_fieldsObj;
+	private Document m_queryObj;
 	private MDbResultSetMetaData m_rsMetaData;
 
 	private static final MDbOperation sm_factory = new MDbOperation();
@@ -100,14 +97,14 @@ public class MDbOperation {
 		}
 
 		// handle findQueryExpr property
-		BasicDBObject queryObj = queryProps.getFindQueryExprAsParsedObject();
+		Document queryObj = queryProps.getFindQueryExprAsParsedObject();
 
 		if (queryObj == null) {
-			queryObj = new BasicDBObject();
+			queryObj = new Document();
 		}
 
 		// specify fields to retrieve
-		BasicDBObject fieldsObj = queryProps.getSelectedFieldsAsProjectionKeys();
+		Document fieldsObj = queryProps.getSelectedFieldsAsProjectionKeys();
 
 		try {
 			// find search-limited rows to validate the queryObj and
@@ -178,11 +175,11 @@ public class MDbOperation {
 	 * Applies data set query properties and hints on DBCursor, except for cursor
 	 * limit.
 	 *
-	 * @see #applyPropertiesToCursor(DBCursor,QueryProperties,boolean,boolean)
+	 * @see #applyPropertiesToCursor(MongoIterable,QueryProperties,boolean,boolean)
 	 */
 	static void applyPropertiesToCursor(MongoIterable<Document> mongoIterable, QueryProperties queryProps,
 			boolean includeSortExpr) {
-		BasicDBObject sortExprObj = null;
+		Document sortExprObj = null;
 		if (includeSortExpr) // normally done only when executing a query to get full result set
 		{
 
@@ -356,7 +353,7 @@ public class MDbOperation {
 		if (!queryProps.hasAggregateCommand()) {
 			return null;
 		}
-		DBObject operationExprObj = queryProps.getOperationExprAsParsedObject(true);
+		Object operationExprObj = queryProps.getOperationExprAsParsedObject(true);
 		if (operationExprObj == null) {
 			return null;
 		}
@@ -393,16 +390,17 @@ public class MDbOperation {
 		if (!queryProps.hasMapReduceCommand()) {
 			return null;
 		}
-		DBObject command = queryProps.getOperationExprAsParsedObject(false);
-		if (command == null) {
+		Object parsedCommand = queryProps.getOperationExprAsParsedObject(false);
+		if (parsedCommand == null) {
 			return null;
 		}
 
-		if (!(command instanceof BasicDBObject)) {
+		if (!(parsedCommand instanceof Document)) {
 			throw new OdaException(
 					Messages.bind("Unexpected data type ({0}) in Selected Fields property value in MapReduce command",
-							command.getClass().getSimpleName()));
+							parsedCommand.getClass().getSimpleName()));
 		}
+		Document command = (Document) parsedCommand;
 
 		String mapFunction = null;
 		String reduceFunction = null;
@@ -456,13 +454,13 @@ public class MDbOperation {
 		if (!queryProps.hasRunCommand()) {
 			return null;
 		}
-		DBObject command = queryProps.getOperationExprAsParsedObject(false);
+		Object command = queryProps.getOperationExprAsParsedObject(false);
 		if (command == null) {
 			return null;
 		}
 
 		try {
-			Document documentCommand = QueryProperties.getDocument((BasicDBObject) command);
+			Document documentCommand = (Document) command;
 			Document result = connectedDB.runCommand(documentCommand);
 			List<Document> iterable = new ArrayList<>();
 			iterable.add(result);

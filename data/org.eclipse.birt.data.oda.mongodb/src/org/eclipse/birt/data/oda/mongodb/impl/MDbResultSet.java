@@ -29,6 +29,7 @@ import java.util.logging.Logger;
 
 import org.bson.Document;
 import org.bson.types.BSONTimestamp;
+import org.bson.types.Binary;
 import org.eclipse.birt.data.oda.mongodb.internal.impl.DriverUtil;
 import org.eclipse.birt.data.oda.mongodb.internal.impl.MDbMetaData.FieldMetaData;
 import org.eclipse.birt.data.oda.mongodb.internal.impl.QueryProperties;
@@ -41,8 +42,7 @@ import org.eclipse.datatools.connectivity.oda.IResultSetMetaData;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.datatools.connectivity.oda.impl.Blob;
 
-import com.mongodb.BasicDBList;
-import com.mongodb.DBCursor;
+import com.mongodb.client.MongoCursor;
 
 /**
  * Implementation class of IResultSet for the MongoDB ODA runtime driver.
@@ -50,7 +50,7 @@ import com.mongodb.DBCursor;
 @SuppressWarnings("deprecation")
 public class MDbResultSet implements IResultSet {
 	private Iterator<Document> m_resultsIterator;
-	private DBCursor m_mongoCursor;
+	private MongoCursor<Document> m_mongoCursor;
 	private MDbResultSetMetaData m_metadata;
 	private QueryProperties m_queryProps;
 
@@ -64,12 +64,13 @@ public class MDbResultSet implements IResultSet {
 
 	public MDbResultSet(Iterator<Document> resultsIterator, MDbResultSetMetaData rsmd, QueryProperties queryProps) {
 		if (resultsIterator == null || rsmd == null) {
-			throw new IllegalArgumentException("null DBCursor"); //$NON-NLS-1$
+			throw new IllegalArgumentException("null results iterator or metadata"); //$NON-NLS-1$
 		}
 
 		m_resultsIterator = resultsIterator;
-		// if( resultsIterator instanceof DBCursor )
-		// m_mongoCursor = (DBCursor)resultsIterator;
+		if (resultsIterator instanceof MongoCursor<?>) {
+			m_mongoCursor = (MongoCursor<Document>) resultsIterator;
+		}
 		m_metadata = rsmd;
 		m_queryProps = queryProps != null ? queryProps : QueryProperties.defaultValues();
 		if (projectsFlattenedRows()) {
@@ -91,9 +92,6 @@ public class MDbResultSet implements IResultSet {
 	@Override
 	public void setMaxRows(int max) throws OdaException {
 		m_maxRows = max;
-		if (m_maxRows > 0 && m_mongoCursor != null) {
-			m_mongoCursor.limit(m_maxRows);
-		}
 	}
 
 	/**
@@ -182,19 +180,13 @@ public class MDbResultSet implements IResultSet {
 			return (String) columnValue;
 		}
 
-		if (columnValue instanceof List && !(columnValue instanceof BasicDBList)) {
-			// convert generic List to JSON-formattable list
-			List<?> fromList = (List<?>) columnValue;
-			if (!fromList.isEmpty()) {
-				BasicDBList fieldValuesList = new BasicDBList();
-				for (int index = 0; index < fromList.size(); index++) {
-					fieldValuesList.put(index, fromList.get(index));
-				}
-				fieldValuesList.markAsPartialObject();
-				return fieldValuesList.toString(); // return JSON expr format
-			}
+		if (columnValue instanceof List<?>) {
+			return DriverUtil.toJson(columnValue);
 		}
 
+		if (columnValue instanceof Binary) {
+			return convertToString(((Binary) columnValue).getData());
+		}
 		if (columnValue instanceof byte[]) {
 			return convertToString((byte[]) columnValue);
 		}
@@ -585,12 +577,7 @@ public class MDbResultSet implements IResultSet {
 		if (valuesList.size() == 0) {
 			return null;
 		}
-		Object firstValue = null;
-		if (valuesList instanceof BasicDBList) {
-			firstValue = ((BasicDBList) valuesList).get(String.valueOf(0));
-		} else {
-			firstValue = valuesList.get(0);
-		}
+		Object firstValue = valuesList.get(0);
 
 		// log that only first value in array is returned
 		logFetchedFirstElementFromArray(columnName, valuesList.size());
@@ -603,6 +590,9 @@ public class MDbResultSet implements IResultSet {
 		}
 
 		try {
+			if (value instanceof Binary && toDataType == byte[].class) {
+				return ((Binary) value).getData();
+			}
 			if (value instanceof String) {
 				String stringValue = (String) value;
 				if (toDataType == Integer.class) {
