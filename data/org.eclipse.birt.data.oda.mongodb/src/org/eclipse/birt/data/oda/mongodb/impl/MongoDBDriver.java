@@ -18,8 +18,7 @@
 package org.eclipse.birt.data.oda.mongodb.impl;
 
 import java.net.InetAddress;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collections;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -36,14 +35,14 @@ import org.eclipse.datatools.connectivity.oda.util.manifest.DataTypeMapping;
 import org.eclipse.datatools.connectivity.oda.util.manifest.ExtensionManifest;
 import org.eclipse.datatools.connectivity.oda.util.manifest.ManifestExplorer;
 
-import com.mongodb.Mongo;
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientOptions;
-import com.mongodb.MongoClientOptions.Builder;
-import com.mongodb.MongoClientURI;
+import com.mongodb.ConnectionString;
+import com.mongodb.MongoClientSettings;
 import com.mongodb.MongoCredential;
 import com.mongodb.ReadPreference;
 import com.mongodb.ServerAddress;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+import com.mongodb.connection.ClusterConnectionMode;
 
 /**
  * Implementation class of IDriver for the MongoDB ODA runtime driver.
@@ -72,7 +71,7 @@ public class MongoDBDriver implements IDriver {
 	public static final String KERBEROS_GSS_JAAS_CONFIG_FILE_PROP = MONGO_PROP_PREFIX.concat("gssJAASConfig"); //$NON-NLS-1$
 	public static final String KERBEROS_PASSWORD_PROP = MONGO_PROP_PREFIX.concat("kerberosPassword"); //$NON-NLS-1$
 
-	// supported MongoOptions that are not covered in MongoURI
+	// Retained for connection property compatibility; modern drivers always enable keep-alive.
 	public static final String SOCKET_KEEP_ALIVE_PROP = MONGO_PROP_PREFIX.concat("socketKeepAlive"); //$NON-NLS-1$
 
 	private static final MongoDBDriver sm_factory = new MongoDBDriver();
@@ -99,7 +98,7 @@ public class MongoDBDriver implements IDriver {
 				return;
 			}
 
-			for (Mongo node : sm_mongoServerNodes.values()) {
+			for (MongoClient node : sm_mongoServerNodes.values()) {
 				node.close();
 			}
 			sm_mongoServerNodes.clear();
@@ -159,7 +158,7 @@ public class MongoDBDriver implements IDriver {
 	 */
 	@Override
 	public int getMaxConnections() throws OdaException {
-		// use default value defined in MongoClientOptions.connectionsPerHost;
+		// use the default maximum connection pool size;
 		// this may be called before opening a connection, i.e. no instance of
 		// MongoOptions is available
 		return 100;
@@ -290,10 +289,10 @@ public class MongoDBDriver implements IDriver {
 			String databaseName = getDatabaseName(connProperties);
 			String password = getPassword(connProperties);
 
-			MongoClientOptions.Builder clientOptionsBuilder = createDefaultClientOptionsBuilder(connProperties);
-			MongoClientURI clientURI = getMongoURI(connProperties);
+			MongoClientSettings.Builder clientSettingsBuilder = MongoClientSettings.builder();
+			ConnectionString clientURI = getMongoURI(connProperties);
 
-			if (useKerberos.equals("true")) {
+			if ("true".equals(useKerberos)) {
 
 				if (kerberosPrincipal == null || kerberosPrincipal.isEmpty()) {
 					throw new OdaException(Messages.mDbConnection_missingValueKrbPrinc);
@@ -317,17 +316,15 @@ public class MongoDBDriver implements IDriver {
 
 			if (clientURI != null) // has user-defined MongoURI
 			{
-				mongoClient = new MongoClient(clientURI);
+				mongoClient = MongoClients.create(clientSettingsBuilder.applyConnectionString(clientURI).build());
 				// trace logging
 				if (getLogger().isLoggable(Level.FINEST)) {
-					getLogger().finest(Messages.bind("{0}: uri= {1}", //$NON-NLS-1$
-							new Object[] { "createMongoNode", clientURI }));
+					getLogger().finest(Messages.bind("{0}: hosts= {1}, database= {2}", //$NON-NLS-1$
+							new Object[] { "createMongoNode", clientURI.getHosts(), clientURI.getDatabase() }));
 				}
 			} else {
-				MongoClientOptions clientOptions = clientOptionsBuilder.build();
-				List<MongoCredential> mongoCredentials = new ArrayList<>();
 				MongoCredential mongoCredential = null;
-				if (useKerberos.equals("true")) {
+				if ("true".equals(useKerberos)) {
 					InetAddress addr = InetAddress.getByName(kerberosPrincipal);
 					mongoCredential = MongoCredential.createGSSAPICredential(userName);
 					if (serviceName != null && !serviceName.isEmpty()) {
@@ -342,12 +339,12 @@ public class MongoDBDriver implements IDriver {
 				}
 				ServerAddress serverAddr = serverPort != null ? new ServerAddress(serverHost, serverPort)
 						: new ServerAddress(serverHost);
+				clientSettingsBuilder.applyToClusterSettings(
+						builder -> builder.hosts(Collections.singletonList(serverAddr)).mode(ClusterConnectionMode.SINGLE));
 				if (mongoCredential != null) {
-					mongoCredentials.add(mongoCredential);
-					mongoClient = new MongoClient(serverAddr, mongoCredentials);
-				} else {
-					mongoClient = new MongoClient(serverAddr, clientOptions);
+					clientSettingsBuilder.credential(mongoCredential);
 				}
+				mongoClient = MongoClients.create(clientSettingsBuilder.build());
 
 				// trace logging
 				if (getLogger().isLoggable(Level.FINEST)) {
@@ -374,7 +371,7 @@ public class MongoDBDriver implements IDriver {
 			String useKerberos = getStringPropValue(connProperties, USE_KERBEROS_PROP);
 			String ignoreMongoUri = getStringPropValue(connProperties, IGNORE_URI_PROP);
 			// to disable properties based on MongoUri radio button selection
-			if (ignoreMongoUri.equals("false")) {
+			if ("false".equals(ignoreMongoUri)) {
 				connProperties.remove(MongoDBDriver.SERVER_HOST_PROP);
 				connProperties.remove(MongoDBDriver.SERVER_PORT_PROP);
 				connProperties.remove(MongoDBDriver.DBNAME_PROP);
@@ -382,7 +379,7 @@ public class MongoDBDriver implements IDriver {
 				connProperties.remove(MongoDBDriver.PASSWORD_PROP);
 			}
 			// to disable properties based on kerberos check box selection
-			if (useKerberos.equals("false")) {
+			if ("false".equals(useKerberos)) {
 				connProperties.remove(MongoDBDriver.KERBEROS_PRINCIPAL_PROP);
 				connProperties.remove(MongoDBDriver.KERBEROS_GSSAPI_SERVICENAME_PROP);
 				connProperties.remove(MongoDBDriver.KERBEROS_KRB5CONFIG_FILE_PROP);
@@ -394,7 +391,7 @@ public class MongoDBDriver implements IDriver {
 				m_connProperties.setProperty(propertyName, connProperties.getProperty(propertyName));
 
 				if (propertyName.equals(MONGO_URI_PROP)) {
-					MongoClientURI mongoUri = getMongoURI(connProperties);
+					ConnectionString mongoUri = getMongoURI(connProperties);
 					if (mongoUri != null && mongoUri.getUsername() != null) {
 						m_connProperties.setProperty(USERNAME_PROP, mongoUri.getUsername());
 					}
@@ -436,35 +433,8 @@ public class MongoDBDriver implements IDriver {
 		}
 	}
 
-	private static MongoClientOptions.Builder createDefaultClientOptionsBuilder(Properties connProperties) {
-		Builder clientOptionsBuilder = new MongoClientOptions.Builder();
-		if (connProperties != null) {
-			if (hasKeepSocketAlive(connProperties)) { // need to change
-				// setting,
-				// as MongoDB default is
-				// false
-				clientOptionsBuilder.socketKeepAlive(true);
-			}
-
-		}
-		return clientOptionsBuilder;
-	}
-
-	private static Boolean hasKeepSocketAlive(Properties connProperties) {
-		String keepSocketAlivePropValue = getStringPropValue(connProperties, SOCKET_KEEP_ALIVE_PROP);
-		if (keepSocketAlivePropValue == null) { // supported option is not defined
-			return Boolean.FALSE;
-		}
-		boolean keepSocketAlive = Boolean.parseBoolean(keepSocketAlivePropValue);
-		if (!keepSocketAlive) { // mongoDB default
-			return Boolean.FALSE; // using default value, no need to return value
-		}
-
-		return Boolean.TRUE;
-	}
-
 	static String getDatabaseName(Properties connProps) {
-		MongoClientURI mongoURI = getMongoURI(connProps);
+		ConnectionString mongoURI = getMongoURI(connProps);
 		if (mongoURI != null) {
 			return mongoURI.getDatabase();
 		}
@@ -485,16 +455,15 @@ public class MongoDBDriver implements IDriver {
 		return getStringPropValue(connProps, KERBEROS_PASSWORD_PROP);
 	}
 
-	private static MongoClientURI getMongoURI(Properties connProps) {
+	private static ConnectionString getMongoURI(Properties connProps) {
 		try {
-			return getMongoURI(connProps, null);
+			return parseMongoURI(connProps);
 		} catch (Exception e) {
 			return null;
 		}
 	}
 
-	private static MongoClientURI getMongoURI(Properties connProps, MongoClientOptions.Builder clientOptionsBuilder)
-			throws Exception {
+	private static ConnectionString parseMongoURI(Properties connProps) throws Exception {
 		// check if explicitly indicated not to use URI, even if URI value exists
 		Boolean ignoreURI = getBooleanPropValue(connProps, IGNORE_URI_PROP);
 		if (ignoreURI != null && ignoreURI) {
@@ -507,14 +476,10 @@ public class MongoDBDriver implements IDriver {
 		}
 
 		try {
-			if (clientOptionsBuilder != null) {
-				return new MongoClientURI(uri, clientOptionsBuilder);
-			} else {
-				return new MongoClientURI(uri);
-			}
+			return new ConnectionString(uri);
 		} catch (Exception ex) {
 			// log and ignore
-			getLogger().log(Level.INFO, Messages.bind("Invalid Mongo Database URI: {0}", uri), ex); //$NON-NLS-1$
+			getLogger().info("Invalid Mongo Database URI"); //$NON-NLS-1$
 			throw ex;
 		}
 		// return null;

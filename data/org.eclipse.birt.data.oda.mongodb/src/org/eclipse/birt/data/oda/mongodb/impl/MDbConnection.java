@@ -28,10 +28,10 @@ import org.eclipse.datatools.connectivity.oda.IQuery;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 
 import com.ibm.icu.util.ULocale;
-import com.mongodb.MongoClient;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoCursor;
 import com.mongodb.MongoException;
 import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.MongoIterable;
 
 /**
  * Implementation class of IConnection for the MongoDB ODA runtime driver. Each
@@ -200,10 +200,9 @@ public class MDbConnection implements IConnection {
 		if (dbName == null) {
 			return false;
 		}
-		try {
-			MongoIterable<String> databaseNameIterable = mongoClient.listDatabaseNames();
-			for (String databaseName : databaseNameIterable) {
-				if (dbName.equals(databaseName)) {
+		try (MongoCursor<String> cursor = mongoClient.listDatabaseNames().iterator()) {
+			while (cursor.hasNext()) {
+				if (dbName.equals(cursor.next())) {
 					return true;
 				}
 			}

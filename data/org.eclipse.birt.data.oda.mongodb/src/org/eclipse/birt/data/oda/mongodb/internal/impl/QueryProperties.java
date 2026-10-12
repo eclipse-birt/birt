@@ -33,13 +33,9 @@ import org.eclipse.birt.data.oda.mongodb.internal.impl.MDbMetaData.FieldMetaData
 import org.eclipse.birt.data.oda.mongodb.nls.Messages;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 
-import com.mongodb.BasicDBList;
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
 import com.mongodb.ReadPreference;
 import com.mongodb.Tag;
 import com.mongodb.TagSet;
-import com.mongodb.util.JSON;
 
 /**
  * Represents the properties that define a MongoDB ODA data set query.
@@ -150,7 +146,7 @@ public class QueryProperties {
 
 		Exception caughtEx = null;
 		try {
-			DBObject parsedObj = parseExprToDBObject(serializedContent);
+			Object parsedObj = parseExprToDBObject(serializedContent);
 			if (parsedObj instanceof Map<?, ?>) {
 				return new QueryProperties((Map<String, Object>) parsedObj);
 			}
@@ -173,7 +169,7 @@ public class QueryProperties {
 		// convert property values not serializable by BSON serializer
 		externalizePropValues(definedPropsMap);
 
-		return JSON.serialize(definedPropsMap);
+		return DriverUtil.toJson(definedPropsMap);
 	}
 
 	private void setDefaultValues() {
@@ -365,7 +361,7 @@ public class QueryProperties {
 		return getStringPropOrEmptyValue(QUERY_OPERATION_EXPR_PROP);
 	}
 
-	DBObject getOperationExprAsParsedObject(boolean addArrayMarkers) throws OdaException {
+	Object getOperationExprAsParsedObject(boolean addArrayMarkers) throws OdaException {
 		String cmdOpExprText = getOperationExpression();
 		if (cmdOpExprText.isEmpty()) {
 			return null;
@@ -389,72 +385,68 @@ public class QueryProperties {
 		return expr;
 	}
 
-	static Document getDocument(BasicDBObject dbObject) {
-		return Document.parse(dbObject.toJson());
-	}
-
-	static List<Document> getObjectsAsDocumentList(DBObject exprObj) {
+	static List<Document> getObjectsAsDocumentList(Object exprObj) {
 		if (exprObj == null) {
 			return null;
 		}
 		List<Document> documentList = new ArrayList<>();
-		if (exprObj instanceof BasicDBList) {
-			BasicDBList dbList = (BasicDBList) exprObj;
+		if (exprObj instanceof List<?>) {
+			List<?> dbList = (List<?>) exprObj;
 			for (Object obj : dbList) {
-				if (obj instanceof DBObject) {
-					documentList.add(getDocument((BasicDBObject) obj));
-				} else if (obj instanceof BasicDBList) {
-					List<Document> childrenList = getObjectsAsDocumentList((DBObject) obj);
+				if (obj instanceof Document) {
+					documentList.add((Document) obj);
+				} else if (obj instanceof List<?>) {
+					List<Document> childrenList = getObjectsAsDocumentList(obj);
 					if (childrenList != null) {
 						documentList.addAll(childrenList);
 					}
 				}
 			}
-		} else if (exprObj instanceof DBObject) {
-			documentList.add(getDocument((BasicDBObject) exprObj));
+		} else if (exprObj instanceof Document) {
+			documentList.add((Document) exprObj);
 		}
 		return documentList;
 	}
 
-	static DBObject getFirstObjectSet(DBObject exprObj) {
+	static Document getFirstObjectSet(Object exprObj) {
 		if (exprObj == null) {
 			return null;
 		}
 
-		DBObject firstObj = null;
-		if (exprObj instanceof BasicDBList) {
-			BasicDBList objList = (BasicDBList) exprObj;
+		Document firstObj = null;
+		if (exprObj instanceof List<?>) {
+			List<?> objList = (List<?>) exprObj;
 			if (objList.size() >= 1) {
 				Object value = objList.get(0);
-				if (value instanceof DBObject) {
-					firstObj = (DBObject) value;
+				if (value instanceof Document) {
+					firstObj = (Document) value;
 				} else {
 					logInvalidTagValue(value);
 				}
 			}
 		} else {
-			firstObj = exprObj;
+			firstObj = (Document) exprObj;
 		}
 
 		return firstObj;
 	}
 
-	static DBObject[] getSecondaryObjectSets(DBObject exprObj) {
-		if (!(exprObj instanceof BasicDBList)) {
+	static Document[] getSecondaryObjectSets(Object exprObj) {
+		if (!(exprObj instanceof List<?>)) {
 			return null; // no secondary element(s)
 		}
 
-		BasicDBList objList = (BasicDBList) exprObj;
+		List<?> objList = (List<?>) exprObj;
 		if (objList.size() <= 1) {
 			return null;
 		}
 
 		// return the second and remaining DBObject(s) from the list
-		List<DBObject> secondaryObjList = new ArrayList<>(objList.size() - 1);
+		List<Document> secondaryObjList = new ArrayList<>(objList.size() - 1);
 		for (int i = 1; i < objList.size(); i++) {
 			Object value = objList.get(i);
-			if (value instanceof DBObject) {
-				secondaryObjList.add((DBObject) value);
+			if (value instanceof Document) {
+				secondaryObjList.add((Document) value);
 			} else {
 				logInvalidTagValue(value);
 			}
@@ -463,7 +455,7 @@ public class QueryProperties {
 		if (secondaryObjList.isEmpty()) {
 			return null;
 		}
-		return (DBObject[]) secondaryObjList.toArray(new DBObject[secondaryObjList.size()]);
+		return secondaryObjList.toArray(new Document[secondaryObjList.size()]);
 	}
 
 	private static final void logInvalidTagValue(Object tagValue) {
@@ -495,9 +487,9 @@ public class QueryProperties {
 		}
 
 		if (propValue instanceof String) {
-			DBObject projectionKeys = null;
+			Document projectionKeys = null;
 			try {
-				projectionKeys = parseExprToDBObject((String) propValue);
+				projectionKeys = parseDocument((String) propValue);
 			} catch (OdaException ex) {
 				// log and ignore
 				getLogger().log(Level.INFO,
@@ -525,10 +517,10 @@ public class QueryProperties {
 		return Collections.emptyList(); // null or non-recognized data type
 	}
 
-	BasicDBObject getSelectedFieldsAsProjectionKeys() throws OdaException {
+	Document getSelectedFieldsAsProjectionKeys() throws OdaException {
 		Object propValue = getPropertiesMap().get(SELECTED_FIELDS_PROP);
 		if (propValue instanceof List<?>) {
-			BasicDBObject keys = new BasicDBObject();
+			Document keys = new Document();
 			@SuppressWarnings("unchecked")
 			List<String> fieldNames = (List<String>) propValue;
 			for (String field : fieldNames) {
@@ -536,7 +528,7 @@ public class QueryProperties {
 			}
 
 			// explicitly exclude docId field if not in projected list
-			if (!keys.containsField(DOC_ID_FIELD_NAME)) {
+			if (!keys.containsKey(DOC_ID_FIELD_NAME)) {
 				keys.append(DOC_ID_FIELD_NAME, 0);
 			}
 			return keys;
@@ -544,12 +536,12 @@ public class QueryProperties {
 
 		if (propValue instanceof String) {
 			// user-defined projection expression
-			DBObject projectObj = parseExprToDBObject((String) propValue);
-			if (!(projectObj instanceof BasicDBObject)) {
+			Object projectObj = parseExprToDBObject((String) propValue);
+			if (!(projectObj instanceof Document)) {
 				throw new OdaException(Messages.bind("Unexpected data type ({0}) in {1}",
 						projectObj.getClass().getSimpleName(), SELECTED_FIELDS_PROP));
 			}
-			return (BasicDBObject) projectObj;
+			return (Document) projectObj;
 		}
 
 		// non-recognized data type; log and ignore
@@ -558,7 +550,7 @@ public class QueryProperties {
 					propValue.getClass().getName()));
 		}
 
-		return new BasicDBObject();
+		return new Document();
 	}
 
 	public void setQueryReadPreference(String readPrefLiteral) {
@@ -594,7 +586,7 @@ public class QueryProperties {
 		return getStringPropOrEmptyValue(QUERY_READ_PREF_TAGS_PROP);
 	}
 
-	DBObject getReadPreferenceTagsAsParsedObject() {
+	Object getReadPreferenceTagsAsParsedObject() {
 		String tagsExpr = getQueryReadPreferenceTags();
 		if (tagsExpr.isEmpty()) {
 			return null;
@@ -609,7 +601,7 @@ public class QueryProperties {
 		return null;
 	}
 
-	private static TagSet toTags(DBObject tagsDocument) {
+	private static TagSet toTags(Document tagsDocument) {
 		List<Tag> tagList = new ArrayList<>();
 		for (String key : tagsDocument.keySet()) {
 			tagList.add(new Tag(key, tagsDocument.get(key).toString()));
@@ -623,24 +615,24 @@ public class QueryProperties {
 			return readPref; // primary read preference mode does not apply tags
 		}
 
-		DBObject tagObjects = getReadPreferenceTagsAsParsedObject();
+		Object tagObjects = getReadPreferenceTagsAsParsedObject();
 
 		if (tagObjects == null) {
 			return readPref; // no tags in read preference
 		}
 
 		List<TagSet> tagsList = new ArrayList<>();
-		if (tagObjects instanceof BasicDBList) {
-			BasicDBList tagObjectList = (BasicDBList) tagObjects;
+		if (tagObjects instanceof List<?>) {
+			List<?> tagObjectList = (List<?>) tagObjects;
 			for (Object obj : tagObjectList) {
-				if (obj instanceof DBObject) {
-					tagsList.add(toTags((DBObject) obj));
+				if (obj instanceof Document) {
+					tagsList.add(toTags((Document) obj));
 				} else { // ignore elements that are not DBObject
 					logInvalidTagValue(obj);
 				}
 			}
 		} else {
-			tagsList.add(toTags(tagObjects));
+			tagsList.add(toTags((Document) tagObjects));
 		}
 		if (tagsList.size() == 0) {
 			return readPref;
@@ -707,13 +699,13 @@ public class QueryProperties {
 		return getStringPropOrEmptyValue(INDEX_HINTS_PROP);
 	}
 
-	DBObject getIndexHintsAsParsedObject() {
+	Document getIndexHintsAsParsedObject() {
 		String hintValue = getIndexHints();
 		if (hintValue.isEmpty()) {
 			return null;
 		}
 		try {
-			return parseExprToDBObject(hintValue);
+			return parseDocument(hintValue);
 		} catch (OdaException ex) {
 			// log and ignore
 			getLogger().log(Level.INFO, Messages.bind("Ignoring invalid Index Hint expression: {0}", hintValue), ex); //$NON-NLS-1$
@@ -745,19 +737,19 @@ public class QueryProperties {
 		return getStringPropOrEmptyValue(FIND_QUERY_EXPR_PROP);
 	}
 
-	BasicDBObject getFindQueryExprAsParsedObject() throws OdaException {
+	Document getFindQueryExprAsParsedObject() throws OdaException {
 		String queryExprText = getFindQueryExpr();
 		if (queryExprText.isEmpty()) {
 			return null;
 		}
 
-		DBObject queryObj = parseExprToDBObject(queryExprText);
-		if (!(queryObj instanceof BasicDBObject)) {
+		Object queryObj = parseExprToDBObject(queryExprText);
+		if (!(queryObj instanceof Document)) {
 			throw new OdaException(Messages.bind("Unexpected data type ({0}) in {1}",
 					queryObj.getClass().getSimpleName(), FIND_QUERY_EXPR_PROP));
 		}
 
-		return (BasicDBObject) queryObj;
+		return (Document) queryObj;
 
 	}
 
@@ -769,19 +761,19 @@ public class QueryProperties {
 		return getStringPropOrEmptyValue(SORT_EXPR_PROP);
 	}
 
-	BasicDBObject getSortExprAsParsedObject() throws OdaException {
+	Document getSortExprAsParsedObject() throws OdaException {
 		String sortExprText = getSortExpr();
 		if (sortExprText.isEmpty()) {
 			return null;
 		}
 
-		DBObject sortObj = parseExprToDBObject(sortExprText);
-		if (!(sortObj instanceof BasicDBObject)) {
+		Object sortObj = parseExprToDBObject(sortExprText);
+		if (!(sortObj instanceof Document)) {
 			throw new OdaException(Messages.bind("Unexpected data type ({0}) in {1}",
 					sortObj.getClass().getSimpleName(), SORT_EXPR_PROP));
 		}
 
-		return (BasicDBObject) sortObj;
+		return (Document) sortObj;
 	}
 
 	// Utility methods
@@ -846,8 +838,16 @@ public class QueryProperties {
 		return getIntPropertyValue(propertiesMap, propertyName) != null;
 	}
 
-	private static final DBObject parseExprToDBObject(String jsonExpr) throws OdaException {
+	private static final Object parseExprToDBObject(String jsonExpr) throws OdaException {
 		return DriverUtil.parseExprToDBObject(jsonExpr);
+	}
+
+	private static Document parseDocument(String jsonExpr) throws OdaException {
+		Object parsedObj = parseExprToDBObject(jsonExpr);
+		if (parsedObj instanceof Document) {
+			return (Document) parsedObj;
+		}
+		throw new OdaException(Messages.bind(Messages.driverUtil_invalidExpr, parsedObj.getClass().getSimpleName()));
 	}
 
 	private static final Logger getLogger() {

@@ -23,6 +23,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -30,7 +31,7 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.logging.Level;
 
-import org.bson.BSON;
+import org.bson.BsonType;
 import org.bson.Document;
 import org.eclipse.birt.data.oda.mongodb.impl.MDbConnection;
 import org.eclipse.birt.data.oda.mongodb.impl.MDbQuery;
@@ -40,13 +41,12 @@ import org.eclipse.birt.data.oda.mongodb.nls.Messages;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.datatools.connectivity.oda.util.manifest.ManifestExplorer;
 
-import com.mongodb.Bytes;
 import com.mongodb.MongoException;
 import com.mongodb.ServerAddress;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.MongoIterable;
 
 /**
  * Utility class to retrieve the metadata of a MongoDB database and collections.
@@ -62,16 +62,16 @@ public class MDbMetaData {
 	private static final String SYSTEM_NAMESPACE_PREFIX = "system."; //$NON-NLS-1$
 	static final String FIELD_FULL_NAME_SEPARATOR = "."; //$NON-NLS-1$
 
-	private static final Integer NULL_NATIVE_DATA_TYPE = (int) BSON.NULL;
-	private static final Integer STRING_NATIVE_DATA_TYPE = (int) BSON.STRING;
-	private static final Integer BOOLEAN_NATIVE_DATA_TYPE = (int) BSON.BOOLEAN;
-	private static final Integer NUMBER_NATIVE_DATA_TYPE = (int) BSON.NUMBER;
-	private static final Integer NUMBER_INT_NATIVE_DATA_TYPE = (int) BSON.NUMBER_INT;
-	private static final Integer DATE_NATIVE_DATA_TYPE = (int) BSON.DATE;
-	private static final Integer TIMESTAMP_NATIVE_DATA_TYPE = (int) BSON.TIMESTAMP;
-	private static final Integer BINARY_NATIVE_DATA_TYPE = (int) BSON.BINARY;
-	private static final Integer ARRAY_NATIVE_DATA_TYPE = (int) BSON.ARRAY;
-	private static final Integer OBJECT_NATIVE_DATA_TYPE = (int) BSON.OBJECT;
+	private static final Integer NULL_NATIVE_DATA_TYPE = BsonType.NULL.getValue();
+	private static final Integer STRING_NATIVE_DATA_TYPE = BsonType.STRING.getValue();
+	private static final Integer BOOLEAN_NATIVE_DATA_TYPE = BsonType.BOOLEAN.getValue();
+	private static final Integer NUMBER_NATIVE_DATA_TYPE = BsonType.DOUBLE.getValue();
+	private static final Integer NUMBER_INT_NATIVE_DATA_TYPE = BsonType.INT32.getValue();
+	private static final Integer DATE_NATIVE_DATA_TYPE = BsonType.DATE_TIME.getValue();
+	private static final Integer TIMESTAMP_NATIVE_DATA_TYPE = BsonType.TIMESTAMP.getValue();
+	private static final Integer BINARY_NATIVE_DATA_TYPE = BsonType.BINARY.getValue();
+	private static final Integer ARRAY_NATIVE_DATA_TYPE = BsonType.ARRAY.getValue();
+	private static final Integer OBJECT_NATIVE_DATA_TYPE = BsonType.DOCUMENT.getValue();
 
 	private MongoDatabase m_connectedDB;
 	private ArrayList<String> collectionNames = new ArrayList<>();
@@ -115,9 +115,10 @@ public class MDbMetaData {
 	public List<String> getCollectionsList(boolean excludeSystemCollections) {
 		if (collectionNames.isEmpty()) {
 			try {
-				MongoIterable<String> collectionNamesIterable = m_connectedDB.listCollectionNames();
-				for (final String collectionName : collectionNamesIterable) {
-					collectionNames.add(collectionName);
+				try (MongoCursor<String> cursor = m_connectedDB.listCollectionNames().iterator()) {
+					while (cursor.hasNext()) {
+						collectionNames.add(cursor.next());
+					}
 				}
 			} catch (MongoException ex) {
 				// log and ignore
@@ -389,16 +390,7 @@ public class MDbMetaData {
 	 *         metadata found in the specified iterated cursor
 	 */
 	public static DocumentsMetaData getMetaData(Iterable<Document> iterable) {
-		if (iterable == null) {
-			return sm_emptyFields;
-		}
-
-		DocumentsMetaData newMetaData = sm_factory.new DocumentsMetaData();
-		for (Document document : iterable) {
-			newMetaData.addDocumentMetaData(document, null); // top-level doc
-																// has no parent
-		}
-		return newMetaData;
+		return getMetaData(iterable, 0);
 	}
 
 	public static DocumentsMetaData getMetaData(Iterable<Document> iterable, int searchLimit) {
@@ -408,13 +400,17 @@ public class MDbMetaData {
 
 		DocumentsMetaData newMetaData = sm_factory.new DocumentsMetaData();
 		// iterate thru searchLimit documents to discover metadata
-		int count = 1;
-		for (Document document : iterable) {
-			if (!(searchLimit <= 0 || count <= searchLimit)) {
-				break;
+		Iterator<Document> iterator = iterable.iterator();
+		try {
+			int count = 0;
+			while ((searchLimit <= 0 || count < searchLimit) && iterator.hasNext()) {
+				newMetaData.addDocumentMetaData(iterator.next(), null); // top-level doc has no parent
+				count++;
 			}
-			newMetaData.addDocumentMetaData(document, null); // top-level doc has no parent
-			count++;
+		} finally {
+			if (iterator instanceof MongoCursor<?>) {
+				((MongoCursor<?>) iterator).close();
+			}
 		}
 		return newMetaData;
 	}
@@ -735,20 +731,20 @@ public class MDbMetaData {
 		private void addDataType(Object fieldValue) {
 			// add the data type of given fieldValue to existing set, if exists;
 			// the same named field set in a different doc may have a different data type
-			byte nativeBSonDataTypeCode = Bytes.getType(fieldValue);
+			int nativeBSonDataTypeCode = DriverUtil.getBsonType(fieldValue);
 			if (m_nativeDataTypes == null) {
 				m_nativeDataTypes = new HashSet<>(2);
 			}
 			if (nativeBSonDataTypeCode == -1) {
 				if (fieldValue instanceof Document) {
-					nativeBSonDataTypeCode = Bytes.OBJECT;
+					nativeBSonDataTypeCode = BsonType.DOCUMENT.getValue();
 				}
 			}
 			m_nativeDataTypes.add((int) nativeBSonDataTypeCode);
 
 			// check if field value contains a document,
 			// iteratively get field document's nested metadata
-			if (nativeBSonDataTypeCode == BSON.ARRAY) {
+			if (nativeBSonDataTypeCode == BsonType.ARRAY.getValue()) {
 				if (fieldValue instanceof java.util.List) {
 					java.util.List<?> listOfObjects = (java.util.List<?>) fieldValue;
 					if (listOfObjects.size() > 0) {

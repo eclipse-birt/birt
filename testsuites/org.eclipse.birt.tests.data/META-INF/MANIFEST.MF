@@ -16,7 +16,12 @@ Require-Bundle: org.junit,
  org.eclipse.birt.report.engine;bundle-version="[4.26.0,5.0.0)",
  org.eclipse.birt.tests.core;bundle-version="[4.26.0,5.0.0)",
  org.eclipse.birt.report.model;bundle-version="[4.26.0,5.0.0)",
- org.eclipse.birt.report.data.adapter;bundle-version="4.13.0"
+ org.eclipse.birt.report.data.adapter;bundle-version="4.13.0",
+ org.eclipse.birt.data.oda.mongodb;bundle-version="[4.26.0,5.0.0)"
+Import-Package: com.mongodb;version="[5.13.0,6.0.0)",
+ com.mongodb.client;version="[5.13.0,6.0.0)",
+ org.bson;version="[5.13.0,6.0.0)",
+ org.bson.types;version="[5.13.0,6.0.0)"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-25
 Bundle-Vendor: %Bundle-Vendor

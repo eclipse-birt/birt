@@ -60,7 +60,7 @@ public class DataSetMetaData implements IDataSetMetaData {
 	public int getDataSourceMajorVersion() throws OdaException {
 		// Mongo Java driver doesn't provide the version any more
 		// https://jira.mongodb.org/browse/JAVA-1605 Remove Mongo#getVersion
-		return 3;
+		return 5;
 	}
 
 	/*
@@ -69,7 +69,7 @@ public class DataSetMetaData implements IDataSetMetaData {
 	 */
 	@Override
 	public int getDataSourceMinorVersion() throws OdaException {
-		return 2; // see Major version comment
+		return 13; // see Major version comment
 	}
 
 	/*

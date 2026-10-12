@@ -26,7 +26,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.bson.BSON;
+import org.bson.BsonType;
 import org.bson.Document;
 import org.eclipse.birt.data.oda.mongodb.impl.MDbResultSetMetaData;
 import org.eclipse.birt.data.oda.mongodb.internal.impl.MDbMetaData.DocumentsMetaData;
@@ -34,8 +34,6 @@ import org.eclipse.birt.data.oda.mongodb.internal.impl.MDbMetaData.FieldMetaData
 import org.eclipse.birt.data.oda.mongodb.nls.Messages;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 
-import com.mongodb.BasicDBList;
-import com.mongodb.Bytes;
 
 /**
  * Internal class delegated by MDbResultSet to handle result data documents,
@@ -387,16 +385,16 @@ public class ResultDataHandler {
 	// Utility methods
 
 	static Object fetchFieldDocument(Object fieldValue) {
-		return fetchFieldDocument(fieldValue, BSON.UNDEFINED);
+		return fetchFieldDocument(fieldValue, BsonType.UNDEFINED.getValue());
 	}
 
 	@SuppressWarnings("unchecked")
-	static Object fetchFieldDocument(Object fieldValue, byte fieldNativeDataType) {
-		if (fieldNativeDataType == BSON.UNDEFINED) {
-			fieldNativeDataType = Bytes.getType(fieldValue);
+	static Object fetchFieldDocument(Object fieldValue, int fieldNativeDataType) {
+		if (fieldNativeDataType == BsonType.UNDEFINED.getValue()) {
+			fieldNativeDataType = DriverUtil.getBsonType(fieldValue);
 		}
 
-		if (fieldNativeDataType == BSON.ARRAY) {
+		if (fieldNativeDataType == BsonType.ARRAY.getValue()) {
 			if (!(fieldValue instanceof List)) {
 				return null;
 			}
@@ -467,26 +465,24 @@ public class ResultDataHandler {
 		return fetchFieldValues(childFullName, fieldDoc);
 	}
 
-	private static BasicDBList fetchFieldValuesFromList(String fieldFullName, List<Document> documentList) {
+	private static List<Object> fetchFieldValuesFromList(String fieldFullName, List<Document> documentList) {
 		if (documentList == null || documentList.size() == 0) {
 			return null;
 		}
 
 		// get the named field value from each element in given array list
-		BasicDBList fieldValuesList = new BasicDBList();
-		// if( documentList.isPartialObject() )
-		// fieldValuesList.markAsPartialObject();
+		List<Object> fieldValuesList = new ArrayList<>(documentList.size());
 
 		for (int index = 0; index < documentList.size(); index++) {
 			Object listElementObj = documentList.get(index);
 			if (listElementObj instanceof Document) { // nested complex object, e.g. document
 				listElementObj = fetchFieldValues(fieldFullName, (Document) listElementObj);
 			}
-			fieldValuesList.put(index, listElementObj);
+			fieldValuesList.add(listElementObj);
 		}
 
 		// check if at least one field value in list is not null, return the list
-		for (Object elementValue : fieldValuesList.toMap().values()) {
+		for (Object elementValue : fieldValuesList) {
 			if (elementValue != null) {
 				return fieldValuesList;
 			}

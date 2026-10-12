@@ -22,7 +22,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.bson.BSON;
+import org.bson.BsonType;
 import org.bson.Document;
 import org.eclipse.birt.data.oda.mongodb.internal.impl.DriverUtil;
 import org.eclipse.birt.data.oda.mongodb.internal.impl.MDbMetaData;
@@ -185,7 +185,7 @@ public class MDbResultSetMetaData implements IResultSetMetaData {
 	private int doGetColumnType(int index) throws OdaException {
 		FieldMetaData columnMD = getColumnMetaData(index);
 		if (columnMD == null) { // unknown
-			return BSON.STRING; // use default data type
+			return BsonType.STRING.getValue(); // use default data type
 		}
 
 		if (columnMD.hasDocumentDataType()) {
@@ -201,7 +201,7 @@ public class MDbResultSetMetaData implements IResultSetMetaData {
 			// either, and
 			// will be concatenated into a single String value as well.
 			if (!m_isAutoFlattening || columnMD.isArrayOfScalarValues()) {
-				return BSON.STRING;
+				return BsonType.STRING.getValue();
 			}
 
 			// flattening of nested collection is supported for only one such field in a
@@ -209,18 +209,18 @@ public class MDbResultSetMetaData implements IResultSetMetaData {
 			// and is tracked in containing DocumentsMetaData
 			String arrayAncestorName = columnMD.getArrayAncestorName();
 			if (arrayAncestorName != null && !isFlattenableNestedField(columnMD)) {
-				return BSON.STRING;
+				return BsonType.STRING.getValue();
 			}
 		} else if (columnMD.isArrayOfScalarValues()) // top-level array of scalar values
 		{
 			// if no flattening, or already flattening another field,
 			// this array of scalar values will be concatenated to a String value
 			if (!m_isAutoFlattening) {
-				return BSON.STRING;
+				return BsonType.STRING.getValue();
 			}
 			String flattenableFieldName = m_docsMetaData.getFlattenableFieldName();
 			if (flattenableFieldName != null && !flattenableFieldName.equals(columnMD.getFullName())) {
-				return BSON.STRING;
+				return BsonType.STRING.getValue();
 			}
 		}
 
