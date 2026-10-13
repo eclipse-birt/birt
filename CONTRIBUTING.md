@@ -15,7 +15,7 @@ To build BIRT with the latest Eclipse platform, run:
     mvn package -DskipTests 
     
 ### Building environment
-* JDK 11
+* JDK 25
 * Maven 3.6.3
 
 ## Project description
