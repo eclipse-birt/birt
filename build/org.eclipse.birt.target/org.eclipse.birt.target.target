@@ -143,8 +143,9 @@
       <unit id="org.eclipse.xsd.edit.feature.group" version="0.0.0"/>
       <unit id="org.eclipse.xsd.feature.group" version="0.0.0"/>
       <unit id="org.glassfish.jaxb.runtime" version="0.0.0"/>
-      <unit id="org.mongodb.bson" version="5.13.0"/>
-      <unit id="org.mongodb.driver-core" version="5.13.0"/>
+      <unit id="org.mongodb.bson" version="0.0.0"/>
+      <unit id="org.mongodb.driver-core" version="0.0.0"/>
+      <unit id="org.mongodb.driver-sync" version="0.0.0"/>
       <unit id="org.mortbay.jasper.mortbay-apache-el" version="[9.0.0,10.0.0)"/>
       <unit id="org.mortbay.jasper.mortbay-apache-el" version="[10.0.0,11.0.0)"/>
       <unit id="org.mortbay.jasper.mortbay-apache-jsp" version="[9.0.0,10.0.0)"/>
@@ -168,16 +169,6 @@
       <repository location="https://download.eclipse.org/webtools/CI/latest"/>
       <repository location="https://download.eclipse.org/justj/epp/milestone/latest"/>
       <repository location="https://download.eclipse.org/justj/jres/25/updates/release/latest"/>
-    </location>
-    <location includeDependencyDepth="none" includeDependencyScopes="compile" includeSource="true" missingManifest="error" type="Maven">
-      <dependencies>
-        <dependency>
-          <groupId>org.mongodb</groupId>
-          <artifactId>mongodb-driver-sync</artifactId>
-          <version>5.13.0</version>
-          <type>jar</type>
-        </dependency>
-      </dependencies>
     </location>
   </locations>
 </target>
