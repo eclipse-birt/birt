@@ -17,7 +17,7 @@ To build BIRT with the latest Eclipse platform, run:
     mvn clean verify -DskipTests=true
     
 ### Building environment
-* JDK 21
+* JDK 25
 * Maven 3.9.11
 * [https://ci.eclipse.org/birt/job/build](https://ci.eclipse.org/birt/job/build/)
 
@@ -33,7 +33,7 @@ To build BIRT with the latest Eclipse platform, run:
 ## Runtime Requirements
 
 The current version **4.24** is runnable with JDK:
-* JDK 21 (LTS)
+* JDK 25 (LTS)
 
 ### Tomcat version support:
 * Tomcat 10
