@@ -7,8 +7,8 @@ Bundle-Version: 4.26.0.qualifier
 Require-Bundle: org.eclipse.birt.report.engine;bundle-version="[4.26.0,5.0.0)",
  org.eclipse.birt.report.engine.emitter.pptx;bundle-version="[4.26.0,5.0.0)",
  org.junit;bundle-version="4.13.0",
- org.apache.poi;bundle-version="[5.0.0,6.0.0)",
- org.apache.poi.ooxml;bundle-version="[5.0.0,6.0.0)"
+ org.apache.poi;bundle-version="[6.0.0,7.0.0)",
+ org.apache.poi.ooxml;bundle-version="[6.0.0,7.0.0)"
 Bundle-ClassPath: .
 Automatic-Module-Name: org.eclipse.birt.report.engine.emitter.pptx.tests
 Bundle-RequiredExecutionEnvironment: JavaSE-25
