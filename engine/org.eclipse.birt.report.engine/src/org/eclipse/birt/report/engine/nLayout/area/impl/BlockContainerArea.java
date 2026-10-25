@@ -242,11 +242,10 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea 
 						if (!result.contains(childArea)) {
 							iter.remove();
 							newContainer.addChild(childArea);
-							newContainer.setParent(newContainer);
+							childArea.setParent(newContainer);
 						}
 					}
-					updateChildrenPosition();
-					return new SplitResult(newContainer, SplitResult.SPLIT_SUCCEED_WITH_PART);
+					return finishSplitLines(newContainer);
 
 				} else if (isPageBreakBeforeAvoid()) {
 					return SplitResult.BEFORE_AVOID_WITH_NULL;
@@ -265,16 +264,24 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea 
 					if (!result.contains(childArea)) {
 						iter.remove();
 						newContainer.addChild(childArea);
-						newContainer.setParent(newContainer);
+						childArea.setParent(newContainer);
 					}
 				}
 				newContainer.addChild(splitChildArea);
-				addRepeatedItem();
-				updateChildrenPosition();
-				return new SplitResult(newContainer, SplitResult.SPLIT_SUCCEED_WITH_PART);
+				splitChildArea.setParent(newContainer);
+				return finishSplitLines(newContainer);
 			}
 		}
 		return SplitResult.BEFORE_AVOID_WITH_NULL;
+	}
+
+	private SplitResult finishSplitLines(BlockContainerArea newContainer) throws BirtException {
+		// Backtracking over a complete child must resume the container in the
+		// same way as splitting inside a child, including repeated headers.
+		setPreviousPart(newContainer);
+		addRepeatedItem();
+		updateChildrenPosition();
+		return new SplitResult(newContainer, SplitResult.SPLIT_SUCCEED_WITH_PART);
 	}
 
 	@Override

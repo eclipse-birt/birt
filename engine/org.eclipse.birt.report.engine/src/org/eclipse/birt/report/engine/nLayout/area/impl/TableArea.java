@@ -297,7 +297,17 @@ public class TableArea extends RepeatableArea {
 
 	@Override
 	public SplitResult split(int height, boolean force) throws BirtException {
-		SplitResult result = super.split(height, force);
+		return finishSplit(super.split(height, force));
+	}
+
+	@Override
+	public SplitResult splitLines(int lineCount) throws BirtException {
+		return finishSplit(super.splitLines(lineCount));
+	}
+
+	private SplitResult finishSplit(SplitResult result) throws BirtException {
+		// Both height-based pagination and keep-with-previous backtracking
+		// must close the old fragment and lay out the remaining rows again.
 		if (result.getResult() != null) {
 			TableArea tableResult = (TableArea) result.getResult();
 			unresolvedRow = tableResult.getLastRow();
