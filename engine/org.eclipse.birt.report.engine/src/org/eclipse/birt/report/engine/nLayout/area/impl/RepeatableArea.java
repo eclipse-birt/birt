@@ -143,6 +143,18 @@ public abstract class RepeatableArea extends BlockContainerArea {
 			}
 		}
 		SplitResult ret = super.split(height, force);
+		markRepeatedHeaders(ret);
+		return ret;
+	}
+
+	@Override
+	public SplitResult splitLines(int lineCount) throws BirtException {
+		SplitResult ret = super.splitLines(lineCount);
+		markRepeatedHeaders(ret);
+		return ret;
+	}
+
+	private void markRepeatedHeaders(SplitResult ret) {
 		if (ret.status == SplitResult.SPLIT_SUCCEED_WITH_PART) {
 			Iterator<IArea> i = children.iterator();
 			while (i.hasNext()) {
@@ -152,7 +164,6 @@ public abstract class RepeatableArea extends BlockContainerArea {
 				}
 			}
 		}
-		return ret;
 	}
 
 	@Override
