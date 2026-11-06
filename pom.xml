@@ -35,7 +35,7 @@
 
 		<antrun.version>3.1.0</antrun.version>
 		<build.helper.maven.plugin.version>3.6.0</build.helper.maven.plugin.version>
-		<cbi-version>1.5.7</cbi-version>
+		<cbi-version>1.5.8</cbi-version>
 		<jacoco.maven.plugin.version>0.8.15</jacoco.maven.plugin.version>
 		<jetty-jspc-maven-plugin-version>12.1.13</jetty-jspc-maven-plugin-version>
 		<junit-version>4.13.2</junit-version>
