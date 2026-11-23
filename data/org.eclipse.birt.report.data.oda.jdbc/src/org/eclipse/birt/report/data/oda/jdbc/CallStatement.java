@@ -23,6 +23,7 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.sql.Types;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -83,6 +84,9 @@ public class CallStatement implements IAdvancedQuery {
 	private IResultSet cachedResultSet;
 	private IParameterMetaData cachedParameterMetaData;
 
+	/** procedure parameters kept for the life of the ODA connection, may be null */
+	private SPParameterCache procedureParameters;
+
 	protected String[] resultSetNames;
 
 	/* database-specific dataType */
@@ -124,6 +128,10 @@ public class CallStatement implements IAdvancedQuery {
 		} else {
 			throw new JDBCException(ResourceConstants.DRIVER_NO_CONNECTION, ResourceConstants.ERROR_NO_CONNECTION);
 		}
+	}
+
+	void setParameterCache(SPParameterCache procedureParameters) {
+		this.procedureParameters = procedureParameters;
 	}
 
 	/*
@@ -1577,6 +1585,12 @@ public class CallStatement implements IAdvancedQuery {
 				catalog = getNamePattern(this.paramUtil.getPackage());
 			}
 
+			List<String> cacheKey = Arrays.asList(getCurrentSchema(), catalog, schemaPattern, procedureNamePattern);
+			List<ParameterDefn> cached = procedureParameters == null ? null : procedureParameters.get(cacheKey);
+			if (cached != null) {
+				return cached;
+			}
+
 			queryProcedureParams(schemaPattern, catalog, procedureNamePattern, params);
 
 			if (params.isEmpty() && catalog == null && schemaPattern != null) {
@@ -1590,10 +1604,26 @@ public class CallStatement implements IAdvancedQuery {
 				// as package (i.e., catalog) name
 				queryProcedureParams("", schemaPattern, procedureNamePattern, params);
 			}
+
+			// not reached after a failed lookup, which may have left a partial list
+			if (procedureParameters != null) {
+				procedureParameters.put(cacheKey, params);
+			}
 		} catch (SQLException e) {
 			logger.log(Level.SEVERE, "Fail to get SP paramters", e);
 		}
 		return params;
+	}
+
+	/**
+	 * @return the current schema of the connection, null if the driver cannot tell
+	 */
+	private String getCurrentSchema() {
+		try {
+			return conn.getSchema();
+		} catch (SQLException | RuntimeException | AbstractMethodError e) {
+			return null;
+		}
 	}
 
 	/**
