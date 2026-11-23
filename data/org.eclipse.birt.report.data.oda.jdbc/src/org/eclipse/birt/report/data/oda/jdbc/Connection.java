@@ -59,6 +59,9 @@ public class Connection implements IConnection {
 	private Boolean autoCommit;
 	private int isolationMode = Constants.TRANSCATION_ISOLATION_DEFAULT;
 
+	/** stored procedure parameters, shared by the call statements of this connection */
+	private final SPParameterCache procedureParameters = new SPParameterCache();
+
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IConnection#isOpen()
 	 */
@@ -73,6 +76,7 @@ public class Connection implements IConnection {
 	 */
 	@Override
 	public void open(Properties connProperties) throws OdaException {
+		procedureParameters.clear();
 		if (this.appContext != null) {
 			Object value = this.appContext.get(IConnectionFactory.PASS_IN_CONNECTION);
 			if (value != null && (value instanceof java.sql.Connection)) {
@@ -310,10 +314,15 @@ public class Connection implements IConnection {
 		if ((appContext != null) && (appContext.get(Constants.CONNECTION_PROPERTIES_STR) != null)) {
 			Properties props = (Properties) appContext.get(Constants.CONNECTION_PROPERTIES_STR);
 			if (hasBidiProperties(props)) {
-				return new BidiCallStatement(jdbcConn, props);
+				return withParameterCache(new BidiCallStatement(jdbcConn, props));
 			}
 		}
-		return new CallStatement(jdbcConn);
+		return withParameterCache(new CallStatement(jdbcConn));
+	}
+
+	private CallStatement withParameterCache(CallStatement statement) {
+		statement.setParameterCache(procedureParameters);
+		return statement;
 	}
 
 	protected IQuery createStatement(java.sql.Connection jdbcConn) throws OdaException {
@@ -386,6 +395,7 @@ public class Connection implements IConnection {
 	public void close() throws OdaException {
 		logger.logp(java.util.logging.Level.FINEST, Connection.class.getName(), "close", //$NON-NLS-1$
 				"Connection closed."); //$NON-NLS-1$
+		procedureParameters.clear();
 		if (jdbcConn == null) {
 			return;
 		}
